@@ -1,0 +1,181 @@
+<title>استعمال طبيب</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+<style>
+  /* Layout: a slim toolbar (device + page) above a centered device frame holding the live site. */
+  :root {
+    --bg: #e9eeeb;
+    --panel: #ffffff;
+    --ink: #12221f;
+    --muted: #4a5a56;
+    --line: #dce3df;
+    --accent: #0d5c55;
+    --on-accent: #ffffff;
+    --bezel: #12221f;
+    --font: "IBM Plex Sans Arabic", "Segoe UI", Tahoma, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0b1a17; --panel: #132824; --ink: #e6efec; --muted: #a9bbb5;
+      --line: #24403a; --accent: #3fae9f; --on-accent: #06201c; --bezel: #000000;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0b1a17; --panel: #132824; --ink: #e6efec; --muted: #a9bbb5;
+    --line: #24403a; --accent: #3fae9f; --on-accent: #06201c; --bezel: #000000;
+    color-scheme: dark;
+  }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font);
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+  }
+  .bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 16px;
+    padding-block: 10px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    background: var(--panel);
+    border-bottom: 1px solid var(--line);
+  }
+  .group { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-width: 0; }
+  .label { color: var(--muted); font-weight: 600; letter-spacing: 0.02em; }
+  .seg {
+    min-height: 36px;
+    padding: 0 12px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--ink);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .seg[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+  .seg:focus-visible { outline: 3px solid #f2a33a; outline-offset: 2px; }
+  .size { color: var(--muted); font-variant-numeric: tabular-nums; margin-inline-start: auto; }
+  .stage {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    overflow: auto;
+    padding-block: 20px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  .device {
+    flex: none;
+    max-width: 100%;
+    background: #f5f7f4;
+    overflow: hidden;
+    transition: width 0.25s ease, height 0.25s ease;
+  }
+  .device.phone { border: 12px solid var(--bezel); border-radius: 46px; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25); }
+  .device.tablet { border: 14px solid var(--bezel); border-radius: 30px; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.2); }
+  .device.desktop { width: 100% !important; border: 1px solid var(--line); border-radius: 12px; }
+  iframe { display: block; width: 100%; height: 100%; border: 0; background: #f5f7f4; }
+  /* Viewed on a phone already: drop the bezel and fill the screen. */
+  @media (max-width: 520px) {
+    .stage { padding: 0; }
+    .device.phone, .device.tablet { width: 100% !important; height: 100% !important; border: 0; border-radius: 0; box-shadow: none; }
+    .size { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .device { transition: none; } }
+</style>
+
+<div class="bar" dir="rtl" lang="ar">
+  <div class="group" role="group" aria-label="الجهاز">
+    <span class="label">العرض</span>
+    <button type="button" class="seg" data-device="iphone" id="d-iphone">آيفون</button>
+    <button type="button" class="seg" data-device="android" id="d-android">أندرويد صغير</button>
+    <button type="button" class="seg" data-device="tablet" id="d-tablet">تابلت</button>
+    <button type="button" class="seg" data-device="desktop" id="d-desktop">كمبيوتر</button>
+  </div>
+  <div class="group" role="group" aria-label="الصفحة">
+    <span class="label">الصفحة</span>
+    <button type="button" class="seg" data-page="/" id="p-home">الرئيسية</button>
+    <button type="button" class="seg" data-page="/devices" id="p-devices">كل الأجهزة</button>
+    <button type="button" class="seg" data-page="/devices/dental-unit-cairo" id="p-inspected">تم الفحص</button>
+    <button type="button" class="seg" data-page="/devices/autoclave-class-b-alex" id="p-onorder">يُفحص عند الطلب</button>
+    <button type="button" class="seg" data-page="/orders/1024" id="p-order">متابعة الطلب</button>
+  </div>
+  <span class="size" id="size" dir="ltr" aria-live="polite"></span>
+</div>
+
+<div class="stage">
+  <div class="device phone" id="device">
+    <iframe id="site" title="استعمال طبيب" src="site.html"></iframe>
+  </div>
+</div>
+
+<script>
+  const DEVICES = {
+    iphone: { w: 390, h: 844, kind: "phone" },
+    android: { w: 360, h: 780, kind: "phone" },
+    tablet: { w: 768, h: 1024, kind: "tablet" },
+    desktop: { w: null, h: null, kind: "desktop" },
+  };
+  const device = document.getElementById("device");
+  const site = document.getElementById("site");
+  const size = document.getElementById("size");
+  const store = {
+    get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+    set(k, v) { try { localStorage.setItem(k, v); } catch {} },
+  };
+
+  function setDevice(name) {
+    const d = DEVICES[name] || DEVICES.iphone;
+    device.className = "device " + d.kind;
+    const stageH = document.querySelector(".stage").clientHeight - 40;
+    if (d.w) {
+      device.style.width = d.w + (d.kind === "phone" ? 24 : 28) + "px";
+      device.style.height = d.h + "px";
+      size.textContent = d.w + " × " + d.h;
+    } else {
+      device.style.height = Math.max(stageH, 600) + "px";
+      size.textContent = "عرض كامل";
+    }
+    document.querySelectorAll("[data-device]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.device === name)));
+    store.set("pv-device", name);
+  }
+
+  function currentPage() {
+    try {
+      const h = site.contentWindow.location.hash;
+      return h.startsWith("#/") ? h.slice(1).split("?")[0] : "/";
+    } catch { return "/"; }
+  }
+
+  function markPage() {
+    const page = currentPage();
+    document.querySelectorAll("[data-page]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.page === page)));
+  }
+
+  document.querySelectorAll("[data-device]").forEach((b) => b.addEventListener("click", () => setDevice(b.dataset.device)));
+  document.querySelectorAll("[data-page]").forEach((b) =>
+    b.addEventListener("click", () => {
+      try { site.contentWindow.location.hash = "#" + b.dataset.page; }
+      catch { site.src = "site.html#" + b.dataset.page; }
+    }),
+  );
+  site.addEventListener("load", () => {
+    markPage();
+    try { site.contentWindow.addEventListener("hashchange", markPage); } catch {}
+  });
+
+  window.addEventListener("resize", () => setDevice(store.get("pv-device") || "iphone"));
+  setDevice(store.get("pv-device") || "iphone");
+  markPage();
+</script>
