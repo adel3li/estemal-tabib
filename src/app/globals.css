@@ -37,6 +37,9 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    /* Keep anchor targets clear of the sticky header. */
+    scroll-padding-top: 84px;
+    -webkit-tap-highlight-color: transparent;
   }
   body {
     @apply bg-ground text-ink font-sans leading-[1.7];
@@ -54,4 +57,16 @@
     outline: 3px solid var(--color-accent);
     outline-offset: 2px;
   }
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Bottom space for the fixed mobile action bars. */
+@utility pb-safe {
+  padding-bottom: max(12px, env(safe-area-inset-bottom));
 }

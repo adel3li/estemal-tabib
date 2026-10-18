@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { Footer } from "@/components/Footer";
 import { Gallery } from "@/components/Gallery";
 import { Header } from "@/components/Header";
+import { MobileBuyBar } from "@/components/MobileBuyBar";
 import { Icon } from "@/components/Icon";
 import { INSPECTION_LABELS } from "@/components/InspectionBadge";
 import { PlannedChecklist } from "@/components/InspectionChecklist";
@@ -77,14 +78,14 @@ export default async function ListingPage({ params }: Props) {
               <WarrantyCard maintenanceMonths={listing.maintenanceMonths} />
               {inspected && <EscrowNote />}
 
-              <Link href="/orders/1024" className={`${btn.primary} min-h-[54px] rounded-[14px] text-lg font-bold`}>
+              <Link href="/orders/1024" className={`${btn.primary} min-h-[54px] rounded-[14px] text-lg font-bold max-lg:hidden`}>
                 {inspected ? "اطلب الجهاز" : "اطلب الجهاز وابدأ الفحص"}
               </Link>
               <a
                 href={whatsappUrl(`السلام عليكم، عندي سؤال عن: ${listing.title} (${listing.id})`)}
                 target="_blank"
                 rel="noopener"
-                className={`${btn.outline} min-h-12 rounded-[14px]`}
+                className={`${btn.outline} min-h-12 rounded-[14px] max-lg:hidden`}
               >
                 <Icon name="chat" />
                 اسأل على واتساب
@@ -116,6 +117,7 @@ export default async function ListingPage({ params }: Props) {
         ) : <OnOrderSections listing={listing} />}
       </main>
       <Footer />
+      <MobileBuyBar listing={listing} />
     </>
   );
 }

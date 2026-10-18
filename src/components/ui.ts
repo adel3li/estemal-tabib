@@ -10,7 +10,7 @@ export const btn = {
 
 export function chip(on: boolean) {
   return [
-    "min-h-11 rounded-full border px-4 py-1 text-sm font-semibold cursor-pointer",
+    "min-h-11 shrink-0 whitespace-nowrap rounded-full border px-4 py-1 text-sm font-semibold cursor-pointer",
     on ? "border-primary bg-primary text-white" : "border-field bg-surface text-ink hover:border-primary",
   ].join(" ");
 }

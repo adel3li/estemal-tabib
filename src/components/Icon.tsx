@@ -53,6 +53,8 @@ const PATHS = {
     </>
   ),
   x: <path d="M6 6l12 12M18 6L6 18" />,
+  menu: <path d="M4 7h16M4 12h16M4 17h16" />,
+  filter: <path d="M4 6h16M7 12h10M10 18h4" />,
 } as const;
 
 export type IconName = keyof typeof PATHS;

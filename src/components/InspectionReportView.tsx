@@ -18,7 +18,7 @@ export function InspectionReportView({ title, report }: { title: string; report:
   };
 
   return (
-    <section id="report" className="flex scroll-mt-4 flex-col gap-[26px] rounded-3xl border border-line bg-surface p-5 sm:p-[34px]">
+    <section id="report" className="flex flex-col gap-[26px] rounded-3xl border border-line bg-surface p-5 sm:p-[34px]">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h2 className="m-0 text-[28px]">تقرير الفحص</h2>

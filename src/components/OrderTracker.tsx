@@ -78,7 +78,7 @@ export function OrderTracker({
               <span className="rounded-full bg-warn-soft px-3 py-0.5 text-sm font-semibold text-warn">{notesChip(notes)}</span>
             )}
           </div>
-          <div className="flex flex-wrap gap-2.5">
+          <div className="flex flex-wrap gap-2.5 max-lg:hidden">
             <a href="#report" className={`${btn.outline} min-h-[46px]`}>
               شوف التقرير
             </a>
@@ -147,6 +147,23 @@ export function OrderTracker({
       </div>
 
       {!cancelled && children}
+
+      {/* Phones: keep the decision in reach while reading the report. */}
+      {status === "report_sent_awaiting_buyer" && report && (
+        <>
+          <div className="h-[72px] lg:hidden" aria-hidden />
+          <div className="pb-safe fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface/95 px-4 pt-3 backdrop-blur lg:hidden">
+            <div className="mx-auto flex max-w-[640px] gap-2.5">
+              <a href="#report" className={`${btn.outline} min-h-12 flex-1`}>
+                شوف التقرير
+              </a>
+              <button type="button" onClick={() => advance("shipping")} className={`${btn.primary} min-h-12 flex-[1.4] cursor-pointer font-bold`}>
+                أكّد وابدأ الشحن
+              </button>
+            </div>
+          </div>
+        </>
+      )}
     </>
   );
 }

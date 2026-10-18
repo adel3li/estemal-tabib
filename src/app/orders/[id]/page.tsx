@@ -53,7 +53,7 @@ export default async function OrderPage({ params }: Props) {
         <div className="text-[13px] text-muted">المدد بتبدأ من يوم الاستلام.</div>
       </div>
 
-      <div id="help" className="flex scroll-mt-4 flex-col gap-3 rounded-[20px] border border-line bg-surface p-[22px]">
+      <div id="help" className="flex flex-col gap-3 rounded-[20px] border border-line bg-surface p-[22px]">
         <div className="font-bold">محتاج مساعدة؟</div>
         <a href={whatsappUrl(`السلام عليكم، بخصوص طلب رقم ${order.id}`)} target="_blank" rel="noopener" className={`${btn.accent} min-h-12`}>
           <Icon name="chat" />

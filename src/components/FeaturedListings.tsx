@@ -26,14 +26,14 @@ export function FeaturedListings({ listings, limit = 4 }: { listings: Listing[];
 
   return (
     <>
-      <div className="flex flex-wrap gap-2.5" role="group" aria-label="تصفية الأجهزة">
+      <div className="no-scrollbar -mx-4 flex gap-2.5 overflow-x-auto px-4 sm:mx-0 sm:flex-wrap sm:px-0" role="group" aria-label="تصفية الأجهزة">
         {FILTERS.map(([key, label]) => (
           <button key={key} type="button" aria-pressed={filter === key} onClick={() => setFilter(key)} className={chip(filter === key)}>
             {label}
           </button>
         ))}
       </div>
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(250px,1fr))] gap-5" aria-live="polite">
+      <div className="grid gap-3 sm:grid-cols-[repeat(auto-fill,minmax(250px,1fr))] sm:gap-5" aria-live="polite">
         {shown.map((l) => (
           <ListingCard key={l.id} listing={l} />
         ))}

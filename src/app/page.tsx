@@ -48,7 +48,7 @@ export default function Home() {
     <>
       <Header />
       <main>
-        <section className="mx-auto flex max-w-[1200px] flex-wrap items-center gap-12 px-4 pt-12 pb-14 sm:px-5 sm:pt-16">
+        <section className="mx-auto flex max-w-[1200px] flex-wrap items-center gap-10 px-4 pt-8 pb-12 sm:gap-12 sm:px-5 sm:pt-16 sm:pb-14">
           <div className="flex min-w-0 flex-[1_1_480px] flex-col gap-[22px]">
             <span className="self-start rounded-full bg-primary-soft px-3.5 py-1.5 text-sm font-semibold text-primary">
               منصة متخصصة 100% في أجهزة الأسنان المستعملة
@@ -56,11 +56,11 @@ export default function Home() {
             <h1 className="m-0 text-[clamp(34px,5vw,58px)] leading-tight font-bold tracking-[-0.5px]">
               من دكتور أسنان لدكتور أسنان… <span className="text-primary">بثقة</span>
             </h1>
-            <p className="m-0 max-w-[560px] text-[19px] text-muted">
+            <p className="m-0 max-w-[560px] text-[17px] text-muted sm:text-[19px]">
               اشتري أو بيع أجهزة عيادتك المستعملة من غير قلق. كل جهاز بيتفحص بواسطة فني معتمد ودكتور أسنان، وفلوسك بتفضل
               محفوظة معانا لحد ما تستلم الجهاز وتجربه في عيادتك.
             </p>
-            <div className="flex flex-wrap gap-3">
+            <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap">
               <Link href="/devices" className={`${btn.primary} min-h-[52px] rounded-[14px] px-[26px] text-[17px] font-bold`}>
                 اشتري جهاز
               </Link>
@@ -115,14 +115,16 @@ export default function Home() {
               <h2 className="m-0 text-[28px] font-bold sm:text-[34px]">إزاي بنشتغل؟</h2>
               <p className="m-0 text-lg text-muted">أربع خطوات، وكل خطوة واضحة قدامك.</p>
             </div>
-            <ol className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-5">
+            <ol className="m-0 grid list-none gap-3 p-0 sm:grid-cols-[repeat(auto-fit,minmax(240px,1fr))] sm:gap-5">
               {STEPS.map((s, i) => (
-                <li key={s.title} className="flex flex-col gap-2.5 rounded-[18px] bg-ground p-[26px]">
-                  <span className="flex size-11 items-center justify-center rounded-xl bg-primary text-xl font-bold text-white">
+                <li key={s.title} className="flex gap-4 rounded-[18px] bg-ground p-5 sm:flex-col sm:gap-2.5 sm:p-[26px]">
+                  <span className="flex size-11 flex-none items-center justify-center rounded-xl bg-primary text-xl font-bold text-white">
                     {(i + 1).toLocaleString("ar-EG")}
                   </span>
-                  <h3 className="m-0 text-xl">{s.title}</h3>
-                  <p className="m-0 text-muted">{s.body}</p>
+                  <div className="flex flex-col gap-1 sm:gap-2.5">
+                    <h3 className="m-0 text-lg sm:text-xl">{s.title}</h3>
+                    <p className="m-0 text-muted">{s.body}</p>
+                  </div>
                 </li>
               ))}
             </ol>
@@ -135,7 +137,7 @@ export default function Home() {
             <p className="m-0 text-lg text-muted">على كل جهاز علامة بتقولك اتفحص ولا لسه هيتفحص قبل ما يتشحن لك.</p>
           </div>
           <div className="grid grid-cols-[repeat(auto-fit,minmax(min(320px,100%),1fr))] gap-5">
-            <div className="flex flex-col gap-3.5 rounded-[20px] border-2 border-primary bg-surface p-[30px]">
+            <div className="flex flex-col gap-3.5 rounded-[20px] border-2 border-primary bg-surface p-6 sm:p-[30px]">
               <InspectionBadge state="inspected" size="lg" className="self-start" />
               <h3 className="m-0 text-[22px]">الجهاز اتفحص قبل ما يتعرض</h3>
               <ul className="m-0 flex list-disc flex-col gap-1.5 ps-5 text-[#3C4C48]">
@@ -144,7 +146,7 @@ export default function Home() {
                 <li>شحن أسرع لأن الفحص خلص</li>
               </ul>
             </div>
-            <div className="flex flex-col gap-3.5 rounded-[20px] border-2 border-info bg-surface p-[30px]">
+            <div className="flex flex-col gap-3.5 rounded-[20px] border-2 border-info bg-surface p-6 sm:p-[30px]">
               <InspectionBadge state="inspect_on_order" size="lg" className="self-start" />
               <h3 className="m-0 text-[22px]">بنفحصه عند البايع بعد طلبك وقبل الشحن</h3>
               <ul className="m-0 flex list-disc flex-col gap-1.5 ps-5 text-[#3C4C48]">
@@ -178,7 +180,7 @@ export default function Home() {
             </div>
             <div className="grid grid-cols-[repeat(auto-fit,minmax(260px,1fr))] gap-5">
               {WARRANTY.map((w) => (
-                <div key={w.title} className="flex flex-col gap-2.5 rounded-[18px] bg-dark-2 p-7">
+                <div key={w.title} className="flex flex-col gap-2.5 rounded-[18px] bg-dark-2 p-6 sm:p-7">
                   <Icon name={w.icon} size={30} className="text-accent" />
                   <h3 className="m-0 text-[21px]">{w.title}</h3>
                   <p className="m-0 text-dark-muted">{w.body}</p>
@@ -208,7 +210,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="sell" className="mx-auto max-w-[1200px] scroll-mt-4 px-4 pb-16 sm:px-5 sm:pb-[72px]">
+        <section id="sell" className="mx-auto max-w-[1200px] px-4 pb-16 sm:px-5 sm:pb-[72px]">
           <div className="flex flex-wrap items-center gap-10 rounded-3xl border border-line bg-surface p-6 sm:p-10">
             <div className="flex min-w-0 flex-[1_1_420px] flex-col gap-4">
               <h2 className="m-0 text-[28px] font-bold sm:text-[32px]">عندك جهاز عايز تبيعه؟</h2>
