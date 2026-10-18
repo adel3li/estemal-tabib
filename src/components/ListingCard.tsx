@@ -7,7 +7,7 @@ import { InspectionBadge } from "./InspectionBadge";
 
 export function ListingCard({ listing, showCategory = false }: { listing: Listing; showCategory?: boolean }) {
   const inspected = listing.inspectionState === "inspected";
-  const meta = [showCategory && CATEGORY_LABELS[listing.category], formatYear(listing.year), listing.governorate]
+  const meta = [showCategory && CATEGORY_LABELS[listing.category], formatYear(listing.year)]
     .filter(Boolean)
     .join(" · ");
   return (

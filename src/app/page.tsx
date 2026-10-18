@@ -86,7 +86,7 @@ export default function Home() {
             <div className="flex flex-col gap-4 px-6 py-[22px]">
               <div>
                 <div className="text-xl font-bold">{hero.title} — [الماركة / الموديل]</div>
-                <div className="text-sm text-muted">سنة الصنع [السنة] · {hero.governorate}</div>
+                <div className="text-sm text-muted">سنة الصنع [السنة]</div>
               </div>
               <div className="flex flex-col gap-2.5">
                 <div className="text-sm font-semibold text-muted">ملخص تقرير الفحص</div>

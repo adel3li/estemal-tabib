@@ -57,7 +57,7 @@ For `inspected` listings, skip the two inspection steps.
 
 ## 4. Draft data model
 
-- **Listing:** id, title, category (`rotary | camera | light_cure | loupe | motor`, shown as روتاري، كاميرا، لايت كيور، لوب، موتور), brand, model, year, origin_country, city/governorate, price_egp, fair_price_band, inspection_state, maintenance_months, seller_id, sell_reason, photos[], videos[], status
+- **Listing:** id, title, category (`rotary | camera | light_cure | loupe | motor`, shown as روتاري، كاميرا، لايت كيور، لوب، موتور), brand, model, year, origin_country, price_egp, fair_price_band, inspection_state, maintenance_months, seller_id, sell_reason, photos[], videos[], status
 - **InspectionReport:** id, listing_id, serial_number, date, technician_name, reviewing_dentist_name, operation_score, appearance_score, replaced_parts[], checklist_items[{label, result: pass|note|fail, note, photo}], disclosed_defects[{description, photo}]
 - **Seller:** id, name, verified_dentist (bool), phone/WhatsApp
 - **Order:** id, listing_id, buyer_id, amount_egp, status (see §3), timestamps per step, warranty_start_date

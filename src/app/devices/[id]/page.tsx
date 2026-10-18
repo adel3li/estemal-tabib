@@ -56,7 +56,7 @@ export default async function ListingPage({ params }: Props) {
                 </h1>
                 <div className="text-[15px] text-muted">
                   سنة الصنع {formatYear(listing.year)}
-                  {inspected && <> · بلد المنشأ {listing.originCountry ?? "[البلد]"}</>} · الجهاز في {listing.governorate}
+                  {inspected && <> · بلد المنشأ {listing.originCountry ?? "[البلد]"}</>}
                 </div>
               </div>
               <div className="flex flex-wrap items-center gap-2.5">

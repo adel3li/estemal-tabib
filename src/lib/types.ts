@@ -49,7 +49,6 @@ export type Listing = {
   model: string | null;
   year: number | null;
   originCountry: string | null;
-  governorate: string;
   /** null until real prices are set; rendered as the [السعر] placeholder. */
   priceEgp: number | null;
   fairPriceBand: { min: number; max: number } | null;

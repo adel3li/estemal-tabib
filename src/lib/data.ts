@@ -72,22 +72,21 @@ type Seed = {
   title: string;
   category: Category;
   inspected: boolean;
-  governorate: string;
   maint: MaintenanceMonths;
   sellReason?: string;
 };
 
 const SEEDS: Seed[] = [
-  { id: "implant-motor-cairo", title: "موتور جراحة وزراعة", category: "motor", inspected: true, governorate: "القاهرة", maint: 6, sellReason: "تحديث العيادة لموديل أحدث" },
-  { id: "intraoral-camera-alex", title: "كاميرا إنترا أورال", category: "camera", inspected: false, governorate: "الإسكندرية", maint: 3 },
-  { id: "cordless-endo-motor", title: "إندو موتور لاسلكي", category: "motor", inspected: true, governorate: "المنصورة", maint: 3 },
-  { id: "loupes-giza", title: "لوب تكبير 3.5x", category: "loupe", inspected: false, governorate: "الجيزة", maint: 3 },
-  { id: "high-speed-handpiece", title: "توربينة هاي سبيد", category: "rotary", inspected: true, governorate: "القاهرة", maint: 3 },
-  { id: "cordless-light-cure", title: "لايت كيور لاسلكي", category: "light_cure", inspected: true, governorate: "الإسكندرية", maint: 3 },
-  { id: "contra-angle", title: "كونترا أنجل", category: "rotary", inspected: true, governorate: "الجيزة", maint: 3 },
-  { id: "led-light-cure", title: "لايت كيور LED", category: "light_cure", inspected: false, governorate: "طنطا", maint: 3 },
-  { id: "wireless-camera-assiut", title: "كاميرا إنترا أورال لاسلكية", category: "camera", inspected: false, governorate: "أسيوط", maint: 6 },
-  { id: "led-loupes-cairo", title: "لوب تكبير بإضاءة LED", category: "loupe", inspected: true, governorate: "القاهرة", maint: 6 },
+  { id: "implant-motor-cairo", title: "موتور جراحة وزراعة", category: "motor", inspected: true, maint: 6, sellReason: "تحديث العيادة لموديل أحدث" },
+  { id: "intraoral-camera-alex", title: "كاميرا إنترا أورال", category: "camera", inspected: false, maint: 3 },
+  { id: "cordless-endo-motor", title: "إندو موتور لاسلكي", category: "motor", inspected: true, maint: 3 },
+  { id: "loupes-giza", title: "لوب تكبير 3.5x", category: "loupe", inspected: false, maint: 3 },
+  { id: "high-speed-handpiece", title: "توربينة هاي سبيد", category: "rotary", inspected: true, maint: 3 },
+  { id: "cordless-light-cure", title: "لايت كيور لاسلكي", category: "light_cure", inspected: true, maint: 3 },
+  { id: "contra-angle", title: "كونترا أنجل", category: "rotary", inspected: true, maint: 3 },
+  { id: "led-light-cure", title: "لايت كيور LED", category: "light_cure", inspected: false, maint: 3 },
+  { id: "wireless-camera-assiut", title: "كاميرا إنترا أورال لاسلكية", category: "camera", inspected: false, maint: 6 },
+  { id: "led-loupes-cairo", title: "لوب تكبير بإضاءة LED", category: "loupe", inspected: true, maint: 6 },
 ];
 
 export const LISTINGS: Listing[] = SEEDS.map((s, i) => ({
@@ -98,7 +97,6 @@ export const LISTINGS: Listing[] = SEEDS.map((s, i) => ({
   model: null,
   year: null,
   originCountry: null,
-  governorate: s.governorate,
   priceEgp: null,
   fairPriceBand: null,
   inspectionState: s.inspected ? "inspected" : "inspect_on_order",
