@@ -22,10 +22,12 @@ const WARRANTY = [
 ] as const;
 
 const CATEGORIES = [
-  { href: "/devices?cat=unit", title: "الأجهزة الكبيرة", body: "يونيت، أشعة X-Ray وX-Mind، أوتوكلاف، موتور جراحة." },
-  { href: "/devices?cat=endo_surgery", title: "إندو وجراحة", body: "أبيكس لوكيتور، إندو موتور، لايت كيور." },
-  { href: "/devices?cat=instruments", title: "أدوات شبه دائمة", body: "أدوات جراحية ومعدات مساعدة بحالة ممتازة." },
-];
+  { href: "/devices?cat=rotary", title: "روتاري", body: "توربينة هاي سبيد، كونترا أنجل، ستريت هاند بيس." },
+  { href: "/devices?cat=camera", title: "كاميرا", body: "كاميرا إنترا أورال سلك ولاسلكي." },
+  { href: "/devices?cat=light_cure", title: "لايت كيور", body: "لايت كيور LED سلك ولاسلكي." },
+  { href: "/devices?cat=loupe", title: "لوب", body: "لوب تكبير بمختلف القوى، بإضاءة أو من غيرها." },
+  { href: "/devices?cat=motor", title: "موتور", body: "إندو موتور، موتور جراحة وزراعة، ميكروموتور." },
+]
 
 const FAQ = [
   { q: "مين اللي بيفحص الأجهزة؟", a: "فني معتمد متخصص في أجهزة الأسنان، والتقرير بيراجعه دكتور أسنان. اسم الفاحص وتاريخ الفحص مكتوبين في كل تقرير." },
@@ -37,7 +39,7 @@ const FAQ = [
 
 const HERO_SUMMARY = [
   { label: "كفاءة التشغيل", value: "ممتاز" },
-  { label: "الهيدروليك والموتورات", value: "سليم" },
+  { label: "السرعة والعزم", value: "سليم" },
   { label: "الحالة الظاهرية", value: "جيد جداً" },
 ];
 
@@ -196,7 +198,7 @@ export default function Home() {
 
         <section className="mx-auto flex max-w-[1200px] flex-col gap-7 px-4 py-16 sm:px-5 sm:py-[72px]">
           <h2 className="m-0 text-[28px] font-bold sm:text-[34px]">كل اللي عيادتك محتاجاه</h2>
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(280px,100%),1fr))] gap-5">
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(200px,100%),1fr))] gap-4 sm:gap-5">
             {CATEGORIES.map((c) => (
               <Link
                 key={c.title}

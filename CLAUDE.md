@@ -57,15 +57,17 @@ For `inspected` listings, skip the two inspection steps.
 
 ## 4. Draft data model
 
-- **Listing:** id, title, category (`unit | xray | sterilization | endo_surgery | instruments`), brand, model, year, origin_country, city/governorate, price_egp, fair_price_band, inspection_state, maintenance_months, seller_id, sell_reason, photos[], videos[], status
+- **Listing:** id, title, category (`rotary | camera | light_cure | loupe | motor`, shown as روتاري، كاميرا، لايت كيور، لوب، موتور), brand, model, year, origin_country, city/governorate, price_egp, fair_price_band, inspection_state, maintenance_months, seller_id, sell_reason, photos[], videos[], status
 - **InspectionReport:** id, listing_id, serial_number, date, technician_name, reviewing_dentist_name, operation_score, appearance_score, replaced_parts[], checklist_items[{label, result: pass|note|fail, note, photo}], disclosed_defects[{description, photo}]
 - **Seller:** id, name, verified_dentist (bool), phone/WhatsApp
 - **Order:** id, listing_id, buyer_id, amount_egp, status (see §3), timestamps per step, warranty_start_date
 - **DeviceRequest** ("can't find what you're looking for"): device type, budget, contact
 
-Checklist templates are **per category**. Examples from the demo:
-- **Dental unit:** chair and hydraulics; turbine and micromotor lines (air/water pressure); operating light; suction and spittoon; foot control and dentist's stool; headrest upholstery.
-- **Autoclave:** chamber and gasket; pressure and temperature per cycle; Bowie-Dick and Helix tests; vacuum pump and filters; sensors, display and error messages; maintenance history.
+Checklist templates are **per category** (`CHECKLIST_TEMPLATES` in `src/lib/data.ts`). Examples:
+- **Rotary:** speed and stability; noise and vibration; bearings and heat; water/air spray; fibre-optic light; bur grip.
+- **Light cure:** output (mW/cm²) on a radiometer; wavelength and lamp type; timer and modes; battery and charger; light guide free of cracks; heat during use.
+
+The original demo screens (`design-reference/`) still show dental units and autoclaves; the device categories have since changed to the five above.
 
 ## 5. Pages (all built in the demo)
 

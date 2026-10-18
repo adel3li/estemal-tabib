@@ -11,52 +11,54 @@ import type {
 } from "./types";
 
 export const CATEGORY_LABELS: Record<Category, string> = {
-  unit: "يونيت",
-  xray: "أشعة",
-  sterilization: "تعقيم",
-  endo_surgery: "إندو وجراحة",
-  instruments: "أدوات",
+  rotary: "روتاري",
+  camera: "كاميرا",
+  light_cure: "لايت كيور",
+  loupe: "لوب",
+  motor: "موتور",
 };
 
 /** Checklist templates per category (CLAUDE.md §4). */
 export const CHECKLIST_TEMPLATES: Record<Category, string[]> = {
-  unit: [
-    "الكرسي والهيدروليك — طلوع ونزول وميل بدون صوت أو تسريب",
-    "خطوط التوربينة والميكروموتور — ضغط الهوا والمية",
-    "كشاف الإضاءة",
-    "الشفاط والسبيتون",
-    "الفوت كنترول وكرسي الطبيب",
-    "جلد مسند الراس والتنجيد",
+  rotary: [
+    "سرعة الدوران وثباتها",
+    "الصوت والاهتزاز",
+    "البيرنج والتسخين أثناء الشغل",
+    "السبراي — المية والهوا",
+    "الإضاءة (الفايبر أوبتك)",
+    "مسكة البير وثباته",
   ],
-  sterilization: [
-    "الحجرة والجوان — تسريب أو تآكل",
-    "الضغط والحرارة في كل دورة",
-    "اختبار Bowie-Dick واختبار Helix",
-    "طلمبة الفاكيوم والفلاتر",
-    "الحساسات والشاشة ورسائل الأخطاء",
-    "سجل الصيانة والقطع اللي اتغيرت",
+  camera: [
+    "وضوح الصورة والتركيز",
+    "إضاءة الـ LED وألوان الصورة",
+    "زرار التصوير",
+    "التوصيل بالكمبيوتر وتوافق البرنامج",
+    "الكابل والجسم من غير شروخ",
+    "الأغطية والإكسسوارات",
   ],
-  xray: [
-    "التيوب ووقت التعريض — ثبات الـ kV والـ mA",
-    "الذراع والمفاصل — ثبات بدون اهتزاز",
-    "جودة الصورة على فانتوم اختبار",
-    "التايمر وزرار التشغيل",
-    "الحساس أو الكابل وتوافق البرنامج (RVG)",
-    "سجل الصيانة والقطع اللي اتغيرت",
-  ],
-  endo_surgery: [
-    "الموتور — السرعة والعزم مطابقين للإعدادات",
-    "الهاند بيس والكونترا — صوت واهتزاز",
+  light_cure: [
+    "شدة الضوء (mW/cm²) بجهاز قياس",
+    "الطول الموجي ونوع اللمبة",
+    "التايمر وأوضاع التشغيل",
     "البطارية والشاحن",
-    "دقة القياس (أبيكس لوكيتور) أو شدة الضوء (لايت كيور)",
-    "الشاشة والأزرار ورسائل الأخطاء",
-    "الإكسسوارات الأصلية والكابلات",
+    "طرف الفايبر من غير شروخ",
+    "التسخين أثناء التشغيل",
   ],
-  instruments: [
-    "الحالة الظاهرية والتآكل",
-    "الحواف والسنون",
-    "المفاصل والحركة",
-    "قابلية التعقيم",
+  loupe: [
+    "وضوح العدسات وقوة التكبير",
+    "مسافة الشغل (Working distance)",
+    "ضبط المسافة بين العينين",
+    "الإطار والمفصلات",
+    "إضاءة الـ LED والبطارية",
+    "خدوش أو شروخ في العدسات",
+  ],
+  motor: [
+    "السرعة والعزم مطابقين للإعدادات",
+    "الميكروموتور — صوت واهتزاز وتسخين",
+    "الكونترا والهاند بيس",
+    "وحدة التحكم أو البطارية والشاحن",
+    "الفوت كنترول والطلمبة",
+    "الشاشة والأزرار ورسائل الأخطاء",
   ],
 };
 
@@ -76,16 +78,16 @@ type Seed = {
 };
 
 const SEEDS: Seed[] = [
-  { id: "dental-unit-cairo", title: "يونيت أسنان كامل", category: "unit", inspected: true, governorate: "القاهرة", maint: 6, sellReason: "تحديث العيادة لموديل أحدث" },
-  { id: "autoclave-class-b-alex", title: "أوتوكلاف Class B", category: "sterilization", inspected: false, governorate: "الإسكندرية", maint: 3 },
-  { id: "cordless-endo-motor", title: "إندو موتور لاسلكي", category: "endo_surgery", inspected: true, governorate: "المنصورة", maint: 3 },
-  { id: "wall-xray-giza", title: "جهاز أشعة X-Ray حائطي", category: "xray", inspected: false, governorate: "الجيزة", maint: 6 },
-  { id: "apex-locator", title: "أبيكس لوكيتور", category: "endo_surgery", inspected: true, governorate: "القاهرة", maint: 3 },
-  { id: "rvg-sensor", title: "حساس أشعة رقمي RVG", category: "xray", inspected: true, governorate: "الإسكندرية", maint: 6 },
-  { id: "surgery-implant-motor", title: "موتور جراحة وزراعة", category: "endo_surgery", inspected: true, governorate: "القاهرة", maint: 6 },
-  { id: "led-light-cure", title: "لايت كيور LED", category: "endo_surgery", inspected: false, governorate: "طنطا", maint: 3 },
-  { id: "dental-unit-assiut", title: "يونيت أسنان", category: "unit", inspected: false, governorate: "أسيوط", maint: 6 },
-  { id: "ultrasonic-cleaner", title: "جهاز تنظيف بالموجات Ultrasonic", category: "sterilization", inspected: true, governorate: "الجيزة", maint: 3 },
+  { id: "implant-motor-cairo", title: "موتور جراحة وزراعة", category: "motor", inspected: true, governorate: "القاهرة", maint: 6, sellReason: "تحديث العيادة لموديل أحدث" },
+  { id: "intraoral-camera-alex", title: "كاميرا إنترا أورال", category: "camera", inspected: false, governorate: "الإسكندرية", maint: 3 },
+  { id: "cordless-endo-motor", title: "إندو موتور لاسلكي", category: "motor", inspected: true, governorate: "المنصورة", maint: 3 },
+  { id: "loupes-giza", title: "لوب تكبير 3.5x", category: "loupe", inspected: false, governorate: "الجيزة", maint: 3 },
+  { id: "high-speed-handpiece", title: "توربينة هاي سبيد", category: "rotary", inspected: true, governorate: "القاهرة", maint: 3 },
+  { id: "cordless-light-cure", title: "لايت كيور لاسلكي", category: "light_cure", inspected: true, governorate: "الإسكندرية", maint: 3 },
+  { id: "contra-angle", title: "كونترا أنجل", category: "rotary", inspected: true, governorate: "الجيزة", maint: 3 },
+  { id: "led-light-cure", title: "لايت كيور LED", category: "light_cure", inspected: false, governorate: "طنطا", maint: 3 },
+  { id: "wireless-camera-assiut", title: "كاميرا إنترا أورال لاسلكية", category: "camera", inspected: false, governorate: "أسيوط", maint: 6 },
+  { id: "led-loupes-cairo", title: "لوب تكبير بإضاءة LED", category: "loupe", inspected: true, governorate: "القاهرة", maint: 6 },
 ];
 
 export const LISTINGS: Listing[] = SEEDS.map((s, i) => ({
@@ -120,17 +122,18 @@ function reportFor(listing: Listing): InspectionReport {
     reviewingDentistName: null,
     replacedParts: [],
   };
-  if (listing.id === "dental-unit-cairo") {
-    const labels = CHECKLIST_TEMPLATES.unit;
+  if (listing.id === "implant-motor-cairo") {
+    const labels = CHECKLIST_TEMPLATES.motor;
     return {
       ...base,
       operationScore: "ممتاز",
       appearanceScore: "جيد جداً",
-      checklistItems: [
-        ...labels.slice(0, 5).map((label) => ({ label, result: "pass" as const })),
-        { label: "جلد مسند الراس", result: "note", note: "تآكل بسيط في الطرف (صورة مرفقة)" },
-      ],
-      disclosedDefects: [{ description: "جلد مسند الراس — تآكل بسيط في الطرف" }],
+      checklistItems: labels.map((label, i) =>
+        i === 1
+          ? { label, result: "note" as const, note: "تآكل بسيط في غلاف كابل الميكروموتور (صورة مرفقة)" }
+          : { label, result: "pass" as const },
+      ),
+      disclosedDefects: [{ description: "كابل الميكروموتور — تآكل بسيط في الغلاف" }],
     };
   }
   return {
@@ -143,9 +146,9 @@ function reportFor(listing: Listing): InspectionReport {
 }
 
 /** Report written at the seller's place for order 1024 (inspect_on_order). */
-const AUTOCLAVE_ORDER_REPORT: InspectionReport = {
-  id: "r-autoclave-class-b-alex",
-  listingId: "autoclave-class-b-alex",
+const CAMERA_ORDER_REPORT: InspectionReport = {
+  id: "r-intraoral-camera-alex",
+  listingId: "intraoral-camera-alex",
   serialNumber: null,
   date: "2026-10-14T13:00:00Z",
   technicianName: null,
@@ -153,22 +156,22 @@ const AUTOCLAVE_ORDER_REPORT: InspectionReport = {
   operationScore: "ممتاز",
   appearanceScore: "جيد جداً",
   replacedParts: [],
-  checklistItems: CHECKLIST_TEMPLATES.sterilization.map((label, i) =>
-    i === 0 ? { label, result: "note", note: "[وصف الملاحظة]" } : { label, result: "pass" },
+  checklistItems: CHECKLIST_TEMPLATES.camera.map((label, i) =>
+    i === 4 ? { label, result: "note", note: "[وصف الملاحظة]" } : { label, result: "pass" },
   ),
-  disclosedDefects: [{ description: "الحجرة والجوان — [وصف الملاحظة]" }],
-  highlights: [{ label: "Bowie-Dick", value: "ناجح" }],
+  disclosedDefects: [{ description: "الكابل والجسم — [وصف الملاحظة]" }],
+  highlights: [{ label: "وضوح الصورة", value: "ممتاز" }],
 };
 
 export const REPORTS: InspectionReport[] = [
   ...LISTINGS.filter((l) => l.inspectionState === "inspected").map(reportFor),
-  AUTOCLAVE_ORDER_REPORT,
+  CAMERA_ORDER_REPORT,
 ];
 
 export const ORDERS: Order[] = [
   {
     id: "1024",
-    listingId: "autoclave-class-b-alex",
+    listingId: "intraoral-camera-alex",
     buyerId: "b1",
     amountEgp: null,
     status: "report_sent_awaiting_buyer",

@@ -1,4 +1,4 @@
-export type Category = "unit" | "xray" | "sterilization" | "endo_surgery" | "instruments";
+export type Category = "rotary" | "camera" | "light_cure" | "loupe" | "motor";
 
 export type InspectionState = "inspected" | "inspect_on_order";
 
@@ -37,7 +37,7 @@ export type InspectionReport = {
   replacedParts: string[];
   checklistItems: ChecklistItem[];
   disclosedDefects: DisclosedDefect[];
-  /** Key results shown as chips in summaries, e.g. Bowie-Dick for autoclaves. */
+  /** Key results shown as chips in summaries, e.g. image clarity for a camera. */
   highlights?: { label: string; value: string }[];
 };
 

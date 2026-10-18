@@ -10,10 +10,11 @@ type Filter = "all" | "inspected" | Category;
 const FILTERS: [Filter, string][] = [
   ["all", "الكل"],
   ["inspected", "تم الفحص فقط"],
-  ["unit", "يونيت"],
-  ["xray", "أشعة"],
-  ["sterilization", "تعقيم"],
-  ["endo_surgery", "إندو وجراحة"],
+  ["rotary", "روتاري"],
+  ["camera", "كاميرا"],
+  ["light_cure", "لايت كيور"],
+  ["loupe", "لوب"],
+  ["motor", "موتور"],
 ];
 
 export function FeaturedListings({ listings, limit = 4 }: { listings: Listing[]; limit?: number }) {

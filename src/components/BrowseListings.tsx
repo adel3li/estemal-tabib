@@ -143,7 +143,7 @@ export function BrowseListings({ listings, initial }: { listings: Listing[]; ini
               type="search"
               value={f.q}
               onChange={(e) => set({ q: e.target.value })}
-              placeholder="ابحث باسم الجهاز: يونيت، أوتوكلاف، إندو موتور…"
+              placeholder="ابحث باسم الجهاز: توربينة، لايت كيور، لوب…"
               className="min-h-[50px] w-full rounded-[14px] border border-field bg-ground ps-[50px] pe-4 text-base text-ink sm:min-h-[54px] sm:text-[17px]"
             />
           </label>

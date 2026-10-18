@@ -45,7 +45,7 @@ export function DeviceRequest() {
         <form onSubmit={submit} className="grid gap-3 sm:grid-cols-[1fr_1fr_auto] sm:items-end">
           <label className="flex flex-col gap-1.5 text-sm font-semibold">
             الجهاز
-            <input required value={deviceType} onChange={(e) => setDeviceType(e.target.value)} placeholder="مثال: أوتوكلاف Class B" className={field} />
+            <input required value={deviceType} onChange={(e) => setDeviceType(e.target.value)} placeholder="مثال: لايت كيور لاسلكي" className={field} />
           </label>
           <label className="flex flex-col gap-1.5 text-sm font-semibold">
             الميزانية

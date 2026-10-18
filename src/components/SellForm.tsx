@@ -4,7 +4,7 @@ import { useState } from "react";
 import { whatsappUrl } from "@/lib/site";
 import { btn } from "./ui";
 
-const DEVICE_TYPES = ["يونيت أسنان", "أشعة", "أوتوكلاف", "إندو موتور", "أبيكس لوكيتور", "جهاز تاني"];
+const DEVICE_TYPES = ["روتاري (توربينة / كونترا)", "كاميرا إنترا أورال", "لايت كيور", "لوب", "موتور", "جهاز تاني"];
 
 const field = "min-h-[46px] rounded-[10px] border border-field bg-surface px-3 font-normal";
 
