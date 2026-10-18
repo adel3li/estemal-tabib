@@ -142,7 +142,28 @@ function reportFor(listing: Listing): InspectionReport {
   };
 }
 
-export const REPORTS: InspectionReport[] = LISTINGS.filter((l) => l.inspectionState === "inspected").map(reportFor);
+/** Report written at the seller's place for order 1024 (inspect_on_order). */
+const AUTOCLAVE_ORDER_REPORT: InspectionReport = {
+  id: "r-autoclave-class-b-alex",
+  listingId: "autoclave-class-b-alex",
+  serialNumber: null,
+  date: "2026-10-14T13:00:00Z",
+  technicianName: null,
+  reviewingDentistName: null,
+  operationScore: "ممتاز",
+  appearanceScore: "جيد جداً",
+  replacedParts: [],
+  checklistItems: CHECKLIST_TEMPLATES.sterilization.map((label, i) =>
+    i === 0 ? { label, result: "note", note: "[وصف الملاحظة]" } : { label, result: "pass" },
+  ),
+  disclosedDefects: [{ description: "الحجرة والجوان — [وصف الملاحظة]" }],
+  highlights: [{ label: "Bowie-Dick", value: "ناجح" }],
+};
+
+export const REPORTS: InspectionReport[] = [
+  ...LISTINGS.filter((l) => l.inspectionState === "inspected").map(reportFor),
+  AUTOCLAVE_ORDER_REPORT,
+];
 
 export const ORDERS: Order[] = [
   {
@@ -192,15 +213,30 @@ export function orderSteps(state: Listing["inspectionState"]): OrderStatus[] {
     : steps;
 }
 
+/** Static copy per order step; the tracker fills in details that depend on the report or listing. */
 export const ORDER_STEP_LABELS: Record<OrderStatus, { title: string; detail: string }> = {
-  paid_in_escrow: { title: "دفعت، والفلوس محفوظة عندنا", detail: "المبلغ عندنا ومش هيتحول للبايع غير بعد تأكيدك." },
-  inspection_at_seller: { title: "فحص الجهاز عند البايع", detail: "الفني بيفحص الجهاز ودكتور أسنان بيراجع التقرير." },
-  report_sent_awaiting_buyer: { title: "تقرير الفحص وصلك", detail: "راجع التقرير، وأكّد الشحن أو الغي الطلب وفلوسك ترجعلك كاملة." },
-  shipping: { title: "الجهاز في الطريق لعيادتك", detail: "شحن آمن لحد باب العيادة." },
-  delivered: { title: "استلمت الجهاز", detail: "الضمان بيبدأ من يوم الاستلام." },
-  trial_period: { title: "فترة التجربة — 14 يوم", detail: "جرّب الجهاز على حالات حقيقية. لو فيه مشكلة: استبدال أو استرجاع." },
-  released_to_seller: { title: "الفلوس اتحولت للبايع", detail: "بعد تأكيدك. والصيانة مستمرة حسب مدة الجهاز." },
+  paid_in_escrow: { title: "الدفع اتحفظ عندنا", detail: "فلوسك في أمان، ومش هتتحول للبايع غير بعد تأكيدك." },
+  inspection_at_seller: { title: "فحص الجهاز عند البايع", detail: "فني بيفحص الجهاز ودكتور أسنان بيراجع التقرير." },
+  report_sent_awaiting_buyer: { title: "تقرير الفحص وصلك", detail: "راجع التقرير وأكّد علشان نشحن." },
+  shipping: { title: "الشحن", detail: "شحن مؤمَّن لحد باب العيادة" },
+  delivered: { title: "الاستلام والتركيب", detail: "تستلم الجهاز وتتأكد إنه زي التقرير" },
+  trial_period: { title: "فترة التجربة — 14 يوم", detail: "ضمان تشغيل، واستبدال أو استرجاع لو فيه مشكلة" },
+  released_to_seller: { title: "تحويل المبلغ للبايع", detail: "بعد ما فترة التجربة تخلص من غير مشاكل" },
   cancelled_refunded: { title: "الطلب اتلغى وفلوسك رجعت", detail: "المبلغ رجعلك كامل." },
   returned: { title: "الجهاز اترجع", detail: "المبلغ رجعلك." },
   replaced: { title: "الجهاز اتبدل", detail: "وصلك جهاز بديل." },
+};
+
+/** Status pill text for the order header. */
+export const ORDER_STATUS_PILL: Record<OrderStatus, string> = {
+  paid_in_escrow: "الدفع اتحفظ — بنجهّز الفحص",
+  inspection_at_seller: "الجهاز بيتفحص عند البايع",
+  report_sent_awaiting_buyer: "مستني تأكيدك على تقرير الفحص",
+  shipping: "الجهاز في الطريق لعيادتك",
+  delivered: "الجهاز وصل",
+  trial_period: "فترة التجربة شغالة",
+  released_to_seller: "الطلب خلص",
+  cancelled_refunded: "الطلب اتلغى وفلوسك رجعت",
+  returned: "الجهاز اترجع",
+  replaced: "الجهاز اتبدل",
 };

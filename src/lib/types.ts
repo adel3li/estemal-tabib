@@ -37,6 +37,8 @@ export type InspectionReport = {
   replacedParts: string[];
   checklistItems: ChecklistItem[];
   disclosedDefects: DisclosedDefect[];
+  /** Key results shown as chips in summaries, e.g. Bowie-Dick for autoclaves. */
+  highlights?: { label: string; value: string }[];
 };
 
 export type Listing = {

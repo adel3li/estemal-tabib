@@ -8,11 +8,14 @@ export function OrderTimeline({
   steps,
   current,
   timestamps,
+  details = {},
   currentSlot,
 }: {
   steps: OrderStatus[];
   current: OrderStatus;
   timestamps: Order["timestamps"];
+  /** Per-step detail text that replaces the default copy. */
+  details?: Partial<Record<OrderStatus, string>>;
   /** Extra content rendered under the current step (e.g. action buttons). */
   currentSlot?: React.ReactNode;
 }) {
@@ -23,31 +26,35 @@ export function OrderTimeline({
         const done = i < currentIndex;
         const isCurrent = i === currentIndex;
         const last = i === steps.length - 1;
-        const info = ORDER_STEP_LABELS[step];
+        const title = ORDER_STEP_LABELS[step].title;
+        const detail = details[step] ?? ORDER_STEP_LABELS[step].detail;
+        const date = done || isCurrent ? timestamps[step] : undefined;
         return (
-          <li key={step} className="relative flex gap-4" aria-current={isCurrent ? "step" : undefined}>
-            <div className="flex flex-col items-center">
-              <span
-                className={`z-10 flex size-9 flex-none items-center justify-center rounded-full border-2 text-sm font-bold ${
-                  done
-                    ? "border-primary bg-primary text-white"
-                    : isCurrent
-                      ? "border-info bg-info-soft text-info"
-                      : "border-line bg-surface text-subtle"
-                }`}
-              >
-                {done ? <Icon name="check" size={18} strokeWidth={2.4} /> : (i + 1).toLocaleString("ar-EG")}
-              </span>
-              {!last && <span className={`w-0.5 flex-1 ${done ? "bg-primary" : "bg-line"}`} />}
+          <li key={step} className="flex gap-[18px]" aria-current={isCurrent ? "step" : undefined}>
+            <div className="flex flex-none flex-col items-center">
+              {done ? (
+                <span className="flex size-9 items-center justify-center rounded-full bg-primary text-white">
+                  <Icon name="check" size={18} strokeWidth={2.6} />
+                </span>
+              ) : isCurrent ? (
+                <span className="flex size-9 items-center justify-center rounded-full border-[3px] border-accent bg-surface">
+                  <span className="size-3 rounded-full bg-accent" />
+                </span>
+              ) : (
+                <span className="size-9 rounded-full border-2 border-field bg-surface" />
+              )}
+              {!last && <span className={`min-h-7 w-[3px] flex-1 ${done ? "bg-primary" : "bg-line"}`} />}
             </div>
-            <div className={`flex-1 pb-7 ${last ? "pb-0" : ""}`}>
-              <div className={`font-bold ${!done && !isCurrent ? "text-muted" : ""}`}>
-                {info.title}
-                {isCurrent && <span className="ms-2 rounded-full bg-info-soft px-2.5 py-0.5 text-xs font-semibold text-info">دلوقتي</span>}
+            <div className={`min-w-0 flex-1 ${last ? "" : isCurrent ? "pb-[26px]" : "pb-[22px]"} ${done || isCurrent ? "" : "text-muted"}`}>
+              <div className="text-lg font-bold text-ink">
+                <span className="sr-only">{done ? "خلصت: " : isCurrent ? "الخطوة الحالية: " : "لسه: "}</span>
+                {title}
               </div>
-              <div className="text-[15px] text-muted">{info.detail}</div>
-              {(done || isCurrent) && timestamps[step] && <div className="text-[13px] text-subtle">{formatDate(timestamps[step])}</div>}
-              {isCurrent && currentSlot && <div className="mt-3">{currentSlot}</div>}
+              <div className="text-[15px] text-muted">
+                {detail}
+                {date && ` · ${formatDate(date)}`}
+              </div>
+              {isCurrent && currentSlot}
             </div>
           </li>
         );
