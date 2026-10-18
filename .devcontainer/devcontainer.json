@@ -1,0 +1,14 @@
+{
+  "name": "estemal-tabib",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
+  "postCreateCommand": "npm install",
+  "postAttachCommand": "npm run dev",
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": { "label": "استعمال طبيب", "onAutoForward": "openPreview" }
+  },
+  "customizations": {
+    "codespaces": { "openFiles": ["src/lib/data.ts", "src/app/page.tsx"] },
+    "vscode": { "extensions": ["bradlc.vscode-tailwindcss", "dbaeumer.vscode-eslint"] }
+  }
+}

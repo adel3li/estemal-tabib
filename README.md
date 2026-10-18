@@ -2,6 +2,8 @@
 
 Marketplace for inspected, warrantied used dental equipment in Egypt. See `CLAUDE.md` for the product rules and design system, and `design-reference/` for the source screens.
 
+**Live editing in the browser:** on GitHub, Code → Codespaces → Create codespace on this branch. It installs everything and opens a preview that updates when you save.
+
 ```bash
 npm install
 npm run dev        # http://localhost:3000
