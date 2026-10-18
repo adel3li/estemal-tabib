@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<title>استعمال طبيب — كل الأجهزة</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#F5F7F4}
+a{color:#0D5C55;text-decoration:none}a:hover{color:#08403B}
+</style>
+</helmet>
+<div dir="rtl" style="min-height: 100vh; background: #F5F7F4; color: #12221F; font-family: 'IBM Plex Sans Arabic', 'Segoe UI', sans-serif; font-size: 16px; line-height: 1.7">
+
+<header style="background: #FFFFFF; border-bottom: 1px solid #DCE3DF">
+<div style="max-width: 1240px; margin: 0 auto; padding: 14px 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; color: #12221F">
+<span style="width: 40px; height: 40px; border-radius: 12px; background: #0D5C55; color: #FFFFFF; display: flex; align-items: center; justify-content: center">
+<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3c-2.5 0-4 2-4 4.5 0 3 1.5 4.5 2 7 .5 3 1 6.5 2.5 6.5S9 18 10 15.5c.5-1.2 1.5-1.2 2 0 1 2.5 1.5 5.5 3 5.5s2-3.5 2.5-6.5c.5-2.5 2-4 2-7C19.5 5 18 3 15.5 3 13.5 3 13 4 12 4S10 3 7 3z"></path></svg>
+</span>
+<span style="font-size: 20px; font-weight: 700">استعمال طبيب</span>
+</a>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<a href="Main.dc.html#sell" style="padding: 10px 18px; border-radius: 12px; border: 1px solid #C9D4CF; color: #12221F; font-weight: 600; min-height: 44px; box-sizing: border-box; display: flex; align-items: center">بيع جهازك</a>
+<a href="Order-Tracker.dc.html" style="padding: 10px 18px; border-radius: 12px; border: 1px solid #C9D4CF; color: #12221F; font-weight: 600; min-height: 44px; box-sizing: border-box; display: flex; align-items: center">تابع طلبك</a>
+</div>
+</div>
+</header>
+
+<section style="background: #FFFFFF; border-bottom: 1px solid #E5EBE8">
+<div style="max-width: 1240px; margin: 0 auto; padding: 18px 20px 30px; display: flex; flex-direction: column; gap: 16px">
+<div style="font-size: 14px; color: #4A5A56"><a href="Main.dc.html">الرئيسية</a> / كل الأجهزة</div>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px">
+<div>
+<h1 style="margin: 0; font-size: 36px; line-height: 1.3">كل الأجهزة</h1>
+<p style="margin: 4px 0 0; color: #4A5A56; font-size: 17px">كل جهاز عليه علامة بتقولك اتفحص ولا هيتفحص عند الطلب، والضمان مكتوب عليه.</p>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 16px; font-size: 14px">
+<span style="display: flex; align-items: center; gap: 6px"><span style="padding: 2px 10px; border-radius: 999px; background: #0D5C55; color: #FFFFFF; font-weight: 600">تم الفحص</span>التقرير متاح دلوقتي</span>
+<span style="display: flex; align-items: center; gap: 6px"><span style="padding: 2px 10px; border-radius: 999px; background: #E6EDF7; color: #24508F; font-weight: 600">يُفحص عند الطلب</span>بنفحصه قبل الشحن</span>
+</div>
+</div>
+<label style="position: relative; display: block">
+<span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">ابحث عن جهاز</span>
+<span style="position: absolute; top: 50%; right: 16px; transform: translateY(-50%); color: #5D6E69; display: flex"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"></circle><path d="M20 20l-4.5-4.5"></path></svg></span>
+<input type="search" value="{{q}}" onChange="{{onQ}}" placeholder="ابحث باسم الجهاز: يونيت، أوتوكلاف، إندو موتور…" style="width: 100%; box-sizing: border-box; min-height: 54px; padding: 0 50px 0 16px; border-radius: 14px; border: 1px solid #C9D4CF; background: #F5F7F4; font: inherit; font-size: 17px; color: #12221F">
+</label>
+</div>
+</section>
+
+<section style="max-width: 1240px; margin: 0 auto; padding: 28px 20px 40px; display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start">
+
+<aside aria-label="تصفية النتائج" style="flex: 1 1 260px; min-width: 0; padding: 22px; border-radius: 20px; background: #FFFFFF; border: 1px solid #DCE3DF; display: flex; flex-direction: column; gap: 22px">
+<div style="display: flex; justify-content: space-between; align-items: center">
+<span style="font-weight: 700; font-size: 18px">تصفية</span>
+<button type="button" onClick="{{reset}}" style="min-height: 36px; padding: 0 12px; border: 0; background: transparent; color: #0D5C55; font: inherit; font-weight: 600; cursor: pointer">مسح الكل</button>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-weight: 600; font-size: 15px">حالة الفحص</span>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{stateChips}}" as="c" hint-placeholder-count="3">
+<button type="button" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="min-height: 40px; padding: 4px 14px; border-radius: 999px; border: 1px solid {{c.bd}}; background: {{c.bg}}; color: {{c.fg}}; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer">{{c.label}}</button>
+</sc-for>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-weight: 600; font-size: 15px">نوع الجهاز</span>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{catChips}}" as="c" hint-placeholder-count="5">
+<button type="button" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="min-height: 40px; padding: 4px 14px; border-radius: 999px; border: 1px solid {{c.bd}}; background: {{c.bg}}; color: {{c.fg}}; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer">{{c.label}}</button>
+</sc-for>
+</div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<span style="font-weight: 600; font-size: 15px">مدة الصيانة</span>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{maintChips}}" as="c" hint-placeholder-count="3">
+<button type="button" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="min-height: 40px; padding: 4px 14px; border-radius: 999px; border: 1px solid {{c.bd}}; background: {{c.bg}}; color: {{c.fg}}; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer">{{c.label}}</button>
+</sc-for>
+</div>
+</div>
+
+<div style="padding: 14px; border-radius: 14px; background: #E3F0ED; font-size: 14px; color: #0B4A44; display: flex; gap: 10px; align-items: flex-start">
+<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex: none; margin-top: 2px"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>
+<span>على كل الأجهزة: استبدال أو استرجاع 14 يوم، وضمان تشغيل 14 يوم، وفلوسك محفوظة لحد الاستلام.</span>
+</div>
+</aside>
+
+<div style="flex: 999 1 600px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px">
+<span style="font-weight: 700; font-size: 18px" aria-live="polite">{{countLabel}}</span>
+<label style="display: flex; align-items: center; gap: 8px; font-size: 15px; color: #4A5A56">ترتيب حسب
+<select style="min-height: 42px; padding: 0 10px; border-radius: 10px; border: 1px solid #C9D4CF; background: #FFFFFF; font: inherit; color: #12221F">
+<option>الأحدث</option>
+<option>الأقرب ليك</option>
+<option>السعر: من الأقل</option>
+<option>السعر: من الأعلى</option>
+</select>
+</label>
+</div>
+
+<sc-if value="{{hasItems}}" hint-placeholder-val="{{true}}">
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 18px">
+<sc-for list="{{items}}" as="item" hint-placeholder-count="6">
+<a href="{{item.href}}" style="display: flex; flex-direction: column; border-radius: 18px; border: 1px solid #DCE3DF; background: #FFFFFF; overflow: hidden; color: #12221F">
+<div style="position: relative; height: 170px; background: #E7EDEA; display: flex; align-items: center; justify-content: center; color: #5D6E69; font-size: 13px">{{item.photo}}
+<sc-if value="{{item.inspected}}" hint-placeholder-val="{{true}}">
+<span style="position: absolute; top: 12px; right: 12px; padding: 4px 10px; border-radius: 999px; background: #0D5C55; color: #FFFFFF; font-size: 12px; font-weight: 600">تم الفحص</span>
+</sc-if>
+<sc-if value="{{item.onOrder}}" hint-placeholder-val="{{false}}">
+<span style="position: absolute; top: 12px; right: 12px; padding: 4px 10px; border-radius: 999px; background: #E6EDF7; color: #24508F; font-size: 12px; font-weight: 600">يُفحص عند الطلب</span>
+</sc-if>
+</div>
+<div style="padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; flex: 1">
+<div style="font-weight: 700; font-size: 17px">{{item.title}}</div>
+<div style="font-size: 13px; color: #4A5A56">{{item.catLabel}} · [السنة] · {{item.gov}}</div>
+<div style="font-size: 13px; color: #0D5C55; font-weight: 600">ضمان + صيانة {{item.maint}} شهور</div>
+<div style="display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid #E5EBE8; margin-top: auto"><span style="font-weight: 700; font-size: 18px">[السعر] ج.م</span><span style="font-size: 13px; color: #0D5C55; font-weight: 600">التفاصيل ←</span></div>
+</div>
+</a>
+</sc-for>
+</div>
+</sc-if>
+
+<sc-if value="{{empty}}" hint-placeholder-val="{{false}}">
+<div style="padding: 48px 24px; border-radius: 20px; background: #FFFFFF; border: 1px dashed #9FB2AB; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center">
+<svg aria-hidden="true" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#5D6E69" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"></circle><path d="M20 20l-4.5-4.5"></path></svg>
+<div style="font-weight: 700; font-size: 19px">مفيش أجهزة بالمواصفات دي دلوقتي</div>
+<div style="color: #4A5A56">جرّب تغيّر التصفية، أو اطلب الجهاز وهنبلغك أول ما يتعرض.</div>
+<button type="button" onClick="{{reset}}" style="min-height: 46px; padding: 0 20px; border-radius: 12px; border: 1px solid #C9D4CF; background: #FFFFFF; font: inherit; font-weight: 600; cursor: pointer">مسح التصفية</button>
+</div>
+</sc-if>
+
+<div style="margin-top: 10px; padding: 28px; border-radius: 22px; background: #0F2A26; color: #FFFFFF; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 18px">
+<div style="flex: 1 1 320px; min-width: 0">
+<div style="font-weight: 700; font-size: 22px">مش لاقي الجهاز اللي بتدوّر عليه؟</div>
+<div style="color: #C3D3CE">قولنا الجهاز والميزانية، وهنبلغك أول ما يتعرض جهاز مناسب.</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<button type="button" style="min-height: 48px; padding: 0 22px; border-radius: 12px; border: 0; background: #F2A33A; color: #12221F; font: inherit; font-weight: 700; cursor: pointer">اطلب جهاز</button>
+<a href="Main.dc.html#faq" style="min-height: 48px; padding: 0 18px; border-radius: 12px; border: 1px solid #2E5650; color: #FFFFFF; font-weight: 600; display: flex; align-items: center; gap: 8px"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7L4 20z"></path></svg>واتساب</a>
+</div>
+</div>
+</div>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2000}}'>
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { st: 'all', cat: 'all', maint: 'all', gov: 'all', q: '' };
+}
+renderVals() {
+var s = this.state;
+var self = this;
+var ALL = [
+{ title: 'يونيت أسنان كامل', cat: 'unit', catLabel: 'يونيت', inspected: true, gov: 'القاهرة', maint: 6 },
+{ title: 'أوتوكلاف Class B', cat: 'steril', catLabel: 'تعقيم', inspected: false, gov: 'الإسكندرية', maint: 3 },
+{ title: 'إندو موتور لاسلكي', cat: 'endo', catLabel: 'إندو وجراحة', inspected: true, gov: 'المنصورة', maint: 3 },
+{ title: 'جهاز أشعة X-Ray حائطي', cat: 'xray', catLabel: 'أشعة', inspected: false, gov: 'الجيزة', maint: 6 },
+{ title: 'أبيكس لوكيتور', cat: 'endo', catLabel: 'إندو وجراحة', inspected: true, gov: 'القاهرة', maint: 3 },
+{ title: 'حساس أشعة رقمي RVG', cat: 'xray', catLabel: 'أشعة', inspected: true, gov: 'الإسكندرية', maint: 6 },
+{ title: 'موتور جراحة وزراعة', cat: 'endo', catLabel: 'إندو وجراحة', inspected: true, gov: 'القاهرة', maint: 6 },
+{ title: 'لايت كيور LED', cat: 'endo', catLabel: 'إندو وجراحة', inspected: false, gov: 'طنطا', maint: 3 },
+{ title: 'يونيت أسنان', cat: 'unit', catLabel: 'يونيت', inspected: false, gov: 'أسيوط', maint: 6 },
+{ title: 'جهاز تنظيف بالموجات Ultrasonic', cat: 'steril', catLabel: 'تعقيم', inspected: true, gov: 'الجيزة', maint: 3 }
+];
+var q = (s.q || '').trim();
+var items = ALL.filter(function (x) {
+if (s.st === 'done' && !x.inspected) return false;
+if (s.st === 'order' && x.inspected) return false;
+if (s.cat !== 'all' && x.cat !== s.cat) return false;
+if (s.maint !== 'all' && String(x.maint) !== s.maint) return false;
+if (q && x.title.indexOf(q) === -1 && x.catLabel.indexOf(q) === -1) return false;
+return true;
+}).map(function (x) {
+return {
+title: x.title, catLabel: x.catLabel, gov: x.gov, maint: x.maint,
+inspected: x.inspected, onOrder: !x.inspected,
+photo: x.inspected ? 'صورة من فريق الفحص' : 'صورة من البايع',
+href: x.inspected ? 'Listing-Inspected.dc.html' : 'Listing-OnOrder.dc.html'
+};
+});
+function chips(key, opts) {
+return opts.map(function (o) {
+var on = s[key] === o[0];
+return {
+label: o[1], pressed: on ? 'true' : 'false',
+bg: on ? '#0D5C55' : '#FFFFFF', fg: on ? '#FFFFFF' : '#12221F', bd: on ? '#0D5C55' : '#C9D4CF',
+pick: function () { var u = {}; u[key] = o[0]; self.setState(u); }
+};
+});
+}
+var n = items.length;
+return {
+items: items,
+hasItems: n > 0,
+empty: n === 0,
+countLabel: n === 1 ? 'جهاز واحد متاح' : n + ' أجهزة متاحة',
+q: s.q,
+gov: s.gov,
+stateChips: chips('st', [['all', 'الكل'], ['done', 'تم الفحص'], ['order', 'يُفحص عند الطلب']]),
+catChips: chips('cat', [['all', 'الكل'], ['unit', 'يونيت'], ['xray', 'أشعة'], ['steril', 'تعقيم'], ['endo', 'إندو وجراحة']]),
+maintChips: chips('maint', [['all', 'الكل'], ['3', '3 شهور'], ['6', '6 شهور']]),
+onQ: function (e) { self.setState({ q: e.target.value }); },
+onGov: function (e) { self.setState({ gov: e.target.value }); },
+reset: function () { self.setState({ st: 'all', cat: 'all', maint: 'all', gov: 'all', q: '' }); }
+};
+}
+}
+</script>
+</body>
+</html>
