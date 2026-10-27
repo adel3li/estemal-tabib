@@ -10,7 +10,7 @@ export function SellerTerms() {
   return (
     <>
     <div id="tm-panel-sell" role="tabpanel" aria-labelledby="tm-tab-sell" style={{ display: "flex", flexWrap: "wrap", gap: 28, alignItems: "flex-start" }}>
-      <aside style={{ flex: "1 1 260px", minWidth: 0, position: "sticky", top: 88, display: "flex", flexDirection: "column", gap: 14 }}>
+      <aside className="tm-aside" style={{ minWidth: 0, gap: 14 }}>
         <nav className="tm-toc" aria-label="محتويات شروط البايع" style={{ padding: 18, borderRadius: 20, background: "#FFFFFF", border: "1px solid #DCE3DF", display: "flex", flexDirection: "column", gap: 4 }}>
           <span style={{ padding: "0 8px 6px", fontSize: 13, fontWeight: 700, color: "#4A5A56" }}>المحتويات</span>
           <a href="#tm-s1" style={{ padding: "8px 10px", borderRadius: 12, display: "flex", alignItems: "center", gap: 10, fontSize: 15, fontWeight: 500 }}>
@@ -34,42 +34,42 @@ export function SellerTerms() {
           <span style={{ fontSize: 13, fontWeight: 700, color: "#FFFFFF" }}>أرقام مهمة</span>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 10, paddingBottom: 8, borderBottom: "1px solid #2E5650" }}>
             <span style={{ fontSize: 14 }}>رسوم جدية العرض</span>
-            <span style={{ fontSize: 18, fontWeight: 700, color: "#F2A33A", whiteSpace: "nowrap" }}>{SELLER_FEE} جنيه</span>
+            <span style={{ fontSize: 18, fontWeight: 700, color: "#F2A33A", whiteSpace: "nowrap", flex: "none" }}>{SELLER_FEE} جنيه</span>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 10, paddingBottom: 8, borderBottom: "1px solid #2E5650" }}>
             <span style={{ fontSize: 14 }}>أقل مدة عرض</span>
-            <span style={{ fontSize: 18, fontWeight: 700, color: "#F2A33A", whiteSpace: "nowrap" }}>{MIN_DAYS} أيام</span>
+            <span style={{ fontSize: 18, fontWeight: 700, color: "#F2A33A", whiteSpace: "nowrap", flex: "none" }}>{MIN_DAYS} أيام</span>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 10, paddingBottom: 8, borderBottom: "1px solid #2E5650" }}>
             <span style={{ fontSize: 14 }}>تسليم المنتج بعد طلب الشراء</span>
-            <span style={{ fontSize: 18, fontWeight: 700, color: "#F2A33A", whiteSpace: "nowrap" }}>3 أيام عمل</span>
+            <span style={{ fontSize: 18, fontWeight: 700, color: "#F2A33A", whiteSpace: "nowrap", flex: "none" }}>3 أيام عمل</span>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 10 }}>
             <span style={{ fontSize: 14 }}>حفظ الثمن بعد استلام المشتري</span>
-            <span style={{ fontSize: 18, fontWeight: 700, color: "#F2A33A", whiteSpace: "nowrap" }}>{DAYS} أيام</span>
+            <span style={{ fontSize: 18, fontWeight: 700, color: "#F2A33A", whiteSpace: "nowrap", flex: "none" }}>{DAYS} أيام</span>
           </div>
         </div>
       </aside>
       <div style={{ flex: "999 1 560px", minWidth: 0, display: "flex", flexDirection: "column", gap: 18 }}>
-        <article id="tm-s1" className="tm-art" style={{ padding: 28, borderRadius: 24, background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexDirection: "column", gap: 14 }}>
+        <article id="tm-s1" className="tm-art" style={{ borderRadius: 24, background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexDirection: "column", gap: 14 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
             <span style={{ position: "relative", flex: "none", width: 52, height: 52, borderRadius: 16, background: "#E3F0ED", color: "#0D5C55", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="6" y="4" width="12" height="17" rx="2" /><path d="M9 4V3h6v1" /><path d="M9 12l2 2 4-4" /></svg>
               <span aria-hidden="true" style={{ position: "absolute", top: -6, left: -6, width: 22, height: 22, borderRadius: 999, background: "#0D5C55", color: "#FFFFFF", fontSize: 12, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid #FFFFFF" }}>١</span>
             </span>
-            <h2 style={{ margin: 0, fontSize: 22, lineHeight: 1.4 }}>١. شروط العرض والجدية</h2>
+            <h2 className="tm-h2" style={{ margin: 0, lineHeight: 1.4 }}>١. شروط العرض والجدية</h2>
           </div>
-          <p style={{ margin: 0, padding: "14px 16px", borderRadius: 14, background: "#F7FAF8", border: "1px solid #E5EBE8" }}>
+          <p className="tm-p" style={{ margin: 0, borderRadius: 14, background: "#F7FAF8", border: "1px solid #E5EBE8" }}>
             <strong>التزام العرض:</strong>
             {" "}عرضك للمنتج يُعد موافقة رسمية على إتاحته للعرض على المنصة لمدة لا تقل عن{" "}
             <span className="tm-num">أسبوع ({MIN_DAYS} أيام)</span>
             .
           </p>
-          <p style={{ margin: 0, padding: "14px 16px", borderRadius: 14, background: "#F7FAF8", border: "1px solid #E5EBE8" }}>
+          <p className="tm-p" style={{ margin: 0, borderRadius: 14, background: "#F7FAF8", border: "1px solid #E5EBE8" }}>
             <strong>توافر المنتج:</strong>
             {" "}يُعتبر المنتج متاحاً للبيع طالما لم يقم البائع بإزالته أو تحديث حالته عبر المنصة.
           </p>
-          <p style={{ margin: 0, padding: "14px 16px", borderRadius: 14, background: "#F7FAF8", border: "1px solid #E5EBE8" }}>
+          <p className="tm-p" style={{ margin: 0, borderRadius: 14, background: "#F7FAF8", border: "1px solid #E5EBE8" }}>
             <strong>رسوم جدية العرض:</strong>
             {" "}يتم سداد مبلغ{" "}
             <span className="tm-num">{SELLER_FEE} جنيه</span>
@@ -110,28 +110,28 @@ export function SellerTerms() {
             </div>
           </div>
         </article>
-        <article id="tm-s2" className="tm-art" style={{ padding: 28, borderRadius: 24, background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexDirection: "column", gap: 14 }}>
+        <article id="tm-s2" className="tm-art" style={{ borderRadius: 24, background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexDirection: "column", gap: 14 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
             <span style={{ position: "relative", flex: "none", width: 52, height: 52, borderRadius: 16, background: "#E6EDF7", color: "#24508F", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" /><circle cx="12" cy="12" r="3" /></svg>
               <span aria-hidden="true" style={{ position: "absolute", top: -6, left: -6, width: 22, height: 22, borderRadius: 999, background: "#24508F", color: "#FFFFFF", fontSize: 12, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid #FFFFFF" }}>٢</span>
             </span>
-            <h2 style={{ margin: 0, fontSize: 22, lineHeight: 1.4 }}>٢. الشفافية ووصف الجهاز</h2>
+            <h2 className="tm-h2" style={{ margin: 0, lineHeight: 1.4 }}>٢. الشفافية ووصف الجهاز</h2>
           </div>
-          <p style={{ margin: 0, padding: "14px 16px", borderRadius: 14, background: "#F7FAF8", border: "1px solid #E5EBE8" }}>
+          <p className="tm-p" style={{ margin: 0, borderRadius: 14, background: "#F7FAF8", border: "1px solid #E5EBE8" }}>
             <strong>دقة الوصف والمرفقات:</strong>
             {" "}يلتزم البائع بذكر كافة التفاصيل الفنية، وعمر الجهاز، وعدد ساعات التشغيل (إن وجدت)، وتاريخ آخر صيانة، وتوضيح أي عيوب ظاهرة أو خفية بكل أمانة.
           </p>
-          <p style={{ margin: 0, padding: "14px 16px", borderRadius: 14, background: "#F7FAF8", border: "1px solid #E5EBE8" }}>
+          <p className="tm-p" style={{ margin: 0, borderRadius: 14, background: "#F7FAF8", border: "1px solid #E5EBE8" }}>
             <strong>الصور والفيديوهات:</strong>
             {" "}يجب على البائع إرفاق صور وفيديوهات حديثة وواضحة للجهاز أثناء عمله، وتصوير كافة الملحقات والعيوب إن وجدت.
           </p>
-          <p style={{ margin: 0, padding: "14px 16px", borderRadius: 14, background: "#F7FAF8", border: "1px solid #E5EBE8" }}>
+          <p className="tm-p" style={{ margin: 0, borderRadius: 14, background: "#F7FAF8", border: "1px solid #E5EBE8" }}>
             <strong>الملكية:</strong>
             {" "}يقر البائع بأنه المالك القانوني للمعدة أو يمتلك تفويضاً رسمياً ببيعها، وأنها غير مرهونة أو محل نزاع.
           </p>
         </article>
-        <article id="tm-s3" className="tm-art" style={{ padding: 28, borderRadius: 24, background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexDirection: "column", gap: 14 }}>
+        <article id="tm-s3" className="tm-art" style={{ borderRadius: 24, background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexDirection: "column", gap: 14 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
             <span style={{ position: "relative", flex: "none", width: 52, height: 52, borderRadius: 16, background: "#FBEEDC", color: "#C46A12", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -142,42 +142,42 @@ export function SellerTerms() {
               </svg>
               <span aria-hidden="true" style={{ position: "absolute", top: -6, left: -6, width: 22, height: 22, borderRadius: 999, background: "#C46A12", color: "#FFFFFF", fontSize: 12, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid #FFFFFF" }}>٣</span>
             </span>
-            <h2 style={{ margin: 0, fontSize: 22, lineHeight: 1.4 }}>٣. الشحن والتسليم والإرجاع</h2>
+            <h2 className="tm-h2" style={{ margin: 0, lineHeight: 1.4 }}>٣. الشحن والتسليم والإرجاع</h2>
           </div>
-          <p style={{ margin: 0, padding: "14px 16px", borderRadius: 14, background: "#F7FAF8", border: "1px solid #E5EBE8" }}>
+          <p className="tm-p" style={{ margin: 0, borderRadius: 14, background: "#F7FAF8", border: "1px solid #E5EBE8" }}>
             <strong>التغليف الآمن:</strong>
             {" "}البائع مسؤول عن تغليف الجهاز بشكل آمن ومناسب لطبيعة الأجهزة الطبية الحساسة قبل تسليمه لشركة الشحن أو مندوب الفحص.
           </p>
-          <p style={{ margin: 0, padding: "14px 16px", borderRadius: 14, background: "#F7FAF8", border: "1px solid #E5EBE8" }}>
+          <p className="tm-p" style={{ margin: 0, borderRadius: 14, background: "#F7FAF8", border: "1px solid #E5EBE8" }}>
             <strong>فترة الحماية والاسترجاع:</strong>
             {" "}يُحفظ ثمن المنتج لدى المنصة لمدة{" "}
             <span className="tm-num">{DAYS} أيام</span>
             {" "}من تاريخ استلام المشتري له، وهي الفترة المخصصة للتجربة والفحص التأكيدي. يتم تحويل المبلغ لحساب البائع فور انتهاء الفترة دون تقديم طلب استرجاع مقبول.
           </p>
-          <p style={{ margin: 0, padding: "14px 16px", borderRadius: 14, background: "#F7FAF8", border: "1px solid #E5EBE8" }}>
+          <p className="tm-p" style={{ margin: 0, borderRadius: 14, background: "#F7FAF8", border: "1px solid #E5EBE8" }}>
             <strong>إلغاء البيع المفاجئ:</strong>
             {" "}في حال تراجع البائع عن البيع بعد إتمام المشتري للدفع وقبل الشحن، يُلزم البائع بدفع مصاريف الفحص أو المصاريف الإدارية إن وجدت، بالإضافة لمصادرة رسوم الجدية.
           </p>
         </article>
-        <article id="tm-s4" className="tm-art" style={{ padding: 28, borderRadius: 24, background: "#FFFFFF", border: "2px solid #0D5C55", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexDirection: "column", gap: 14 }}>
+        <article id="tm-s4" className="tm-art" style={{ borderRadius: 24, background: "#FFFFFF", border: "2px solid #0D5C55", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexDirection: "column", gap: 14 }}>
           <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 14 }}>
             <span style={{ position: "relative", flex: "none", width: 52, height: 52, borderRadius: 16, background: "#EAF5DD", color: "#3F7A1F", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 10l9-6 9 6v10H3z" /><path d="M8 20v-6h8v6" /><path d="M8 17h8" /></svg>
               <span aria-hidden="true" style={{ position: "absolute", top: -6, left: -6, width: 22, height: 22, borderRadius: 999, background: "#3F7A1F", color: "#FFFFFF", fontSize: 12, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", border: "2px solid #FFFFFF" }}>٤</span>
             </span>
-            <h2 style={{ margin: 0, fontSize: 22, lineHeight: 1.4 }}>٤. خدمة إيداع الجهاز لدى المنصة</h2>
+            <h2 className="tm-h2" style={{ margin: 0, lineHeight: 1.4 }}>٤. خدمة إيداع الجهاز لدى المنصة</h2>
             <span style={{ padding: "3px 12px", borderRadius: 999, background: "#E3F0ED", color: "#0D5C55", fontSize: 13, fontWeight: 700 }}>اختيارية</span>
           </div>
-          <p style={{ margin: 0, padding: "14px 16px", borderRadius: 14, background: "#F7FAF8", border: "1px solid #E5EBE8" }}>
+          <p className="tm-p" style={{ margin: 0, borderRadius: 14, background: "#F7FAF8", border: "1px solid #E5EBE8" }}>
             <strong>الهدف من الخدمة:</strong>
             {" "}لزيادة فرص بيع الجهاز وتسريع وصوله للمشتري، يحق للبائع إرسال جهازه إلى المنصة، حيث يتم فحصه وحفظه لديها لحين إتمام عملية البيع.
           </p>
-          <p style={{ margin: 0, padding: "14px 16px", borderRadius: 14, background: "#F7FAF8", border: "1px solid #E5EBE8" }}>
+          <p className="tm-p" style={{ margin: 0, borderRadius: 14, background: "#F7FAF8", border: "1px solid #E5EBE8" }}>
             <strong>استرداد الجهاز:</strong>
             {" "}يحق للبائع استرداد جهازه المودَع في أي وقت، بشرط تحمّل تكلفة شحن إعادته إليه.
           </p>
         </article>
-        <Link href={routes.sell} className="tm-cta tm-cta-amber" style={{ alignSelf: "flex-start", minHeight: 54, padding: "0 26px", borderRadius: 14, background: "#F2A33A", color: "#12221F", fontWeight: 700, fontSize: 17, display: "flex", alignItems: "center", gap: 8 }}>
+        <Link href={routes.sell} className="tm-cta tm-cta-amber" style={{ minHeight: 54, padding: "0 26px", borderRadius: 14, background: "#F2A33A", color: "#12221F", fontWeight: 700, fontSize: 17, display: "flex", alignItems: "center", gap: 8 }}>
           اعرض جهازك للبيع
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5" /><path d="M11 6l-6 6 6 6" /></svg>
         </Link>

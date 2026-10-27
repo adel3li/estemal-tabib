@@ -3,7 +3,7 @@
 import { useRef, useState, type ReactNode } from "react";
 import { BUSINESS } from "@/config/business";
 import { fieldId, type Errors, type Media, type VideoPick } from "./form";
-import { CardHead, grid, Msg, Star } from "./ui";
+import { CardHead, Msg, Star } from "./ui";
 
 /** Reads a video's duration in seconds with a detached <video> element. */
 function videoSeconds(file: File): Promise<number> {
@@ -168,7 +168,7 @@ export function SectionMedia({ media, setMedia, err }: { media: Media; setMedia:
         }
       />
       <div className="sl-body">
-        <div style={grid(220, 14)}>
+        <div className="sl-media" style={{ display: "grid", gap: 14 }}>
           <div style={{ display: "flex", flexDirection: "column", gap: 6, minWidth: 0 }}>
             <Tile
               id={fieldId("photos")}

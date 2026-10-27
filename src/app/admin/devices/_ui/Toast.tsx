@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import "./toast.css";
 
 export type ToastTone = "ok" | "bad";
 
@@ -8,11 +9,14 @@ export function Toast({
   tone = "ok",
   onClose,
   closeClass = "al-act",
+  floating = false,
 }: {
   children: ReactNode;
   tone?: ToastTone;
   onClose: () => void;
   closeClass?: string;
+  /** On < 1024px, stick under the admin top bar so the message is seen wherever the user tapped. */
+  floating?: boolean;
 }) {
   const bad = tone === "bad";
   const fg = bad ? "#B3261E" : "#0D5C55";
@@ -20,6 +24,7 @@ export function Toast({
     <div
       role="status"
       aria-live="polite"
+      className={floating ? "tst tst-float" : "tst"}
       style={{
         padding: "12px 16px",
         borderRadius: 14,
@@ -52,10 +57,9 @@ export function Toast({
       <span style={{ flex: 1 }}>{children}</span>
       <button
         type="button"
-        className={closeClass}
+        className={`${closeClass} tst-x`}
         onClick={onClose}
         aria-label="اقفل الرسالة"
-        style={closeClass === "al-act" ? { minHeight: 30, padding: "0 10px" } : { minHeight: 32, padding: "0 10px", fontSize: 13 }}
       >
         ✕
       </button>

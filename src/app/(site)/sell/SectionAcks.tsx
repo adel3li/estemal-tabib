@@ -45,7 +45,7 @@ export function SectionAcks({ f, set, err }: SectionProps) {
           </label>
         ))}
         <Msg k="acks" err={err} />
-        <Link href={routes.terms} style={{ fontWeight: 600, alignSelf: "flex-start" }}>
+        <Link href={routes.terms} className="sl-terms" style={{ fontWeight: 600, alignSelf: "flex-start" }}>
           اقرأ شروط البيع كاملة ←
         </Link>
       </div>
@@ -60,7 +60,7 @@ export function FeeBox({ f, onSubmit }: { f: SectionProps["f"]; onSubmit: () => 
   const fee = BUSINESS.sellerSeriousnessFeeEGP;
   return (
     <aside style={{ minWidth: 0, display: "flex", flexDirection: "column", gap: 16 }}>
-      <div style={{ padding: 28, borderRadius: 24, background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexDirection: "column", gap: 18 }}>
+      <div className="sl-fee" style={{ borderRadius: 24, background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexDirection: "column", gap: 18 }}>
         <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 12, paddingBottom: 16, borderBottom: "1px solid #E5EBE8" }}>
           <span style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <span style={{ width: 48, height: 48, borderRadius: 15, background: "#0D5C55", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>
@@ -72,7 +72,7 @@ export function FeeBox({ f, onSubmit }: { f: SectionProps["f"]; onSubmit: () => 
             </span>
             <span style={{ fontWeight: 700, fontSize: 20 }}>رسوم جدية العرض</span>
           </span>
-          <span style={{ fontWeight: 700, fontSize: 30, color: "#0D5C55" }}>{fee} ج.م</span>
+          <span className="sl-fee-amt">{fee} ج.م</span>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 12 }}>
           <div style={{ padding: "16px 18px", borderRadius: 16, background: "#E3F0ED", border: "1px solid #9CCBC2", display: "flex", flexDirection: "column", gap: 8, fontSize: 14, color: "#0B4A44" }}>
@@ -105,7 +105,7 @@ export function FeeBox({ f, onSubmit }: { f: SectionProps["f"]; onSubmit: () => 
           </svg>
           ثمن الجهاز بيتحولك بعد {BUSINESS.trialDays} أيام من استلام المشتري، لو مفيش طلب استرجاع مقبول.
         </div>
-        <div style={{ padding: 18, borderRadius: 18, background: "#F5F7F4", display: "flex", flexWrap: "wrap", alignItems: "center", gap: "14px 20px" }}>
+        <div className="sl-box" style={{ padding: 18, borderRadius: 18, background: "#F5F7F4", display: "flex", flexWrap: "wrap", alignItems: "center", gap: "14px 20px" }}>
           <div style={{ flex: "1 1 240px", minWidth: 0, display: "flex", flexDirection: "column", gap: 8 }}>
             <span style={{ display: "flex", justifyContent: "space-between", gap: 10, fontSize: 14, fontWeight: 600, color: "#3C4C48" }}>
               <span>الإقرارات</span>

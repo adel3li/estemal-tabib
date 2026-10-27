@@ -80,13 +80,13 @@ export default function AdminDevicesPage() {
     <>
       <ListingArtDefs />
 
-      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-end", gap: 16 }}>
+      <div className="al-head" style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-end", gap: 16 }}>
         <div>
           <div style={{ fontSize: 14, color: "#4A5A56" }}>لوحة التحكم › الأجهزة › الأجهزة المعروضة</div>
-          <h1 style={{ margin: 0, fontSize: 30, lineHeight: 1.3 }}>الأجهزة المعروضة</h1>
+          <h1 className="al-h1" style={{ margin: 0, lineHeight: 1.3 }}>الأجهزة المعروضة</h1>
           <div style={{ color: "#4A5A56" }}>كل الأجهزة اللي على المنصة، سواء ملك الشركة أو بالنيابة عن بايع. دوس على أي جهاز عشان تشوف تفاصيله.</div>
         </div>
-        <Link href={routes.admin.newDevice} className="ad-btn ad-pri" style={{ color: "#FFFFFF" }}>
+        <Link href={routes.admin.newDevice} className="ad-btn ad-pri al-add" style={{ color: "#FFFFFF" }}>
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
             <path d="M12 5v14M5 12h14" />
           </svg>
@@ -120,14 +120,14 @@ export default function AdminDevicesPage() {
       </div>
 
       {toast ? (
-        <Toast tone={toast.tone} onClose={() => setToast(null)}>
+        <Toast tone={toast.tone} onClose={() => setToast(null)} floating>
           {toast.text}
         </Toast>
       ) : null}
 
-      <section className="ad-card" aria-label="قائمة الأجهزة" style={{ padding: "18px 20px", gap: 14 }}>
+      <section className="ad-card al-card" aria-label="قائمة الأجهزة" style={{ gap: 14 }}>
         <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
-          <div role="tablist" aria-label="حالة الإعلان" style={{ display: "flex", flexWrap: "wrap", gap: 4, padding: 4, borderRadius: 14, background: "#F5F7F4" }}>
+          <div role="tablist" aria-label="حالة الإعلان" className="al-tabs" style={{ gap: 4, padding: 4, borderRadius: 14, background: "#F5F7F4" }}>
             {TABS.map(([key, label]) => {
               const on = tab === key;
               return (
@@ -159,7 +159,7 @@ export default function AdminDevicesPage() {
               );
             })}
           </div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 10, alignItems: "center" }}>
+          <div className="al-filters">
             <label className="al-search-wrap" style={{ position: "relative", display: "block" }}>
               <span style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }}>ابحث في الأجهزة</span>
               <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4A5A56" strokeWidth="2" strokeLinecap="round" style={{ position: "absolute", top: 14, right: 12 }}>
@@ -172,20 +172,20 @@ export default function AdminDevicesPage() {
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
                 placeholder="اسم الجهاز، النوع، أو رقم الإعلان"
-                style={{ width: 280, paddingRight: 38 }}
+                style={{ paddingRight: 38 }}
               />
             </label>
-            <label className="ad-field" style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+            <label className="ad-field al-filter" style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
               <span style={{ whiteSpace: "nowrap" }}>الفحص</span>
-              <select className="ad-in" value={insp} onChange={(e) => setInsp(e.target.value as typeof insp)} style={{ width: 170 }}>
+              <select className="ad-in al-w170" value={insp} onChange={(e) => setInsp(e.target.value as typeof insp)}>
                 <option value="all">الكل</option>
                 <option value="inspected">تم الفحص</option>
                 <option value="on_order">يُفحص عند الطلب</option>
               </select>
             </label>
-            <label className="ad-field" style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
+            <label className="ad-field al-filter" style={{ flexDirection: "row", alignItems: "center", gap: 8 }}>
               <span style={{ whiteSpace: "nowrap" }}>المصدر</span>
-              <select className="ad-in" value={src} onChange={(e) => setSrc(e.target.value as typeof src)} style={{ width: 130 }}>
+              <select className="ad-in al-w130" value={src} onChange={(e) => setSrc(e.target.value as typeof src)}>
                 <option value="all">الكل</option>
                 <option value="company">الشركة</option>
                 <option value="seller">بايع</option>
@@ -203,7 +203,7 @@ export default function AdminDevicesPage() {
           بيظهر {rows.length} من {items.length} جهاز
         </div>
 
-        <div style={{ position: "relative", minHeight: 640 }}>
+        <div className="al-listwrap" style={{ position: "relative" }}>
           <div style={{ overflowX: "auto" }}>
             <div className="al-tbl" role="table" aria-label="الأجهزة">
               <div className="al-thead" role="rowgroup">

@@ -15,3 +15,65 @@
 .in-x:hover{background:#F5F7F4}
 .in-file{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
 .in-drop:focus-within{outline:3px solid rgba(13,92,85,.35);outline-offset:2px}
+
+/* ── Layout hooks (desktop values = the design) ── */
+.in-h1{font-size:30px}
+.in-search{display:flex;align-items:center;gap:8px;min-width:280px}
+.in-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.in-kpi-v{font-size:34px}
+.in-days{display:flex;gap:8px;overflow-x:auto;padding-bottom:2px;-webkit-overflow-scrolling:touch}
+.in-tabs{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.in-when{display:flex;flex-direction:column;align-items:flex-start;min-width:92px;line-height:1.4}
+.in-tech{display:flex;flex-direction:column;gap:2px;font-size:12px;font-weight:600;color:#4A5A56}
+.in-aside{flex:1 1 420px;min-width:0;position:sticky;top:20px;display:flex;flex-direction:column;gap:14px;scroll-margin-top:84px}
+.in-row{scroll-margin-top:84px}
+.in-back{display:none}
+.in-meta{display:grid;grid-template-columns:1fr 1fr;gap:8px 14px;padding:12px 14px;border-radius:14px;background:#F5F7F4;font-size:14px}
+.in-check-btns{display:flex;gap:6px}
+.in-note{min-height:40px;font-size:14px}
+.in-actions{display:flex;flex-wrap:wrap;gap:10px}
+
+/* ── Tablets & phones ── */
+@media (max-width: 1023px){
+  .in-kpis{grid-template-columns:1fr 1fr}
+  .in-aside{position:static}
+  .in-mini{min-height:44px;font-size:14px}
+  .in-x{width:44px;height:44px}
+  .in-tabs .ad-chip{min-height:44px}
+  .in-sel{min-height:44px}
+  .in-note{min-height:46px}
+  .in-day{min-height:72px}
+  .in-days,.in-tabs{scrollbar-width:none}
+  .in-days::-webkit-scrollbar,.in-tabs::-webkit-scrollbar{display:none}
+  .in-back{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;min-height:44px;padding:0 14px;margin:-6px 0 -4px;border-radius:12px;border:1px solid #C9D4CF;background:#F5F7F4;font:inherit;font-size:15px;font-weight:700;color:#0D5C55;cursor:pointer}
+  .in-panel,.in-list{padding:20px 16px}
+  .in-kpi:hover,.in-row:hover{box-shadow:none}
+}
+
+/* ── Phones ── */
+@media (max-width: 767px){
+  .in-h1{font-size:24px}
+  .in-search{min-width:0;flex:1 1 100%}
+  .in-kpis{grid-template-columns:1fr 1fr;gap:10px}
+  .in-kpi{padding:12px 14px;border-radius:16px}
+  .in-kpi-v{font-size:28px}
+  .in-days{scroll-snap-type:x proximity;margin-inline:-4px;padding-inline:4px}
+  .in-day{flex:0 0 76px;min-width:76px;scroll-snap-align:start}
+  .in-tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;margin-inline:-4px;padding:2px 4px}
+  .in-tabs > *{flex:none;white-space:nowrap}
+  .in-row{gap:10px;padding:12px}
+  .in-open{flex:1 1 100%}
+  .in-when{flex-direction:row;align-items:baseline;gap:8px;min-width:0;flex:1 1 100%}
+  .in-tech{flex:1 1 100%}
+  .in-tech .in-sel{width:100%}
+  .in-meta{grid-template-columns:auto 1fr;font-size:15px}
+  .in-check-btns{width:100%;gap:8px}
+  .in-check-btns .in-mini{flex:1 1 0}
+  .in-actions{flex-direction:column}
+  .in-actions .ad-btn{flex:none !important;width:100%}
+}
+
+/* Toast stays visible under the admin top bar on touch layouts (actions sit far below it). */
+@media (max-width: 1023px){
+  .in-toast{position:sticky;top:calc(72px + env(safe-area-inset-top));z-index:20;box-shadow:0 10px 24px rgba(18,34,31,.14)}
+}

@@ -83,7 +83,7 @@ export function SectionCondition({ f, set, err }: SectionProps) {
           <span style={{ fontSize: 13, color: "#4A5A56" }}>تقديرك المبدئي، والفحص هو اللي بيحدد الحالة النهائية.</span>
         </fieldset>
 
-        <div style={{ padding: 20, borderRadius: 18, border: "2px solid #0D5C55", background: "#F2F8F6", display: "flex", flexDirection: "column", gap: 12 }}>
+        <div className="sl-box" style={{ padding: 20, borderRadius: 18, border: "2px solid #0D5C55", background: "#F2F8F6", display: "flex", flexDirection: "column", gap: 12 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <span style={{ width: 40, height: 40, borderRadius: 12, background: "#0D5C55", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>
               <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">

@@ -33,9 +33,11 @@ export function FeePanel({ p, onSet }: { p: Submission; onSet: (status: Submissi
           value={ref}
           onChange={(e) => setRef(e.target.value)}
           placeholder="[IPN-xxxxxxxx]"
+          autoComplete="off"
+          enterKeyHint="done"
         />
       </label>
-      <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+      <div className="sb-subacts">
         {p.feeStatus !== "paid" && !fixed ? (
           <button type="button" className="sb-act sb-ok" onClick={() => onSet("paid", ref.trim())}>
             علّم إنها اتدفعت

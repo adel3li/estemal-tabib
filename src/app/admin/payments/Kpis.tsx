@@ -20,7 +20,7 @@ export function Kpis({ pays }: { pays: Payment[] }) {
   });
   const dep = BUSINESS.buyerReservationDepositEGP;
   return (
-    <section aria-label="ملخص المدفوعات" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: 14 }}>
+    <section aria-label="ملخص المدفوعات" className="pm-kpis">
       <div className="pm-kpi" style={{ borderColor: "#9CCBC2" }}>
         <span className="pm-kpi-l"><Ic bg="#E3F0ED" fg="#0D5C55"><rect x="5" y="11" width="14" height="9" rx="2" /><path d="M8 11V8a4 4 0 0 1 8 0v3" /></Ic>فلوس محفوظة دلوقتي</span>
         <span className="pm-kpi-v">{fmt(heldSum)} <Unit /></span>

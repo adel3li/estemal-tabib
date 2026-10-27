@@ -10,12 +10,12 @@ const col = { flex: "1 1 150px", minWidth: 0, display: "flex", flexDirection: "c
 
 export function SiteFooter() {
   return (
-    <footer style={{ background: "#0F2A26", color: "#C3D3CE" }}>
+    <footer className="site-footer" style={{ background: "#0F2A26", color: "#C3D3CE" }}>
       <div
         style={{
           maxWidth: 1200,
           margin: "0 auto",
-          padding: "52px 20px 24px",
+          padding: "52px 20px calc(24px + env(safe-area-inset-bottom))",
           display: "flex",
           flexDirection: "column",
           gap: 36,

@@ -11,6 +11,7 @@ type Props = {
   onSend: () => void;
   onClose: () => void;
   onReopen: () => void;
+  onBack: () => void;
 };
 
 const Cell = ({ label, children, ltr }: { label: string; children: React.ReactNode; ltr?: boolean }) => (
@@ -20,12 +21,16 @@ const Cell = ({ label, children, ltr }: { label: string; children: React.ReactNo
   </div>
 );
 
-export function RequestDetail({ r, matches: m, onSend, onClose, onReopen }: Props) {
+export function RequestDetail({ r, matches: m, onSend, onClose, onReopen, onBack }: Props) {
   const [stTxt, stBg, stFg] = ST[r.status];
   const [pref, prefBg, prefFg] = prefOf(r);
   const isClosed = r.status === "closed";
   return (
-    <div className="ad-card">
+    <div className="ad-card rq-panel">
+      <button type="button" className="rq-back" onClick={onBack}>
+        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 6l6 6-6 6" /></svg>
+        رجوع للقائمة
+      </button>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 10 }}>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <span className="rq-sub">طلب #{r.id} · {r.createdAt}</span>
@@ -46,7 +51,7 @@ export function RequestDetail({ r, matches: m, onSend, onClose, onReopen }: Prop
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-        <div style={{ fontWeight: 700, display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div style={{ fontWeight: 700, display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", columnGap: 8 }}>
           <span>أجهزة مطابقة ({m.length})</span>
           <span className="rq-sub" style={{ fontWeight: 400, fontSize: 12 }}>نفس النوع وفي حدود الميزانية</span>
         </div>
@@ -56,7 +61,7 @@ export function RequestDetail({ r, matches: m, onSend, onClose, onReopen }: Prop
             <div key={d.id} className="rq-match">
               <RqIcon type={d.type} />
               <span style={{ flex: "1 1 auto", minWidth: 0, display: "flex", flexDirection: "column", lineHeight: 1.45 }}>
-                <span style={{ fontWeight: 700, fontSize: 15 }}>{d.title}</span>
+                <span style={{ fontWeight: 700, fontSize: 15, overflowWrap: "anywhere" }}>{d.title}</span>
                 <span className="rq-sub" style={{ fontSize: 12 }}>{d.governorate} · {condTxt(d)}</span>
                 <span>
                   <span className="rq-pill" style={{ background: done ? "#0D5C55" : "#E6EDF7", color: done ? "#FFFFFF" : "#24508F", marginTop: 2 }}>
@@ -66,7 +71,7 @@ export function RequestDetail({ r, matches: m, onSend, onClose, onReopen }: Prop
               </span>
               <span style={{ flex: "none", display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 2 }}>
                 <span style={{ fontWeight: 700 }}>{fmt(d.price)} <span className="rq-sub" style={{ fontSize: 12 }}>ج.م</span></span>
-                <Link href={routes.device(d.id)} style={{ fontSize: 13, fontWeight: 600 }}>الإعلان ←</Link>
+                <Link href={routes.device(d.id)} className="rq-adlink">الإعلان ←</Link>
               </span>
             </div>
           );
@@ -81,7 +86,7 @@ export function RequestDetail({ r, matches: m, onSend, onClose, onReopen }: Prop
       {m.length > 0 ? (
         <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
           <span style={{ fontWeight: 600, fontSize: 14 }}>الرسالة اللي هتتبعت</span>
-          <div style={{ padding: "12px 14px", borderRadius: "14px 14px 4px 14px", background: "#E3F0ED", fontSize: 14, color: "#12221F", whiteSpace: "pre-line", overflowWrap: "anywhere" }}>
+          <div className="rq-msg" style={{ padding: "12px 14px", borderRadius: "14px 14px 4px 14px", background: "#E3F0ED", color: "#12221F", whiteSpace: "pre-line", overflowWrap: "anywhere" }}>
             {waMessage(r, m, (id) => `\u2066${routes.device(id)}\u2069`)}
           </div>
         </div>

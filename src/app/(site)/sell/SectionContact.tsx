@@ -62,7 +62,7 @@ export function SectionContact({ f, set, err }: SectionProps) {
           </label>
           <label className="sl-field">
             <span>رقم الموبايل (واتساب)<Star /></span>
-            <input type="tel" placeholder="01xxxxxxxxx" {...bad("phone", err)} dir="ltr" style={{ textAlign: "right" }} autoComplete="tel" inputMode="tel" value={f.phone} onChange={(e) => set({ phone: e.target.value })} required />
+            <input type="tel" placeholder="01xxxxxxxxx" {...bad("phone", err)} dir="ltr" style={{ textAlign: "right" }} autoComplete="tel" inputMode="tel" enterKeyHint="next" value={f.phone} onChange={(e) => set({ phone: e.target.value })} required />
             <Msg k="phone" err={err} />
           </label>
           <label className="sl-field">
@@ -76,7 +76,7 @@ export function SectionContact({ f, set, err }: SectionProps) {
           </label>
           <label className="sl-field">
             <span>عنوان استلام الجهاز للفحص<Star /></span>
-            <input type="text" placeholder="العيادة أو البيت" {...bad("pickupAddress", err)} autoComplete="street-address" value={f.pickupAddress} onChange={(e) => set({ pickupAddress: e.target.value })} required />
+            <input type="text" placeholder="العيادة أو البيت" {...bad("pickupAddress", err)} autoComplete="street-address" enterKeyHint="done" value={f.pickupAddress} onChange={(e) => set({ pickupAddress: e.target.value })} required />
             <Msg k="pickupAddress" err={err} />
           </label>
         </div>
@@ -108,10 +108,10 @@ export function SectionContact({ f, set, err }: SectionProps) {
             <span dir="ltr" style={{ fontSize: 13, color: "#3C4C48" }}>
               {f.lat}, {f.lng}
             </span>
-            <a href={`https://www.google.com/maps?q=${f.lat},${f.lng}`} target="_blank" rel="noopener noreferrer" style={{ fontWeight: 600 }}>
+            <a className="sl-maplink" href={`https://www.google.com/maps?q=${f.lat},${f.lng}`} target="_blank" rel="noopener noreferrer" style={{ fontWeight: 600 }}>
               شوفه على الخريطة
             </a>
-            <button type="button" onClick={() => set({ lat: undefined, lng: undefined })} style={{ minHeight: 36, padding: "0 12px", border: 0, background: "transparent", color: "#0B4A44", font: "inherit", textDecoration: "underline", cursor: "pointer" }}>
+            <button type="button" className="sl-change" onClick={() => set({ lat: undefined, lng: undefined })} style={{ padding: "0 12px", border: 0, background: "transparent", color: "#0B4A44", font: "inherit", textDecoration: "underline", cursor: "pointer" }}>
               غيّر
             </button>
           </div>

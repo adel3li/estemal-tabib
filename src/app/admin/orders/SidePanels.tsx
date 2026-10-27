@@ -18,7 +18,7 @@ export function Contacts({ o }: { o: Order }) {
   return (
     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 }}>
       {people.map((c) => (
-        <div key={c.role} style={{ padding: 16, borderRadius: 18, border: "1px solid #DCE3DF", display: "flex", flexDirection: "column", gap: 10 }}>
+        <div key={c.role} className="or-box" style={{ padding: 16, borderRadius: 18, border: "1px solid #DCE3DF", display: "flex", flexDirection: "column", gap: 10 }}>
           <span style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <span style={{ width: 40, height: 40, borderRadius: 999, background: c.bg, color: c.fg, display: "flex", alignItems: "center", justifyContent: "center", fontWeight: 700, flex: "none" }}>{c.initial}</span>
             <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.4 }}>
@@ -74,22 +74,22 @@ export function ActivityLog({ o, onAdd }: { o: Order; onAdd: (txt: string) => vo
     setNote("");
   };
   return (
-    <div style={{ padding: 16, borderRadius: 18, border: "1px solid #DCE3DF", display: "flex", flexDirection: "column", gap: 10 }}>
+    <div className="or-box" style={{ padding: 16, borderRadius: 18, border: "1px solid #DCE3DF", display: "flex", flexDirection: "column", gap: 10 }}>
       <h3 style={{ margin: 0, fontSize: 16, fontWeight: 700 }}>سجل النشاط</h3>
       <div style={{ display: "flex", gap: 8 }}>
-        <label style={{ flex: 1 }}>
+        <label style={{ flex: 1, minWidth: 0 }}>
           <span style={{ position: "absolute", width: 1, height: 1, overflow: "hidden" }}>ملاحظة جديدة</span>
           <input
             type="text"
-            className="ad-in"
-            style={{ minHeight: 40, fontSize: 14 }}
+            className="ad-in or-note"
+            enterKeyHint="send"
             value={note}
             onChange={(e) => setNote(e.target.value)}
             onKeyDown={(e) => { if (e.key === "Enter") add(); }}
             placeholder="اكتب ملاحظة للفريق"
           />
         </label>
-        <button type="button" className="or-mini" onClick={add} style={{ border: 0, background: "#0D5C55", color: "#FFFFFF", minHeight: 40 }}>أضف</button>
+        <button type="button" className="or-mini or-add" onClick={add} style={{ border: 0, background: "#0D5C55", color: "#FFFFFF" }}>أضف</button>
       </div>
       <ol style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 0 }}>
         {o.log.map((l, i) => (

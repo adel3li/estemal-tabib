@@ -18,7 +18,7 @@ export function PriceCard({ d }: { d: Device }) {
   const subtitle = brandModel(d);
 
   return (
-    <div style={{ padding: 26, borderRadius: 24, background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexDirection: "column", gap: 18 }}>
+    <div className="li-card" style={{ borderRadius: 24, background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexDirection: "column", gap: 18 }}>
       <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
           <span style={pill}>{typeLabel(d.type)}</span>
@@ -32,7 +32,7 @@ export function PriceCard({ d }: { d: Device }) {
             </span>
           ) : null}
         </div>
-        <h1 style={{ margin: 0, fontSize: 28, lineHeight: 1.35 }}>{d.title} — {subtitle}</h1>
+        <h1 className="li-h1" style={{ margin: 0, lineHeight: 1.35 }}>{d.title} — {subtitle}</h1>
         {inspected ? (
           <div style={{ color: "#4A5A56", fontSize: 15 }}>سنة الصنع {d.year} · بلد المنشأ {d.origin} · الجهاز في {d.governorate}</div>
         ) : null}
@@ -45,7 +45,7 @@ export function PriceCard({ d }: { d: Device }) {
       ) : null}
 
       <div style={{ display: "flex", flexDirection: "column", gap: 6, paddingBottom: 16, borderBottom: "1px solid #E5EBE8" }}>
-        <span style={{ fontSize: 34, fontWeight: 700, lineHeight: 1.2 }}>
+        <span className="li-price" style={{ fontWeight: 700, lineHeight: 1.2 }}>
           {fmt(d.price)} <span style={{ fontSize: 18, fontWeight: 600, color: "#4A5A56" }}>ج.م</span>
         </span>
         <span style={{ alignSelf: "flex-start", padding: "4px 12px", borderRadius: 999, background: "#E3F0ED", color: "#0D5C55", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
@@ -120,7 +120,7 @@ export function PriceCard({ d }: { d: Device }) {
         </div>
       )}
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+      <div id="li-order-actions" style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         {unavailable ? (
           <button type="button" disabled className="li-cta" style={{ minHeight: 56, border: 0, borderRadius: 14, color: "#FFFFFF", font: "inherit", fontWeight: 700, fontSize: 18 }}>
             {d.status === "sold" ? "الجهاز ده اتباع" : "الجهاز ده محجوز دلوقتي"}
@@ -133,7 +133,7 @@ export function PriceCard({ d }: { d: Device }) {
           </a>
         )}
         <div style={{ fontSize: 14, color: "#4A5A56", textAlign: "center" }}>
-          تقدر تحجز الجهاز بـ {fmt(BUSINESS.buyerReservationDepositEGP)} ج.م بس، وبتتخصم من سعره. <Link href={routes.termsBuyer} style={{ fontWeight: 600 }}>شروط الشراء</Link>
+          تقدر تحجز الجهاز بـ {fmt(BUSINESS.buyerReservationDepositEGP)} ج.م بس، وبتتخصم من سعره. <Link href={routes.termsBuyer} className="li-inline-link" style={{ fontWeight: 600 }}>شروط الشراء</Link>
         </div>
         <a href={waLink(askMessage(d))} target="_blank" rel="noopener noreferrer" className="li-ghost" style={{ minHeight: 48, borderRadius: 14, border: "1px solid #C9D4CF", color: "#12221F", fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
           <svg {...ic(20)}><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7L4 20z" /></svg>اسأل على واتساب

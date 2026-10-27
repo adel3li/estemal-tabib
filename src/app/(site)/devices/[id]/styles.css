@@ -9,3 +9,85 @@
 .li-ghost:hover{background:#F5F7F4;color:#12221F}
 .li-row{transition:background .15s ease}
 .li-row:hover{background:#F8FAF9}
+
+/* ---- Responsive (desktop values first; ≥1024 matches the design) ---- */
+.li-layout{display:grid;grid-template-columns:minmax(0,1fr) 380px;grid-template-rows:auto 1fr;grid-template-areas:"gal aside" "data aside";column-gap:32px;row-gap:14px;align-items:start}
+.li-gal{grid-area:gal}
+.li-data{grid-area:data}
+.li-aside{grid-area:aside;position:sticky;top:88px}
+.li-card{padding:26px}
+.li-h1{font-size:28px;overflow-wrap:anywhere}
+.li-price{font-size:34px;overflow-wrap:anywhere}
+.li-thumbs{display:grid;gap:10px}
+.li-dbox{padding:24px}
+.li-dgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
+.li-panel{padding:32px 34px}
+.li-h2{font-size:28px}
+.li-h2s{font-size:24px}
+.li-sums{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.li-sum{padding:18px;gap:14px;align-items:center}
+.li-sum-v{font-size:22px}
+.li-check{padding:13px 18px}
+.li-check-h{padding:12px 18px}
+.li-defect-img{width:180px}
+.li-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.li-step{padding:20px}
+.li-bar{display:none}
+
+@media (max-width: 1023px){
+  .li-layout{grid-template-columns:minmax(0,1fr);grid-template-rows:none;grid-template-areas:"gal" "aside" "data";row-gap:20px}
+  .li-aside{position:static}
+  .li-data > *{margin-top:0 !important}
+  .li-jump{min-height:44px}
+}
+
+@media (max-width: 767px){
+  .li-layout{padding:14px 16px 32px !important;row-gap:16px}
+  .li-crumbs{padding:14px 16px 0 !important}
+  .li-crumbs > *{overflow-wrap:anywhere}
+  .li-card{padding:20px 18px}
+  .li-h1{font-size:23px}
+  .li-price{font-size:30px}
+  .li-cap{font-size:13px !important;padding:8px 12px !important;bottom:10px !important;right:10px !important;left:10px !important}
+  /* thumbnails: one horizontally scrollable row */
+  .li-thumbs{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-snap-type:x proximity;padding-bottom:2px}
+  .li-thumbs::-webkit-scrollbar{display:none}
+  .li-thumbs > button{flex:0 0 96px;width:96px;scroll-snap-align:start}
+  .li-dbox{padding:18px 16px}
+  .li-dgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .li-panel{padding:20px 16px;gap:20px !important}
+  .li-h2{font-size:23px}
+  .li-h2s{font-size:21px}
+  .li-insp{display:none}
+  .li-sums{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .li-sum{padding:14px;gap:10px;flex-direction:column;align-items:flex-start}
+  .li-sum-v{font-size:19px}
+  .li-check{padding:12px 14px;gap:10px !important}
+  .li-check-h{padding:12px 14px}
+  .li-defects{padding:14px !important;gap:12px !important}
+  .li-defect-img{width:100%}
+  .li-steps{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .li-step{padding:14px}
+  #report, .li-page > section:last-of-type{padding-inline:16px !important}
+
+  /* slim order bar (price + order), full width; leaves room on the left for the demo pill */
+  .li-bar{display:flex;align-items:center;gap:10px;position:fixed;inset-inline:0;bottom:0;z-index:55;
+    padding:8px 16px calc(8px + env(safe-area-inset-bottom));padding-inline-end:calc(128px + env(safe-area-inset-left));
+    background:rgba(255,255,255,.97);border-top:1px solid #DCE3DF;box-shadow:0 -8px 24px rgba(18,34,31,.10);
+    transition:transform .2s ease, visibility .2s;}
+  .li-bar.is-hidden{transform:translateY(110%);visibility:hidden}
+  .li-bar-price{flex:none;font-weight:700;font-size:20px;line-height:1.2;white-space:nowrap;color:#12221F}
+  .li-bar-btn{flex:1 1 auto;min-width:0;min-height:48px;padding:0 12px;border-radius:12px;background:#0D5C55;color:#FFFFFF;font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;white-space:nowrap}
+  .li-bar-btn:hover{color:#FFFFFF;background:#08403B}
+  .li-bar-btn.is-off{background:#9FB2AB}
+  .li-bar-btn:focus-visible{outline:3px solid #F2A33A;outline-offset:2px}
+}
+@media (max-width: 380px){
+  .li-bar{padding-inline-start:12px;gap:8px}
+  .li-bar-price{font-size:18px}
+  .li-bar-btn{font-size:15px}
+}
+@media (prefers-reduced-motion: reduce){ .li-bar{transition:none} }
+@media (max-width: 1023px){
+  .li-crumbs a{display:inline-flex;align-items:center;min-height:44px;margin-block:-10px}
+}

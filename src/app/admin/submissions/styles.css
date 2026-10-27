@@ -15,8 +15,48 @@
 .sb-danger{background:#B3261E;border-color:#B3261E;color:#FFFFFF}.sb-danger:hover{background:#8E1D17;border-color:#8E1D17;color:#FFFFFF}
 .sb-wa{background:#E7F6EC;border-color:#9FD7B0;color:#156B35}.sb-wa:hover{background:#D4EFDD;border-color:#156B35;color:#156B35}
 
-/* Responsive additions (the design is desktop-only) */
-@media (max-width: 760px){
-  .sb-list{flex:1 1 100% !important}
-  .sb-tabs{flex-wrap:wrap}
+/* Responsive additions (the design is desktop-only). Desktop values first. */
+.sb-h1{font-size:30px}
+.sb-h2{font-size:24px}
+.sb-list{flex:0 0 414px}
+.sb-detail{flex:1 1 520px}
+.sb-tabs{display:flex}
+.sb-back{display:none}
+.sb-price{text-align:left}
+.sb-kvs{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
+.sb-kv span{overflow-wrap:anywhere}
+.sb-photos{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:8px}
+.sb-num{font-size:11px}
+.sb-mainacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.sb-subacts{display:flex;gap:8px;flex-wrap:wrap}
+.sb-chips{display:flex;flex-wrap:wrap;gap:8px}
+
+@media (max-width: 1023px){
+  .sb-list,.sb-detail{flex:1 1 100%}
+  .sb-tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;overscroll-behavior-x:contain}
+  .sb-tabs::-webkit-scrollbar{display:none}
+  .sb-tab{min-height:44px;flex:1 0 auto;white-space:nowrap;padding:0 14px}
+  .sb-back{display:flex;align-self:flex-start}
+  .sb-detail{scroll-margin-top:76px}
+  .sb-list{scroll-margin-top:76px}
+  .sb-kvs{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .sb-num{font-size:12px}
+  .sb-feebtn{min-height:44px;display:inline-flex;align-items:center;text-align:right}
+  .sb-walink{min-height:44px;display:inline-flex;align-items:center}
+  .sb-chips .ad-chip{min-height:44px}
+}
+@media (max-width: 767px){
+  .sb-h1{font-size:24px}
+  .sb-h2{font-size:20px}
+  .ad-card.sb-detail{padding:18px}
+  .sb-list{padding:12px !important}
+  .sb-price{text-align:right}
+  .sb-photos{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  .sb-mainacts{grid-template-columns:minmax(0,1fr)}
+  .sb-subacts{flex-direction:column}
+  .sb-subacts .sb-act{width:100%}
+  .sb-item{padding:12px}
+}
+@media (max-width: 380px){
+  .sb-kvs{grid-template-columns:minmax(0,1fr)}
 }

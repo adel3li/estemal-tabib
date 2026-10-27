@@ -31,8 +31,8 @@ export function SellSuccess({ id, onAgain }: { id: string; onAgain: () => void }
   };
 
   return (
-    <section style={{ maxWidth: 640, boxSizing: "content-box", margin: "0 auto", padding: "80px 20px" }}>
-      <div style={{ padding: "44px 32px", borderRadius: 28, background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexDirection: "column", alignItems: "center", gap: 14, textAlign: "center" }}>
+    <section className="sl-done">
+      <div className="sl-done-card" style={{ borderRadius: 28, background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexDirection: "column", alignItems: "center", gap: 14, textAlign: "center" }}>
         <span style={{ width: 96, height: 96, borderRadius: 999, background: "#E3F0ED", display: "flex", alignItems: "center", justifyContent: "center" }}>
           <span style={{ width: 68, height: 68, borderRadius: 999, background: "#0D5C55", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <svg aria-hidden="true" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
@@ -55,7 +55,7 @@ export function SellSuccess({ id, onAgain }: { id: string; onAgain: () => void }
           ))}
         </ol>
 
-        <div style={{ width: "100%", boxSizing: "border-box", marginTop: 6, padding: 20, borderRadius: 18, background: "#FBEEDC", border: "1px solid #F0C88A", color: "#6B3A10", display: "flex", flexDirection: "column", gap: 10, textAlign: "right" }}>
+        <div className="sl-box" style={{ width: "100%", boxSizing: "border-box", marginTop: 6, padding: 20, borderRadius: 18, background: "#FBEEDC", border: "1px solid #F0C88A", color: "#6B3A10", display: "flex", flexDirection: "column", gap: 10, textAlign: "right" }}>
           <span style={{ fontWeight: 700, fontSize: 17, color: "#12221F" }}>ادفع رسوم الجدية: {BUSINESS.sellerSeriousnessFeeEGP} ج.م</span>
           <span style={{ fontSize: 15 }}>
             حوّل المبلغ بإنستاباي أو تحويل بنكي على: <b style={{ color: "#12221F" }}>{BUSINESS.feeTransferDetails}</b>
@@ -68,19 +68,19 @@ export function SellSuccess({ id, onAgain }: { id: string; onAgain: () => void }
           ) : null}
           <label className="sl-field" style={{ color: "#6B3A10" }}>
             {saved ? "غلطت في الرقم؟ اكتبه تاني" : "رقم التحويل (Reference)"}
-            <input type="text" dir="ltr" style={{ textAlign: "right" }} className={msg ? "sl-in sl-bad" : "sl-in"} placeholder="مثال: 123456789" value={ref} onChange={(e) => setRef(e.target.value)} />
+            <input type="text" dir="ltr" style={{ textAlign: "right" }} className={msg ? "sl-in sl-bad" : "sl-in"} placeholder="مثال: 123456789" autoComplete="off" enterKeyHint="done" value={ref} onChange={(e) => setRef(e.target.value)} />
           </label>
           {msg ? (
             <span className="sl-msg" role="alert">
               {msg}
             </span>
           ) : null}
-          <button type="button" onClick={saveRef} className="sl-teal" style={{ alignSelf: "flex-start", minHeight: 46, padding: "0 20px", borderRadius: 12, border: 0, background: "#0D5C55", color: "#FFFFFF", font: "inherit", fontWeight: 700, cursor: "pointer" }}>
+          <button type="button" onClick={saveRef} className="sl-teal sl-ref-btn" style={{ alignSelf: "flex-start", minHeight: 46, display: "flex", alignItems: "center", padding: "0 20px", borderRadius: 12, border: 0, background: "#0D5C55", color: "#FFFFFF", font: "inherit", fontWeight: 700, cursor: "pointer" }}>
             سجّل رقم التحويل
           </button>
         </div>
 
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center", paddingTop: 6 }}>
+        <div className="sl-done-actions" style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center", paddingTop: 6 }}>
           <Link href={routes.home} className="sl-teal" style={{ minHeight: 48, padding: "0 22px", borderRadius: 12, background: "#0D5C55", color: "#FFFFFF", fontWeight: 700, display: "flex", alignItems: "center" }}>
             ارجع للرئيسية
           </Link>

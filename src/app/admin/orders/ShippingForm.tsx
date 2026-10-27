@@ -15,7 +15,7 @@ export function ShippingForm({ o, onSave, onError }: { o: Order; onSave: (s: Shi
     onSave({ co: s.co.trim(), no: s.no.trim(), eta: s.eta });
   };
   return (
-    <div style={{ padding: 18, borderRadius: 18, border: "1px solid #DCE3DF", display: "flex", flexDirection: "column", gap: 14 }}>
+    <div className="or-box" style={{ padding: 18, borderRadius: 18, border: "1px solid #DCE3DF", display: "flex", flexDirection: "column", gap: 14 }}>
       <h3 style={{ margin: 0, fontSize: 16, fontWeight: 700, display: "flex", alignItems: "center", gap: 8 }}>
         <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0D5C55" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 7h11v9H3z" /><path d="M14 10h4l3 3v3h-7" /><circle cx="7" cy="17.5" r="1.8" /><circle cx="17" cy="17.5" r="1.8" /></svg>
         بيانات الشحن
@@ -23,21 +23,21 @@ export function ShippingForm({ o, onSave, onError }: { o: Order; onSave: (s: Shi
       <div className="ad-grid" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))" }}>
         <label className="ad-field">
           شركة الشحن
-          <input type="text" className="ad-in" value={s.co} onChange={set("co")} placeholder="[اسم شركة الشحن]" />
+          <input type="text" className="ad-in" value={s.co} onChange={set("co")} placeholder="[اسم شركة الشحن]" enterKeyHint="next" />
         </label>
         <label className="ad-field">
           رقم الشحنة
-          <input type="text" className="ad-in" value={s.no} onChange={set("no")} placeholder="[رقم الشحنة]" dir="ltr" style={{ textAlign: "right" }} />
+          <input type="text" className="ad-in" value={s.no} onChange={set("no")} placeholder="[رقم الشحنة]" enterKeyHint="next" autoCapitalize="characters" dir="ltr" style={{ textAlign: "right" }} />
         </label>
         <label className="ad-field">
           ميعاد التسليم المتوقع
           <input type="date" className="ad-in" value={s.eta} onChange={set("eta")} />
         </label>
       </div>
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 10, alignItems: "center", justifyContent: "space-between" }}>
+      <div className="or-ship-foot">
         {/* PHASE1_PROMPT §2.1 #2: delivery is to the buyer's door, never "clinic". */}
         <span className="ad-hint">التوصيل لحد باب بيتك.{o.step < STEP_SHIPPING ? " بتتملي قبل خطوة الشحن." : ""}</span>
-        <button type="button" className="ad-btn ad-sec" style={{ minHeight: 44, fontSize: 15 }} onClick={save}>احفظ بيانات الشحن</button>
+        <button type="button" className="ad-btn ad-sec or-ship-save" onClick={save}>احفظ بيانات الشحن</button>
       </div>
     </div>
   );

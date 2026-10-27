@@ -46,13 +46,13 @@ export function Featured() {
 
   return (
     <section id="listings" style={{ background: "#FFFFFF", borderTop: "1px solid #E5EBE8", borderBottom: "1px solid #E5EBE8" }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "76px 20px", display: "flex", flexDirection: "column", gap: 24 }}>
+      <div className="mn-sec" style={{ maxWidth: 1200, margin: "0 auto", display: "flex", flexDirection: "column", gap: 24 }}>
         <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-end", gap: 12 }}>
-          <h2 style={{ margin: 0, fontSize: 34, fontWeight: 700 }}>أجهزة متاحة دلوقتي</h2>
-          <Link href={routes.devices} style={{ fontWeight: 600 }}>شوف كل الأجهزة ←</Link>
+          <h2 className="mn-h2" style={{ margin: 0, fontWeight: 700 }}>أجهزة متاحة دلوقتي</h2>
+          <Link href={routes.devices} className="mn-link44" style={{ fontWeight: 600 }}>شوف كل الأجهزة ←</Link>
         </div>
         <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }} role="group" aria-label="تصفية الأجهزة">
+          <div className="mn-chips" style={{ display: "flex", gap: 10 }} role="group" aria-label="تصفية الأجهزة">
             {FILTERS.map(([label], k) => {
               const on = k === cur;
               return (
@@ -72,6 +72,7 @@ export function Featured() {
                     font: "inherit",
                     fontWeight: on ? 600 : 400,
                     cursor: "pointer",
+                    flex: "none",
                   }}
                 >
                   {label}
@@ -81,7 +82,7 @@ export function Featured() {
           </div>
           <span aria-live="polite" style={{ fontSize: 14, color: "#4A5A56" }}>{countText(shown.length)}</span>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))", gap: 20 }}>
+        <div className="mn-cards" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(250px, 100%), 1fr))", gap: 20 }}>
           {shown.map((d) => (
             <DeviceCard key={d.id} d={d} />
           ))}
@@ -95,8 +96,8 @@ function DeviceCard({ d }: { d: Device }) {
   const insp = d.inspection === "inspected";
   return (
     <Link href={routes.device(d.id)} className="mn-card" style={{ display: "flex", flexDirection: "column", borderRadius: 20, border: "1px solid #DCE3DF", background: "#FFFFFF", overflow: "hidden", color: "#12221F", boxShadow: "0 4px 14px rgba(18, 34, 31, 0.04)" }}>
-      <div style={{ position: "relative", aspectRatio: "4 / 3", background: "#E7EDEA" }}>
-        <svg role="img" aria-label={`رسم توضيحي ل${d.title}`} viewBox="0 0 400 300" style={{ display: "block", width: "100%", height: "100%" }}>
+      <div className="mn-card-img" style={{ position: "relative", background: "#E7EDEA" }}>
+        <svg role="img" aria-label={`رسم توضيحي ل${d.title}`} viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" style={{ display: "block", width: "100%", height: "100%" }}>
           <use href={ART[d.type] ?? "#mn-tools"} />
         </svg>
         {insp ? (
@@ -110,12 +111,12 @@ function DeviceCard({ d }: { d: Device }) {
               <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="6" /><path d="M20 20l-4.5-4.5" /></svg>
               يُفحص عند الطلب
             </span>
-            <span style={{ position: "absolute", bottom: 10, right: 10, padding: "3px 9px", borderRadius: 999, background: "rgba(18, 34, 31, 0.68)", color: "#FFFFFF", fontSize: 11, fontWeight: 600 }}>صورة من البايع</span>
+            <span style={{ position: "absolute", bottom: 10, right: 10, padding: "3px 9px", borderRadius: 999, background: "rgba(18, 34, 31, 0.68)", color: "#FFFFFF", fontSize: 12, fontWeight: 600 }}>صورة من البايع</span>
           </>
         )}
       </div>
       <div style={{ padding: "16px 18px 18px", display: "flex", flexDirection: "column", gap: 6, flex: 1 }}>
-        <div style={{ fontWeight: 700, fontSize: 17 }}>{d.title}</div>
+        <div style={{ fontWeight: 700, fontSize: 17, overflowWrap: "anywhere" }}>{d.title}</div>
         <div style={{ fontSize: 13, color: "#4A5A56", display: "flex", alignItems: "center", gap: 4 }}>
           <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 21s-7-6.5-7-12a7 7 0 0 1 14 0c0 5.5-7 12-7 12z" /><circle cx="12" cy="9" r="2.5" /></svg>
           {d.year} · {d.governorate}

@@ -2,7 +2,7 @@
 
 // Ported from design-reference/Admin-Submissions.dc.html
 import Link from "next/link";
-import { useState, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import { BUSINESS } from "@/config/business";
 import { useDemo } from "@/lib/demo/store";
 import type { Submission, SubmissionStatus } from "@/lib/demo/types";
@@ -23,6 +23,17 @@ export default function AdminSubmissionsPage() {
   const [sel, setSel] = useState<string | null>("#1024");
   const [toast, setToast] = useState<{ body: ReactNode; tone: ToastTone } | null>(null);
   const [feeOpen, setFeeOpen] = useState(false);
+  const detailRef = useRef<HTMLElement>(null);
+  const listRef = useRef<HTMLElement>(null);
+  // < 1024px the detail sits below the list: bring it (or the list) into view on tap.
+  const stacked = () => typeof window !== "undefined" && window.matchMedia("(max-width: 1023px)").matches;
+  const reveal = (el: HTMLElement | null) => {
+    if (!el || !stacked()) return;
+    requestAnimationFrame(() => {
+      const top = el.getBoundingClientRect().top + window.scrollY - 76;
+      window.scrollTo({ top, behavior: "smooth" });
+    });
+  };
 
   const subs = state.submissions;
   const needle = q.trim().toLowerCase();
@@ -121,20 +132,21 @@ export default function AdminSubmissionsPage() {
       <SubmissionArtDefs />
       <div>
         <div style={{ fontSize: 14, color: "#4A5A56" }}>لوحة التحكم › طلبات البيع الواردة</div>
-        <h1 style={{ margin: 0, fontSize: 30, lineHeight: 1.3 }}>طلبات البيع الواردة</h1>
+        <h1 className="sb-h1" style={{ margin: 0, lineHeight: 1.3 }}>طلبات البيع الواردة</h1>
         <div style={{ color: "#4A5A56" }}>
           طلبات الدكاترة اللي عايزين يبيعوا أجهزتهم. راجع الطلب، وبعدين اقبله وحوّله لإعلان، أو اطلب صور، أو حدد ميعاد فحص مع فني معتمد.
         </div>
       </div>
 
       {toast ? (
-        <Toast tone={toast.tone} onClose={() => setToast(null)} closeClass="sb-act">
+        <Toast tone={toast.tone} onClose={() => setToast(null)} closeClass="sb-act" floating>
           {toast.body}
         </Toast>
       ) : null}
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: 20, alignItems: "flex-start" }}>
         <SubmissionList
+          ref={listRef}
           tab={tab}
           counts={counts}
           onTab={pickTab}
@@ -145,17 +157,24 @@ export default function AdminSubmissionsPage() {
           onPick={(id) => {
             setSel(id);
             setFeeOpen(false);
+            reveal(detailRef.current);
           }}
         />
 
         {p ? (
-          <section className="ad-card" aria-labelledby="sb-dt" style={{ flex: "1 1 520px", minWidth: 0, gap: 18 }}>
+          <section ref={detailRef} className="ad-card sb-detail" aria-labelledby="sb-dt" style={{ minWidth: 0, gap: 18 }}>
+            <button type="button" className="sb-act sb-back" onClick={() => reveal(listRef.current)}>
+              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M9 6l6 6-6 6" />
+              </svg>
+              رجوع للقائمة
+            </button>
             <SubmissionInfo p={p} onReopen={() => reopen(p)} />
 
             <div>
               <button
                 type="button"
-                className="ad-hint"
+                className="ad-hint sb-feebtn"
                 aria-expanded={feeOpen}
                 onClick={() => setFeeOpen((v) => !v)}
                 style={{ border: 0, background: "none", padding: 0, cursor: "pointer", textDecoration: "underline", fontWeight: 600, color: "#0D5C55" }}
@@ -172,7 +191,7 @@ export default function AdminSubmissionsPage() {
             {open ? <SubmissionActions key={p.id} p={p} h={handlers(p)} /> : null}
           </section>
         ) : (
-          <section className="ad-card" style={{ flex: "1 1 520px", minWidth: 0, alignItems: "center", justifyContent: "center", textAlign: "center", minHeight: 360, color: "#4A5A56" }}>
+          <section className="ad-card sb-detail" style={{ minWidth: 0, alignItems: "center", justifyContent: "center", textAlign: "center", minHeight: 360, color: "#4A5A56" }}>
             <svg aria-hidden="true" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#9FB2AB" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
               <path d="M4 7h16v12H4z" />
               <path d="M4 7l8 6 8-6" />

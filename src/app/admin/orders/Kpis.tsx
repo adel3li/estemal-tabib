@@ -13,14 +13,14 @@ export function Kpis({ orders }: { orders: Order[] }) {
     { label: "في فترة التجربة", val: String(open.filter((o) => o.step === 6).length), sub: "بعدها الفلوس تتحول للبايع", dot: "#F2A33A" },
   ];
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 14 }}>
+    <div className="or-kpis">
       {kpis.map((k) => (
         <div key={k.label} className="or-kpi">
           <span style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 14, fontWeight: 600, color: "#4A5A56" }}>
             <span style={{ width: 10, height: 10, borderRadius: 999, background: k.dot }} />
             {k.label}
           </span>
-          <span style={{ fontSize: 30, fontWeight: 700, lineHeight: 1.25 }}>{k.val}</span>
+          <span className="or-kpi-v" style={{ fontWeight: 700, lineHeight: 1.25 }}>{k.val}</span>
           <span style={{ fontSize: 13, color: "#4A5A56" }}>{k.sub}</span>
         </div>
       ))}

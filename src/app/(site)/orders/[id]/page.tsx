@@ -56,7 +56,7 @@ export default function OrderTrackerPage() {
   };
 
   return (
-    <section style={{ maxWidth: 1200, margin: "0 auto", padding: "28px 20px 72px", display: "flex", flexDirection: "column", gap: 24 }}>
+    <section className="ot-wrap">
       <OtSprite />
       <TrackerHeader o={o} />
       {note ? (

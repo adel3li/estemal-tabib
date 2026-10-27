@@ -45,7 +45,7 @@ export default function PaymentsPage() {
       <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-end", gap: 16 }}>
         <div>
           <div style={{ fontSize: 14, color: "#4A5A56" }}>لوحة التحكم › المدفوعات المحفوظة</div>
-          <h1 style={{ margin: 0, fontSize: 30, lineHeight: 1.3, fontWeight: 700 }}>المدفوعات المحفوظة</h1>
+          <h1 className="pm-h1" style={{ margin: 0, lineHeight: 1.3, fontWeight: 700 }}>المدفوعات المحفوظة</h1>
           <div style={{ color: "#4A5A56" }}>فلوس المشتري بتفضل محفوظة عندنا لحد الاستلام + {BUSINESS.trialDays} أيام تجربة، وبعدها بتتحوّل للبايع.</div>
         </div>
         <div style={{ fontSize: 14, color: "#4A5A56", display: "flex", alignItems: "center", gap: 6 }}>
@@ -56,7 +56,7 @@ export default function PaymentsPage() {
 
       {toast ? (
         <div
-          role="status"
+          role="status" className="pm-toast"
           style={{
             padding: "12px 16px", borderRadius: 14,
             background: toast.bad ? "#FBE9E7" : "#EAF5DD", color: toast.bad ? "#7A1A14" : "#2F5E16",
@@ -66,23 +66,23 @@ export default function PaymentsPage() {
         >
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l4 4 10-10" /></svg>
           <span style={{ flex: "1 1 auto" }}>{toast.txt}</span>
-          <button type="button" className="pm-link" onClick={() => setToast(null)} aria-label="اقفل الرسالة" style={{ color: "inherit" }}>✕</button>
+          <button type="button" className="pm-link pm-x" onClick={() => setToast(null)} aria-label="اقفل الرسالة" style={{ color: "inherit" }}>✕</button>
         </div>
       ) : null}
 
       <Kpis pays={pays} />
 
       <section className="ad-card" aria-labelledby="pm-tbl" style={{ padding: 0, gap: 0, overflow: "hidden" }}>
-        <div style={{ padding: "20px 20px 14px", display: "flex", flexDirection: "column", gap: 14 }}>
+        <div className="pm-tbl-top" style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
             <h2 className="ad-h" id="pm-tbl" style={{ fontWeight: 700 }}><span className="ad-n" style={{ background: "#E3F0ED", color: "#0D5C55" }}>١</span>فلوس الطلبات</h2>
-            <label style={{ flex: "0 1 300px", position: "relative", display: "flex" }}>
+            <label className="pm-search">
               <span style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }}>ابحث في المدفوعات</span>
               <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4A5A56" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ position: "absolute", right: 12, top: 14 }}><circle cx="11" cy="11" r="6" /><path d="M20 20l-4.5-4.5" /></svg>
               <input type="search" className="ad-in" value={q} onChange={(e) => setQ(e.target.value)} placeholder="رقم الطلب، الجهاز، أو المشتري" style={{ paddingRight: 38 }} />
             </label>
           </div>
-          <div role="tablist" aria-label="فلترة حسب الحالة" style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+          <div role="tablist" aria-label="فلترة حسب الحالة" className="pm-tabs">
             {TABS.map(([key, label]) => {
               const on = tab === key;
               return (
@@ -97,7 +97,7 @@ export default function PaymentsPage() {
         </div>
 
         <div>
-          <div aria-hidden="true" className="pm-cols" style={{ padding: "10px 16px", background: "#F5F7F4", fontSize: 13, fontWeight: 700, color: "#4A5A56", borderTop: "1px solid #E5EBE8" }}>
+          <div aria-hidden="true" className="pm-cols pm-head" style={{ padding: "10px 16px", background: "#F5F7F4", fontSize: 13, fontWeight: 700, color: "#4A5A56", borderTop: "1px solid #E5EBE8" }}>
             <span>الطلب</span><span>المشتري</span><span>المبلغ والطريقة</span><span>وصلت / الاستلام</span><span>فترة التجربة</span>
             <span>صافي البايع {NET_FACTOR}</span><span>الحالة</span><span />
           </div>

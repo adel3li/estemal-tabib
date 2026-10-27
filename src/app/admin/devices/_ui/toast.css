@@ -1,0 +1,7 @@
+/* Toast.tsx — close button sizes from the design (desktop), touch-sized below 1024px. */
+.tst-x.al-act,.tst-x.sb-act{padding:0 10px;min-height:30px}
+.tst-x.sb-act{min-height:32px;font-size:13px}
+@media (max-width: 1023px){
+  .tst-x.al-act,.tst-x.sb-act{min-height:44px;min-width:44px;justify-content:center}
+  .tst-float{position:sticky;top:calc(72px + env(safe-area-inset-top));z-index:42;box-shadow:0 10px 24px rgba(18,34,31,.14)}
+}

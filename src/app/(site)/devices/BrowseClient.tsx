@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { isListed, useDemo } from "@/lib/demo/store";
 import { routes } from "@/lib/routes";
 import { waLink } from "@/lib/whatsapp";
@@ -41,6 +41,15 @@ export function BrowseClient() {
   const items = applyFilters(state.devices.filter(isListed), f);
   const n = items.length;
   const countLabel = n === 1 ? "جهاز واحد متاح" : `${n} أجهزة متاحة`;
+  const active = [f.st !== "all", f.cat !== "all", f.maint !== "all", f.cond !== "all", Boolean(f.pmin || f.pmax)].filter(Boolean).length;
+
+  // < 1024px the filters live in a sheet opened by the «تصفية» button.
+  const [sheet, setSheet] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const closeSheet = useCallback(() => {
+    setSheet(false);
+    triggerRef.current?.focus({ preventScroll: true });
+  }, []);
 
   return (
     <div>
@@ -48,14 +57,14 @@ export function BrowseClient() {
 
       <section style={{ background: "#FFFFFF", borderBottom: "1px solid #E5EBE8" }}>
         <div style={{ maxWidth: 1240, margin: "0 auto", padding: "18px 20px 30px", display: "flex", flexDirection: "column", gap: 18 }}>
-          <div style={{ fontSize: 14, color: "#4A5A56", display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
+          <div className="br-crumbs" style={{ fontSize: 14, color: "#4A5A56", display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
             <Link href={routes.home}>الرئيسية</Link>
             <span aria-hidden="true">›</span>
             <span>كل الأجهزة</span>
           </div>
           <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-end", gap: 16 }}>
             <div style={{ flex: "1 1 420px", minWidth: 0 }}>
-              <h1 style={{ margin: 0, fontSize: 36, lineHeight: 1.3 }}>كل الأجهزة</h1>
+              <h1 className="br-title" style={{ margin: 0, lineHeight: 1.3 }}>كل الأجهزة</h1>
               <p style={{ margin: "4px 0 0", color: "#4A5A56", fontSize: 17 }}>كل جهاز عليه علامة بتقولك اتفحص ولا هيتفحص عند الطلب، والضمان مكتوب عليه.</p>
             </div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 10, fontSize: 14 }}>
@@ -91,20 +100,26 @@ export function BrowseClient() {
       </section>
 
       <section style={{ maxWidth: 1240, margin: "0 auto", padding: "28px 20px 56px", display: "flex", flexWrap: "wrap", gap: 28, alignItems: "flex-start" }}>
-        <FilterAside f={f} set={set} reset={reset} />
+        <FilterAside f={f} set={set} reset={reset} open={sheet} onClose={closeSheet} count={n} />
 
         <div style={{ flex: "999 1 600px", minWidth: 0, display: "flex", flexDirection: "column", gap: 18 }}>
-          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 12, padding: "10px 10px 10px 14px", borderRadius: 16, background: "#FFFFFF", border: "1px solid #DCE3DF" }}>
-            <span style={{ fontWeight: 700, fontSize: 18, display: "flex", alignItems: "center", gap: 10 }} aria-live="polite">
+          <div className="br-bar" style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 12, padding: "10px 10px 10px 14px", borderRadius: 16, background: "#FFFFFF", border: "1px solid #DCE3DF" }}>
+            <span className="br-count" style={{ fontWeight: 700, fontSize: 18, display: "flex", alignItems: "center", gap: 10 }} aria-live="polite">
               <span aria-hidden="true" style={{ width: 34, height: 34, borderRadius: 10, background: "#F5F7F4", color: "#0D5C55", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <svg width="18" height="18" viewBox="0 0 24 24" {...svg} strokeWidth={1.9}><rect x="4" y="4" width="7" height="7" rx="2" /><rect x="13" y="4" width="7" height="7" rx="2" /><rect x="4" y="13" width="7" height="7" rx="2" /><rect x="13" y="13" width="7" height="7" rx="2" /></svg>
               </span>
               {countLabel}
             </span>
-            <label style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 15, color: "#4A5A56" }}>
-              ترتيب حسب
+            <button ref={triggerRef} type="button" className="br-filter-btn" onClick={() => setSheet(true)} aria-haspopup="dialog" aria-expanded={sheet} aria-controls="br-filters">
+              <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" {...svg} strokeWidth={1.9}><path d="M4 5h16l-6 8v5l-4 2v-7z" /></svg>
+              تصفية
+              {active ? <span className="br-filter-n" aria-label={`${active} فلتر مفعّل`}>{active}</span> : null}
+            </button>
+            <label className="br-sort" style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 15, color: "#4A5A56" }}>
+              <span className="br-sort-label">ترتيب حسب</span>
               <select
                 className="br-input"
+                aria-label="ترتيب حسب"
                 value={f.sort}
                 onChange={(e) => set({ sort: e.target.value as Sort })}
                 style={{ minHeight: 42, padding: "0 10px", borderRadius: 10, border: "1px solid #C9D4CF", background: "#FFFFFF", font: "inherit", color: "#12221F" }}
@@ -117,7 +132,7 @@ export function BrowseClient() {
           </div>
 
           {n > 0 ? (
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 20 }}>
+            <div className="br-grid">
               {items.map((d) => (
                 <DeviceCard key={d.id} d={d} />
               ))}
@@ -133,24 +148,24 @@ export function BrowseClient() {
             </div>
           )}
 
-          <div style={{ marginTop: 10, padding: 28, borderRadius: 24, background: "#0F2A26", color: "#FFFFFF", display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 18 }}>
+          <div className="br-cta-box" style={{ marginTop: 10, borderRadius: 24, background: "#0F2A26", color: "#FFFFFF", display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 18 }}>
             <div style={{ flex: "1 1 320px", minWidth: 0, display: "flex", gap: 16, alignItems: "center" }}>
               <span aria-hidden="true" style={{ flex: "none", width: 52, height: 52, borderRadius: 16, background: "#163A35", color: "#F2A33A", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <svg width="26" height="26" viewBox="0 0 24 24" {...svg} strokeWidth={1.8}><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.7 21a2 2 0 0 1-3.4 0" /></svg>
               </span>
               <div style={{ minWidth: 0 }}>
-                <div style={{ fontWeight: 700, fontSize: 22 }}>مش لاقي الجهاز اللي بتدوّر عليه؟</div>
+                <div className="br-cta-title" style={{ fontWeight: 700 }}>مش لاقي الجهاز اللي بتدوّر عليه؟</div>
                 <div style={{ color: "#C3D3CE" }}>قولنا الجهاز والميزانية، وهنبلغك أول ما يتعرض جهاز مناسب.</div>
               </div>
             </div>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-              <Link href={routes.request} className="br-cta-dark" style={{ minHeight: 48, padding: "0 22px", borderRadius: 12, background: "#F2A33A", color: "#12221F", fontWeight: 700, display: "flex", alignItems: "center" }}>اطلب جهاز</Link>
+            <div className="br-cta-actions" style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+              <Link href={routes.request} className="br-cta-dark" style={{ minHeight: 48, padding: "0 22px", borderRadius: 12, background: "#F2A33A", color: "#12221F", fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center" }}>اطلب جهاز</Link>
               <a
                 href={waLink("أهلاً، بدوّر على جهاز أسنان مستعمل ومش لاقيه في «كل الأجهزة». ممكن تساعدوني؟")}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="br-ghost-dark"
-                style={{ minHeight: 48, padding: "0 18px", borderRadius: 12, border: "1px solid #2E5650", color: "#FFFFFF", fontWeight: 600, display: "flex", alignItems: "center", gap: 8 }}
+                style={{ minHeight: 48, padding: "0 18px", borderRadius: 12, border: "1px solid #2E5650", color: "#FFFFFF", fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}
               >
                 <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" {...svg} strokeWidth={1.8}><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7L4 20z" /></svg>
                 واتساب

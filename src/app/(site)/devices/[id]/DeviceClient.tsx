@@ -8,6 +8,7 @@ import { BrowseArt } from "../art";
 import { DeviceArt } from "./art";
 import { DataGrid } from "./DataGrid";
 import { Gallery } from "./Gallery";
+import { OrderBar } from "./OrderBar";
 import { PriceCard } from "./PriceCard";
 import { Report } from "./Report";
 import { Steps } from "./Steps";
@@ -34,11 +35,11 @@ export function DeviceClient() {
   const inspected = d.inspection === "inspected";
 
   return (
-    <div>
+    <div className="li-page">
       <BrowseArt />
       <DeviceArt />
 
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "20px 20px 0", fontSize: 14, color: "#4A5A56", display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
+      <div className="li-crumbs" style={{ maxWidth: 1200, margin: "0 auto", padding: "20px 20px 0", fontSize: 14, color: "#4A5A56", display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
         <Link href={routes.home}>الرئيسية</Link>
         <span aria-hidden="true">›</span>
         <Link href={routes.devices}>كل الأجهزة</Link>
@@ -46,17 +47,22 @@ export function DeviceClient() {
         <span>{d.title}</span>
       </div>
 
-      <section style={{ maxWidth: 1200, margin: "0 auto", padding: "18px 20px 40px", display: "flex", flexWrap: "wrap", gap: 32, alignItems: "flex-start" }}>
-        <div style={{ flex: "999 1 560px", minWidth: 0, display: "flex", flexDirection: "column", gap: 14 }}>
+      {/* Grid areas: desktop = gallery + data on the start column, sticky price aside on the end;
+          < 1024px = gallery → price card → data (see styles.css). */}
+      <section className="li-layout" style={{ maxWidth: 1200, margin: "0 auto", padding: "18px 20px 40px" }}>
+        <div className="li-gal" style={{ minWidth: 0, display: "flex", flexDirection: "column", gap: 14 }}>
           <Gallery key={d.id} d={d} />
+        </div>
+        <div className="li-data" style={{ minWidth: 0 }}>
           <DataGrid d={d} />
         </div>
-        <aside style={{ flex: "1 1 380px", minWidth: 0, display: "flex", flexDirection: "column", gap: 16, position: "sticky", top: 88 }}>
+        <aside className="li-aside" style={{ minWidth: 0, display: "flex", flexDirection: "column", gap: 16 }}>
           <PriceCard d={d} />
         </aside>
       </section>
 
       {inspected ? <Report d={d} /> : <Steps />}
+      <OrderBar d={d} />
     </div>
   );
 }

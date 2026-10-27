@@ -9,8 +9,8 @@ export function PreviewAside({ f, checks }: { f: FormState; checks: Check[] }) {
   const price = parseNum(f.price);
   const done = f.insp === "inspected";
   return (
-    <aside className="adf-aside" style={{ flex: "1 1 320px", minWidth: 0, position: "sticky", top: 20, display: "flex", flexDirection: "column", gap: 14 }}>
-      <div style={{ fontWeight: 700, display: "flex", alignItems: "center", gap: 8 }}>
+    <aside className="adf-aside" aria-label="معاينة وقبل النشر">
+      <div className="adf-aside-h" style={{ fontWeight: 700, display: "flex", alignItems: "center", gap: 8 }}>
         <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0D5C55" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
           <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" />
           <circle cx="12" cy="12" r="3" />
@@ -44,7 +44,7 @@ export function PreviewAside({ f, checks }: { f: FormState; checks: Check[] }) {
           ) : null}
         </div>
         <div style={{ padding: "16px 18px", display: "flex", flexDirection: "column", gap: 6 }}>
-          <div style={{ fontWeight: 700, fontSize: 17 }}>{f.title.trim() ? f.title : "اسم الجهاز"}</div>
+          <div style={{ fontWeight: 700, fontSize: 17, overflowWrap: "anywhere" }}>{f.title.trim() ? f.title : "اسم الجهاز"}</div>
           <div style={{ fontSize: 13, color: "#4A5A56" }}>
             {typeLabel(f.type)} · {f.governorate}
           </div>

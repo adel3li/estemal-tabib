@@ -16,3 +16,84 @@
 .or-wa{display:inline-flex;align-items:center;gap:6px;min-height:38px;padding:0 14px;border-radius:12px;background:#1F8F4E;color:#FFFFFF;font-weight:600;font-size:14px}
 .or-wa:hover{background:#17703C;color:#FFFFFF}
 .or-wa:focus-visible{outline:3px solid rgba(31,143,78,.35);outline-offset:2px}
+
+/* ── Layout hooks (desktop values = the design) ── */
+.or-h1{font-size:30px}
+.or-search{min-width:280px}
+.or-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.or-kpi-v{font-size:30px;overflow-wrap:anywhere}
+.or-chips{display:flex;flex-wrap:wrap;gap:8px}
+.or-chip{min-height:38px}
+.or-scroll{overflow-x:auto}
+.or-det-anchor{scroll-margin-top:84px}
+.or-det{scroll-margin-top:84px}
+.or-tr{scroll-margin-top:84px}
+.or-back{display:none}
+.or-acts{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.or-steps{list-style:none;margin:0;padding:4px 0 0;display:grid;grid-template-columns:repeat(7,minmax(96px,1fr));gap:0;overflow-x:auto}
+.or-step{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;position:relative;padding:0 4px}
+.or-step-line{position:absolute;top:17px;right:50%;left:-50%;height:3px}
+.or-step-st{font-size:12px}
+.or-ship-foot{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.or-ship-save{min-height:44px;font-size:15px}
+.or-note{min-height:40px;font-size:14px}
+.or-add{min-height:40px}
+
+/* ── Tablets & phones: table → cards, bigger targets ── */
+@media (max-width: 1023px){
+  .or-kpis{grid-template-columns:1fr 1fr}
+  .or-mini{min-height:44px;font-size:14px}
+  .or-x{width:44px;height:44px}
+  .or-chip{min-height:44px}
+  .or-wa{min-height:44px}
+  .or-note{min-height:46px}
+  .or-add{min-height:46px;min-width:72px}
+  .or-back{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;min-height:44px;padding:0 14px;margin:-6px 0 -4px;border-radius:12px;border:1px solid #C9D4CF;background:#F5F7F4;font:inherit;font-size:15px;font-weight:700;color:#0D5C55;cursor:pointer}
+  .or-det{padding:20px 16px}
+  .or-scroll{overflow-x:visible}
+  .or-tbl{min-width:0}
+  .or-head{display:none}
+  .or-body{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .or-body .or-tr{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"id pay" "dev dev" "buy sel" "step amt";align-items:center;padding:6px 2px;border:1px solid #DCE3DF;border-radius:16px;cursor:pointer}
+  .or-body .or-tr[aria-selected="true"]{border-color:#0D5C55}
+  .or-body .or-tr:hover{background:transparent}
+  .or-td{border-bottom:0;padding:6px 12px}
+  .or-c-id{grid-area:id;display:flex;align-items:center;gap:8px}
+  .or-c-id .ad-hint{display:inline !important}
+  .or-id{display:inline-flex;align-items:center;min-height:44px;font-size:16px}
+  .or-c-pay{grid-area:pay;justify-self:end}
+  .or-c-dev{grid-area:dev}
+  .or-c-buy{grid-area:buy}
+  .or-c-sel{grid-area:sel}
+  .or-c-buy::before,.or-c-sel::before{content:attr(data-l);display:block;font-size:12px;color:#4A5A56;line-height:1.4}
+  .or-c-step{grid-area:step}
+  .or-c-amt{grid-area:amt;justify-self:end;align-self:end}
+}
+
+/* ── Phones ── */
+@media (max-width: 767px){
+  .or-h1{font-size:24px}
+  .or-search{min-width:0;flex:1 1 100%}
+  .or-kpis{grid-template-columns:1fr 1fr;gap:10px}
+  .or-kpi{padding:12px 14px;border-radius:16px}
+  .or-kpi-v{font-size:22px}
+  .or-chips{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-inline:-4px;padding:2px 4px}
+  .or-chips::-webkit-scrollbar{display:none}
+  .or-chip{flex:none;white-space:nowrap}
+  .or-body{grid-template-columns:1fr}
+  .or-acts{flex:1 1 100%}
+  .or-acts .ad-btn{flex:1 1 auto}
+  /* vertical stepper */
+  .or-steps{display:flex;flex-direction:column;overflow:visible;padding:4px 0 0}
+  .or-step{display:grid;grid-template-columns:36px 1fr;grid-template-rows:auto auto;align-content:start;align-items:center;column-gap:12px;row-gap:0;text-align:start;min-height:60px;padding:0}
+  .or-step-dot{grid-row:1 / span 2}
+  .or-step-line{top:-24px;height:24px;width:3px;right:16.5px;left:auto}
+  .or-step-lbl{line-height:1.4}
+  .or-box{padding:14px !important}
+  .or-ship-save{width:100%}
+}
+
+/* Toast stays visible under the admin top bar on touch layouts (actions sit far below it). */
+@media (max-width: 1023px){
+  .or-toast{position:sticky;top:calc(72px + env(safe-area-inset-top));z-index:20;box-shadow:0 10px 24px rgba(18,34,31,.14)}
+}

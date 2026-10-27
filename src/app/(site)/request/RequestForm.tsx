@@ -124,8 +124,13 @@ export function RequestForm() {
     const first = ORDER.find((k) => e[k]);
     if (first) {
       const el = document.getElementById(fid(first));
-      el?.scrollIntoView({ behavior: "smooth", block: "center" });
-      el?.focus({ preventScroll: true });
+      if (el) {
+        // Bring the whole field (label + input + message) under the sticky header (~70px).
+        const box = el.closest(".rq-field") ?? el;
+        const top = box.getBoundingClientRect().top + window.scrollY - 88;
+        window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+        el.focus({ preventScroll: true });
+      }
       return;
     }
     const id = addRequest({
@@ -158,8 +163,8 @@ export function RequestForm() {
     );
 
   return (
-    <section style={{ maxWidth: 980, boxSizing: "content-box", margin: "0 auto", padding: "20px 20px 72px", display: "flex", flexDirection: "column", gap: 22 }}>
-      <div style={{ fontSize: 14, color: "#4A5A56", display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
+    <section className="rq-wrap">
+      <div className="rq-crumb" style={{ fontSize: 14, color: "#4A5A56", display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
         <Link href={routes.home}>الرئيسية</Link>
         <span aria-hidden="true">›</span>
         <Link href={routes.devices}>كل الأجهزة</Link>
@@ -194,7 +199,7 @@ export function RequestForm() {
             <span id="rq-insp" style={{ fontWeight: 600, fontSize: 14, color: "#24332F" }}>
               حالة الفحص
             </span>
-            <div role="radiogroup" aria-labelledby="rq-insp" style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+            <div role="radiogroup" aria-labelledby="rq-insp" className="rq-chips" style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
               {CHIPS.map((c) => {
                 const on = f.inspectionPref === c.id;
                 return (
@@ -226,10 +231,10 @@ export function RequestForm() {
           </CardHead>
           <div style={grid(200)}>
             <Field k="min" label="من (ج.م)" err={err}>
-              <input type="text" inputMode="numeric" {...bind("min", err)} value={f.min} onChange={(e) => set({ min: e.target.value })} />
+              <input type="text" inputMode="numeric" enterKeyHint="next" {...bind("min", err)} value={f.min} onChange={(e) => set({ min: e.target.value })} />
             </Field>
             <Field k="max" label="لحد (ج.م)" err={err}>
-              <input type="text" inputMode="numeric" {...bind("max", err)} value={f.max} onChange={(e) => set({ max: e.target.value })} />
+              <input type="text" inputMode="numeric" enterKeyHint="next" {...bind("max", err)} value={f.max} onChange={(e) => set({ max: e.target.value })} />
             </Field>
             <Field label="محتاجه إمتى؟" err={err}>
               <select className="rq-in" value={f.neededBy} onChange={(e) => set({ neededBy: e.target.value })}>
@@ -251,7 +256,7 @@ export function RequestForm() {
               <input type="text" {...bind("fullName", err)} autoComplete="name" aria-required value={f.fullName} onChange={(e) => set({ fullName: e.target.value })} />
             </Field>
             <Field k="phone" label="رقم الموبايل (واتساب)" err={err}>
-              <input type="tel" placeholder="01xxxxxxxxx" {...bind("phone", err)} dir="ltr" style={{ textAlign: "right" }} autoComplete="tel" inputMode="tel" aria-required value={f.phone} onChange={(e) => set({ phone: e.target.value })} />
+              <input type="tel" placeholder="01xxxxxxxxx" {...bind("phone", err)} dir="ltr" style={{ textAlign: "right" }} autoComplete="tel" inputMode="tel" enterKeyHint="next" aria-required value={f.phone} onChange={(e) => set({ phone: e.target.value })} />
             </Field>
             <Field label="المحافظة" err={err}>
               <select className="rq-in" value={f.governorate} onChange={(e) => set({ governorate: e.target.value })}>
@@ -266,7 +271,7 @@ export function RequestForm() {
           </Field>
         </div>
 
-        <div style={{ padding: "22px 24px", borderRadius: 24, background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexWrap: "wrap", alignItems: "center", gap: "16px 24px" }}>
+        <div className="rq-submitbar" style={{ borderRadius: 24, background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexWrap: "wrap", alignItems: "center", gap: "16px 24px" }}>
           <div style={{ flex: "1 1 300px", minWidth: 0, display: "flex", alignItems: "center", gap: 14 }}>
             <span style={{ width: 48, height: 48, borderRadius: 15, background: "#E3F0ED", color: "#0D5C55", display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>
               <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">

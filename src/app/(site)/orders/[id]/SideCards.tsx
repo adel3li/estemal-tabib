@@ -13,8 +13,8 @@ export function SideCards({ o }: { o: Order }) {
     { Icon: WrenchIcon, label: "صيانة", val: `${o.maint} شهور` },
   ];
   return (
-    <aside style={{ flex: "1 1 340px", minWidth: 0, display: "flex", flexDirection: "column", gap: 16, position: "sticky", top: 88 }}>
-      <div style={{ position: "relative", overflow: "hidden", padding: 24, borderRadius: 24, background: "#0F2A26", color: "#FFFFFF", display: "flex", flexDirection: "column", gap: 10 }}>
+    <aside className="ot-side" style={{ flex: "1 1 340px", minWidth: 0, display: "flex", flexDirection: "column", gap: 16 }}>
+      <div className="ot-money" style={{ position: "relative", overflow: "hidden", padding: 24, borderRadius: 24, background: "#0F2A26", color: "#FFFFFF", display: "flex", flexDirection: "column", gap: 10 }}>
         <span style={{ position: "absolute", left: -24, bottom: -28, opacity: 0.07, color: "#FFFFFF" }}><LockIcon size={140} width={1} /></span>
         <div style={{ display: "flex", alignItems: "center", gap: 10, fontWeight: 700, fontSize: 18 }}>
           <span style={{ width: 40, height: 40, borderRadius: 12, background: "rgba(242, 163, 58, 0.15)", display: "flex", alignItems: "center", justifyContent: "center" }}>

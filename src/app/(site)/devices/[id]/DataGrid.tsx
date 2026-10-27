@@ -6,7 +6,7 @@ function Cell({ label, value, bg = "#F5F7F4", lab = "#4A5A56", fg }: { label: st
   return (
     <div style={{ padding: "12px 14px", borderRadius: 12, background: bg }}>
       <div style={{ fontSize: 13, color: lab }}>{label}</div>
-      <div style={{ fontWeight: 700, color: fg }}>{value}</div>
+      <div style={{ fontWeight: 700, color: fg, overflowWrap: "anywhere" }}>{value}</div>
     </div>
   );
 }
@@ -15,11 +15,11 @@ export function DataGrid({ d }: { d: Device }) {
   const inspected = d.inspection === "inspected";
   const cond = COND_TILE[d.condition];
   return (
-    <div style={{ marginTop: 10, padding: 24, borderRadius: 20, background: "#FFFFFF", border: "1px solid #DCE3DF", display: "flex", flexDirection: "column", gap: 16 }}>
+    <div className="li-dbox" style={{ marginTop: 10, borderRadius: 20, background: "#FFFFFF", border: "1px solid #DCE3DF", display: "flex", flexDirection: "column", gap: 16 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
         <h2 style={{ margin: 0, fontSize: 20 }}>بيانات الجهاز</h2>
         {inspected ? (
-          <a href="#report" style={{ fontSize: 14, fontWeight: 600, display: "flex", alignItems: "center", gap: 4 }}>
+          <a href="#report" className="li-jump" style={{ fontSize: 14, fontWeight: 600, display: "flex", alignItems: "center", gap: 4 }}>
             تقرير الفحص
             <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" {...svgProps} strokeWidth={2}><path d="M12 5v14" /><path d="M6 13l6 6 6-6" /></svg>
           </a>
@@ -27,7 +27,7 @@ export function DataGrid({ d }: { d: Device }) {
           <span style={{ fontSize: 13, color: "#4A5A56" }}>حسب كلام البايع · هتتأكد في الفحص</span>
         )}
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(170px, 1fr))", gap: 10 }}>
+      <div className="li-dgrid">
         {inspected ? (
           <>
             <Cell label="الماركة / الموديل" value={brandModel(d)} />

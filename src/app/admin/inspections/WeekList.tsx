@@ -24,7 +24,7 @@ const CalIcon = () => (
 
 export function WeekList({ items, base, rows, tab, day, sel, onTab, onDay, onOpen, onAssign }: Props) {
   return (
-    <section className="ad-card" aria-labelledby="in-list-h" style={{ flex: "999 1 560px", minWidth: 0 }}>
+    <section className="ad-card in-list" aria-labelledby="in-list-h" style={{ flex: "999 1 560px", minWidth: 0 }}>
       <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 10 }}>
         <h2 className="ad-h" id="in-list-h" style={{ fontWeight: 700 }}>
           <span className="ad-n" style={{ background: "#E3F0ED", color: "#0D5C55" }}><CalIcon /></span>
@@ -33,7 +33,7 @@ export function WeekList({ items, base, rows, tab, day, sel, onTab, onDay, onOpe
         <span className="ad-hint">٢٤ – ٣٠ أكتوبر · النهارده الثلاثاء ٢٧</span>
       </div>
 
-      <div role="group" aria-label="اختار يوم" style={{ display: "flex", gap: 8, overflowX: "auto", paddingBottom: 2 }}>
+      <div role="group" aria-label="اختار يوم" className="in-days">
         {DAYS.map((d, i) => {
           const on = day === i;
           const n = items.filter((it) => it.day === i).length;
@@ -69,7 +69,7 @@ export function WeekList({ items, base, rows, tab, day, sel, onTab, onDay, onOpe
         })}
       </div>
 
-      <div role="group" aria-label="فلترة الحالة" style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
+      <div role="group" aria-label="فلترة الحالة" className="in-tabs">
         {TABS.map(([key, label]) => {
           const on = tab === key;
           return (
@@ -101,6 +101,7 @@ export function WeekList({ items, base, rows, tab, day, sel, onTab, onDay, onOpe
           return (
             <div
               key={it.id}
+              id={`in-row-${it.id}`}
               className="in-row"
               style={{ borderColor: on ? "#0D5C55" : st === "late" ? "#E8B4AE" : "#DCE3DF", background: on ? "#F2F8F6" : "#FFFFFF" }}
             >
@@ -117,11 +118,11 @@ export function WeekList({ items, base, rows, tab, day, sel, onTab, onDay, onOpe
                   </span>
                 </span>
               </button>
-              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", minWidth: 92, lineHeight: 1.4 }}>
+              <div className="in-when">
                 <span style={{ fontWeight: 700 }}>{it.time}</span>
                 <span style={{ fontSize: 13, color: "#4A5A56" }}>{DAYS[it.day][0]} {DAYS[it.day][1]}</span>
               </div>
-              <label style={{ display: "flex", flexDirection: "column", gap: 2, fontSize: 12, fontWeight: 600, color: "#4A5A56" }}>
+              <label className="in-tech">
                 اسم الفني
                 <select
                   className="in-sel"

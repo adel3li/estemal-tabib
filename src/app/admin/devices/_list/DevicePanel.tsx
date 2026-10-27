@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 import { BUSINESS, sellerNetFromSalePrice } from "@/config/business";
 import { isPublic } from "@/lib/demo/store";
 import { CONDITIONS, fmt, typeLabel } from "@/lib/demo/labels";
@@ -38,27 +39,26 @@ export function DevicePanel({
   const t = toggleOf(d);
   const note = noteOf(d);
   const net = d.sellerNet ?? sellerNetFromSalePrice(d.price);
+  const ref = useRef<HTMLElement>(null);
+  // On < 1024px the panel is a fixed sheet: start it at the top for each device, and close on Escape.
+  useEffect(() => {
+    ref.current?.scrollTo?.({ top: 0 });
+  }, [d.id]);
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
   return (
     <>
-      <div onClick={onClose} aria-hidden="true" style={{ position: "absolute", inset: 0, background: "rgba(238, 242, 240, 0.55)", borderRadius: 14 }} />
+      <div onClick={onClose} aria-hidden="true" className="al-panel-bg" />
       <aside
         role="dialog"
         aria-label={`تفاصيل ${d.title}`}
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: 420,
-          maxWidth: "100%",
-          background: "#FFFFFF",
-          border: "1px solid #DCE3DF",
-          borderRadius: 20,
-          boxShadow: "-4px 20px 50px rgba(18, 34, 31, 0.16)",
-          display: "flex",
-          flexDirection: "column",
-          overflow: "hidden",
-          zIndex: 2,
-        }}
+        ref={ref}
+        className="al-panel"
       >
         <div style={{ position: "relative", aspectRatio: "4 / 3", background: "#EEF4F1" }}>
           <svg role="img" aria-label={d.title} viewBox="0 0 120 90" style={{ display: "block", width: "100%", height: "100%" }}>
@@ -74,11 +74,10 @@ export function DevicePanel({
           ) : null}
           <button
             type="button"
-            className="al-act"
+            className="al-act al-panel-x"
             onClick={onClose}
             aria-label="اقفل التفاصيل"
             autoFocus
-            style={{ position: "absolute", top: 10, left: 10, width: 38, padding: 0, justifyContent: "center" }}
           >
             ✕
           </button>
@@ -88,7 +87,7 @@ export function DevicePanel({
             <div style={{ fontSize: 12, color: "#4A5A56" }}>
               {d.id} · {typeLabel(d.type)}
             </div>
-            <h2 style={{ margin: 0, fontSize: 21, lineHeight: 1.4 }}>{d.title || "جهاز من غير اسم"}</h2>
+            <h2 style={{ margin: 0, fontSize: 21, lineHeight: 1.4, overflowWrap: "anywhere" }}>{d.title || "جهاز من غير اسم"}</h2>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 6 }}>
               <span className="al-pill" style={{ background: st.bg, color: st.fg }}>
                 <span style={{ width: 7, height: 7, borderRadius: 999, background: st.fg }} />
@@ -133,7 +132,7 @@ export function DevicePanel({
           <div style={{ padding: "12px 14px", borderRadius: 14, background: note[0], color: note[1], fontSize: 14, display: "flex", flexDirection: "column", gap: 4 }}>
             <span style={{ fontWeight: 700 }}>{note[2]}</span>
             <span>{note[3]}</span>
-            <Link href={note[4]} style={{ fontWeight: 600, color: "inherit", textDecoration: "underline" }}>
+            <Link href={note[4]} className="al-tlink" style={{ fontWeight: 600, color: "inherit", textDecoration: "underline" }}>
               {note[5]}
             </Link>
           </div>
@@ -157,7 +156,7 @@ export function DevicePanel({
             </button>
           </div>
           {isPublic(d) ? (
-            <Link href={routes.device(d.id)} target="_blank" style={{ fontSize: 14, fontWeight: 600, textAlign: "center" }}>
+            <Link href={routes.device(d.id)} target="_blank" className="al-tlink" style={{ fontSize: 14, fontWeight: 600, textAlign: "center", justifyContent: "center" }}>
               شوف صفحة الجهاز على الموقع ←
             </Link>
           ) : null}

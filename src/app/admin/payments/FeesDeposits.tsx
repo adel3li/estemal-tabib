@@ -25,7 +25,7 @@ export function SellerFees({ subs, onRefund }: { subs: Submission[]; onRefund: (
       </div>
       <div className="ad-hint">بتندفع مع طلب البيع، وبترجع حسب <Link href={routes.terms} style={{ fontWeight: 600 }}>الشروط</Link>.</div>
       <div>
-        <div className="pm-mini" style={{ fontSize: 12, fontWeight: 700, color: "#4A5A56", borderTop: 0, paddingTop: 0 }}>
+        <div className="pm-mini pm-mini-h" style={{ fontSize: 12, fontWeight: 700, color: "#4A5A56", borderTop: 0, paddingTop: 0 }}>
           <span>البايع / طلب البيع</span><span>الجهاز</span><span>الحالة</span><span />
         </div>
         {subs.map((s) => {
@@ -38,7 +38,7 @@ export function SellerFees({ subs, onRefund }: { subs: Submission[]; onRefund: (
               </span>
               <span>{typeLabel(s.deviceType)}</span>
               <span><span className="pm-pill" style={{ background: bg, color: fg }}><span className="pm-dot" />{txt}</span></span>
-              <span style={{ minWidth: 92, textAlign: "left" }}>
+              <span className="pm-fee-act">
                 {s.feeStatus === "paid" ? (
                   <button type="button" className="pm-link" onClick={() => onRefund(s)} aria-label={`رجّع رسوم الجدية لـ طلب بيع ${s.id}`}>رجّع الـ {FEE}</button>
                 ) : null}
@@ -64,7 +64,7 @@ export function Reservations() {
       <div className="ad-hint">المشتري يقدر يحجز الجهاز بعربون {DEP} ج.م لحد ما يكمّل.</div>
       <div>
         {RESERVATIONS.map((d) => (
-          <div key={d.order} className="pm-mini" style={{ gridTemplateColumns: "1.1fr 1.2fr auto" }}>
+          <div key={d.order} className="pm-mini pm-mini-r">
             <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.45 }}>
               <span style={{ fontWeight: 600 }}>{d.order}</span>
               <span className="pm-sub">{d.buyer} · {d.date}</span>

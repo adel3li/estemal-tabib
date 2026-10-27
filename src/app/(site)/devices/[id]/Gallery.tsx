@@ -88,24 +88,24 @@ export function Gallery({ d }: { d: Device }) {
         </span>
 
         {!inspected ? (
-          <span style={{ position: "absolute", bottom: 16, right: 16, left: 16, padding: "10px 14px", borderRadius: 12, background: "rgba(255, 255, 255, 0.95)", color: "#24508F", fontSize: 14, fontWeight: 500, display: "flex", gap: 8, alignItems: "center" }}>
+          <span className="li-cap" style={{ position: "absolute", bottom: 16, right: 16, left: 16, padding: "10px 14px", borderRadius: 12, background: "rgba(255, 255, 255, 0.95)", color: "#24508F", fontSize: 14, fontWeight: 500, display: "flex", gap: 8, alignItems: "center" }}>
             <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" {...svgProps} strokeWidth={1.8} style={{ flex: "none" }}><circle cx="12" cy="12" r="9" /><path d="M12 8v5" /><path d="M12 16h.01" /></svg>
             الصور والفيديو من البايع. فريقنا هيصوّر الجهاز ويفحصه بعد طلبك.
           </span>
         ) : s.defect ? (
-          <span style={{ position: "absolute", bottom: 16, right: 16, left: 16, padding: "10px 14px", borderRadius: 12, background: "#FDF6EC", border: "1px solid #F0C88A", color: "#6B3A10", fontSize: 14, fontWeight: 600, display: "flex", gap: 8, alignItems: "center" }}>
+          <span className="li-cap" style={{ position: "absolute", bottom: 16, right: 16, left: 16, padding: "10px 14px", borderRadius: 12, background: "#FDF6EC", border: "1px solid #F0C88A", color: "#6B3A10", fontSize: 14, fontWeight: 600, display: "flex", gap: 8, alignItems: "center" }}>
             <span aria-hidden="true" style={{ width: 22, height: 22, borderRadius: 999, background: "#F2A33A", color: "#12221F", display: "flex", alignItems: "center", justifyContent: "center", flex: "none", fontWeight: 700, fontSize: 13 }}>!</span>
             {caption}
           </span>
         ) : !s.video ? (
-          <span style={{ position: "absolute", bottom: 16, right: 16, left: 16, padding: "10px 14px", borderRadius: 12, background: "rgba(255, 255, 255, 0.95)", color: "#0B4A44", fontSize: 14, fontWeight: 500, display: "flex", gap: 8, alignItems: "center" }}>
+          <span className="li-cap" style={{ position: "absolute", bottom: 16, right: 16, left: 16, padding: "10px 14px", borderRadius: 12, background: "rgba(255, 255, 255, 0.95)", color: "#0B4A44", fontSize: 14, fontWeight: 500, display: "flex", gap: 8, alignItems: "center" }}>
             <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" {...svgProps} strokeWidth={1.8} style={{ flex: "none" }}><path d="M4 8h3l2-3h6l2 3h3v11H4z" /><circle cx="12" cy="13" r="3.5" /></svg>
             صورة حقيقية للجهاز — تصوير فريق الفحص
           </span>
         ) : null}
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))`, gap: 10 }}>
+      <div className="li-thumbs" style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}>
         {slides.map((t, k) => {
           const on = t === s;
           const bd = on ? (t.defect ? "#C46A12" : "#0D5C55") : t.defect ? "#F0C88A" : "transparent";
@@ -121,7 +121,7 @@ export function Gallery({ d }: { d: Device }) {
             >
               <svg aria-hidden="true" viewBox="0 0 400 300" style={pic}><use href={t.ref} /></svg>
               {t.video && inspected ? (
-                <span style={{ position: "absolute", inset: 0, background: "rgba(15, 42, 38, 0.5)", color: "#FFFFFF", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 2, fontSize: 11, fontWeight: 600, fontFamily: "inherit" }}>
+                <span style={{ position: "absolute", inset: 0, background: "rgba(15, 42, 38, 0.5)", color: "#FFFFFF", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 2, fontSize: 12, fontWeight: 600, fontFamily: "inherit" }}>
                   <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
                   <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", maxWidth: "92%" }}>فيديو وهو شغال</span>
                 </span>
@@ -132,7 +132,7 @@ export function Gallery({ d }: { d: Device }) {
                 </span>
               ) : null}
               {t.defect ? (
-                <span style={{ position: "absolute", bottom: 0, right: 0, left: 0, padding: "2px 4px", background: "#FBEEDC", color: "#8A4209", fontSize: 11, fontWeight: 700, fontFamily: "inherit", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>صورة العيب</span>
+                <span style={{ position: "absolute", bottom: 0, right: 0, left: 0, padding: "2px 4px", background: "#FBEEDC", color: "#8A4209", fontSize: 12, fontWeight: 700, fontFamily: "inherit", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>صورة العيب</span>
               ) : null}
             </button>
           );

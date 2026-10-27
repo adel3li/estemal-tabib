@@ -35,6 +35,22 @@ export default function InspectionsPage() {
   const [drafts, setDrafts] = useState<Record<string, Form>>({});
   // Picked photo/video files stay in memory only (demo — no upload).
   const files = useRef<Record<string, File[]>>({});
+  const asideRef = useRef<HTMLElement>(null);
+
+  // On phones/tablets the report panel sits under the list: bring it into view.
+  const narrow = () => typeof window !== "undefined" && window.matchMedia("(max-width: 1023px)").matches;
+  const scrollToEl = (el: Element | null) => {
+    if (!el || !narrow()) return;
+    requestAnimationFrame(() => el.scrollIntoView({ behavior: "smooth", block: "start" }));
+  };
+  const openReport = (id: string) => {
+    setSel(id);
+    setErr("");
+    scrollToEl(asideRef.current);
+  };
+  const backToList = () => {
+    scrollToEl(document.getElementById(`in-row-${sel}`) ?? document.getElementById("in-list-h"));
+  };
 
   const query = q.trim();
   const matchQ = (it: Inspection) =>
@@ -107,17 +123,17 @@ export default function InspectionsPage() {
       <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-end", gap: 16 }}>
         <div>
           <div style={{ fontSize: 14, color: "#4A5A56" }}>لوحة التحكم › الفحوصات</div>
-          <h1 style={{ margin: 0, fontSize: 30, lineHeight: 1.3, fontWeight: 700 }}>الفحوصات</h1>
+          <h1 className="in-h1" style={{ margin: 0, lineHeight: 1.3, fontWeight: 700 }}>الفحوصات</h1>
           <div style={{ color: "#4A5A56" }}>مواعيد الفني المعتمد وتقارير الفحص، قبل النشر أو بعد طلب مشتري.</div>
         </div>
-        <label style={{ display: "flex", alignItems: "center", gap: 8, minWidth: 280 }}>
+        <label className="in-search">
           <span style={{ position: "absolute", width: 1, height: 1, overflow: "hidden" }}>دوّر في الفحوصات</span>
           <input type="search" className="ad-in" value={q} onChange={(e) => setQ(e.target.value)} placeholder="دوّر بالجهاز، المحافظة أو رقم الفحص" />
         </label>
       </div>
 
       {toast ? (
-        <div role="status" style={{ padding: "14px 18px", borderRadius: 16, background: tk[0], border: `1px solid ${tk[1]}`, color: tk[2], display: "flex", alignItems: "center", gap: 12, fontWeight: 600, flexWrap: "wrap" }}>
+        <div role="status" className="in-toast" style={{ padding: "14px 18px", borderRadius: 16, background: tk[0], border: `1px solid ${tk[1]}`, color: tk[2], display: "flex", alignItems: "center", gap: 12, fontWeight: 600, flexWrap: "wrap" }}>
           <span style={{ width: 28, height: 28, borderRadius: 999, background: tk[2], color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center", flex: "none", fontSize: 14 }}>{tk[3]}</span>
           <span style={{ flex: 1 }}>{toast.txt}</span>
           {toastDevice ? (
@@ -144,11 +160,11 @@ export default function InspectionsPage() {
           sel={sel}
           onTab={setTab}
           onDay={setDay}
-          onOpen={(id) => { setSel(id); setErr(""); }}
+          onOpen={openReport}
           onAssign={assign}
         />
 
-        <aside style={{ flex: "1 1 420px", minWidth: 0, position: "sticky", top: 20, display: "flex", flexDirection: "column", gap: 14 }}>
+        <aside ref={asideRef} className="in-aside">
           {selIt && form ? (
             <ReportPanel
               it={selIt}
@@ -160,6 +176,7 @@ export default function InspectionsPage() {
                 editForm((f) => ({ ...f, photos: f.photos + picked.length }));
               }}
               onClose={() => { setSel(null); setErr(""); }}
+              onBack={backToList}
               onSave={save}
               onApprove={approve}
               onReopen={reopen}

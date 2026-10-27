@@ -24,3 +24,76 @@
 .pm-mini{display:grid;grid-template-columns:1.2fr 1fr .8fr auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid #E5EBE8;font-size:14px}
 .pm-link{background:none;border:0;padding:6px 8px;border-radius:8px;font:inherit;font-size:13px;font-weight:700;color:#0D5C55;cursor:pointer}
 .pm-link:hover{background:#E3F0ED}
+
+/* ── Layout hooks (desktop values = the design) ── */
+.pm-h1{font-size:30px}
+.pm-kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.pm-search{flex:0 1 300px;position:relative;display:flex}
+.pm-tabs{display:flex;flex-wrap:wrap;gap:8px}
+.pm-tbl-top{padding:20px 20px 14px}
+.pm-net-l{display:none}
+.pm-exp{padding:18px 20px 22px}
+.pm-path{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.pm-path-i{display:flex;flex-direction:column;gap:6px;font-size:12px;color:#3C4C48}
+.pm-path-bar{height:6px;border-radius:999px}
+.pm-mini-r{grid-template-columns:1.1fr 1.2fr auto}
+.pm-fee-act{min-width:92px;text-align:left}
+
+/* ── Tablets & phones: money table → cards, bigger targets ── */
+@media (max-width: 1023px){
+  .pm-kpis{grid-template-columns:1fr 1fr;gap:12px}
+  .pm-tab{min-height:44px}
+  .pm-link{min-height:44px;padding:6px 12px}
+  .pm-x{min-width:44px}
+  .pm-olink{min-height:44px}
+  .pm-head{display:none}
+  .pm-row.pm-cols{grid-template-columns:minmax(0,1fr) auto 24px;grid-template-areas:"ord st chev" "buy amt amt" "dt net net" "tr tr tr";gap:10px 12px;align-items:start;padding:14px 16px}
+  .pm-row > :nth-child(1){grid-area:ord}
+  .pm-row > :nth-child(2){grid-area:buy}
+  .pm-row > :nth-child(3){grid-area:amt;align-items:flex-end !important;text-align:left}
+  .pm-row > :nth-child(4){grid-area:dt}
+  .pm-row > :nth-child(5){grid-area:tr}
+  .pm-row > :nth-child(6){grid-area:net;text-align:left}
+  .pm-row > :nth-child(7){grid-area:st;align-self:center}
+  .pm-row > :nth-child(8){grid-area:chev;align-self:center;text-align:center}
+  .pm-net-l{display:inline;font-weight:400;font-size:13px;color:#4A5A56}
+}
+
+/* ── Phones ── */
+@media (max-width: 767px){
+  .pm-h1{font-size:24px}
+  .pm-kpis{gap:10px}
+  .pm-kpi{padding:12px 14px;border-radius:16px}
+  .pm-kpi-l{font-size:13px;align-items:flex-start}
+  .pm-kpi-v{font-size:20px;overflow-wrap:anywhere}
+  .pm-kpi-s{font-size:12px}
+  .pm-tbl-top{padding:16px 14px 12px}
+  .pm-search{flex:1 1 100%}
+  .pm-tabs{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-inline:-4px;padding:2px 4px}
+  .pm-tabs::-webkit-scrollbar{display:none}
+  .pm-tab{flex:none;white-space:nowrap}
+  .pm-row.pm-cols{padding:14px}
+  .pm-exp{padding:16px 14px 20px}
+  .pm-path{grid-template-columns:1fr;gap:6px}
+  .pm-path-i{flex-direction:row;align-items:center;gap:10px;font-size:13px}
+  .pm-path-bar{flex:none;width:32px}
+  /* fees + reservations rows → two-line cards */
+  .pm-mini-h{display:none}
+  .pm-mini{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"a c" "b d";gap:4px 10px;padding:12px 0}
+  .pm-mini > :nth-child(1){grid-area:a}
+  .pm-mini > :nth-child(2){grid-area:b;color:#3C4C48}
+  .pm-mini > :nth-child(3){grid-area:c;justify-self:end}
+  .pm-mini > :nth-child(4){grid-area:d;justify-self:end;min-width:0}
+  .pm-mini-r{grid-template-areas:"a c" "b b"}
+}
+
+/* ── Tablets: denser two-line cards ── */
+@media (min-width: 768px) and (max-width: 1023px){
+  .pm-row.pm-cols{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) minmax(0,1fr) auto 24px;grid-template-areas:"ord buy amt st chev" "dt tr net net net"}
+  .pm-row > :nth-child(5){align-self:center}
+}
+
+/* Toast stays visible under the admin top bar on touch layouts (actions sit far below it). */
+@media (max-width: 1023px){
+  .pm-toast{position:sticky;top:calc(72px + env(safe-area-inset-top));z-index:20;box-shadow:0 10px 24px rgba(18,34,31,.14)}
+}

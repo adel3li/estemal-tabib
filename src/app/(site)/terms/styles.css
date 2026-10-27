@@ -14,3 +14,31 @@
 /* Browser defaults the design relies on (Tailwind preflight resets them). */
 .tm-page :is(h1,h2,h3){font-weight:700}
 .tm-page article ul{list-style:disc}
+
+/* ---- Responsive pass ---- */
+.tm-head{padding:34px 34px 28px}
+.tm-h1{font-size:36px;line-height:1.3}
+.tm-hero-art{min-height:220px}
+.tm-aside{flex:1 1 260px;position:sticky;top:88px;display:flex;flex-direction:column}
+.tm-art{padding:28px}
+.tm-art-dark{padding:26px 28px}
+.tm-h2{font-size:22px}
+.tm-p{padding:14px 16px}
+.tm-cta{align-self:flex-start}
+@media (max-width: 1023px){
+  .tm-crumb{display:inline-flex;align-items:center;min-height:44px}
+  /* Side panel: not sticky; sits above the articles. On tablets the TOC and
+     the «أرقام مهمة» box sit side by side. */
+  .tm-aside{position:static;flex:1 1 100%;display:grid;grid-template-columns:repeat(auto-fit, minmax(min(300px, 100%), 1fr));align-items:start}
+  .tm-toc a{min-height:44px}
+}
+@media (max-width: 767px){
+  .tm-head{padding:24px 20px 22px}
+  .tm-h1{font-size:26px}
+  .tm-hero-art{min-height:0;height:170px}
+  .tm-art{padding:20px 16px}
+  .tm-art-dark{padding:20px 18px}
+  .tm-h2{font-size:19px}
+  .tm-p{padding:12px 14px}
+  .tm-cta{align-self:stretch;justify-content:center}
+}

@@ -19,3 +19,63 @@
 .mn-upload:hover{border-color:#0D5C55;background:#FFFFFF}
 /* Browser defaults the design relies on (Tailwind preflight resets them). */
 .mn-page :is(h1,h2,h3){font-weight:700}
+
+/* ---- Responsive pass (desktop values are the defaults; small screens override) ---- */
+.mn-sec{padding:76px 20px}
+.mn-sec-80{padding:80px 20px}
+.mn-h2{font-size:34px}
+.mn-h2-lg{font-size:36px}
+.mn-h2-sm{font-size:32px}
+.mn-lead{font-size:18px}
+.mn-hero{padding:64px 20px 72px;gap:48px}
+.mn-h1{font-size:clamp(34px, 5vw, 58px)}
+.mn-hero-p{font-size:19px}
+.mn-steps{grid-template-columns:repeat(auto-fit, minmax(min(240px, 100%), 1fr))}
+.mn-g3-w{grid-template-columns:repeat(auto-fit, minmax(min(260px, 100%), 1fr))}
+.mn-g3-c{grid-template-columns:repeat(auto-fit, minmax(min(280px, 100%), 1fr))}
+.mn-cat-art{height:220px}
+.mn-card-img{aspect-ratio:4 / 3;overflow:hidden}
+.mn-sell{padding:40px;gap:40px}
+.mn-sell-form{padding:26px}
+
+@media (max-width: 1199px){
+  .mn-steps{grid-template-columns:repeat(2, minmax(0, 1fr))}
+}
+@media (max-width: 1023px){
+  .mn-link44{display:inline-flex;align-items:center;min-height:44px}
+  .mn-hero-card{margin-inline:auto;width:100%}
+  .mn-g3{grid-template-columns:repeat(3, minmax(0, 1fr))}
+  .mn-cat-art{height:170px}
+  .mn-faq summary{min-height:44px}
+  .mn-sec{padding:60px 20px}
+  .mn-sec-80{padding:64px 20px}
+}
+@media (max-width: 767px){
+  .mn-hero{padding:36px 20px 48px;gap:36px}
+  .mn-h1{font-size:30px;line-height:1.35 !important}
+  .mn-hero-p{font-size:17px}
+  .mn-ctas > a{flex:1 1 150px;justify-content:center}
+  .mn-sec{padding:48px 20px}
+  .mn-sec-80{padding:52px 20px}
+  .mn-h2,.mn-h2-lg{font-size:26px;line-height:1.4}
+  .mn-h2-sm{font-size:25px}
+  .mn-lead{font-size:16px}
+  .mn-steps,.mn-g3{grid-template-columns:minmax(0, 1fr)}
+  .mn-cat-art{height:auto;aspect-ratio:16 / 9}
+  .mn-card-img{aspect-ratio:16 / 10}
+  /* Filter chips: one swipeable row, bleeding to the screen edges. */
+  .mn-chips{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;
+    margin-inline:-20px;padding-inline:20px;width:calc(100% + 40px);scroll-padding-inline:20px}
+  .mn-chips::-webkit-scrollbar{display:none}
+  .mn-sell{padding:22px 18px;gap:26px}
+  .mn-sell-form{padding:18px}
+  .mn-faq summary{font-size:17px !important}
+  .mn-faq{padding:14px 18px !important}
+}
+@media (max-width: 380px){
+  .mn-h1{font-size:28px}
+}
+/* Touch screens: cards shouldn't stay "lifted" after a tap. */
+@media (hover: none){
+  .mn-card:hover,.mn-cta:hover,.mn-amber:hover{transform:none}
+}

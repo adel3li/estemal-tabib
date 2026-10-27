@@ -1,5 +1,6 @@
 "use client";
 
+import { forwardRef } from "react";
 import { fmt } from "@/lib/demo/labels";
 import type { Submission, SubmissionStatus } from "@/lib/demo/types";
 import { artFor } from "../art";
@@ -16,10 +17,10 @@ type Props = {
   onPick: (id: string) => void;
 };
 
-export function SubmissionList({ tab, counts, onTab, q, onQ, items, sel, onPick }: Props) {
+export const SubmissionList = forwardRef<HTMLElement, Props>(function SubmissionList({ tab, counts, onTab, q, onQ, items, sel, onPick }, ref) {
   return (
-    <section className="ad-card sb-list" aria-label="قائمة الطلبات" style={{ flex: "0 0 414px", padding: 16, gap: 12, minWidth: 0 }}>
-      <div role="tablist" aria-label="حالة الطلب" className="sb-tabs" style={{ display: "flex", gap: 4, padding: 4, borderRadius: 14, background: "#F5F7F4" }}>
+    <section ref={ref} className="ad-card sb-list" aria-label="قائمة الطلبات" style={{ padding: 16, gap: 12, minWidth: 0 }}>
+      <div role="tablist" aria-label="حالة الطلب" className="sb-tabs" style={{ gap: 4, padding: 4, borderRadius: 14, background: "#F5F7F4" }}>
         {TABS.map(([key, label]) => {
           const on = tab === key;
           return (
@@ -85,7 +86,7 @@ export function SubmissionList({ tab, counts, onTab, q, onQ, items, sel, onPick 
                   </span>
                   <span>{x.createdAt}</span>
                 </span>
-                <span style={{ fontWeight: 700 }}>{x.details}</span>
+                <span style={{ fontWeight: 700, overflowWrap: "anywhere" }}>{x.details}</span>
                 <span style={{ fontSize: 13, color: "#3C4C48" }}>
                   {x.fullName} · <span style={{ fontWeight: 700, color: "#12221F" }}>{fmt(x.salePrice)} ج.م</span>
                 </span>
@@ -117,4 +118,4 @@ export function SubmissionList({ tab, counts, onTab, q, onQ, items, sel, onPick 
       </div>
     </section>
   );
-}
+});

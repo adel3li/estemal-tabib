@@ -15,7 +15,7 @@ export function Kpis({ items, tab, onPick }: { items: Inspection[]; tab: Tab; on
     { key: "review", label: "تقارير محتاجة مراجعة", val: kRev, sub: "اتملت ومستنية اعتماد", dot: "#F2A33A" },
   ];
   return (
-    <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 14 }}>
+    <div className="in-kpis">
       {kpis.map((k) => {
         const on = tab === k.key;
         return (
@@ -31,7 +31,7 @@ export function Kpis({ items, tab, onPick }: { items: Inspection[]; tab: Tab; on
               <span style={{ width: 10, height: 10, borderRadius: 999, background: k.dot }} />
               {k.label}
             </span>
-            <span style={{ fontSize: 34, fontWeight: 700, lineHeight: 1.2, color: k.key === "late" && k.val > 0 ? "#B3261E" : "#12221F" }}>{k.val}</span>
+            <span className="in-kpi-v" style={{ fontWeight: 700, lineHeight: 1.2, color: k.key === "late" && k.val > 0 ? "#B3261E" : "#12221F" }}>{k.val}</span>
             <span style={{ fontSize: 13, color: "#4A5A56" }}>{k.sub}</span>
           </button>
         );

@@ -79,8 +79,13 @@ export function SellForm() {
     const first = FIELD_ORDER.find((k) => e[k]);
     if (first) {
       const el = document.getElementById(fieldId(first));
-      el?.scrollIntoView({ behavior: "smooth", block: "center" });
-      el?.focus({ preventScroll: true });
+      if (el) {
+        // Scroll the whole field (label + input + message) under the sticky header (~70px).
+        const box = el.closest(".sl-field, .sl-sub, fieldset") ?? el;
+        const top = box.getBoundingClientRect().top + window.scrollY - 88;
+        window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
+        el.focus({ preventScroll: true });
+      }
       return;
     }
     const sale = parseNum(f.sale) || (parseNum(f.net) ? salePriceFromSellerNet(parseNum(f.net)) : 0);
@@ -133,13 +138,13 @@ export function SellForm() {
 
   return (
     <>
-      <div style={{ maxWidth: 1200, boxSizing: "content-box", margin: "0 auto", padding: "20px 20px 0", fontSize: 14, color: "#4A5A56", display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
+      <div className="sl-crumb">
         <Link href={routes.home}>الرئيسية</Link>
         <span aria-hidden="true">›</span>
         <span>اعرض جهازك للبيع</span>
       </div>
 
-      <section style={{ maxWidth: 1200, boxSizing: "content-box", margin: "0 auto", padding: "16px 20px 72px", display: "flex", flexDirection: "column", gap: 24 }}>
+      <section className="sl-wrap">
         <SellHero />
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <form noValidate onSubmit={(e) => { e.preventDefault(); submit(); }} style={{ minWidth: 0, display: "flex", flexDirection: "column", gap: 20 }}>

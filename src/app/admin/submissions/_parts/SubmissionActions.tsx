@@ -45,7 +45,7 @@ export function SubmissionActions({ p, h }: { p: Submission; h: ActionHandlers }
   return (
     <div style={{ paddingTop: 16, borderTop: "1px solid #DCE3DF", display: "flex", flexDirection: "column", gap: 14 }}>
       {!mode ? (
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(170px, 1fr))", gap: 10 }}>
+        <div className="sb-mainacts">
           <button type="button" className="sb-act sb-ok" onClick={h.accept}>
             <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
               <path d="M5 12l4 4 10-10" />
@@ -86,13 +86,13 @@ export function SubmissionActions({ p, h }: { p: Submission; h: ActionHandlers }
       {mode === "photos" ? (
         <div style={{ padding: 16, borderRadius: 16, background: "#F5F7F4", display: "flex", flexDirection: "column", gap: 12 }}>
           <div style={{ fontWeight: 700 }}>محتاجين إيه من البايع؟</div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }} role="group" aria-label="محتاجين إيه من البايع؟">
+          <div className="sb-chips" role="group" aria-label="محتاجين إيه من البايع؟">
             {PHOTO_REQS.map(([k, label]) => {
               const on = photoReq.includes(k);
               return <Chip key={k} on={on} label={label} onClick={() => setPhotoReq(on ? photoReq.filter((x) => x !== k) : [...photoReq, k])} />;
             })}
           </div>
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+          <div className="sb-subacts">
             <button
               type="button"
               className="sb-act sb-ok"
@@ -141,7 +141,7 @@ export function SubmissionActions({ p, h }: { p: Submission; h: ActionHandlers }
               </select>
             </label>
           </div>
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+          <div className="sb-subacts">
             <button
               type="button"
               className="sb-act sb-ok"
@@ -167,21 +167,21 @@ export function SubmissionActions({ p, h }: { p: Submission; h: ActionHandlers }
               *
             </span>
           </div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }} role="group" aria-label="سبب الرفض">
+          <div className="sb-chips" role="group" aria-label="سبب الرفض">
             {REJECT_REASONS.map((r) => (
               <Chip key={r} on={rej === r} label={r} onClick={() => setRej(r)} col="#B3261E" />
             ))}
           </div>
           <label className="ad-field">
             رسالة للبايع (اختياري)
-            <textarea className="ad-in" value={rejNote} onChange={(e) => setRejNote(e.target.value)} placeholder="مثال: ممكن تعيد عرض الجهاز بسعر أقرب للسوق" />
+            <textarea className="ad-in" enterKeyHint="done" value={rejNote} onChange={(e) => setRejNote(e.target.value)} placeholder="مثال: ممكن تعيد عرض الجهاز بسعر أقرب للسوق" />
           </label>
           {rejTried && !rej ? (
             <div role="alert" style={{ fontSize: 13, color: "#B3261E", fontWeight: 600 }}>
               اختار سبب الرفض الأول.
             </div>
           ) : null}
-          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+          <div className="sb-subacts">
             <button
               type="button"
               className="sb-act sb-danger"

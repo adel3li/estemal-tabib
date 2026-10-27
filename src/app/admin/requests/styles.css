@@ -16,3 +16,44 @@
 .rq-close{background:#FFFFFF;color:#B3261E;border:1px solid #E8B4AE}.rq-close:hover{background:#FBE9E7}
 .rq-link{background:none;border:0;padding:6px 8px;border-radius:8px;font:inherit;font-size:13px;font-weight:700;color:#0D5C55;cursor:pointer}
 .rq-link:hover{background:#E3F0ED}
+
+/* ── Layout hooks (desktop values = the design) ── */
+.rq-h1{font-size:30px}
+.rq-tabs{display:flex;flex-wrap:wrap;gap:8px}
+.rq-search{flex:0 1 300px;position:relative;display:flex}
+.rq-aside{flex:1 1 400px;min-width:0;position:sticky;top:20px;scroll-margin-top:84px}
+.rq-item{scroll-margin-top:84px}
+.rq-count{flex:none;min-width:86px;display:flex;flex-direction:column}
+.rq-adlink{font-size:13px;font-weight:600}
+.rq-msg{font-size:14px}
+.rq-back{display:none}
+.rq-body{flex:1 1 auto}
+
+/* ── Tablets & phones ── */
+@media (max-width: 1023px){
+  .rq-aside{position:static}
+  .rq-tab{min-height:44px}
+  .rq-x{min-width:44px;min-height:44px}
+  .rq-adlink{display:inline-flex;align-items:center;min-height:44px;font-size:14px}
+  .rq-msg{font-size:15px;line-height:1.7}
+  .rq-back{display:inline-flex;align-items:center;gap:6px;align-self:flex-start;min-height:44px;padding:0 14px;margin:-6px 0 -4px;border-radius:12px;border:1px solid #C9D4CF;background:#F5F7F4;font:inherit;font-size:15px;font-weight:700;color:#0D5C55;cursor:pointer}
+  .rq-panel{padding:20px 16px}
+  .rq-item:hover{box-shadow:none}
+}
+
+/* ── Phones ── */
+@media (max-width: 767px){
+  .rq-h1{font-size:24px}
+  .rq-tabs{flex:1 1 100%}
+  .rq-tab{flex:1 1 0;justify-content:center;padding:0 10px}
+  .rq-search{flex:1 1 100%}
+  .rq-item{flex-wrap:wrap;padding:14px;gap:12px}
+  .rq-body{flex:1 1 0}
+  .rq-count{flex:1 1 100%;flex-direction:row;justify-content:center;gap:8px;min-width:0;padding:6px 10px !important}
+  .rq-count > span:first-child{font-size:18px !important}
+}
+
+/* Toast stays visible under the admin top bar on touch layouts (actions sit far below it). */
+@media (max-width: 1023px){
+  .rq-toast{position:sticky;top:calc(72px + env(safe-area-inset-top));z-index:20;box-shadow:0 10px 24px rgba(18,34,31,.14)}
+}

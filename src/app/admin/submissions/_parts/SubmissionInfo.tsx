@@ -24,7 +24,7 @@ export function SubmissionInfo({ p, onReopen }: { p: Submission; onReopen: () =>
           <div style={{ fontSize: 13, color: "#4A5A56" }}>
             طلب {p.id} · وصل {p.createdAt}
           </div>
-          <h2 id="sb-dt" style={{ margin: 0, fontSize: 24, lineHeight: 1.4 }}>
+          <h2 id="sb-dt" className="sb-h2" style={{ margin: 0, lineHeight: 1.4, overflowWrap: "anywhere" }}>
             {p.details}
           </h2>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 6 }}>
@@ -40,7 +40,7 @@ export function SubmissionInfo({ p, onReopen }: { p: Submission; onReopen: () =>
             </span>
           </div>
         </div>
-        <div style={{ textAlign: "left" }}>
+        <div className="sb-price">
           <div style={{ fontSize: 13, color: "#4A5A56" }}>السعر المطلوب</div>
           <div style={{ fontSize: 28, fontWeight: 700, lineHeight: 1.2 }}>
             {fmt(p.salePrice)} <span style={{ fontSize: 14, fontWeight: 400, color: "#4A5A56" }}>ج.م</span>
@@ -87,11 +87,11 @@ export function SubmissionInfo({ p, onReopen }: { p: Submission; onReopen: () =>
       <div>
         <h3 style={{ margin: "0 0 8px", fontSize: 16, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
           البايع
-          <a href={wa} target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, fontWeight: 600, color: "#156B35" }}>
+          <a href={wa} target="_blank" rel="noopener noreferrer" className="sb-walink" style={{ fontSize: 13, fontWeight: 600, color: "#156B35" }}>
             كلّمه على واتساب ↗
           </a>
         </h3>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(170px, 1fr))", gap: 10 }}>
+        <div className="sb-kvs">
           <div className="sb-kv"><span>الدكتور</span><span>{p.fullName}</span></div>
           <div className="sb-kv"><span>الموبايل</span><span dir="ltr" style={{ textAlign: "right" }}>{p.phone}</span></div>
           <div className="sb-kv"><span>المحافظة</span><span>{p.governorate}</span></div>
@@ -104,7 +104,7 @@ export function SubmissionInfo({ p, onReopen }: { p: Submission; onReopen: () =>
 
       <div>
         <h3 style={{ margin: "0 0 8px", fontSize: 16 }}>الجهاز</h3>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(170px, 1fr))", gap: 10 }}>
+        <div className="sb-kvs">
           <div className="sb-kv"><span>نوع الجهاز</span><span>{typeLabel(p.deviceType)}</span></div>
           <div className="sb-kv"><span>سنة الصنع</span><span>{p.year || "—"}</span></div>
           <div className="sb-kv"><span>حالة المنتج</span><span>{cond}</span></div>
@@ -132,13 +132,13 @@ export function SubmissionInfo({ p, onReopen }: { p: Submission; onReopen: () =>
             {p.photos} صور · {p.hasVideo ? "فيه فيديو" : "مفيش فيديو"}
           </span>
         </h3>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(104px, 1fr))", gap: 8 }}>
+        <div className="sb-photos">
           {Array.from({ length: p.photos }, (_, i) => (
             <span key={i} style={{ position: "relative", aspectRatio: "4 / 3", borderRadius: 12, overflow: "hidden", border: "1px solid #DCE3DF", display: "block" }}>
               <svg role="img" aria-label={`صورة ${i + 1} من ${p.photos} — ${p.details}`} viewBox="0 0 120 90" style={{ display: "block", width: "100%", height: "100%", transform: THUMB_TF[i % THUMB_TF.length] }}>
                 <use href={img} />
               </svg>
-              <span style={{ position: "absolute", bottom: 4, right: 4, padding: "0 6px", borderRadius: 6, background: "rgba(18, 34, 31, 0.7)", color: "#FFFFFF", fontSize: 11 }}>{i + 1}</span>
+              <span style={{ position: "absolute", bottom: 4, right: 4, padding: "0 6px", borderRadius: 6, background: "rgba(18, 34, 31, 0.7)", color: "#FFFFFF" }} className="sb-num">{i + 1}</span>
             </span>
           ))}
           {p.hasVideo ? (

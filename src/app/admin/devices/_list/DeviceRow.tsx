@@ -43,14 +43,14 @@ export function DeviceRow({
       onClick={onOpen}
       style={{ background: selected ? "#EEF6F3" : "transparent", boxShadow: `inset -3px 0 0 ${selected ? "#0D5C55" : "transparent"}` }}
     >
-      <div className="al-td" role="cell">
+      <div className="al-td al-c-name" role="cell">
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-          <span style={{ width: 64, height: 48, borderRadius: 10, overflow: "hidden", border: "1px solid #DCE3DF", flex: "none", position: "relative" }}>
+          <span className="al-thumb" style={{ borderRadius: 10, overflow: "hidden", border: "1px solid #DCE3DF", flex: "none", position: "relative" }}>
             <svg role="img" aria-label={d.title} viewBox="0 0 120 90" style={{ display: "block", width: "100%", height: "100%" }}>
               <use href={artFor(d.type)} />
             </svg>
           </span>
-          <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.4, minWidth: 0 }}>
+          <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.4, minWidth: 0, flex: "1 1 auto" }}>
             <button
               type="button"
               className="al-name"
@@ -62,7 +62,7 @@ export function DeviceRow({
             >
               {d.title || "جهاز من غير اسم"}
             </button>
-            <span style={{ fontSize: 12, color: "#4A5A56", display: "flex", gap: 6, alignItems: "center" }}>
+            <span className="al-meta" style={{ fontSize: 12, color: "#4A5A56", display: "flex", gap: 6, alignItems: "center" }}>
               {d.id} · {d.governorate}
               {d.featured ? (
                 <span className="al-pill" style={{ background: "#FBEEDC", color: "#8A4209", padding: "0 8px" }}>
@@ -73,35 +73,35 @@ export function DeviceRow({
           </span>
         </div>
       </div>
-      <div className="al-td" role="cell" style={{ whiteSpace: "nowrap" }}>
+      <div className="al-td al-c-type" role="cell" style={{ whiteSpace: "nowrap" }}>
         {typeLabel(d.type)}
       </div>
-      <div className="al-td" role="cell">
+      <div className="al-td al-c-src" role="cell">
         <span className="al-pill" style={{ background: sr.bg, color: sr.fg }}>
           {sr.l}
         </span>
       </div>
-      <div className="al-td" role="cell">
+      <div className="al-td al-c-insp" role="cell">
         <span className="al-pill" style={{ background: ins.bg, color: ins.fg }}>
           {ins.l}
         </span>
       </div>
-      <div className="al-td" role="cell" style={{ whiteSpace: "nowrap", fontWeight: 700 }}>
+      <div className="al-td al-c-price" role="cell" style={{ whiteSpace: "nowrap", fontWeight: 700 }}>
         {d.price ? fmt(d.price) : "—"} <span style={{ fontSize: 12, fontWeight: 400, color: "#4A5A56" }}>ج.م</span>
       </div>
-      <div className="al-td" role="cell">
+      <div className="al-td al-c-st" role="cell">
         <span className="al-pill" style={{ background: st.bg, color: st.fg }}>
           <span style={{ width: 7, height: 7, borderRadius: 999, background: st.fg }} />
           {st.l}
         </span>
       </div>
-      <div className="al-td" role="cell" style={{ whiteSpace: "nowrap", fontSize: 13, lineHeight: 1.5 }}>
+      <div className="al-td al-c-views" role="cell" style={{ whiteSpace: "nowrap", fontSize: 13, lineHeight: 1.5 }}>
         <span style={{ fontWeight: 600 }}>{d.views ? `${fmt(d.views)} مشاهدة` : "لسه متنشرش"}</span>
         <br />
         <span style={{ color: "#4A5A56" }}>{d.createdAt}</span>
       </div>
-      <div className="al-td" role="cell">
-        <div style={{ display: "flex", gap: 6 }}>
+      <div className="al-td al-c-act" role="cell">
+        <div className="al-acts">
           <Link href={routes.admin.editDevice(d.id)} className="al-act" onClick={stop} aria-label={`عدّل ${d.title}`}>
             <PencilIcon />
             تعديل

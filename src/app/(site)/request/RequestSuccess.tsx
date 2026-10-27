@@ -11,8 +11,8 @@ export function RequestSuccess({ id, onAgain }: { id: string; onAgain: () => voi
   const matches = req ? matchesFor(req) : [];
 
   return (
-    <section style={{ maxWidth: 640, boxSizing: "content-box", margin: "0 auto", padding: "80px 20px" }}>
-      <div style={{ padding: "44px 32px", borderRadius: 28, background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexDirection: "column", alignItems: "center", gap: 14, textAlign: "center" }}>
+    <section className="rq-done">
+      <div className="rq-done-card" style={{ borderRadius: 28, background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexDirection: "column", alignItems: "center", gap: 14, textAlign: "center" }}>
         <span style={{ width: 96, height: 96, borderRadius: 999, background: "#E3F0ED", display: "flex", alignItems: "center", justifyContent: "center" }}>
           <span style={{ width: 68, height: 68, borderRadius: 999, background: "#0D5C55", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <svg aria-hidden="true" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
@@ -44,13 +44,13 @@ export function RequestSuccess({ id, onAgain }: { id: string; onAgain: () => voi
                 <span style={{ fontWeight: 700, color: "#0D5C55", flex: "none" }}>{fmt(d.price)} ج.م</span>
               </Link>
             ))}
-            <Link href={`${routes.devices}?cat=${req.deviceType}`} style={{ fontWeight: 600, alignSelf: "flex-start" }}>
+            <Link href={`${routes.devices}?cat=${req.deviceType}`} className="rq-all" style={{ fontWeight: 600, alignSelf: "flex-start" }}>
               شوف كل أجهزة {typeLabel(req.deviceType)} ←
             </Link>
           </div>
         ) : null}
 
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center", paddingTop: 6 }}>
+        <div className="rq-done-actions" style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center", paddingTop: 6 }}>
           <Link href={routes.devices} className="rq-cta" style={{ minHeight: 48, padding: "0 22px", borderRadius: 12, background: "#0D5C55", color: "#FFFFFF", fontWeight: 700, display: "flex", alignItems: "center" }}>
             ارجع لكل الأجهزة
           </Link>

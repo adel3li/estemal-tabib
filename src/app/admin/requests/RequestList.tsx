@@ -22,6 +22,7 @@ export function RequestList({ reqs, sel, query, matchesFor, onPick }: Props) {
         return (
           <button
             key={r.id}
+            id={`rq-item-${r.id}`}
             type="button"
             className="rq-item"
             onClick={() => onPick(r.id)}
@@ -29,7 +30,7 @@ export function RequestList({ reqs, sel, query, matchesFor, onPick }: Props) {
             style={{ border: `2px solid ${on ? "#0D5C55" : "#DCE3DF"}`, background: on ? "#F7FBFA" : "#FFFFFF" }}
           >
             <RqIcon type={r.deviceType} />
-            <span style={{ flex: "1 1 auto", minWidth: 0, display: "flex", flexDirection: "column", gap: 4 }}>
+            <span className="rq-body" style={{ minWidth: 0, display: "flex", flexDirection: "column", gap: 4 }}>
               <span style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8 }}>
                 <span style={{ fontWeight: 700, fontSize: 17 }}>{typeLabel(r.deviceType)}</span>
                 <span className="rq-pill" style={{ background: stBg, color: stFg }}><span className="rq-dot" />{stTxt}</span>
@@ -43,15 +44,12 @@ export function RequestList({ reqs, sel, query, matchesFor, onPick }: Props) {
               </span>
             </span>
             <span
+              className="rq-count"
               style={{
-                flex: "none",
-                minWidth: 86,
                 padding: "8px 10px",
                 borderRadius: 14,
                 background: n ? "#EAF5DD" : "#F5F7F4",
                 color: n ? "#3F7A1F" : "#4A5A56",
-                display: "flex",
-                flexDirection: "column",
                 alignItems: "center",
                 lineHeight: 1.3,
               }}

@@ -18,10 +18,70 @@
 .al-kv{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid #EDF1EF;font-size:14px}
 .al-kv span:first-child{color:#4A5A56}
 
-/* Responsive additions (not in the design, which is desktop-only) */
+/* Responsive additions (not in the design, which is desktop-only). Desktop values first. */
+.al-h1{font-size:30px}
+.ad-card.al-card{padding:18px 20px}
+.al-tabs{display:flex;flex-wrap:wrap}
+.al-filters{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.ad-in.al-search{width:280px}
+.ad-in.al-w170{width:170px}.ad-in.al-w130{width:130px}
+.al-listwrap{min-height:640px}
+.al-acts{display:flex;gap:6px}
+.al-thumb{width:64px;height:48px}
 .al-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
-@media (max-width: 900px){
-  .al-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .al-search{width:100% !important}
+.al-panel-bg{position:absolute;inset:0;background:rgba(238,242,240,.55);border-radius:14px}
+.al-panel{position:absolute;top:0;left:0;width:420px;max-width:100%;background:#FFFFFF;border:1px solid #DCE3DF;border-radius:20px;box-shadow:-4px 20px 50px rgba(18,34,31,.16);display:flex;flex-direction:column;overflow:hidden;z-index:2}
+.al-panel-x{position:absolute;top:10px;left:10px;width:38px;padding:0;justify-content:center}
+
+@media (max-width: 1023px){
+  .al-tab,.al-act{min-height:44px}
+  .al-act{padding:0 14px;font-size:14px}
+  .al-tabs{flex:1 1 100%;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;overscroll-behavior-x:contain}
+  .al-tabs::-webkit-scrollbar{display:none}
+  .al-tab{flex:none;white-space:nowrap}
+  .al-filters{flex:1 1 100%}
   .al-search-wrap{flex:1 1 100%}
+  .ad-in.al-search{width:100%}
+  .al-listwrap{min-height:0}
+  /* Table → cards */
+  .al-tbl{display:block}
+  .al-thead{display:none}
+  .al-tbody{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .al-tbody .al-tr{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:14px;border:1px solid #DCE3DF;border-radius:16px;min-width:0}
+  .al-tbody .al-tr::before{content:"";order:4;flex:0 0 100%;height:0}
+  .al-td{display:block;padding:0;border:0}
+  .al-c-name{order:0;flex:1 1 100%;min-width:0}
+  .al-c-type{display:none}
+  .al-c-st{order:1}.al-c-insp{order:2}.al-c-src{order:3}
+  .al-c-price{order:5;flex:1 1 auto;font-size:18px;overflow-wrap:anywhere}
+  .al-c-views{order:6;white-space:normal !important}
+  .al-c-act{order:7;flex:1 1 100%;padding-top:4px}
+  .al-acts{flex-wrap:wrap;gap:8px}
+  .al-acts .al-act{flex:1 1 auto;justify-content:center}
+  .al-thumb{width:72px;height:54px}
+  .al-name{min-height:44px;display:flex;align-items:center;font-size:16px;overflow-wrap:anywhere;line-height:1.35}
+  .al-meta{flex-wrap:wrap;font-size:13px !important}
+  /* Detail panel → fixed sheet */
+  .al-panel-bg{position:fixed;z-index:40;background:rgba(18,34,31,.45);border-radius:0}
+  .al-panel{position:fixed;top:0;bottom:0;left:0;width:min(440px,100%);height:100vh;height:100dvh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;border-radius:0;border-width:0 0 0 1px;z-index:41;padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+  .al-panel > *{flex:none}
+  .al-panel-x{width:44px;min-height:44px;padding:0;top:calc(10px + env(safe-area-inset-top));font-size:18px}
+  .al-tlink{display:flex;align-items:center;min-height:44px}
+  .al-kv{flex-wrap:wrap}
+  /* While the sheet covers the top bar, show the confirmation at the bottom instead of over the title */
+  body:has(.tst-float) .al-panel{padding-bottom:calc(180px + env(safe-area-inset-bottom))}
+  body:has(.al-panel) .tst-float{position:fixed;top:auto;bottom:calc(68px + env(safe-area-inset-bottom));left:14px;right:14px;width:auto;max-width:440px;z-index:42}
+}
+@media (max-width: 767px){
+  .al-h1{font-size:24px}
+  .al-head{gap:12px !important}
+  .al-add{flex:1 1 100%}
+  .al-kpis{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .al-kpi{padding:14px 16px}
+  .ad-card.al-card{padding:14px}
+  .al-tbody{grid-template-columns:minmax(0,1fr)}
+  .al-filter{flex:1 1 100%}
+  .al-filter > span{min-width:52px}
+  .al-filter select.ad-in{width:auto;flex:1 1 auto;min-width:0}
+  .al-panel{width:100%;border:0}
 }

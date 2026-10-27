@@ -25,3 +25,41 @@ select.rq-in{-webkit-appearance:none;appearance:none;padding-left:40px;cursor:po
 .rq-msg{font-weight:600;font-size:13px;color:#B3261E}
 .rq-match{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-radius:14px;border:1px solid #DCE3DF;background:#FFFFFF;color:#12221F;text-align:right;transition:border-color .15s ease}
 .rq-match:hover{border-color:#0D5C55;color:#12221F}
+
+/* ── Responsive (MOBILE.md). Desktop values stay as the defaults. ── */
+.rq-wrap{max-width:980px;box-sizing:content-box;margin:0 auto;padding:20px 20px 72px;display:flex;flex-direction:column;gap:22px}
+.rq-hero{padding:30px;border-radius:28px;gap:26px}
+.rq-h1{margin:0;font-weight:700;font-size:38px;line-height:1.3}
+.rq-lead{margin:8px 0 0;color:#4A5A56;font-size:17px}
+.rq-steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px}
+.rq-submitbar{padding:22px 24px}
+.rq-done{max-width:640px;box-sizing:content-box;margin:0 auto;padding:80px 20px}
+.rq-done-card{padding:44px 32px}
+
+@media (max-width:1023px){
+  .rq-crumb a,.rq-all{display:inline-flex;align-items:center;min-height:44px}
+  .rq-wrap{padding-top:8px}
+  .rq-step{min-height:44px;box-sizing:border-box}
+  .rq-hero-art{max-width:380px !important}
+  .rq-match{min-height:56px}
+}
+@media (max-width:767px){
+  .rq-wrap{padding:8px 16px 72px;gap:18px}
+  .rq-hero{padding:20px 18px;border-radius:22px;gap:18px}
+  .rq-h1{font-size:28px}
+  .rq-lead{font-size:16px}
+  .rq-steps{display:flex;flex-wrap:wrap}
+  .rq-steps li{flex:1 1 auto}
+  .rq-step{padding:6px 10px;gap:8px}
+  .rq-card{padding:20px 16px;border-radius:20px;gap:16px;scroll-margin-top:80px}
+  .rq-head{gap:12px;padding-bottom:14px}
+  .rq-chips>button{flex:1 1 auto;justify-content:center}
+  .rq-submitbar{padding:18px 16px;border-radius:20px !important}
+  .rq-submitbar>button{flex:1 1 100% !important}
+  .rq-done{padding:24px 16px 72px}
+  .rq-done-card{padding:28px 18px;border-radius:22px !important}
+  .rq-done-card h1{font-size:24px !important}
+  .rq-done-actions{flex-direction:column;align-items:stretch;width:100%}
+  .rq-done-actions>*{justify-content:center}
+  .rq-match{flex-direction:column;align-items:flex-start;gap:4px}
+}

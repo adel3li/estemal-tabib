@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import { BUSINESS } from "@/config/business";
 import type { DeviceType } from "@/lib/demo/types";
 import type { Filters } from "./filters";
@@ -66,7 +66,7 @@ function ChipRow<T extends string>({ chips, value, onPick, isCat = false }: { ch
             className="br-chip"
             onClick={() => onPick(c.id)}
             aria-pressed={on}
-            style={{ minHeight: 40, padding: "4px 14px", borderRadius: 999, border: `1px solid ${bd}`, background: bg, color: fg, font: "inherit", fontSize: 14, fontWeight: 600, cursor: "pointer" }}
+            style={{ padding: "4px 14px", borderRadius: 999, border: `1px solid ${bd}`, background: bg, color: fg, font: "inherit", fontSize: 14, fontWeight: 600, cursor: "pointer" }}
           >
             {c.label}
           </button>
@@ -89,22 +89,70 @@ function Group({ label, icon, last = false, children }: { label: string; icon: R
 
 const input = { minHeight: 44, padding: "0 12px", borderRadius: 12, border: "1px solid #C9D4CF", background: "#F5F7F4", font: "inherit", fontSize: 15, color: "#12221F", minWidth: 0 } as const;
 
-export function FilterAside({ f, set, reset }: { f: Filters; set: (p: Partial<Filters>) => void; reset: () => void }) {
+type Props = {
+  f: Filters;
+  set: (p: Partial<Filters>) => void;
+  reset: () => void;
+  /** < 1024px the aside is a sheet: open/close + result count for its footer button. */
+  open: boolean;
+  onClose: () => void;
+  count: number;
+};
+
+export function FilterAside({ f, set, reset, open, onClose, count }: Props) {
   const days = BUSINESS.trialDays;
+  const closeRef = useRef<HTMLButtonElement>(null);
+
+  // Sheet behaviour (only while open, which only happens < 1024px): Esc closes,
+  // page behind doesn't scroll, focus moves into the sheet.
+  useEffect(() => {
+    if (!open) return;
+    const { body, documentElement: html } = document;
+    const prev = [body.style.overflow, html.style.overflow];
+    body.style.overflow = "hidden";
+    html.style.overflow = "hidden";
+    closeRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const onMq = () => { if (mq.matches) onClose(); };
+    window.addEventListener("keydown", onKey);
+    mq.addEventListener("change", onMq);
+    return () => {
+      [body.style.overflow, html.style.overflow] = prev;
+      window.removeEventListener("keydown", onKey);
+      mq.removeEventListener("change", onMq);
+    };
+  }, [open, onClose]);
+
   return (
-    <aside className="br-aside" aria-label="تصفية النتائج" style={{ flex: "1 1 260px", minWidth: 0, boxSizing: "border-box", padding: 22, borderRadius: 24, background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexDirection: "column", gap: 0 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingBottom: 14, borderBottom: "1px solid #E5EBE8" }}>
+    <>
+    {open ? <div className="br-backdrop" aria-hidden="true" onClick={onClose} /> : null}
+    <aside
+      id="br-filters"
+      className={open ? "br-aside is-open" : "br-aside"}
+      aria-label="تصفية النتائج"
+      role={open ? "dialog" : undefined}
+      aria-modal={open ? true : undefined}
+    >
+      <div className="br-aside-head" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, paddingBottom: 14, borderBottom: "1px solid #E5EBE8" }}>
         <span style={{ fontWeight: 700, fontSize: 18, display: "flex", alignItems: "center", gap: 10 }}>
           <span style={{ width: 34, height: 34, borderRadius: 10, background: "#E3F0ED", color: "#0D5C55", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <svg {...ic} width={18} height={18} stroke="currentColor"><path d="M4 5h16l-6 8v5l-4 2v-7z" /></svg>
           </span>
           تصفية
         </span>
-        <button type="button" className="br-reset" onClick={reset} style={{ minHeight: 36, padding: "0 12px", border: 0, borderRadius: 10, background: "transparent", color: "#0D5C55", font: "inherit", fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }}>
-          <svg {...ic} width={15} height={15} stroke="currentColor" strokeWidth={2}><path d="M4 12a8 8 0 1 0 2.3-5.7L4 8.6" /><path d="M4 4v4.6h4.6" /></svg>
-          مسح الكل
-        </button>
+        <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
+          <button type="button" className="br-reset" onClick={reset} style={{ padding: "0 12px", border: 0, borderRadius: 10, background: "transparent", color: "#0D5C55", font: "inherit", fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }}>
+            <svg {...ic} width={15} height={15} stroke="currentColor" strokeWidth={2}><path d="M4 12a8 8 0 1 0 2.3-5.7L4 8.6" /><path d="M4 4v4.6h4.6" /></svg>
+            مسح الكل
+          </button>
+          <button ref={closeRef} type="button" className="br-sheet-close" onClick={onClose} aria-label="إغلاق التصفية">
+            <svg {...ic} width={22} height={22} stroke="currentColor" strokeWidth={2}><path d="M6 6l12 12" /><path d="M18 6L6 18" /></svg>
+          </button>
+        </span>
       </div>
+
+      <div className="br-aside-body">
 
       <Group label="حالة الفحص" icon={<svg {...ic}><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" /><path d="M9 12l2 2 4-4" /></svg>}>
         <ChipRow chips={ST_CHIPS} value={f.st} onPick={(st) => set({ st })} />
@@ -137,6 +185,14 @@ export function FilterAside({ f, set, reset }: { f: Filters; set: (p: Partial<Fi
         </span>
         <span>على كل الأجهزة: استبدال أو استرجاع {days} أيام، وضمان تشغيل {days} أيام، وفلوسك محفوظة لحد الاستلام.</span>
       </div>
+      </div>
+
+      <div className="br-sheet-foot">
+        <button type="button" className="br-sheet-apply" onClick={onClose}>
+          اعرض النتائج ({count})
+        </button>
+      </div>
     </aside>
+    </>
   );
 }

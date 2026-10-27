@@ -10,19 +10,19 @@ export function TermsHead({ tab, onTab }: { tab: TermsTab; onTab: (t: TermsTab) 
   return (
     <>
     <div style={{ maxWidth: 1200, margin: "0 auto", padding: "20px 20px 0", fontSize: 14, color: "#4A5A56", display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
-      <Link href={routes.home}>الرئيسية</Link>
+      <Link href={routes.home} className="tm-crumb">الرئيسية</Link>
       <span aria-hidden="true">›</span>
       <span>شروط البيع والشراء</span>
     </div>
     <section style={{ maxWidth: 1200, margin: "0 auto", padding: "16px 20px 0" }}>
       <div style={{ borderRadius: 24, background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", overflow: "hidden", display: "flex", flexWrap: "wrap", alignItems: "stretch" }}>
-        <div style={{ flex: "999 1 420px", minWidth: 0, padding: "34px 34px 28px", display: "flex", flexDirection: "column", gap: 20, justifyContent: "center" }}>
+        <div className="tm-head" style={{ flex: "999 1 420px", minWidth: 0, display: "flex", flexDirection: "column", gap: 20, justifyContent: "center" }}>
           <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
             <span style={{ alignSelf: "flex-start", padding: "4px 12px", borderRadius: 999, background: "#E3F0ED", color: "#0D5C55", fontSize: 13, fontWeight: 700, display: "flex", alignItems: "center", gap: 6 }}>
               <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" /><path d="M9 12l2 2 4-4" /></svg>
               استعمال طبيب
             </span>
-            <h1 style={{ margin: 0, fontSize: 36, lineHeight: 1.3 }}>شروط البيع والشراء</h1>
+            <h1 className="tm-h1" style={{ margin: 0 }}>شروط البيع والشراء</h1>
             <p style={{ margin: 0, color: "#4A5A56", display: "flex", alignItems: "center", gap: 6 }}>
               <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="5" width="16" height="15" rx="2" /><path d="M8 3v4M16 3v4M4 10h16" /></svg>
               آخر تحديث: [التاريخ]
@@ -43,7 +43,7 @@ export function TermsHead({ tab, onTab }: { tab: TermsTab; onTab: (t: TermsTab) 
             </button>
           </div>
         </div>
-        <div style={{ flex: "1 1 300px", minWidth: 0, minHeight: 220, background: "#E7EDEA" }}>
+        <div className="tm-hero-art" style={{ flex: "1 1 300px", minWidth: 0, background: "#E7EDEA" }}>
           <svg role="img" aria-label="رسم توضيحي لمستند شروط ودرع حماية" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" style={{ display: "block", width: "100%", height: "100%" }}><use href="#tm-hero" /></svg>
         </div>
       </div>

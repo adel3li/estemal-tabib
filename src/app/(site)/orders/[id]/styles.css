@@ -5,3 +5,39 @@
 .ot-amber{transition:background .15s ease}
 .ot-amber:hover{background:#E8952A;color:#12221F}
 .ot-cta:focus-visible,.ot-ghost:focus-visible,.ot-amber:focus-visible{outline:3px solid #F2A33A;outline-offset:2px}
+
+/* ── Responsive (MOBILE.md). Desktop values stay as the defaults. ── */
+.ot-wrap{max-width:1200px;margin:0 auto;padding:28px 20px 72px;display:flex;flex-direction:column;gap:24px}
+.ot-h1{margin:0;font-size:32px;line-height:1.3;font-weight:700}
+.ot-tl{padding:30px}
+.ot-li{display:flex;gap:18px}
+.ot-ico{width:48px;height:48px}
+.ot-side{position:sticky;top:88px}
+.ot-steps{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+
+@media (max-width:1023px){
+  .ot-side{position:static;flex-basis:100% !important}
+  .ot-linkbtn{min-height:44px;display:inline-flex !important;align-items:center}
+  .ot-art{max-width:300px !important}
+}
+@media (min-width:600px) and (max-width:1023px){
+  /* Tablets: money + warranty side by side, help under them. */
+  .ot-side{display:grid !important;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ot-side>#help{grid-column:1 / -1}
+}
+@media (max-width:767px){
+  .ot-wrap{padding:16px 16px 72px;gap:18px}
+  .ot-head{padding:16px !important;gap:16px !important;border-radius:20px !important}
+  .ot-art{flex-basis:100% !important;max-width:260px !important;margin-inline:auto}
+  .ot-h1{font-size:26px}
+  .ot-sub{overflow-wrap:anywhere}
+  .ot-steps{gap:4px}
+  .ot-tl{padding:20px 14px;border-radius:20px !important}
+  .ot-li{gap:12px}
+  .ot-ico{width:40px;height:40px;border-radius:13px !important}
+  .ot-cur{padding:14px !important}
+  .ot-cur-box{padding:12px !important}
+  .ot-actions{flex-direction:column;align-items:stretch;width:100%}
+  .ot-actions>*{justify-content:center;width:100%;box-sizing:border-box}
+  .ot-money{padding:20px !important}
+}

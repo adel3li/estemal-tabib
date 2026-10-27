@@ -10,18 +10,18 @@ export function WarrantyAndCategories() {
     <>
     <section id="warranty" style={{ background: "#0F2A26", color: "#FFFFFF", position: "relative", overflow: "hidden" }}>
       <div aria-hidden="true" style={{ position: "absolute", top: -180, left: -120, width: 520, height: 520, borderRadius: 999, background: "radial-gradient(circle, rgba(242, 163, 58, 0.10) 0%, rgba(242, 163, 58, 0) 70%)" }} />
-      <div style={{ position: "relative", maxWidth: 1200, margin: "0 auto", padding: "80px 20px", display: "flex", flexDirection: "column", gap: 34 }}>
+      <div className="mn-sec mn-sec-80" style={{ position: "relative", maxWidth: 1200, margin: "0 auto", display: "flex", flexDirection: "column", gap: 34 }}>
         <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "32px 48px" }}>
           <div style={{ flex: "1 1 460px", minWidth: 0, display: "flex", flexDirection: "column", gap: 10 }}>
             <span style={{ alignSelf: "flex-start", padding: "5px 12px", borderRadius: 999, background: "rgba(242, 163, 58, 0.14)", color: "#F2A33A", fontSize: 14, fontWeight: 700 }}>الضمان</span>
-            <h2 style={{ margin: 0, fontSize: 36, fontWeight: 700, lineHeight: 1.35 }}>ضمانك مش كلمة… ضمانك مكتوب</h2>
-            <p style={{ margin: 0, color: "#C3D3CE", fontSize: 18, maxWidth: 560 }}>كل جهاز معاه 3 مستويات حماية، ومدة الصيانة بتختلف حسب نوع الجهاز ومكتوبة في صفحته.</p>
+            <h2 className="mn-h2 mn-h2-lg" style={{ margin: 0, fontWeight: 700, lineHeight: 1.35 }}>ضمانك مش كلمة… ضمانك مكتوب</h2>
+            <p className="mn-lead" style={{ margin: 0, color: "#C3D3CE", maxWidth: 560 }}>كل جهاز معاه 3 مستويات حماية، ومدة الصيانة بتختلف حسب نوع الجهاز ومكتوبة في صفحته.</p>
           </div>
           <div style={{ flex: "0 1 300px", minWidth: 0, margin: "0 auto" }}>
             <svg aria-hidden="true" viewBox="0 0 360 300" style={{ display: "block", width: "100%", maxWidth: 300, height: "auto" }}><use href="#mn-escrow" /></svg>
           </div>
         </div>
-        <ol style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 18 }}>
+        <ol className="mn-g3 mn-g3-w" style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gap: 18 }}>
           <li style={{ padding: 26, borderRadius: 22, background: "#173A35", border: "1px solid #2E5650", display: "flex", flexDirection: "column", gap: 12 }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <span style={{ width: 52, height: 52, borderRadius: 16, background: "rgba(242, 163, 58, 0.14)", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -69,11 +69,11 @@ export function WarrantyAndCategories() {
       </div>
     </section>
     {/* CATEGORIES */}
-    <section style={{ maxWidth: 1200, margin: "0 auto", padding: "76px 20px", display: "flex", flexDirection: "column", gap: 28 }}>
-      <h2 style={{ margin: 0, fontSize: 34, fontWeight: 700 }}>كل اللي عيادتك محتاجاه</h2>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 20 }}>
+    <section className="mn-sec" style={{ maxWidth: 1200, margin: "0 auto", display: "flex", flexDirection: "column", gap: 28 }}>
+      <h2 className="mn-h2" style={{ margin: 0, fontWeight: 700 }}>كل اللي عيادتك محتاجاه</h2>
+      <div className="mn-g3 mn-g3-c" style={{ display: "grid", gap: 20 }}>
         <Link href={`${routes.devices}?cat=unit`} className="mn-card" style={{ borderRadius: 22, background: "#FFFFFF", border: "1px solid #DCE3DF", color: "#12221F", overflow: "hidden", display: "flex", flexDirection: "column" }}>
-          <svg aria-hidden="true" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" style={{ display: "block", width: "100%", height: 220 }}><use href="#mn-unit" /></svg>
+          <svg aria-hidden="true" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" className="mn-cat-art" style={{ display: "block", width: "100%" }}><use href="#mn-unit" /></svg>
           <div style={{ padding: "22px 24px 24px", display: "flex", flexDirection: "column", gap: 8 }}>
             <h3 style={{ margin: 0, fontSize: 21 }}>الأجهزة الكبيرة</h3>
             <p style={{ margin: 0, color: "#4A5A56" }}>يونيت، أشعة X-Ray وX-Mind، أوتوكلاف، موتور جراحة.</p>
@@ -81,7 +81,7 @@ export function WarrantyAndCategories() {
           </div>
         </Link>
         <Link href={`${routes.devices}?cat=apex`} className="mn-card" style={{ borderRadius: 22, background: "#FFFFFF", border: "1px solid #DCE3DF", color: "#12221F", overflow: "hidden", display: "flex", flexDirection: "column" }}>
-          <svg aria-hidden="true" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" style={{ display: "block", width: "100%", height: 220 }}><use href="#mn-endo" /></svg>
+          <svg aria-hidden="true" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" className="mn-cat-art" style={{ display: "block", width: "100%" }}><use href="#mn-endo" /></svg>
           <div style={{ padding: "22px 24px 24px", display: "flex", flexDirection: "column", gap: 8 }}>
             <h3 style={{ margin: 0, fontSize: 21 }}>إندو وجراحة</h3>
             <p style={{ margin: 0, color: "#4A5A56" }}>أبيكس لوكيتور، إندو موتور، لايت كيور.</p>
@@ -89,7 +89,7 @@ export function WarrantyAndCategories() {
           </div>
         </Link>
         <Link href={`${routes.devices}?cat=other`} className="mn-card" style={{ borderRadius: 22, background: "#FFFFFF", border: "1px solid #DCE3DF", color: "#12221F", overflow: "hidden", display: "flex", flexDirection: "column" }}>
-          <svg aria-hidden="true" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" style={{ display: "block", width: "100%", height: 220 }}><use href="#mn-tools" /></svg>
+          <svg aria-hidden="true" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" className="mn-cat-art" style={{ display: "block", width: "100%" }}><use href="#mn-tools" /></svg>
           <div style={{ padding: "22px 24px 24px", display: "flex", flexDirection: "column", gap: 8 }}>
             <h3 style={{ margin: 0, fontSize: 21 }}>أدوات شبه دائمة</h3>
             <p style={{ margin: 0, color: "#4A5A56" }}>أدوات جراحية ومعدات مساعدة بحالة ممتازة.</p>

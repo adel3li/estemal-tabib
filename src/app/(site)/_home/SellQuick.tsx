@@ -26,13 +26,13 @@ export function SellQuick() {
   return (
     <>
     <section id="sell" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 20px 76px" }}>
-      <div style={{ padding: 40, borderRadius: 24, background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexWrap: "wrap", gap: 40, alignItems: "center" }}>
+      <div className="mn-sell" style={{ borderRadius: 24, background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexWrap: "wrap", alignItems: "center" }}>
         <div style={{ flex: "1 1 420px", minWidth: 0, display: "flex", flexDirection: "column", gap: 16 }}>
           <span style={{ alignSelf: "flex-start", width: 52, height: 52, borderRadius: 16, background: "#FBEEDC", color: "#C46A12", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20 12l-8 8-9-9V3h8z" /><circle cx="7.5" cy="7.5" r="1.5" /></svg>
           </span>
-          <h2 style={{ margin: 0, fontSize: 32, fontWeight: 700 }}>عندك جهاز عايز تبيعه؟</h2>
-          <p style={{ margin: 0, color: "#4A5A56", fontSize: 18 }}>اعرض جهازك في دقايق، وإحنا نتابع الفحص والتسعير والشحن والتحصيل. من غير وسطاء ولا مشترين مش جادين.</p>
+          <h2 className="mn-h2 mn-h2-sm" style={{ margin: 0, fontWeight: 700 }}>عندك جهاز عايز تبيعه؟</h2>
+          <p style={{ margin: 0, color: "#4A5A56" }} className="mn-lead">اعرض جهازك في دقايق، وإحنا نتابع الفحص والتسعير والشحن والتحصيل. من غير وسطاء ولا مشترين مش جادين.</p>
           <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 10 }}>
             <li style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
               <span style={{ flex: "none", marginTop: 3, width: 22, height: 22, borderRadius: 999, background: "#E3F0ED", color: "#0D5C55", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -54,7 +54,7 @@ export function SellQuick() {
             </li>
           </ul>
         </div>
-        <form onSubmit={(e) => e.preventDefault()} style={{ flex: "1 1 360px", minWidth: 0, padding: 26, borderRadius: 20, background: "#F5F7F4", border: "1px solid #E5EBE8", display: "flex", flexDirection: "column", gap: 14 }}>
+        <form onSubmit={(e) => e.preventDefault()} className="mn-sell-form" style={{ flex: "1 1 360px", minWidth: 0, borderRadius: 20, background: "#F5F7F4", border: "1px solid #E5EBE8", display: "flex", flexDirection: "column", gap: 14 }}>
           <label style={{ display: "flex", flexDirection: "column", gap: 6, fontWeight: 600, fontSize: 14 }}>
             نوع الجهاز{" "}
             <select value={type} onChange={(e) => setType(e.target.value as DeviceType)} className="mn-field" style={{ minHeight: 46, padding: "0 12px", borderRadius: 10, border: "1px solid #C9D4CF", background: "#FFFFFF", font: "inherit", fontWeight: 400 }}>
@@ -65,11 +65,11 @@ export function SellQuick() {
           </label>
           <label style={{ display: "flex", flexDirection: "column", gap: 6, fontWeight: 600, fontSize: 14 }}>
             الموديل وسنة الصنع{" "}
-            <input type="text" value={details} onChange={(e) => setDetails(e.target.value)} className="mn-field" placeholder="مثال: [الموديل] — [السنة]" style={{ minHeight: 46, padding: "0 12px", borderRadius: 10, border: "1px solid #C9D4CF", background: "#FFFFFF", font: "inherit", fontWeight: 400 }} />
+            <input type="text" value={details} onChange={(e) => setDetails(e.target.value)} className="mn-field" autoComplete="off" enterKeyHint="next" placeholder="مثال: [الموديل] — [السنة]" style={{ minHeight: 46, padding: "0 12px", borderRadius: 10, border: "1px solid #C9D4CF", background: "#FFFFFF", font: "inherit", fontWeight: 400 }} />
           </label>
           <label style={{ display: "flex", flexDirection: "column", gap: 6, fontWeight: 600, fontSize: 14 }}>
             السعر المطلوب{" "}
-            <input type="text" inputMode="numeric" value={price} onChange={(e) => setPrice(e.target.value)} className="mn-field" placeholder="ج.م" style={{ minHeight: 46, padding: "0 12px", borderRadius: 10, border: "1px solid #C9D4CF", background: "#FFFFFF", font: "inherit", fontWeight: 400 }} />
+            <input type="text" inputMode="numeric" autoComplete="off" enterKeyHint="done" value={price} onChange={(e) => setPrice(e.target.value)} className="mn-field" placeholder="ج.م" style={{ minHeight: 46, padding: "0 12px", borderRadius: 10, border: "1px solid #C9D4CF", background: "#FFFFFF", font: "inherit", fontWeight: 400 }} />
           </label>
           <div className="mn-upload" style={{ padding: 18, borderRadius: 14, border: "1.5px dashed #9FB2AB", background: "#FBFCFB", textAlign: "center", color: "#4A5A56", fontSize: 14, display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
             <span style={{ width: 40, height: 40, borderRadius: 12, background: "#E3F0ED", color: "#0D5C55", display: "flex", alignItems: "center", justifyContent: "center" }}>

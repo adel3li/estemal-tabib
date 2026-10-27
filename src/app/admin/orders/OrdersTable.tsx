@@ -25,26 +25,26 @@ export function OrdersTable({ orders, base, rows, filter, sel, onFilter, onOpen 
         </h2>
         <span className="ad-hint">{rows.length} من {orders.length} طلبات</span>
       </div>
-      <div role="group" aria-label="فلترة بالخطوة" style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+      <div role="group" aria-label="فلترة بالخطوة" className="or-chips">
         {FILTERS.map(([key, label]) => {
           const on = filter === key;
           return (
             <button
               key={String(key)}
               type="button"
-              className="ad-chip"
+              className="ad-chip or-chip"
               onClick={() => onFilter(key)}
               aria-pressed={on}
-              style={{ minHeight: 38, padding: "2px 14px", fontSize: 13, border: `1px solid ${on ? "#0D5C55" : "#C9D4CF"}`, background: on ? "#0D5C55" : "#FFFFFF", color: on ? "#FFFFFF" : "#12221F" }}
+              style={{ padding: "2px 14px", fontSize: 13, border: `1px solid ${on ? "#0D5C55" : "#C9D4CF"}`, background: on ? "#0D5C55" : "#FFFFFF", color: on ? "#FFFFFF" : "#12221F" }}
             >
               {label} <span style={{ opacity: 0.75 }}>({base.filter((o) => inFilter(o, key)).length})</span>
             </button>
           );
         })}
       </div>
-      <div style={{ overflowX: "auto" }}>
+      <div className="or-scroll">
         <div className="or-tbl" role="table" aria-label="الطلبات">
-          <div className="or-tr" role="row">
+          <div className="or-tr or-head" role="row">
             {["رقم الطلب", "الجهاز", "المشتري", "البايع", "المبلغ", "المدفوع", "الخطوة الحالية"].map((h) => (
               <span key={h} className="or-th" role="columnheader">{h}</span>
             ))}
@@ -58,32 +58,33 @@ export function OrdersTable({ orders, base, rows, filter, sel, onFilter, onOpen 
               return (
                 <div
                   key={o.id}
+                  id={`or-row-${o.id.replace("#", "")}`}
                   className="or-tr"
                   role="row"
                   onClick={() => onOpen(o.id)}
                   aria-selected={on}
                   style={{ background: on ? "#F2F8F6" : "transparent", boxShadow: `inset -3px 0 0 ${on ? "#0D5C55" : "transparent"}` }}
                 >
-                  <span className="or-td" role="cell">
+                  <span className="or-td or-c-id" role="cell">
                     <button type="button" className="or-id" aria-label={`افتح الطلب ${o.id}`}>{o.id}</button>
                     <span className="ad-hint" style={{ display: "block", fontSize: 12 }}>{o.date}</span>
                   </span>
-                  <span className="or-td" role="cell">
+                  <span className="or-td or-c-dev" role="cell">
                     <span style={{ display: "flex", alignItems: "center", gap: 10 }}>
                       <OrSymbol sym={`or-${o.sym}`} size={38} />
                       <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.4, minWidth: 0 }}>
-                        <span style={{ fontWeight: 600 }}>{o.device}</span>
+                        <span style={{ fontWeight: 600, overflowWrap: "anywhere" }}>{o.device}</span>
                         <span className="ad-hint" style={{ fontSize: 12 }}>{o.cat} · {o.gov}</span>
                       </span>
                     </span>
                   </span>
-                  <span className="or-td" role="cell">{o.buyer}</span>
-                  <span className="or-td" role="cell">{o.seller}</span>
-                  <span className="or-td" role="cell" style={{ fontWeight: 700, whiteSpace: "nowrap" }}>
+                  <span className="or-td or-c-buy" role="cell" data-l="المشتري">{o.buyer}</span>
+                  <span className="or-td or-c-sel" role="cell" data-l="البايع">{o.seller}</span>
+                  <span className="or-td or-c-amt" role="cell" style={{ fontWeight: 700, whiteSpace: "nowrap" }}>
                     {fmt(o.amount)} <span style={{ fontSize: 12, color: "#4A5A56", fontWeight: 400 }}>ج.م</span>
                   </span>
-                  <span className="or-td" role="cell"><span className="or-pill" style={{ background: payBg, color: payFg }}>{payTxt}</span></span>
-                  <span className="or-td" role="cell">
+                  <span className="or-td or-c-pay" role="cell"><span className="or-pill" style={{ background: payBg, color: payFg }}>{payTxt}</span></span>
+                  <span className="or-td or-c-step" role="cell">
                     <span style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                       <span style={{ display: "flex", alignItems: "center", gap: 6, fontWeight: 600, whiteSpace: "nowrap" }}>
                         <span className="or-pill" style={{ background: stBg, color: stFg }}>{sv.no}</span>

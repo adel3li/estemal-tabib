@@ -1,4 +1,32 @@
-/* Admin.dc.html has no page-specific classes beyond the global ad-*; small responsive fixes only. */
-@media (max-width: 900px) {
-  .adf-aside { position: static !important; }
+/* Admin.dc.html has no page-specific classes beyond the global ad-*. Desktop values first, then small-screen overrides. */
+.adf-h1{font-size:30px}
+.adf-main{flex:999 1 560px}
+.adf-aside{flex:1 1 320px;min-width:0;position:sticky;top:20px;display:flex;flex-direction:column;gap:14px}
+.adf-actions{display:flex;gap:10px;flex-wrap:wrap}
+.adf-actions-end{display:none}
+.adf-done{margin:80px auto;padding:40px}
+
+@media (max-width: 1023px){
+  .adf-main{flex:1 1 100%}
+  /* Preview + checklist go below the form, side by side on tablets */
+  .adf-aside{position:static;flex:1 1 100%;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start}
+  .adf-aside-h{grid-column:1 / -1}
+  .adf-actions-end{display:flex;flex:1 1 100%;border-top:1px solid #DCE3DF;padding-top:18px}
+  .adf-actions-end .ad-btn{flex:1 1 200px}
+  .adf-root .ad-chip{min-height:44px}
+  .adf-crumbs a,.adf-tlink{display:inline-flex;align-items:center;justify-content:center;min-height:44px}
+  .adf-crumbs a{min-width:44px}
+  .adf-crumbs{line-height:1.2}
+}
+@media (max-width: 767px){
+  .adf-h1{font-size:24px}
+  .adf-head{margin-bottom:16px !important}
+  .adf-actions-top{display:none}
+  .adf-aside{display:flex;align-items:stretch}
+  .adf-actions-end{flex-direction:column}
+  .adf-actions-end .ad-btn{flex:none;width:100%}
+  .adf-done{margin:24px auto;padding:28px 18px}
+  .adf-root .ad-card{padding:18px}
+  .adf-done-acts{flex-direction:column;align-self:stretch}
+  .adf-done-acts .ad-btn{width:100%}
 }

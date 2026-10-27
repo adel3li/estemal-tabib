@@ -11,23 +11,23 @@ export function Hero() {
     <div style={{ position: "relative", overflow: "hidden", background: "linear-gradient(180deg, #FFFFFF 0%, #F5F7F4 100%)", borderBottom: "1px solid #E5EBE8" }}>
       <div aria-hidden="true" style={{ position: "absolute", top: -160, left: -140, width: 560, height: 560, borderRadius: 999, background: "radial-gradient(circle, rgba(13, 92, 85, 0.10) 0%, rgba(13, 92, 85, 0) 70%)" }} />
       <div aria-hidden="true" style={{ position: "absolute", bottom: -200, right: -160, width: 520, height: 520, borderRadius: 999, background: "radial-gradient(circle, rgba(242, 163, 58, 0.10) 0%, rgba(242, 163, 58, 0) 70%)" }} />
-      <section style={{ position: "relative", maxWidth: 1200, margin: "0 auto", padding: "64px 20px 72px", display: "flex", flexWrap: "wrap", alignItems: "center", gap: 48 }}>
+      <section className="mn-hero" style={{ position: "relative", maxWidth: 1200, margin: "0 auto", display: "flex", flexWrap: "wrap", alignItems: "center" }}>
         <div style={{ flex: "1 1 480px", minWidth: 0, display: "flex", flexDirection: "column", gap: 22 }}>
           <span style={{ alignSelf: "flex-start", padding: "6px 14px 6px 16px", borderRadius: 999, background: "#E3F0ED", border: "1px solid #9CCBC2", color: "#0D5C55", fontWeight: 600, fontSize: 14, display: "flex", alignItems: "center", gap: 8 }}>
             <span aria-hidden="true" style={{ width: 8, height: 8, borderRadius: 999, background: "#0D5C55" }} />
             منصة متخصصة 100% في أجهزة الأسنان المستعملة
           </span>
-          <h1 style={{ margin: 0, fontSize: "clamp(34px, 5vw, 58px)", lineHeight: 1.25, fontWeight: 700, letterSpacing: -0.5 }}>
+          <h1 className="mn-h1" style={{ margin: 0, lineHeight: 1.25, fontWeight: 700, letterSpacing: -0.5 }}>
             من دكتور أسنان لدكتور أسنان…{" "}
             <span style={{ color: "#0D5C55", position: "relative", whiteSpace: "nowrap" }}>
               بثقة
               <svg aria-hidden="true" viewBox="0 0 120 12" preserveAspectRatio="none" style={{ position: "absolute", right: 0, left: 0, bottom: -6, width: "100%", height: 12 }}><path d="M3 8 Q60 1 117 7" stroke="#F2A33A" strokeWidth="4" fill="none" strokeLinecap="round" /></svg>
             </span>
           </h1>
-          <p style={{ margin: 0, fontSize: 19, color: "#4A5A56", maxWidth: 560 }}>
+          <p className="mn-hero-p" style={{ margin: 0, color: "#4A5A56", maxWidth: 560 }}>
             اشتري أو بيع أجهزة عيادتك المستعملة من غير قلق. كل جهاز بيتفحص بواسطة فني معتمد، وفلوسك بتفضل محفوظة معانا {DAYS} أيام بعد ما تستلم الجهاز وتجربه بنفسك.
           </p>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+          <div className="mn-ctas" style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
             <Link href={routes.devices} className="mn-cta" style={{ padding: "14px 26px", borderRadius: 14, background: "#0D5C55", color: "#FFFFFF", fontWeight: 700, fontSize: 17, minHeight: 52, boxSizing: "border-box", display: "flex", alignItems: "center", gap: 10 }}>
               اشتري جهاز
               <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5" /><path d="M11 6l-6 6 6 6" /></svg>
@@ -57,7 +57,7 @@ export function Hero() {
             </li>
           </ul>
         </div>
-        <div style={{ flex: "1 1 420px", minWidth: 0, maxWidth: 520, position: "relative" }}>
+        <div className="mn-hero-card" style={{ flex: "1 1 420px", minWidth: 0, maxWidth: 520, position: "relative" }}>
           <div aria-hidden="true" style={{ position: "absolute", inset: "18px -14px -14px 18px", borderRadius: 26, background: "#E3F0ED", border: "1px solid #C9DED8" }} />
           <div style={{ position: "relative", background: "#FFFFFF", border: "1px solid #DCE3DF", borderRadius: 24, boxShadow: "0 24px 50px rgba(18, 34, 31, 0.10)", overflow: "hidden" }}>
             <div style={{ position: "relative", aspectRatio: "4 / 2.7", background: "#E7EDEA" }}>
@@ -71,7 +71,7 @@ export function Hero() {
             </div>
             <div style={{ padding: "22px 24px", display: "flex", flexDirection: "column", gap: 16 }}>
               <div>
-                <div style={{ fontSize: 20, fontWeight: 700 }}>يونيت أسنان كامل — [الماركة / الموديل]</div>
+                <div style={{ fontSize: 20, fontWeight: 700, overflowWrap: "anywhere" }}>يونيت أسنان كامل — [الماركة / الموديل]</div>
                 <div style={{ fontSize: 14, color: "#4A5A56" }}>سنة الصنع [السنة] · القاهرة</div>
               </div>
               <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
@@ -98,7 +98,7 @@ export function Hero() {
               </div>
               <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 8, paddingTop: 12, borderTop: "1px solid #E5EBE8", fontSize: 13, color: "#4A5A56" }}>
                 <span>فحص بواسطة فني معتمد — [الاسم]</span>
-                <Link href={`${routes.device("L-201")}#report`} style={{ fontWeight: 600 }}>شوف التقرير الكامل ←</Link>
+                <Link href={`${routes.device("L-201")}#report`} className="mn-link44" style={{ fontWeight: 600 }}>شوف التقرير الكامل ←</Link>
               </div>
             </div>
           </div>

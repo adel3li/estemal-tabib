@@ -6,12 +6,12 @@ export function HowItWorks() {
   return (
     <>
     <section id="how" style={{ background: "#FFFFFF", borderBottom: "1px solid #E5EBE8" }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "76px 20px", display: "flex", flexDirection: "column", gap: 36 }}>
+      <div className="mn-sec" style={{ maxWidth: 1200, margin: "0 auto", display: "flex", flexDirection: "column", gap: 36 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          <h2 style={{ margin: 0, fontSize: 34, fontWeight: 700 }}>إزاي بنشتغل؟</h2>
-          <p style={{ margin: 0, color: "#4A5A56", fontSize: 18 }}>أربع خطوات، وكل خطوة واضحة قدامك.</p>
+          <h2 className="mn-h2" style={{ margin: 0, fontWeight: 700 }}>إزاي بنشتغل؟</h2>
+          <p style={{ margin: 0, color: "#4A5A56" }} className="mn-lead">أربع خطوات، وكل خطوة واضحة قدامك.</p>
         </div>
-        <ol style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 18 }}>
+        <ol className="mn-steps" style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gap: 18 }}>
           <li style={{ padding: 24, borderRadius: 22, background: "#E3F0ED", border: "1px solid #9CCBC2", display: "flex", flexDirection: "column", gap: 12 }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <span style={{ width: 52, height: 52, borderRadius: 16, background: "#0D5C55", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -61,12 +61,12 @@ export function HowItWorks() {
       </div>
     </section>
     {/* TWO INSPECTION TYPES */}
-    <section style={{ maxWidth: 1200, margin: "0 auto", padding: "76px 20px", display: "flex", flexDirection: "column", gap: 32 }}>
+    <section className="mn-sec" style={{ maxWidth: 1200, margin: "0 auto", display: "flex", flexDirection: "column", gap: 32 }}>
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-        <h2 style={{ margin: 0, fontSize: 34, fontWeight: 700 }}>نوعين من الفحص… وانت عارف كل جهاز فين</h2>
-        <p style={{ margin: 0, color: "#4A5A56", fontSize: 18 }}>على كل جهاز علامة بتقولك اتفحص ولا لسه هيتفحص قبل ما يتشحن لك.</p>
+        <h2 className="mn-h2" style={{ margin: 0, fontWeight: 700 }}>نوعين من الفحص… وانت عارف كل جهاز فين</h2>
+        <p style={{ margin: 0, color: "#4A5A56" }} className="mn-lead">على كل جهاز علامة بتقولك اتفحص ولا لسه هيتفحص قبل ما يتشحن لك.</p>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))", gap: 20 }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 20 }}>
         <div style={{ borderRadius: 24, background: "#FFFFFF", border: "2px solid #0D5C55", overflow: "hidden", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexDirection: "column" }}>
           <svg aria-hidden="true" viewBox="0 0 600 200" preserveAspectRatio="xMidYMid slice" style={{ display: "block", width: "100%", aspectRatio: "3 / 1" }}><use href="#mn-report" /></svg>
           <div style={{ padding: "26px 28px 30px", display: "flex", flexDirection: "column", gap: 14 }}>

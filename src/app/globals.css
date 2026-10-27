@@ -184,6 +184,12 @@ textarea.ad-in{padding:10px 12px;min-height:84px;resize:vertical}
 }
 @media (prefers-reduced-motion: reduce) { .adm-side { transition: none; } }
 
+/* ── Site footer ── */
+@media (max-width: 1023px) {
+  .site-footer nav a, .site-footer a { min-height: 44px; display: inline-flex; align-items: center; }
+  .site-footer nav { gap: 2px !important; }
+}
+
 /* ── Demo control (DemoBar.tsx) ── */
 .demo-pill { position: fixed; bottom: calc(14px + env(safe-area-inset-bottom)); left: calc(14px + env(safe-area-inset-left)); z-index: 60; min-height: 40px; padding: 0 14px; border-radius: 999px; border: 0; background: #12221f; color: #f2a33a; font: inherit; font-size: 13px; font-weight: 700; cursor: pointer; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25); opacity: 0.92; }
 .demo-pill:hover { opacity: 1; }

@@ -74,7 +74,7 @@ export function SectionPrice({ f, set, err }: SectionProps) {
           </div>
         </fieldset>
 
-        <div style={{ padding: 20, borderRadius: 18, background: "#F9FBFA", border: "1px solid #DCE3DF", display: "flex", flexDirection: "column", gap: 14 }}>
+        <div className="sl-box" style={{ padding: 20, borderRadius: 18, background: "#F9FBFA", border: "1px solid #DCE3DF", display: "flex", flexDirection: "column", gap: 14 }}>
           <span style={{ fontSize: 14, color: "#4A5A56", display: "flex", alignItems: "center", gap: 8 }}>
             <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0D5C55" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none" }}>
               <path d="M7 7h11l-3-3" />
@@ -82,15 +82,15 @@ export function SectionPrice({ f, set, err }: SectionProps) {
             </svg>
             اكتب في أي خانة من الاتنين، والتانية هتتحسب لوحدها.
           </span>
-          <div style={{ display: "flex", flexWrap: "wrap", alignItems: "flex-end", gap: 12 }}>
+          <div className="sl-price-row">
             <label className="sl-field" style={{ flex: "1 1 220px" }}>
               <span>
                 سعر البيع للمشتري (ج.م)
                 {f.priceHelp ? null : <Star />}
               </span>
-              <input type="text" inputMode="numeric" value={f.sale} onChange={(e) => onSale(e.target.value)} placeholder="مثال: 10000" {...bad("sale", err, "sl-in sl-in-big")} required={!f.priceHelp} />
+              <input type="text" inputMode="numeric" value={f.sale} onChange={(e) => onSale(e.target.value)} enterKeyHint="next" placeholder="مثال: 10000" {...bad("sale", err, "sl-in sl-in-big")} required={!f.priceHelp} />
             </label>
-            <span aria-hidden="true" style={{ width: 44, height: 54, display: "flex", alignItems: "center", justifyContent: "center", color: "#0D5C55", flex: "none" }}>
+            <span aria-hidden="true" className="sl-swap">
               <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M9 12h6" />
                 <path d="M8 8l-4 4 4 4" />
@@ -99,7 +99,7 @@ export function SectionPrice({ f, set, err }: SectionProps) {
             </span>
             <label className="sl-field" style={{ flex: "1 1 220px" }}>
               المبلغ اللي هيوصلك (ج.م)
-              <input type="text" inputMode="numeric" value={f.net} onChange={(e) => onNet(e.target.value)} placeholder="مثال: 8500" className="sl-in sl-in-big sl-in-net" />
+              <input type="text" inputMode="numeric" value={f.net} onChange={(e) => onNet(e.target.value)} enterKeyHint="done" placeholder="مثال: 8500" className="sl-in sl-in-big sl-in-net" />
             </label>
           </div>
           <Msg k="sale" err={err} />

@@ -79,7 +79,7 @@ export function DeviceForm({ device }: { device?: Device }) {
   if (done) {
     const pub = done.status === "published";
     return (
-      <div style={{ maxWidth: 560, margin: "80px auto", padding: 40, borderRadius: 26, background: "#FFFFFF", border: "1px solid #DCE3DF", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
+      <div className="adf-done" style={{ maxWidth: 560, borderRadius: 26, background: "#FFFFFF", border: "1px solid #DCE3DF", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
         <span style={{ width: 72, height: 72, borderRadius: 999, background: "#E3F0ED", color: "#0D5C55", display: "flex", alignItems: "center", justifyContent: "center" }}>
           <svg aria-hidden="true" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M5 12l4 4 10-10" />
@@ -91,7 +91,7 @@ export function DeviceForm({ device }: { device?: Device }) {
         <p style={{ margin: 0, color: "#4A5A56" }}>
           {pub ? "ظاهر دلوقتي في «كل الأجهزة» للمشترين." : "تقدر تكمّله وتنشره من «الأجهزة المعروضة»."} ({done.id})
         </p>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center", marginTop: 8 }}>
+        <div className="adf-done-acts" style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center", marginTop: 8 }}>
           {pub ? (
             <Link href={routes.devices} className="ad-btn ad-pri" style={{ color: "#FFFFFF" }}>
               شوفه في كل الأجهزة
@@ -122,39 +122,7 @@ export function DeviceForm({ device }: { device?: Device }) {
     );
   }
 
-  const title = editing ? `تعديل جهاز ${device.id}` : f.src === "seller" ? "إضافة جهاز بالنيابة عن بايع" : "إضافة جهاز من الشركة";
-
-  return (
-    <div>
-      <FormArtDefs />
-      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-end", gap: 16, marginBottom: 22 }}>
-        <div>
-          <div style={{ fontSize: 14, color: "#4A5A56" }}>
-            <Link href={routes.admin.root} style={{ color: "inherit" }}>
-              لوحة التحكم
-            </Link>{" "}
-            ›{" "}
-            <Link href={routes.admin.devices} style={{ color: "inherit" }}>
-              الأجهزة
-            </Link>{" "}
-            › {editing ? "تعديل" : "إضافة جهاز"}
-          </div>
-          <h1 style={{ margin: 0, fontSize: 30, lineHeight: 1.3 }}>{title}</h1>
-          <div style={{ color: "#4A5A56" }}>
-            {editing && device && isPublic(device) ? (
-              <>
-                الجهاز ظاهر للمشترين ·{" "}
-                <Link href={routes.device(device.id)} target="_blank" style={{ fontWeight: 600 }}>
-                  شوف صفحته على الموقع
-                </Link>
-              </>
-            ) : (
-              "الجهاز هيظهر في «كل الأجهزة» أول ما تنشره."
-            )}
-          </div>
-        </div>
-        <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
-          {locked ? (
+  const actions = locked ? (
             <button type="button" className="ad-btn ad-pri" onClick={() => save(device.status)}>
               احفظ التعديلات
             </button>
@@ -175,7 +143,41 @@ export function DeviceForm({ device }: { device?: Device }) {
                 انشر الجهاز
               </button>
             </>
-          )}
+          );
+
+  const title = editing ? `تعديل جهاز ${device.id}` : f.src === "seller" ? "إضافة جهاز بالنيابة عن بايع" : "إضافة جهاز من الشركة";
+
+  return (
+    <div>
+      <FormArtDefs />
+      <div className="adf-head" style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-end", gap: 16, marginBottom: 22 }}>
+        <div style={{ minWidth: 0 }}>
+          <div className="adf-crumbs" style={{ fontSize: 14, color: "#4A5A56" }}>
+            <Link href={routes.admin.root} style={{ color: "inherit" }}>
+              لوحة التحكم
+            </Link>{" "}
+            ›{" "}
+            <Link href={routes.admin.devices} style={{ color: "inherit" }}>
+              الأجهزة
+            </Link>{" "}
+            › {editing ? "تعديل" : "إضافة جهاز"}
+          </div>
+          <h1 className="adf-h1" style={{ margin: 0, lineHeight: 1.3, overflowWrap: "anywhere" }}>{title}</h1>
+          <div style={{ color: "#4A5A56" }}>
+            {editing && device && isPublic(device) ? (
+              <>
+                الجهاز ظاهر للمشترين ·{" "}
+                <Link href={routes.device(device.id)} target="_blank" className="adf-tlink" style={{ fontWeight: 600 }}>
+                  شوف صفحته على الموقع
+                </Link>
+              </>
+            ) : (
+              "الجهاز هيظهر في «كل الأجهزة» أول ما تنشره."
+            )}
+          </div>
+        </div>
+        <div className="adf-actions adf-actions-top">
+          {actions}
         </div>
       </div>
 
@@ -190,8 +192,8 @@ export function DeviceForm({ device }: { device?: Device }) {
         </div>
       ) : null}
 
-      <div style={{ display: "flex", flexWrap: "wrap", gap: 24, alignItems: "flex-start" }}>
-        <div style={{ flex: "999 1 560px", minWidth: 0, display: "flex", flexDirection: "column", gap: 18 }}>
+      <div className="adf-root" style={{ display: "flex", flexWrap: "wrap", gap: 24, alignItems: "flex-start" }}>
+        <div className="adf-main" style={{ minWidth: 0, display: "flex", flexDirection: "column", gap: 18 }}>
           <SourceSection
             f={f}
             set={set}
@@ -216,6 +218,7 @@ export function DeviceForm({ device }: { device?: Device }) {
           <NotesSection f={f} set={set} />
         </div>
         <PreviewAside f={f} checks={checks} />
+        <div className="adf-actions adf-actions-end">{actions}</div>
       </div>
     </div>
   );

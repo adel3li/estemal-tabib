@@ -22,7 +22,7 @@ const PATH = ["الفلوس وصلت", "محفوظة عندنا", "المشتر�
 const Box = ({ label, children, sub, ltr }: { label: string; children: React.ReactNode; sub: React.ReactNode; ltr?: boolean }) => (
   <div style={{ padding: "12px 14px", borderRadius: 14, background: "#FFFFFF", border: "1px solid #DCE3DF", fontSize: 14, display: "flex", flexDirection: "column" }}>
     <span className="pm-sub">{label}</span>
-    <span style={{ fontWeight: 600 }} dir={ltr ? "ltr" : undefined}>{children}</span>
+    <span style={{ fontWeight: 600, overflowWrap: "anywhere" }} dir={ltr ? "ltr" : undefined}>{children}</span>
     {sub}
   </div>
 );
@@ -70,9 +70,9 @@ export function PaymentRow({ p, open, onToggle, onConfirm, onDeliver, onTransfer
           <span><span style={{ color: "#4A5A56" }}>وصلت:</span> {p.recv || "—"}</span>
           <span><span style={{ color: "#4A5A56" }}>استلام:</span> {p.deliv || (p.st === "pending" || p.st === "held" ? "لسه" : "—")}</span>
         </span>
-        <span><span className="pm-pill" style={{ background: trBg, color: trFg }}>{trTxt}</span></span>
+        <span><span className="pm-net-l">فترة التجربة: </span><span className="pm-pill" style={{ background: trBg, color: trFg }}>{trTxt}</span></span>
         <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.45 }}>
-          <span style={{ fontWeight: 700 }}>{net} <span className="pm-sub">ج.م</span></span>
+          <span style={{ fontWeight: 700 }}><span className="pm-net-l">صافي البايع: </span>{net} <span className="pm-sub">ج.م</span></span>
           <span className="pm-sub">رسوم المنصة {fee}</span>
         </span>
         <span><span className="pm-pill" style={{ background: stBg, color: stFg }}><span className="pm-dot" />{stTxt}</span></span>
@@ -80,13 +80,13 @@ export function PaymentRow({ p, open, onToggle, onConfirm, onDeliver, onTransfer
       </button>
 
       {open ? (
-        <div style={{ padding: "18px 20px 22px", background: "#F5F7F4", borderTop: "1px solid #E5EBE8", display: "flex", flexWrap: "wrap", gap: 20 }}>
+        <div className="pm-exp" style={{ background: "#F5F7F4", borderTop: "1px solid #E5EBE8", display: "flex", flexWrap: "wrap", gap: 20 }}>
           <div style={{ flex: "999 1 420px", minWidth: 0, display: "flex", flexDirection: "column", gap: 14 }}>
             <div style={{ fontWeight: 700 }}>مسار الفلوس — #{p.id}</div>
-            <ol aria-label="مسار الفلوس" style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 6 }}>
+            <ol aria-label="مسار الفلوس" className="pm-path">
               {PATH.map((label, i) => (
-                <li key={label} style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 12, color: "#3C4C48" }}>
-                  <span style={{ height: 6, borderRadius: 999, background: bar(i + 1) }} />
+                <li key={label} className="pm-path-i">
+                  <span className="pm-path-bar" style={{ background: bar(i + 1) }} />
                   {label}
                 </li>
               ))}
@@ -97,9 +97,9 @@ export function PaymentRow({ p, open, onToggle, onConfirm, onDeliver, onTransfer
               <Box label="مرجع التحويل" ltr sub={<span className="pm-sub">{p.receipt ? `الإيصال: ${p.receipt}` : "مفيش إيصال مرفوع"}</span>}>{p.ref || "—"}</Box>
             </div>
             <div style={{ padding: "12px 16px", borderRadius: 14, background: "#FFFFFF", border: "1px solid #DCE3DF", fontSize: 14, display: "flex", flexDirection: "column", gap: 4 }}>
-              <div style={{ display: "flex", justifyContent: "space-between" }}><span>اللي دفعه المشتري</span><span style={{ fontWeight: 600 }}>{amount} ج.م</span></div>
-              <div style={{ display: "flex", justifyContent: "space-between", color: "#8A4209" }}><span>رسوم المنصة ({FEE_PCT})</span><span style={{ fontWeight: 600 }}>− {fee} ج.م</span></div>
-              <div style={{ display: "flex", justifyContent: "space-between", paddingTop: 6, borderTop: "1px solid #E5EBE8", fontWeight: 700 }}><span>صافي البايع</span><span>{net} ج.م</span></div>
+              <div style={{ display: "flex", justifyContent: "space-between", gap: 12 }}><span>اللي دفعه المشتري</span><span style={{ fontWeight: 600 }}>{amount} ج.م</span></div>
+              <div style={{ display: "flex", justifyContent: "space-between", gap: 12, color: "#8A4209" }}><span>رسوم المنصة ({FEE_PCT})</span><span style={{ fontWeight: 600 }}>− {fee} ج.م</span></div>
+              <div style={{ display: "flex", justifyContent: "space-between", gap: 12, paddingTop: 6, borderTop: "1px solid #E5EBE8", fontWeight: 700 }}><span>صافي البايع</span><span>{net} ج.م</span></div>
             </div>
           </div>
 
@@ -111,7 +111,7 @@ export function PaymentRow({ p, open, onToggle, onConfirm, onDeliver, onTransfer
                 <div style={{ fontSize: 14, color: "#6B3A10" }}>المشتري قال إنه دفع بـ{p.method}. اتأكد من الحساب الأول، وبعدين أكّد.</div>
                 <label className="ad-field">
                   رقم مرجع التحويل
-                  <input type="text" className="ad-in" dir="ltr" style={{ textAlign: "right" }} value={ref} onChange={(e) => setRef(e.target.value)} placeholder="مثال: [IPN-xxxxxxxx]" />
+                  <input type="text" className="ad-in" dir="ltr" style={{ textAlign: "right" }} autoCapitalize="characters" autoCorrect="off" spellCheck={false} enterKeyHint="done" value={ref} onChange={(e) => setRef(e.target.value)} placeholder="مثال: [IPN-xxxxxxxx]" />
                 </label>
                 <label className="ad-drop pm-drop" style={{ padding: 12, position: "relative" }}>
                   <input type="file" className="pm-file" accept="image/*,application/pdf" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
@@ -156,7 +156,7 @@ export function PaymentRow({ p, open, onToggle, onConfirm, onDeliver, onTransfer
                 ) : (
                   <div role="alertdialog" aria-label="تأكيد الإرجاع" style={{ padding: 14, borderRadius: 14, background: "#FBE9E7", border: "1px solid #E8B4AE", display: "flex", flexDirection: "column", gap: 10 }}>
                     <div style={{ fontSize: 14, color: "#7A1A14", fontWeight: 600 }}>هيرجع {amount} ج.م للمشتري بنفس طريقة الدفع ({p.method}). متأكد؟</div>
-                    <div style={{ display: "flex", gap: 8 }}>
+                    <div className="pm-confirm" style={{ display: "flex", gap: 8 }}>
                       <button type="button" className="pm-act pm-redf" onClick={onRefund}>أيوه، رجّع الفلوس</button>
                       <button type="button" className="pm-act ad-sec" onClick={() => setAsking(false)}>لأ</button>
                     </div>
@@ -171,7 +171,7 @@ export function PaymentRow({ p, open, onToggle, onConfirm, onDeliver, onTransfer
               </div>
             ) : null}
 
-            <Link href={routes.admin.orders} style={{ fontSize: 14, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 6, marginTop: 4 }}>
+            <Link href={routes.admin.orders} className="pm-olink" style={{ fontSize: 14, fontWeight: 600, display: "inline-flex", alignItems: "center", gap: 6, marginTop: 4 }}>
               شوف الطلب في «الطلبات والشحن» ←
             </Link>
           </div>

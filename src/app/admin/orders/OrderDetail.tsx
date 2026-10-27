@@ -16,26 +16,31 @@ type Props = {
   onAdvance: () => void;
   onPayRest: () => void;
   onClose: () => void;
+  onBack: () => void;
   onShip: (s: Pick<Order, "co" | "no" | "eta">) => void;
   onError: (msg: string) => void;
   onNote: (txt: string) => void;
 };
 
-export function OrderDetail({ o, device, err, onAdvance, onPayRest, onClose, onShip, onError, onNote }: Props) {
+export function OrderDetail({ o, device, err, onAdvance, onPayRest, onClose, onBack, onShip, onError, onNote }: Props) {
   const [payTxt, payBg, payFg] = payView(o);
   const [insp, inspBg, inspFg] = inspView(o);
   const active = o.status === "active";
   const open = active && o.step < STEP_RELEASED;
   return (
-    <section className="ad-card" aria-labelledby="or-det-h" style={{ borderColor: "#9CCBC2" }}>
+    <section className="ad-card or-det" aria-labelledby="or-det-h" style={{ borderColor: "#9CCBC2" }}>
+      <button type="button" className="or-back" onClick={onBack}>
+        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 6l6 6-6 6" /></svg>
+        رجوع للقائمة
+      </button>
       <div style={{ display: "flex", flexWrap: "wrap", alignItems: "flex-start", gap: 14 }}>
         <OrSymbol sym={`or-${o.sym}`} size={56} />
         <div style={{ flex: "1 1 300px", minWidth: 0, lineHeight: 1.5 }}>
           <div style={{ fontSize: 13, color: "#4A5A56" }}>
             الطلب {o.id} · {o.date} ·{" "}
-            <Link href={routes.order(o.id)} style={{ fontWeight: 600 }}>شوف صفحة المشتري ←</Link>
+            <Link href={routes.order(o.id)} className="or-buyer-link">شوف صفحة المشتري ←</Link>
           </div>
-          <h2 id="or-det-h" style={{ margin: 0, fontSize: 21, fontWeight: 700 }}>
+          <h2 id="or-det-h" style={{ margin: 0, fontSize: 21, fontWeight: 700, overflowWrap: "anywhere" }}>
             {device && isPublic(device) ? <Link href={routes.device(device.id)} style={{ color: "inherit" }}>{o.device}</Link> : o.device}
           </h2>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 4 }}>
@@ -44,7 +49,7 @@ export function OrderDetail({ o, device, err, onAdvance, onPayRest, onClose, onS
             <span className="or-pill" style={{ background: "#F5F7F4", color: "#3C4C48" }}>صيانة مجانية {o.maint} شهور</span>
           </div>
         </div>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 10, alignItems: "center" }}>
+        <div className="or-acts">
           {o.paid === "dep" && active ? (
             <button type="button" className="ad-btn ad-sec" onClick={onPayRest}>سجّل دفع الباقي</button>
           ) : null}

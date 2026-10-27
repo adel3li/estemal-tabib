@@ -10,8 +10,8 @@ export function Faq() {
   return (
     <>
     <section id="faq" style={{ background: "#FFFFFF", borderTop: "1px solid #E5EBE8" }}>
-      <div style={{ maxWidth: 860, margin: "0 auto", padding: "76px 20px", display: "flex", flexDirection: "column", gap: 12 }}>
-        <h2 style={{ margin: "0 0 12px", fontSize: 34, fontWeight: 700 }}>أسئلة شائعة</h2>
+      <div className="mn-sec" style={{ maxWidth: 860, margin: "0 auto", display: "flex", flexDirection: "column", gap: 12 }}>
+        <h2 className="mn-h2" style={{ margin: "0 0 12px", fontWeight: 700 }}>أسئلة شائعة</h2>
         <details className="mn-faq" style={{ padding: "18px 22px", borderRadius: 16, background: "#F5F7F4", border: "1px solid transparent" }}>
           <summary style={{ fontWeight: 600, fontSize: 18, display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
             مين اللي بيفحص الأجهزة؟

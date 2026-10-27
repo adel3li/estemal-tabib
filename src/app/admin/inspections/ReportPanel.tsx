@@ -10,6 +10,7 @@ type Props = {
   onForm: (fn: (f: Form) => Form) => void;
   onPhotos: (files: File[]) => void;
   onClose: () => void;
+  onBack: () => void;
   onSave: () => void;
   onApprove: () => void;
   onReopen: () => void;
@@ -22,13 +23,17 @@ const setCheck = (f: Form, key: CheckKey, patch: Partial<Form["checks"][CheckKey
 
 const CONDS: Condition[] = ["a", "b", "c"];
 
-export function ReportPanel({ it, form: f, err, onForm, onPhotos, onClose, onSave, onApprove, onReopen }: Props) {
+export function ReportPanel({ it, form: f, err, onForm, onPhotos, onClose, onBack, onSave, onApprove, onReopen }: Props) {
   const [sTxt, sBg, sFg] = ST[statusOf(it)];
   const [tTxt, tBg, tFg] = typePill(it);
   const buyer = isBuyer(it);
   const isPub = it.status === "done";
   return (
-    <section className="ad-card" aria-labelledby="in-rep-h" style={{ gap: 18 }}>
+    <section className="ad-card in-panel" aria-labelledby="in-rep-h" style={{ gap: 18 }}>
+      <button type="button" className="in-back" onClick={onBack}>
+        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 6l6 6-6 6" /></svg>
+        رجوع للقائمة
+      </button>
       <div style={{ display: "flex", alignItems: "flex-start", gap: 12 }}>
         <InSymbol sym={symFor(it.deviceType)} size={56} />
         <div style={{ flex: 1, minWidth: 0, lineHeight: 1.5 }}>
@@ -44,7 +49,7 @@ export function ReportPanel({ it, form: f, err, onForm, onPhotos, onClose, onSav
         </button>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "8px 14px", padding: "12px 14px", borderRadius: 14, background: "#F5F7F4", fontSize: 14 }}>
+      <div className="in-meta">
         <span style={{ color: "#4A5A56" }}>النوع</span><span style={{ fontWeight: 600 }}>{typeLabel(it.deviceType)}</span>
         <span style={{ color: "#4A5A56" }}>الميعاد</span><span style={{ fontWeight: 600 }}>{DAYS[it.day][0]} {DAYS[it.day][1]} أكتوبر · {it.time}</span>
         <span style={{ color: "#4A5A56" }}>المكان</span><span style={{ fontWeight: 600 }}>{it.governorate} — {it.location}</span>
@@ -81,7 +86,7 @@ export function ReportPanel({ it, form: f, err, onForm, onPhotos, onClose, onSav
                   <span style={{ fontWeight: 600 }}>{c.label}</span>
                   <span className="ad-hint" style={{ fontSize: 12 }}>{c.sub}</span>
                 </span>
-                <span role="group" aria-label={`نتيجة ${c.label}`} style={{ display: "flex", gap: 6 }}>
+                <span role="group" aria-label={`نتيجة ${c.label}`} className="in-check-btns">
                   <button
                     type="button"
                     className="in-mini"
@@ -107,8 +112,7 @@ export function ReportPanel({ it, form: f, err, onForm, onPhotos, onClose, onSav
               {n ? (
                 <input
                   type="text"
-                  className="ad-in"
-                  style={{ minHeight: 40, fontSize: 14 }}
+                  className="ad-in in-note"
                   value={r.n}
                   readOnly={isPub}
                   onChange={(e) => onForm((x) => setCheck(x, c.key, { n: e.target.value }))}
@@ -158,7 +162,7 @@ export function ReportPanel({ it, form: f, err, onForm, onPhotos, onClose, onSav
         />
       </label>
 
-      <label className="ad-drop in-drop" style={{ position: "relative" }}>
+      <label className="ad-drop in-drop" style={{ position: "relative", flexWrap: "wrap" }}>
         <input
           type="file"
           accept="image/*,video/*"
@@ -174,7 +178,7 @@ export function ReportPanel({ it, form: f, err, onForm, onPhotos, onClose, onSav
         <span style={{ width: 44, height: 44, borderRadius: 12, background: "#3F7A1F", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>
           <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="14" rx="2" /><circle cx="9" cy="10" r="1.8" /><path d="M21 16l-5-5-8 8" /></svg>
         </span>
-        <span style={{ display: "flex", flexDirection: "column", flex: 1 }}>
+        <span style={{ display: "flex", flexDirection: "column", flex: "1 1 160px", minWidth: 0 }}>
           <span style={{ fontWeight: 700 }}>صور وفيديو الفحص</span>
           <span className="ad-hint">صور كل جزء اتفحص، وأي عيب من قريب</span>
         </span>
@@ -192,7 +196,7 @@ export function ReportPanel({ it, form: f, err, onForm, onPhotos, onClose, onSav
 
       {!isPub ? (
         <>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+          <div className="in-actions">
             <button type="button" className="ad-btn ad-sec" style={{ flex: "1 1 140px" }} onClick={onSave}>احفظ التقرير</button>
             <button type="button" className="ad-btn ad-pri" style={{ flex: "1 1 180px" }} onClick={onApprove}>
               <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12l4 4 10-10" /></svg>

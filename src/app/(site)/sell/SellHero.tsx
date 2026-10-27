@@ -9,7 +9,7 @@ const STEPS: { n: string; label: string; bg: string; fg: string }[] = [
 
 export function SellHero() {
   return (
-    <div style={{ padding: 32, borderRadius: 28, background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexWrap: "wrap", alignItems: "center", gap: 28 }}>
+    <div className="sl-hero" style={{ background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexWrap: "wrap", alignItems: "center" }}>
       <div style={{ flex: "999 1 420px", minWidth: 0, display: "flex", flexDirection: "column", gap: 18 }}>
         <span style={{ alignSelf: "flex-start", padding: "4px 14px", borderRadius: 999, background: "#FBEEDC", color: "#8A4209", fontSize: 14, fontWeight: 700, display: "flex", alignItems: "center", gap: 6 }}>
           <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -19,11 +19,11 @@ export function SellHero() {
           بيع جهازك
         </span>
         <div>
-          <h1 style={{ margin: 0, fontWeight: 700, fontSize: 38, lineHeight: 1.3 }}>اعرض جهازك للبيع</h1>
-          <p style={{ margin: "8px 0 0", color: "#4A5A56", fontSize: 17, maxWidth: 560 }}>كل ما كانت البيانات أدق، كل ما الجهاز اتباع أسرع. بعد ما تبعت الطلب هنكلمك خلال 24 ساعة نحدد ميعاد الفحص.</p>
+          <h1 className="sl-h1">اعرض جهازك للبيع</h1>
+          <p className="sl-lead">كل ما كانت البيانات أدق، كل ما الجهاز اتباع أسرع. بعد ما تبعت الطلب هنكلمك خلال 24 ساعة نحدد ميعاد الفحص.</p>
         </div>
         <nav aria-label="خطوات النموذج">
-          <ol style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))", gap: 8 }}>
+          <ol className="sl-steps">
             {STEPS.map((s, i) => (
               <li key={s.n}>
                 <a href={`#sl-s${i + 1}`} className="sl-step">
@@ -35,7 +35,7 @@ export function SellHero() {
           </ol>
         </nav>
       </div>
-      <div style={{ flex: "1 1 340px", minWidth: 0, maxWidth: 520, margin: "0 auto" }}>
+      <div className="sl-hero-art" style={{ flex: "1 1 340px", minWidth: 0, maxWidth: 520, margin: "0 auto" }}>
         <svg role="img" aria-label="رسم توضيحي لكرسي أسنان مع تقرير فحص وسعر" viewBox="0 0 520 380" style={{ display: "block", width: "100%", height: "auto" }}>
           <use href="#sl-hero" />
         </svg>
