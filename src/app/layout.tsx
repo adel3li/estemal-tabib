@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 // Self-hosted IBM Plex Sans Arabic (see DECISIONS.md #1). Each CSS file
 // declares Arabic + Latin subsets with unicode-range, so browsers only
 // download what a page needs.
@@ -14,6 +14,20 @@ export const metadata: Metadata = {
   title: { default: "استعمال طبيب", template: "%s — استعمال طبيب" },
   description:
     "منصة متخصصة في أجهزة الأسنان المستعملة: فحص في كل جهاز، وفلوسك محفوظة، وضمان مكتوب.",
+  applicationName: "استعمال طبيب",
+  appleWebApp: { capable: true, title: "استعمال طبيب", statusBarStyle: "default" },
+  formatDetection: { telephone: false, email: false, address: false },
+  manifest: "/manifest.webmanifest",
+};
+
+// Pinch-zoom stays enabled (accessibility); viewport-fit=cover lets us use the
+// iPhone safe areas (notch / home bar) via env(safe-area-inset-*).
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+  themeColor: "#0D5C55",
+  colorScheme: "light",
 };
 
 export default function RootLayout({

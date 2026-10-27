@@ -1,9 +1,11 @@
 "use client";
 
 // Admin layout — dark sidebar ported from Admin-*.dc.html <aside class="ad-side">.
+// ≥ 1024px: fixed sidebar as in the design. Phones & tablets: a slim top bar
+// with the current section and a menu button that opens the sidebar as a drawer.
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import type { ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   BellIcon,
   GridIcon,
@@ -27,67 +29,88 @@ const NAV = [
   { href: routes.admin.requests, label: "طلبات «اطلب جهاز»", Icon: BellIcon },
 ];
 
+const isActive = (pathname: string, n: (typeof NAV)[number]) =>
+  n.match ? n.match(pathname) : pathname === n.href || pathname.startsWith(n.href + "/");
+
 export function AdminShell({ children }: { children: ReactNode }) {
   const pathname = usePathname() ?? "";
   const { state } = useDemo();
   const newSubs = state.submissions.filter((s) => s.status === "new").length;
+  const [open, setOpen] = useState(false);
+  const menuBtn = useRef<HTMLButtonElement>(null);
+  const current = NAV.find((n) => isActive(pathname, n));
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- close drawer on route change
+  useEffect(() => setOpen(false), [pathname]);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        menuBtn.current?.focus();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = prev;
+    };
+  }, [open]);
 
   return (
-    <div
-      dir="rtl"
-      style={{
-        display: "flex",
-        flexWrap: "wrap",
-        minHeight: "100vh",
-        background: "#EEF2F0",
-        color: "#12221F",
-        fontSize: 16,
-        lineHeight: 1.6,
-      }}
-    >
-      <aside
-        className="ad-side"
-        aria-label="قائمة لوحة التحكم"
-        style={{
-          flex: "0 0 250px",
-          background: "#0F2A26",
-          color: "#C3D3CE",
-          padding: "22px 16px",
-          display: "flex",
-          flexDirection: "column",
-          gap: 6,
-          boxSizing: "border-box",
-          position: "sticky",
-          top: 0,
-          alignSelf: "flex-start",
-          minHeight: "100vh",
-        }}
-      >
-        <Link href={routes.home} style={{ color: "#FFFFFF", marginBottom: 4 }}>
-          <span
-            style={{
-              width: 38,
-              height: 38,
-              borderRadius: 12,
-              background: "#F2A33A",
-              color: "#12221F",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flex: "none",
-            }}
-          >
-            <ToothIcon size={20} />
-          </span>
-          <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.3 }}>
-            <span style={{ fontWeight: 700 }}>استعمال طبيب</span>
-            <span style={{ fontSize: 12, color: "#9FB8B1" }}>لوحة التحكم · ارجع للموقع</span>
-          </span>
+    <div dir="rtl" className="adm-root">
+      {/* Phones & tablets: top bar */}
+      <div className="adm-topbar">
+        <button
+          ref={menuBtn}
+          type="button"
+          className="adm-menu-btn"
+          aria-expanded={open}
+          aria-controls="adm-side"
+          aria-label="افتح قائمة لوحة التحكم"
+          onClick={() => setOpen(true)}
+        >
+          <svg aria-hidden width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+            <path d="M4 7h16" />
+            <path d="M4 12h16" />
+            <path d="M4 17h16" />
+          </svg>
+          {newSubs > 0 ? <span className="adm-dot" aria-hidden /> : null}
+        </button>
+        <span className="adm-topbar-title">{current?.label ?? "لوحة التحكم"}</span>
+        <Link href={routes.home} className="adm-topbar-logo" aria-label="استعمال طبيب — ارجع للموقع">
+          <ToothIcon size={20} />
         </Link>
+      </div>
+
+      {open ? <div className="adm-scrim" aria-hidden onClick={() => setOpen(false)} /> : null}
+
+      <aside id="adm-side" className={`ad-side adm-side${open ? " is-open" : ""}`} aria-label="قائمة لوحة التحكم">
+        <div className="adm-side-head">
+          <Link href={routes.home} style={{ color: "#FFFFFF", marginBottom: 4, flex: 1 }}>
+            <span className="adm-logo-mark">
+              <ToothIcon size={20} />
+            </span>
+            <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.3 }}>
+              <span style={{ fontWeight: 700 }}>استعمال طبيب</span>
+              <span style={{ fontSize: 12, color: "#9FB8B1" }}>لوحة التحكم · ارجع للموقع</span>
+            </span>
+          </Link>
+          <button type="button" className="adm-close" aria-label="اقفل القائمة" onClick={() => setOpen(false)}>
+            <svg aria-hidden width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <path d="M6 6l12 12" />
+              <path d="M18 6L6 18" />
+            </svg>
+          </button>
+        </div>
         <div style={{ height: 1, background: "#2E5650", margin: "8px 0" }} />
 
-        {NAV.map(({ href, label, Icon, badge, match }) => {
-          const active = match ? match(pathname) : pathname === href || pathname.startsWith(href + "/");
+        {NAV.map((n) => {
+          const active = isActive(pathname, n);
+          const { href, label, Icon, badge } = n;
           return (
             <Link
               key={href}
@@ -116,34 +139,8 @@ export function AdminShell({ children }: { children: ReactNode }) {
           );
         })}
 
-        <div
-          style={{
-            marginTop: "auto",
-            padding: 12,
-            borderRadius: 14,
-            background: "#163B36",
-            fontSize: 13,
-            display: "flex",
-            alignItems: "center",
-            gap: 10,
-          }}
-        >
-          <span
-            style={{
-              width: 34,
-              height: 34,
-              borderRadius: 999,
-              background: "#0D5C55",
-              color: "#FFFFFF",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontWeight: 700,
-              flex: "none",
-            }}
-          >
-            أ
-          </span>
+        <div className="adm-user">
+          <span className="adm-avatar">أ</span>
           <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.4 }}>
             <span style={{ color: "#FFFFFF", fontWeight: 600 }}>[اسم الموظف]</span>
             <span>أدمن</span>
@@ -151,19 +148,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
         </div>
       </aside>
 
-      <main
-        style={{
-          flex: "1 1 600px",
-          minWidth: 0,
-          padding: "26px 32px 60px",
-          boxSizing: "border-box",
-          display: "flex",
-          flexDirection: "column",
-          gap: 20,
-        }}
-      >
-        {children}
-      </main>
+      <main className="adm-main">{children}</main>
     </div>
   );
 }
