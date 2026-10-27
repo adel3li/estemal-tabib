@@ -52,3 +52,58 @@ body {
   outline: 2px solid var(--color-teal);
   outline-offset: 2px;
 }
+
+/* ── Design base (from the <helmet> blocks of design-reference/*.dc.html) ── */
+body {
+  font-size: 16px;
+  line-height: 1.7;
+}
+a {
+  color: #0d5c55;
+  text-decoration: none;
+}
+a:hover {
+  color: #08403b;
+}
+html {
+  scroll-behavior: smooth;
+}
+section[id] {
+  scroll-margin-top: 84px;
+}
+
+/* Site header */
+.site-nav a { color: #3c4c48; font-weight: 500; }
+.site-nav a:hover { color: #0d5c55; }
+.site-ghost { transition: background 0.15s ease; }
+.site-ghost:hover { background: #f5f7f4; color: #12221f; }
+.site-cta { transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease; }
+.site-cta:hover { background: #08403b !important; color: #ffffff; transform: translateY(-1px); box-shadow: 0 8px 18px rgba(13, 92, 85, 0.22); }
+.site-amber { transition: background 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease; }
+.site-amber:hover { background: #e8952a !important; color: #12221f; transform: translateY(-1px); box-shadow: 0 8px 18px rgba(242, 163, 58, 0.28); }
+
+/* Admin shared (ad-*) — identical in every Admin-*.dc.html */
+.ad-card{padding:24px;border-radius:22px;background:#FFFFFF;border:1px solid #DCE3DF;box-shadow:0 10px 30px rgba(18,34,31,.05);display:flex;flex-direction:column;gap:16px}
+.ad-h{margin:0;font-size:19px;display:flex;align-items:center;gap:10px}
+.ad-n{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex:none}
+.ad-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.ad-field{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:14px;min-width:0}
+.ad-in{min-height:46px;padding:0 12px;border-radius:12px;border:1px solid #C9D4CF;background:#FFFFFF;font:inherit;font-weight:400;font-size:15px;color:#12221F;box-sizing:border-box;width:100%}
+textarea.ad-in{padding:10px 12px;min-height:84px;resize:vertical}
+.ad-in:hover{border-color:#9FB2AB}
+.ad-in:focus{outline:none;border-color:#0D5C55;box-shadow:0 0 0 3px rgba(13,92,85,.18)}
+.ad-chip{min-height:42px;padding:4px 16px;border-radius:999px;font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.ad-chip:focus-visible{outline:3px solid rgba(13,92,85,.35);outline-offset:2px}
+.ad-side a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;color:#C3D3CE;font-weight:500}
+.ad-side a:hover{background:#163B36;color:#FFFFFF}
+.ad-side a[aria-current="page"]:hover{background:#F2A33A;color:#12221F}
+.ad-hint{font-weight:400;font-size:13px;color:#4A5A56}
+.ad-int{font-weight:400;font-size:12px;color:#8A4209;background:#FBEEDC;padding:1px 8px;border-radius:999px;margin-right:6px}
+.ad-btn{min-height:50px;padding:0 22px;border-radius:14px;font:inherit;font-weight:700;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.ad-pri{background:#0D5C55;color:#FFFFFF;border:0}.ad-pri:hover{background:#08403B;color:#FFFFFF}
+.ad-sec{background:#FFFFFF;color:#12221F;border:1px solid #C9D4CF}.ad-sec:hover{background:#F5F7F4;color:#12221F}
+.ad-drop{border:2px dashed #9FB2AB;border-radius:16px;background:#F5F7F4;padding:18px;display:flex;align-items:center;gap:14px;cursor:pointer;font:inherit;color:#12221F;text-align:right;width:100%}
+.ad-drop:hover{border-color:#0D5C55;background:#E3F0ED}
+
+/* Demo bar */
+.demo-bar button:hover, .demo-bar a:hover { text-decoration: underline; }
