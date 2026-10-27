@@ -25,3 +25,15 @@ Adel asked to test the whole site end to end before going further, so all 16 scr
 14. **`minListingDays` and `sellerHandoverBusinessDays`** were added to `BUSINESS` for the terms page.
 15. **WhatsApp links** open with no number while the number is a placeholder (`waLink` needs ≥ 11 digits).
 16. **Worker size after the demo:** ~1.22 MiB gzipped (free limit 3 MiB).
+
+## Mobile & tablet pass (2026-10-27)
+
+17. **Breakpoints:** desktop layout (the design) from 1024px; tablets 768–1023; phones < 768; small phones ≤ 380. Pages keep the design's inline styles and override only the properties that must change, via classes in each page's `styles.css` (see `MOBILE.md`).
+18. **Header < 1024px:** logo + «بيع جهازك» + menu button; the menu panel holds the nav, «اطلب جهاز», «شروط البيع والشراء», «اشتري جهاز», «تابع طلبك».
+19. **Admin < 1024px:** sticky dark top bar with the section name; the sidebar becomes a drawer. Tables become cards; list → detail panels scroll into view with «رجوع للقائمة».
+20. **Inputs are 16px below 1024px** so iOS Safari doesn't zoom on focus. Pinch-zoom stays allowed.
+21. **Safe areas:** `viewport-fit=cover` + `env(safe-area-inset-*)` on the header, admin bar, demo pill, device order bar and footer.
+22. **/devices filters < 1024px** open as a sheet from a «تصفية» button; **device page on phones** has a bottom bar with price + «اطلب الجهاز» that hides while the price card's own buttons or the footer are visible.
+23. **Save / publish / approve buttons** stay full-width at the end of admin forms on phones (no sticky bottom bar) so they don't collide with the demo pill. Revisit when the demo pill is removed.
+24. **Home-screen icon** is a static PNG (`src/app/apple-icon.png`). Generating it with `next/og` added ~0.8 MiB to the Worker (2.05 MiB gzipped); static keeps it at ~1.24 MiB.
+25. Demo pill starts collapsed («نسخة تجريبية») instead of a full bar.
