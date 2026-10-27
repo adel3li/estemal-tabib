@@ -6,10 +6,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useDemo } from "@/lib/demo/store";
+import { useOrders } from "@/lib/demo/orders";
 import { routes } from "@/lib/routes";
 
 export function DemoBar() {
   const { reset } = useDemo();
+  const { reset: resetOrders } = useOrders();
   const pathname = usePathname() ?? "";
   const [open, setOpen] = useState(true);
   const inAdmin = pathname.startsWith("/admin");
@@ -82,7 +84,10 @@ export function DemoBar() {
         type="button"
         style={linkStyle}
         onClick={() => {
-          if (window.confirm("ترجّع كل البيانات التجريبية زي ما كانت في الأول؟")) reset();
+          if (window.confirm("ترجّع كل البيانات التجريبية زي ما كانت في الأول؟")) {
+            reset();
+            resetOrders();
+          }
         }}
       >
         رجّع البيانات

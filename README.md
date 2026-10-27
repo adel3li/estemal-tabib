@@ -10,11 +10,29 @@ Marketplace for used dental equipment in Egypt: every device is inspected by a c
 
 ## Status
 
-| Step | | |
-|---|---|---|
-| 0 | Scaffold & deploy proof | ✅ builds and runs on the Workers runtime locally; first real deploy needs your Cloudflare account (below) |
-| 1 | Design system | ⏳ next |
-| 2–8 | Supabase, auth, pages, uploads, flows, admin, hardening | — |
+**Clickable demo: all 16 screens are real, connected pages on demo data** (no database or login yet). Next: Supabase (Step 2) and login (Step 3).
+
+## Test the demo
+
+Data is saved in your browser only. Use «رجّع البيانات» in the dark bar at the bottom-left to start over.
+
+| Page | Route |
+|---|---|
+| الرئيسية | `/` |
+| كل الأجهزة (filters are in the URL, e.g. `/devices?cat=unit&st=done`) | `/devices` |
+| صفحة جهاز — تم الفحص / يُفحص عند الطلب / محجوز | `/devices/L-201` · `/devices/L-202` · `/devices/L-212` |
+| اعرض جهازك للبيع | `/sell` |
+| اطلب جهاز | `/request` |
+| شروط البيع والشراء / مين إحنا | `/terms` · `/about` |
+| متابعة الطلب (Phase 2) | `/orders/2043` |
+| لوحة التحكم | `/admin` → الأجهزة، إضافة جهاز، طلبات البيع، الفحوصات، الطلبات والشحن، المدفوعات، طلبات «اطلب جهاز» |
+
+Flows worth trying:
+1. Submit a device on `/sell` → it appears in **لوحة التحكم › طلبات البيع الواردة** → «قبول وتحويل لإعلان» → finish and publish it from its edit page → it shows on `/devices`.
+2. In **الفحوصات**, open F-297 → «اعتمد ونشّر» → `/devices/L-207` becomes «تم الفحص» with the report.
+3. Submit `/request` for an autoclave between 30,000 and 60,000 → **طلبات «اطلب جهاز»** shows the matching devices and the WhatsApp message.
+4. On `/orders/2043` confirm the inspection report → **الطلبات والشحن** shows #2043 at «الشحن».
+5. Hide or feature a device in **الأجهزة المعروضة** → check `/devices` and the home page.
 
 ## Run it
 
