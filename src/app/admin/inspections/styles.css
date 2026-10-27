@@ -77,3 +77,8 @@
 @media (max-width: 1023px){
   .in-toast{position:sticky;top:calc(72px + env(safe-area-inset-top));z-index:20;box-shadow:0 10px 24px rgba(18,34,31,.14)}
 }
+@media (max-width: 767px){
+  .in-toast{padding:12px 14px !important;gap:8px 12px !important}
+  .in-toast > span:nth-child(2){flex:1 1 calc(100% - 44px) !important}
+  .in-toast > a{flex:1 1 auto;display:inline-flex;align-items:center;min-height:44px}
+}
