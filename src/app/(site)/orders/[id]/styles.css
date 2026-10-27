@@ -1,0 +1,7 @@
+.ot-cta{transition:background .15s ease, transform .15s ease;cursor:pointer}
+.ot-cta:hover{background:#08403B;color:#FFFFFF;transform:translateY(-1px)}
+.ot-ghost{transition:background .15s ease}
+.ot-ghost:hover{background:#F5F7F4;color:#12221F}
+.ot-amber{transition:background .15s ease}
+.ot-amber:hover{background:#E8952A;color:#12221F}
+.ot-cta:focus-visible,.ot-ghost:focus-visible,.ot-amber:focus-visible{outline:3px solid #F2A33A;outline-offset:2px}

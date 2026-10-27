@@ -17,7 +17,7 @@ import { SubmissionList } from "./_parts/SubmissionList";
 import "./styles.css";
 
 export default function AdminSubmissionsPage() {
-  const { state, updateSubmission, acceptSubmission } = useDemo();
+  const { state, updateSubmission, acceptSubmission, addInspection } = useDemo();
   const [tab, setTab] = useState<SubmissionStatus>("new");
   const [q, setQ] = useState("");
   const [sel, setSel] = useState<string | null>("#1024");
@@ -59,9 +59,29 @@ export default function AdminSubmissionsPage() {
       ok(`اتبعت للبايع طلب ${what} — الطلب بقى «محتاج متابعة».`);
     },
     schedule: (date: string, slot: string, tech: string) => {
-      // TODO(Step 2): create an `inspections` row (PHASE1_PROMPT.md §9) — the demo store has no action for it yet.
-      updateSubmission(s.id, { status: "follow_up" }, { text: `ميعاد فحص: ${date} · ${slot} · ${tech}`, tone: "info" });
-      ok(`اتحدد ميعاد الفحص ${date} (${slot}) واتبعت للبايع.`);
+      // Demo week is 24–30 October (day 0..6); dates outside it land on the last day.
+      const dayOfMonth = Number(date.slice(8, 10));
+      const day = date.startsWith("2026-10-") && dayOfMonth >= 24 && dayOfMonth <= 30 ? dayOfMonth - 24 : 6;
+      const inspId = addInspection({
+        title: s.details,
+        deviceType: s.deviceType,
+        governorate: s.governorate,
+        location: s.keepLocation === "send_to_platform" ? "مقر الفحص" : `عند البايع · ${s.governorate}`,
+        technician: tech,
+        day,
+        time: slot,
+        kind: "pre_publish",
+        deviceId: s.deviceId,
+      });
+      updateSubmission(s.id, { status: "follow_up" }, { text: `ميعاد فحص ${inspId}: ${date} · ${slot} · ${tech}`, tone: "info" });
+      ok(
+        <>
+          اتحدد ميعاد الفحص {date} ({slot}) واتبعت للبايع.{" "}
+          <Link href={routes.admin.inspections} style={{ color: "inherit", textDecoration: "underline" }}>
+            شوف الفحص {inspId}
+          </Link>
+        </>,
+      );
     },
     reject: (reason: string, note: string) => {
       updateSubmission(

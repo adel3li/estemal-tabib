@@ -74,6 +74,8 @@ export type DemoApi = {
   acceptSubmission: (id: string) => string;
   addRequest: (r: NewRequest) => string;
   updateRequest: (id: string, patch: Partial<DeviceRequest>) => void;
+  /** Schedule a new inspection (e.g. from «حدد ميعاد فحص»). Returns its id. */
+  addInspection: (i: Omit<Inspection, "id" | "status" | "form">) => string;
   updateInspection: (id: string, patch: Partial<Inspection>) => void;
   /** «اعتمد ونشّر»: marks the inspection done, writes the report to the device,
    *  and publishes it for pre-publish inspections. Returns the device id. */
@@ -111,8 +113,12 @@ export function DemoProvider({ children }: { children: ReactNode }) {
   }, []);
   /* eslint-enable react-hooks/set-state-in-effect */
 
+  // Save after every change. Uses ref.current (not this render's `state`): on
+  // the first client commit the hydration effect above has already put the
+  // stored data in ref.current while `state` is still the seed — saving
+  // `state` there would overwrite the user's data with the seed.
   useEffect(() => {
-    if (loaded.current) save(state);
+    if (loaded.current) save(ref.current);
   }, [state]);
 
   // Keep tabs in sync (admin in one tab, site in another).
@@ -242,6 +248,27 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     commit((s) => ({ ...s, requests: s.requests.map((r) => (r.id === id ? { ...r, ...patch } : r)) }));
   }, [commit]);
 
+  const addInspection: DemoApi["addInspection"] = useCallback((input) => {
+    let id = "";
+    commit((s) => {
+      id = nextCode(s.inspections.map((x) => x.id), "F-", 306);
+      const insp: Inspection = {
+        ...input,
+        id,
+        status: "scheduled",
+        form: {
+          checks: { run: { v: "", n: "" }, look: { v: "", n: "" }, parts: { v: "", n: "" }, maint: { v: "", n: "" } },
+          efficiency: "",
+          condition: "",
+          defects: "",
+          photos: 0,
+        },
+      };
+      return { ...s, inspections: [insp, ...s.inspections] };
+    });
+    return id;
+  }, [commit]);
+
   const updateInspection: DemoApi["updateInspection"] = useCallback((id, patch) => {
     commit((s) => ({ ...s, inspections: s.inspections.map((x) => (x.id === id ? { ...x, ...patch } : x)) }));
   }, [commit]);
@@ -364,13 +391,14 @@ export function DemoProvider({ children }: { children: ReactNode }) {
       acceptSubmission,
       addRequest,
       updateRequest,
+      addInspection,
       updateInspection,
       approveInspection,
       toggleFavorite,
       matchesFor,
       reset,
     }),
-    [ready, state, getDevice, addDevice, updateDevice, addSubmission, updateSubmission, acceptSubmission, addRequest, updateRequest, updateInspection, approveInspection, toggleFavorite, matchesFor, reset],
+    [ready, state, getDevice, addDevice, updateDevice, addSubmission, updateSubmission, acceptSubmission, addRequest, updateRequest, addInspection, updateInspection, approveInspection, toggleFavorite, matchesFor, reset],
   );
 
   return <DemoContext.Provider value={api}>{children}</DemoContext.Provider>;
