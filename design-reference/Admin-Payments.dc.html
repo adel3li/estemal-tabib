@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head>
+<meta charset="utf-8">
+<title>استعمال طبيب — لوحة التحكم: المدفوعات المحفوظة</title>
+<script src="support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#EEF2F0}
+a{color:#0D5C55;text-decoration:none}a:hover{color:#08403B}
+.ad-card{padding:24px;border-radius:22px;background:#FFFFFF;border:1px solid #DCE3DF;box-shadow:0 10px 30px rgba(18,34,31,.05);display:flex;flex-direction:column;gap:16px}
+.ad-h{margin:0;font-size:19px;display:flex;align-items:center;gap:10px}
+.ad-n{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex:none}
+.ad-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.ad-field{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:14px;min-width:0}
+.ad-in{min-height:46px;padding:0 12px;border-radius:12px;border:1px solid #C9D4CF;background:#FFFFFF;font:inherit;font-weight:400;font-size:15px;color:#12221F;box-sizing:border-box;width:100%}
+textarea.ad-in{padding:10px 12px;min-height:84px;resize:vertical}
+.ad-in:hover{border-color:#9FB2AB}
+.ad-in:focus{outline:none;border-color:#0D5C55;box-shadow:0 0 0 3px rgba(13,92,85,.18)}
+.ad-chip{min-height:42px;padding:4px 16px;border-radius:999px;font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.ad-chip:focus-visible{outline:3px solid rgba(13,92,85,.35);outline-offset:2px}
+.ad-side a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;color:#C3D3CE;font-weight:500}
+.ad-side a:hover{background:#163B36;color:#FFFFFF}
+.ad-hint{font-weight:400;font-size:13px;color:#4A5A56}
+.ad-int{font-weight:400;font-size:12px;color:#8A4209;background:#FBEEDC;padding:1px 8px;border-radius:999px;margin-right:6px}
+.ad-btn{min-height:50px;padding:0 22px;border-radius:14px;font:inherit;font-weight:700;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.ad-pri{background:#0D5C55;color:#FFFFFF;border:0}.ad-pri:hover{background:#08403B}
+.ad-sec{background:#FFFFFF;color:#12221F;border:1px solid #C9D4CF}.ad-sec:hover{background:#F5F7F4}
+.ad-drop{border:2px dashed #9FB2AB;border-radius:16px;background:#F5F7F4;padding:18px;display:flex;align-items:center;gap:14px;cursor:pointer;font:inherit;color:#12221F;text-align:right;width:100%}
+.ad-drop:hover{border-color:#0D5C55;background:#E3F0ED}
+/* page-specific */
+.pm-kpi{padding:18px 20px;border-radius:20px;background:#FFFFFF;border:1px solid #DCE3DF;display:flex;flex-direction:column;gap:4px;min-width:0}
+.pm-kpi-l{font-size:14px;color:#4A5A56;font-weight:600;display:flex;align-items:center;gap:8px}
+.pm-kpi-v{font-size:26px;font-weight:700;line-height:1.3}
+.pm-kpi-s{font-size:13px;color:#4A5A56}
+.pm-cols{display:grid;grid-template-columns:1.5fr 1fr 1.1fr 1.1fr 1fr 1.1fr 1.15fr 24px;gap:12px;align-items:center}
+.pm-row{width:100%;padding:12px 16px;border:0;border-top:1px solid #E5EBE8;background:#FFFFFF;font:inherit;color:#12221F;text-align:right;cursor:pointer;box-sizing:border-box}
+.pm-row:hover{background:#F5F7F4}
+.pm-row:focus-visible{outline:3px solid rgba(13,92,85,.35);outline-offset:-3px}
+.pm-pill{display:inline-flex;align-items:center;gap:6px;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.pm-dot{width:7px;height:7px;border-radius:999px;background:currentColor;flex:none}
+.pm-sub{font-size:12px;color:#4A5A56;line-height:1.5}
+.pm-tab{min-height:40px;padding:0 14px;border-radius:999px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.pm-tab:hover{border-color:#0D5C55}
+.pm-tab:focus-visible{outline:3px solid rgba(13,92,85,.35);outline-offset:2px}
+.pm-cnt{min-width:20px;padding:0 6px;border-radius:999px;font-size:12px;font-weight:700;text-align:center}
+.pm-act{min-height:46px;padding:0 18px;border-radius:12px;font:inherit;font-weight:700;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;width:100%}
+.pm-act:disabled{background:#E5EBE8 !important;color:#7A8A85 !important;border-color:#E5EBE8 !important;cursor:not-allowed}
+.pm-green{background:#3F7A1F;color:#FFFFFF;border:0}.pm-green:hover{background:#2F5E16}
+.pm-red{background:#FFFFFF;color:#B3261E;border:1px solid #E8B4AE}.pm-red:hover{background:#FBE9E7}
+.pm-redf{background:#B3261E;color:#FFFFFF;border:0}.pm-redf:hover{background:#8F1E18}
+.pm-file{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
+.pm-drop:focus-within{outline:3px solid rgba(13,92,85,.35);outline-offset:2px}
+.pm-mini{display:grid;grid-template-columns:1.2fr 1fr .8fr auto;gap:10px;align-items:center;padding:10px 0;border-top:1px solid #E5EBE8;font-size:14px}
+.pm-link{background:none;border:0;padding:6px 8px;border-radius:8px;font:inherit;font-size:13px;font-weight:700;color:#0D5C55;cursor:pointer}
+.pm-link:hover{background:#E3F0ED}
+</style>
+</helmet>
+<div dir="rtl" style="min-height: 100vh; background: #EEF2F0; color: #12221F; font-family: 'IBM Plex Sans Arabic', 'Segoe UI', sans-serif; font-size: 16px; line-height: 1.7; display: flex; align-items: stretch">
+
+<svg aria-hidden="true" width="0" height="0" style="position: absolute; width: 0; height: 0; overflow: hidden">
+<symbol id="pm-ic-unit" sc-camel-view-box="0 0 40 40"><rect width="40" height="40" rx="10" fill="#E3F0ED"></rect><path d="M11 27h18" stroke="#0D5C55" stroke-width="2.4" stroke-linecap="round"></path><path d="M13 27l2-9h8l3 4h4" stroke="#0D5C55" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"></path><path d="M15 18l-1-6" stroke="#0D5C55" stroke-width="2.4" stroke-linecap="round"></path><circle cx="27" cy="12" r="3" fill="#F2A33A"></circle><path d="M27 15v4" stroke="#0D5C55" stroke-width="2" stroke-linecap="round"></path></symbol>
+<symbol id="pm-ic-box" sc-camel-view-box="0 0 40 40"><rect width="40" height="40" rx="10" fill="#E6EDF7"></rect><rect x="9" y="11" width="22" height="18" rx="4" fill="#FFFFFF" stroke="#24508F" stroke-width="2"></rect><circle cx="18" cy="20" r="5" fill="#24508F" opacity=".85"></circle><rect x="25" y="15" width="3" height="10" rx="1.5" fill="#24508F"></rect><rect x="11" y="29" width="4" height="2" rx="1" fill="#24508F"></rect><rect x="25" y="29" width="4" height="2" rx="1" fill="#24508F"></rect></symbol>
+<symbol id="pm-ic-hand" sc-camel-view-box="0 0 40 40"><rect width="40" height="40" rx="10" fill="#FBEEDC"></rect><path d="M10 28l14-14" stroke="#8A4209" stroke-width="4" stroke-linecap="round"></path><path d="M24 14l4-4" stroke="#8A4209" stroke-width="2.4" stroke-linecap="round"></path><circle cx="29" cy="9" r="2" fill="#F2A33A"></circle><path d="M10 28c-1 1-2 3-1 4s3 0 4-1" stroke="#8A4209" stroke-width="2" fill="none" stroke-linecap="round"></path></symbol>
+<symbol id="pm-ic-cam" sc-camel-view-box="0 0 40 40"><rect width="40" height="40" rx="10" fill="#EAF5DD"></rect><rect x="9" y="14" width="22" height="14" rx="3" fill="#FFFFFF" stroke="#3F7A1F" stroke-width="2"></rect><circle cx="20" cy="21" r="4" fill="#3F7A1F"></circle><rect x="15" y="11" width="10" height="4" rx="1.5" fill="#3F7A1F"></rect></symbol>
+</svg>
+
+<aside class="ad-side" aria-label="قائمة لوحة التحكم" style="flex: 0 0 250px; background: #0F2A26; color: #C3D3CE; padding: 22px 16px; display: flex; flex-direction: column; gap: 6px; box-sizing: border-box">
+<a href="Main.dc.html" style="color: #FFFFFF; margin-bottom: 4px">
+<span style="width: 38px; height: 38px; border-radius: 12px; background: #F2A33A; color: #12221F; display: flex; align-items: center; justify-content: center; flex: none"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3c-2.5 0-4 2-4 4.5 0 3 1.5 4.5 2 7 .5 3 1 6.5 2.5 6.5S9 18 10 15.5c.5-1.2 1.5-1.2 2 0 1 2.5 1.5 5.5 3 5.5s2-3.5 2.5-6.5c.5-2.5 2-4 2-7C19.5 5 18 3 15.5 3 13.5 3 13 4 12 4S10 3 7 3z"></path></svg></span>
+<span style="display: flex; flex-direction: column; line-height: 1.3"><span style="font-weight: 700">استعمال طبيب</span><span style="font-size: 12px; color: #9FB8B1">لوحة التحكم</span></span>
+</a>
+<div style="height: 1px; background: #2E5650; margin: 8px 0"></div>
+<a href="Admin-Listings.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="1.5"></rect><rect x="13" y="4" width="7" height="7" rx="1.5"></rect><rect x="4" y="13" width="7" height="7" rx="1.5"></rect><rect x="13" y="13" width="7" height="7" rx="1.5"></rect></svg>الأجهزة المعروضة</a>
+<a href="Admin.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>إضافة جهاز</a>
+<a href="Admin-Submissions.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16v12H4z"></path><path d="M4 7l8 6 8-6"></path></svg>طلبات البيع الواردة<span style="margin-right: auto; padding: 0 8px; border-radius: 999px; background: #F2A33A; color: #12221F; font-size: 12px; font-weight: 700">[٣]</span></a>
+<a href="Admin-Inspections.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"></circle><path d="M20 20l-4.5-4.5"></path></svg>الفحوصات</a>
+<a href="Admin-Orders.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3z"></path><path d="M14 10h4l3 3v3h-7"></path><circle cx="7" cy="17.5" r="1.8"></circle><circle cx="17" cy="17.5" r="1.8"></circle></svg>الطلبات والشحن</a>
+<a href="Admin-Payments.dc.html" aria-current="page" style="background: #F2A33A; color: #12221F; font-weight: 700"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>المدفوعات المحفوظة</a>
+<a href="Admin-Requests.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg>طلبات «اطلب جهاز»</a>
+<div style="margin-top: auto; padding: 12px; border-radius: 14px; background: #163B36; font-size: 13px; display: flex; align-items: center; gap: 10px">
+<span style="width: 34px; height: 34px; border-radius: 999px; background: #0D5C55; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700; flex: none">أ</span>
+<span style="display: flex; flex-direction: column; line-height: 1.4"><span style="color: #FFFFFF; font-weight: 600">[اسم الموظف]</span><span>أدمن</span></span>
+</div>
+</aside>
+
+<main style="flex: 1 1 auto; min-width: 0; padding: 26px 32px 60px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px">
+
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px">
+<div>
+<div style="font-size: 14px; color: #4A5A56">لوحة التحكم › المدفوعات المحفوظة</div>
+<h1 style="margin: 0; font-size: 30px; line-height: 1.3">المدفوعات المحفوظة</h1>
+<div style="color: #4A5A56">فلوس المشتري بتفضل محفوظة عندنا لحد الاستلام + 3 أيام تجربة، وبعدها بتتحوّل للبايع.</div>
+</div>
+<div style="font-size: 14px; color: #4A5A56; display: flex; align-items: center; gap: 6px"><svg aria-hidden="true" width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M4 10h16M9 3v4M15 3v4"></path></svg>النهارده: {{today}}</div>
+</div>
+
+<sc-if value="{{hasToast}}" hint-placeholder-val="{{false}}">
+<div role="status" style="padding: 12px 16px; border-radius: 14px; background: {{toastBg}}; color: {{toastFg}}; border: 1px solid {{toastBd}}; display: flex; align-items: center; gap: 10px; font-weight: 600">
+<svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"></path></svg>
+<span style="flex: 1 1 auto">{{toast}}</span>
+<button type="button" class="pm-link" sc-camel-on-click="{{clearToast}}" aria-label="اقفل الرسالة" style="color: inherit">✕</button>
+</div>
+</sc-if>
+
+<section aria-label="ملخص المدفوعات" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px">
+<div class="pm-kpi" style="border-color: #9CCBC2">
+<span class="pm-kpi-l"><span style="width: 28px; height: 28px; border-radius: 9px; background: #E3F0ED; color: #0D5C55; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg></span>فلوس محفوظة دلوقتي</span>
+<span class="pm-kpi-v">{{kHeld}} <span style="font-size: 14px; color: #4A5A56">ج.م</span></span>
+<span class="pm-kpi-s">{{kHeldN}} طلب · محفوظ + في التجربة + جاهز</span>
+</div>
+<div class="pm-kpi">
+<span class="pm-kpi-l"><span style="width: 28px; height: 28px; border-radius: 9px; background: #EAF5DD; color: #3F7A1F; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>جاهزة للتحويل</span>
+<span class="pm-kpi-v" style="color: #3F7A1F">{{kReady}} <span style="font-size: 14px; color: #4A5A56">ج.م</span></span>
+<span class="pm-kpi-s">صافي {{kReadyN}} بايع · فترة التجربة خلصت</span>
+</div>
+<div class="pm-kpi">
+<span class="pm-kpi-l"><span style="width: 28px; height: 28px; border-radius: 9px; background: #EEF2F0; color: #12221F; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"></path></svg></span>اتحولت الشهر ده</span>
+<span class="pm-kpi-v">{{kPaid}} <span style="font-size: 14px; color: #4A5A56">ج.م</span></span>
+<span class="pm-kpi-s">{{kPaidN}} تحويل للبايعين · أكتوبر</span>
+</div>
+<div class="pm-kpi">
+<span class="pm-kpi-l"><span style="width: 28px; height: 28px; border-radius: 9px; background: #FBEEDC; color: #8A4209; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12v16l-6-4-6 4z"></path></svg></span>عربون 500 محجوز</span>
+<span class="pm-kpi-v">{{kDep}} <span style="font-size: 14px; color: #4A5A56">ج.م</span></span>
+<span class="pm-kpi-s">{{kDepN}} حجز بعربون 500 ج.م</span>
+</div>
+</section>
+
+<section class="ad-card" aria-labelledby="pm-tbl" style="padding: 0; gap: 0; overflow: hidden">
+<div style="padding: 20px 20px 14px; display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px">
+<h2 class="ad-h" id="pm-tbl"><span class="ad-n" style="background: #E3F0ED; color: #0D5C55">١</span>فلوس الطلبات</h2>
+<label style="flex: 0 1 300px; position: relative; display: flex">
+<span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">ابحث في المدفوعات</span>
+<svg aria-hidden="true" width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="#4A5A56" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; right: 12px; top: 14px"><circle cx="11" cy="11" r="6"></circle><path d="M20 20l-4.5-4.5"></path></svg>
+<input type="search" class="ad-in" value="{{q}}" sc-camel-on-change="{{onQ}}" placeholder="رقم الطلب، الجهاز، أو المشتري" style="padding-right: 38px">
+</label>
+</div>
+<div role="tablist" aria-label="فلترة حسب الحالة" style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="7">
+<button type="button" role="tab" class="pm-tab" aria-selected="{{t.sel}}" sc-camel-on-click="{{t.pick}}" style="border: 1px solid {{t.bd}}; background: {{t.bg}}; color: {{t.fg}}">{{t.label}}<span class="pm-cnt" style="background: {{t.cbg}}; color: {{t.cfg}}">{{t.n}}</span></button>
+</sc-for>
+</div>
+</div>
+
+<div>
+<div aria-hidden="true" class="pm-cols" style="padding: 10px 16px; background: #F5F7F4; font-size: 13px; font-weight: 700; color: #4A5A56; border-top: 1px solid #E5EBE8">
+<span>الطلب</span>
+<span>المشتري</span>
+<span>المبلغ والطريقة</span>
+<span>وصلت / الاستلام</span>
+<span>فترة التجربة</span>
+<span>صافي البايع ×0.85</span>
+<span>الحالة</span>
+<span aria-hidden="true"></span>
+</div>
+
+<sc-for list="{{rows}}" as="p" hint-placeholder-count="9">
+<div>
+<button type="button" class="pm-row pm-cols" sc-camel-on-click="{{p.toggle}}" aria-expanded="{{p.expanded}}" style="background: {{p.rowBg}}">
+<span style="display: flex; align-items: center; gap: 10px; min-width: 0">
+<svg aria-hidden="true" width="40" height="40" style="flex: none"><use href="{{p.icon}}"></use></svg>
+<span style="display: flex; flex-direction: column; min-width: 0; line-height: 1.45"><span style="font-weight: 700">{{p.order}}</span><span class="pm-sub" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{p.device}}</span></span>
+</span>
+<span style="display: flex; flex-direction: column; line-height: 1.45; min-width: 0"><span style="font-weight: 600">{{p.buyer}}</span><span class="pm-sub">{{p.gov}}</span></span>
+<span style="display: flex; flex-direction: column; align-items: flex-start; gap: 2px; line-height: 1.45"><span style="font-weight: 700">{{p.amountTxt}} <span class="pm-sub">ج.م</span></span><span class="pm-pill" style="background: #F5F7F4; color: #3C4C48; border: 1px solid #DCE3DF; font-weight: 600">{{p.method}}</span></span>
+<span style="display: flex; flex-direction: column; line-height: 1.5; font-size: 13px"><span><span style="color: #4A5A56">وصلت:</span> {{p.recv}}</span><span><span style="color: #4A5A56">استلام:</span> {{p.deliv}}</span></span>
+<span><span class="pm-pill" style="background: {{p.trBg}}; color: {{p.trFg}}">{{p.trialTxt}}</span></span>
+<span style="display: flex; flex-direction: column; line-height: 1.45"><span style="font-weight: 700">{{p.netTxt}} <span class="pm-sub">ج.م</span></span><span class="pm-sub">رسوم المنصة {{p.feeTxt}}</span></span>
+<span><span class="pm-pill" style="background: {{p.stBg}}; color: {{p.stFg}}"><span class="pm-dot"></span>{{p.stTxt}}</span></span>
+<span aria-hidden="true" style="color: #4A5A56; font-size: 14px; transform: rotate({{p.rot}}); transition: transform .15s; display: inline-block">⌄</span>
+</button>
+
+<sc-if value="{{p.open}}" hint-placeholder-val="{{false}}">
+<div style="padding: 18px 20px 22px; background: #F5F7F4; border-top: 1px solid #E5EBE8; display: flex; flex-wrap: wrap; gap: 20px">
+
+<div style="flex: 999 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<div style="font-weight: 700">مسار الفلوس — {{p.order}}</div>
+<ol aria-label="مسار الفلوس" style="list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px">
+<li style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #3C4C48"><span style="height: 6px; border-radius: 999px; background: {{p.t1}}"></span>الفلوس وصلت</li>
+<li style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #3C4C48"><span style="height: 6px; border-radius: 999px; background: {{p.t2}}"></span>محفوظة عندنا</li>
+<li style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #3C4C48"><span style="height: 6px; border-radius: 999px; background: {{p.t3}}"></span>المشتري استلم</li>
+<li style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #3C4C48"><span style="height: 6px; border-radius: 999px; background: {{p.t4}}"></span>خلصت التجربة (3 أيام)</li>
+<li style="display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: #3C4C48"><span style="height: 6px; border-radius: 999px; background: {{p.t5}}"></span>اتحوّلت للبايع</li>
+</ol>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px">
+<div style="padding: 12px 14px; border-radius: 14px; background: #FFFFFF; border: 1px solid #DCE3DF; font-size: 14px; display: flex; flex-direction: column"><span class="pm-sub">المشتري</span><span style="font-weight: 600">{{p.buyer}}</span><span class="pm-sub" dir="ltr" style="text-align: right">{{p.phone}}</span></div>
+<div style="padding: 12px 14px; border-radius: 14px; background: #FFFFFF; border: 1px solid #DCE3DF; font-size: 14px; display: flex; flex-direction: column"><span class="pm-sub">البايع</span><span style="font-weight: 600">{{p.seller}}</span><span class="pm-sub">{{p.device}}</span></div>
+<div style="padding: 12px 14px; border-radius: 14px; background: #FFFFFF; border: 1px solid #DCE3DF; font-size: 14px; display: flex; flex-direction: column"><span class="pm-sub">مرجع التحويل</span><span style="font-weight: 600" dir="ltr">{{p.refShow}}</span><span class="pm-sub">{{p.receiptShow}}</span></div>
+</div>
+<div style="padding: 12px 16px; border-radius: 14px; background: #FFFFFF; border: 1px solid #DCE3DF; font-size: 14px; display: flex; flex-direction: column; gap: 4px">
+<div style="display: flex; justify-content: space-between"><span>اللي دفعه المشتري</span><span style="font-weight: 600">{{p.amountTxt}} ج.م</span></div>
+<div style="display: flex; justify-content: space-between; color: #8A4209"><span>رسوم المنصة (15%)</span><span style="font-weight: 600">− {{p.feeTxt}} ج.م</span></div>
+<div style="display: flex; justify-content: space-between; padding-top: 6px; border-top: 1px solid #E5EBE8; font-weight: 700"><span>صافي البايع</span><span>{{p.netTxt}} ج.م</span></div>
+</div>
+</div>
+
+<div style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+<div style="font-weight: 700">الإجراءات</div>
+
+<sc-if value="{{p.isPending}}" hint-placeholder-val="{{false}}">
+<div style="padding: 14px; border-radius: 14px; background: #FBEEDC; border: 1px solid #F0C88A; display: flex; flex-direction: column; gap: 10px">
+<div style="font-size: 14px; color: #6B3A10">المشتري قال إنه دفع بـ{{p.method}}. اتأكد من الحساب الأول، وبعدين أكّد.</div>
+<label class="ad-field">رقم مرجع التحويل
+<input type="text" class="ad-in" dir="ltr" style="text-align: right" value="{{p.refVal}}" sc-camel-on-change="{{p.onRef}}" placeholder="مثال: [IPN-xxxxxxxx]">
+</label>
+<label class="ad-drop pm-drop" style="padding: 12px; position: relative">
+<input type="file" class="pm-file" accept="image/*,application/pdf" sc-camel-on-change="{{p.onFile}}">
+<span style="width: 38px; height: 38px; border-radius: 10px; background: #0D5C55; color: #FFFFFF; display: flex; align-items: center; justify-content: center; flex: none"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M7 9l5-5 5 5"></path><path d="M4 16v4h16v-4"></path></svg></span>
+<span style="display: flex; flex-direction: column; min-width: 0"><span style="font-weight: 700; font-size: 14px">ارفع إيصال التحويل</span><span class="ad-hint" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis">{{p.fileTxt}}</span></span>
+</label>
+<button type="button" class="pm-act ad-pri" sc-camel-on-click="{{p.confirm}}" disabled="{{p.confirmOff}}"><svg aria-hidden="true" width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"></path></svg>أكّد إن الفلوس وصلت</button>
+<span class="ad-hint">لازم تكتب رقم المرجع الأول.</span>
+</div>
+</sc-if>
+
+<sc-if value="{{p.isHeld}}" hint-placeholder-val="{{false}}">
+<button type="button" class="pm-act ad-sec" sc-camel-on-click="{{p.deliver}}"><svg aria-hidden="true" width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3z"></path><path d="M14 10h4l3 3v3h-7"></path><circle cx="7" cy="17.5" r="1.8"></circle><circle cx="17" cy="17.5" r="1.8"></circle></svg>سجّل إن المشتري استلم</button>
+<span class="ad-hint">التسجيل بيبدأ فترة التجربة 3 أيام.</span>
+</sc-if>
+
+<sc-if value="{{p.showTransfer}}" hint-placeholder-val="{{false}}">
+<button type="button" class="pm-act pm-green" sc-camel-on-click="{{p.transfer}}" disabled="{{p.transferOff}}"><svg aria-hidden="true" width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>حوّل للبايع · {{p.netTxt}} ج.م</button>
+<span class="ad-hint" style="color: {{p.transferHintFg}}">{{p.transferHint}}</span>
+</sc-if>
+
+<sc-if value="{{p.showRefund}}" hint-placeholder-val="{{false}}">
+<sc-if value="{{p.notAsking}}" hint-placeholder-val="{{true}}">
+<button type="button" class="pm-act pm-red" sc-camel-on-click="{{p.askRefund}}"><svg aria-hidden="true" width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"></path><path d="M4 9h11a5 5 0 0 1 0 10h-3"></path></svg>رجّع للمشتري</button>
+</sc-if>
+<sc-if value="{{p.asking}}" hint-placeholder-val="{{false}}">
+<div role="alertdialog" aria-label="تأكيد الإرجاع" style="padding: 14px; border-radius: 14px; background: #FBE9E7; border: 1px solid #E8B4AE; display: flex; flex-direction: column; gap: 10px">
+<div style="font-size: 14px; color: #7A1A14; font-weight: 600">هيرجع {{p.amountTxt}} ج.م للمشتري بنفس طريقة الدفع ({{p.method}}). متأكد؟</div>
+<div style="display: flex; gap: 8px">
+<button type="button" class="pm-act pm-redf" sc-camel-on-click="{{p.refund}}">أيوه، رجّع الفلوس</button>
+<button type="button" class="pm-act ad-sec" sc-camel-on-click="{{p.cancelRefund}}">لأ</button>
+</div>
+</div>
+</sc-if>
+</sc-if>
+
+<sc-if value="{{p.isDoneMsg}}" hint-placeholder-val="{{false}}">
+<div style="padding: 14px; border-radius: 14px; background: {{p.stBg}}; color: {{p.stFg}}; font-size: 14px; font-weight: 600">{{p.doneMsg}}</div>
+</sc-if>
+
+<a href="Admin-Orders.dc.html" style="font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; margin-top: 4px">شوف الطلب في «الطلبات والشحن» ←</a>
+</div>
+</div>
+</sc-if>
+</div>
+</sc-for>
+
+<sc-if value="{{noRows}}" hint-placeholder-val="{{false}}">
+<div style="padding: 40px 20px; text-align: center; color: #4A5A56; border-top: 1px solid #E5EBE8">مفيش مدفوعات بالحالة دي{{qNote}}.</div>
+</sc-if>
+</div>
+</section>
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
+
+<section class="ad-card" aria-labelledby="pm-fee" style="flex: 1 1 420px; min-width: 0">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap">
+<h2 class="ad-h" id="pm-fee"><span class="ad-n" style="background: #FBEEDC; color: #8A4209">٢</span>رسوم الجدية من البايعين</h2>
+<span class="pm-pill" style="background: #FBEEDC; color: #8A4209">300 ج.م لكل طلب بيع</span>
+</div>
+<div class="ad-hint">بتندفع مع طلب البيع، وبترجع حسب <a href="Terms.dc.html" style="font-weight: 600">الشروط</a>.</div>
+<div>
+<div class="pm-mini" style="font-size: 12px; font-weight: 700; color: #4A5A56; border-top: 0; padding-top: 0"><span>البايع / طلب البيع</span><span>الجهاز</span><span>الحالة</span><span></span></div>
+<sc-for list="{{fees}}" as="f" hint-placeholder-count="4">
+<div class="pm-mini">
+<span style="display: flex; flex-direction: column; line-height: 1.45"><span style="font-weight: 600">{{f.seller}}</span><span class="pm-sub">{{f.sub}} · {{f.date}}</span></span>
+<span>{{f.device}}</span>
+<span><span class="pm-pill" style="background: {{f.bg}}; color: {{f.fg}}"><span class="pm-dot"></span>{{f.stTxt}}</span></span>
+<span style="min-width: 92px; text-align: left">
+<sc-if value="{{f.canRefund}}" hint-placeholder-val="{{true}}"><button type="button" class="pm-link" sc-camel-on-click="{{f.refund}}" aria-label="رجّع رسوم الجدية لـ {{f.sub}}">رجّع الـ 300</button></sc-if>
+</span>
+</div>
+</sc-for>
+</div>
+<div style="display: flex; justify-content: space-between; padding: 10px 14px; border-radius: 12px; background: #F5F7F4; font-size: 14px"><span>محفوظ من رسوم الجدية</span><span style="font-weight: 700">{{feeHeld}} ج.م</span></div>
+</section>
+
+<section class="ad-card" aria-labelledby="pm-dep" style="flex: 1 1 380px; min-width: 0">
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap">
+<h2 class="ad-h" id="pm-dep"><span class="ad-n" style="background: #E6EDF7; color: #24508F">٣</span>حجوزات بعربون</h2>
+<span class="pm-pill" style="background: #E6EDF7; color: #24508F">عربون 500 ج.م</span>
+</div>
+<div class="ad-hint">المشتري يقدر يحجز الجهاز بعربون 500 ج.م لحد ما يكمّل.</div>
+<div>
+<sc-for list="{{deps}}" as="d" hint-placeholder-count="3">
+<div class="pm-mini" style="grid-template-columns: 1.1fr 1.2fr auto">
+<span style="display: flex; flex-direction: column; line-height: 1.45"><span style="font-weight: 600">{{d.order}}</span><span class="pm-sub">{{d.buyer}} · {{d.date}}</span></span>
+<span>{{d.device}}</span>
+<span class="pm-pill" style="background: #E6EDF7; color: #24508F"><span class="pm-dot"></span>محجوز · 500</span>
+</div>
+</sc-for>
+</div>
+</section>
+</div>
+
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:2400}}">
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = {
+tab: 'all', q: '', open: '2051', asking: '', refVal: '', fileName: '', toast: '', toastKind: 'ok',
+pays: [
+{ id: '2051', device: 'يونيت أسنان كامل', icon: 'unit', buyer: '[د. ...]', phone: '[01xxxxxxxxx]', gov: 'القاهرة', seller: '[د. ...]', amount: 85000, method: 'إنستاباي', recv: '', deliv: '', st: 'pending', left: 0, ref: '', receipt: '' },
+{ id: '2049', device: 'أوتوكلاف Class B', icon: 'box', buyer: '[د. ...]', phone: '[01xxxxxxxxx]', gov: 'الجيزة', seller: '[د. ...]', amount: 45000, method: 'تحويل بنكي', recv: '', deliv: '', st: 'pending', left: 0, ref: '', receipt: '' },
+{ id: '2047', device: 'جهاز أشعة حائط', icon: 'box', buyer: '[د. ...]', phone: '[01xxxxxxxxx]', gov: 'الدقهلية', seller: '[د. ...]', amount: 62000, method: 'بطاقة', recv: '24 أكتوبر', deliv: '', st: 'held', left: 0, ref: '[CARD-xxxxxx]', receipt: '' },
+{ id: '2044', device: 'إندو موتور', icon: 'hand', buyer: '[د. ...]', phone: '[01xxxxxxxxx]', gov: 'الإسكندرية', seller: '[د. ...]', amount: 14500, method: 'إنستاباي', recv: '20 أكتوبر', deliv: '25 أكتوبر', st: 'trial', left: 1, ref: '[IPN-xxxxxxxx]', receipt: 'إيصال.jpg' },
+{ id: '2043', device: 'موتور جراحة وزراعة', icon: 'hand', buyer: '[د. ...]', phone: '[01xxxxxxxxx]', gov: 'القاهرة', seller: '[د. ...]', amount: 38000, method: 'بطاقة', recv: '21 أكتوبر', deliv: '26 أكتوبر', st: 'trial', left: 2, ref: '[CARD-xxxxxx]', receipt: '' },
+{ id: '2040', device: 'لايت كيور', icon: 'hand', buyer: '[د. ...]', phone: '[01xxxxxxxxx]', gov: 'الجيزة', seller: '[د. ...]', amount: 6500, method: 'إنستاباي', recv: '18 أكتوبر', deliv: '23 أكتوبر', st: 'ready', left: 0, ref: '[IPN-xxxxxxxx]', receipt: 'إيصال.png' },
+{ id: '2038', device: 'كاميرا إنترا أورال', icon: 'cam', buyer: '[د. ...]', phone: '[01xxxxxxxxx]', gov: 'الشرقية', seller: '[د. ...]', amount: 18000, method: 'تحويل بنكي', recv: '17 أكتوبر', deliv: '22 أكتوبر', st: 'ready', left: 0, ref: '[BNK-xxxxxxxx]', receipt: 'إيصال.pdf' },
+{ id: '2035', device: 'روتاري', icon: 'hand', buyer: '[د. ...]', phone: '[01xxxxxxxxx]', gov: 'القاهرة', seller: '[د. ...]', amount: 9800, method: 'إنستاباي', recv: '12 أكتوبر', deliv: '16 أكتوبر', st: 'refunded', left: 0, ref: '[IPN-xxxxxxxx]', receipt: 'إيصال.jpg', doneOn: '18 أكتوبر' },
+{ id: '2031', device: 'أبيكس لوكيتور', icon: 'hand', buyer: '[د. ...]', phone: '[01xxxxxxxxx]', gov: 'الغربية', seller: '[د. ...]', amount: 7200, method: 'بطاقة', recv: '8 أكتوبر', deliv: '12 أكتوبر', st: 'paid', left: 0, ref: '[CARD-xxxxxx]', receipt: '', doneOn: '15 أكتوبر' },
+{ id: '2028', device: 'أوتوكلاف', icon: 'box', buyer: '[د. ...]', phone: '[01xxxxxxxxx]', gov: 'القليوبية', seller: '[د. ...]', amount: 41000, method: 'تحويل بنكي', recv: '5 أكتوبر', deliv: '9 أكتوبر', st: 'paid', left: 0, ref: '[BNK-xxxxxxxx]', receipt: 'إيصال.pdf', doneOn: '12 أكتوبر' }
+],
+fees: [
+{ id: 'f1', sub: 'طلب بيع #1024', seller: '[د. ...]', device: 'أوتوكلاف', date: '26 أكتوبر', st: 'held' },
+{ id: 'f2', sub: 'طلب بيع #1023', seller: '[د. ...]', device: 'يونيت أسنان', date: '25 أكتوبر', st: 'held' },
+{ id: 'f3', sub: 'طلب بيع #1021', seller: '[د. ...]', device: 'لايت كيور', date: '23 أكتوبر', st: 'held' },
+{ id: 'f4', sub: 'طلب بيع #1012', seller: '[د. ...]', device: 'أشعة', date: '10 أكتوبر', st: 'back' }
+],
+deps: [
+{ order: 'طلب #2053', buyer: '[د. ...]', device: 'أوتوكلاف Class B', date: '27 أكتوبر' },
+{ order: 'طلب #2052', buyer: '[د. ...]', device: 'يونيت أسنان', date: '26 أكتوبر' },
+{ order: 'طلب #2050', buyer: '[د. ...]', device: 'موتور جراحة وزراعة', date: '25 أكتوبر' }
+]
+};
+}
+renderVals() {
+var s = this.state;
+var self = this;
+var TODAY = '27 أكتوبر';
+function fmt(n) { return Math.round(n).toLocaleString('en-US'); }
+var ST = {
+pending: ['مستني تأكيد الوصول', '#FBEEDC', '#8A4209'],
+held: ['محفوظ', '#E6EDF7', '#24508F'],
+trial: ['في فترة التجربة', '#E3F0ED', '#0D5C55'],
+ready: ['جاهز للتحويل', '#EAF5DD', '#3F7A1F'],
+paid: ['اتحوّل', '#E5EBE8', '#12221F'],
+refunded: ['مرتجع', '#FBE9E7', '#B3261E']
+};
+var LEVEL = { pending: 0, held: 2, trial: 3, ready: 4, paid: 5, refunded: 2 };
+function patch(id, ch, msg, kind) {
+var pays = s.pays.map(function (p) { return p.id === id ? Object.assign({}, p, ch) : p; });
+self.setState({ pays: pays, toast: msg || '', toastKind: kind || 'ok', asking: '' });
+}
+function trial(p) {
+if (p.st === 'trial') {
+var t = p.left >= 3 ? 'فاضل 3 أيام' : p.left === 2 ? 'فاضل يومين' : 'فاضل يوم';
+return [t, '#FBEEDC', '#8A4209'];
+}
+if (p.st === 'ready' || p.st === 'paid') return ['خلصت', '#EAF5DD', '#3F7A1F'];
+if (p.st === 'refunded') return ['اترجع', '#FBE9E7', '#B3261E'];
+return ['لسه مبدأتش', '#F5F7F4', '#4A5A56'];
+}
+var counts = { all: s.pays.length };
+s.pays.forEach(function (p) { counts[p.st] = (counts[p.st] || 0) + 1; });
+var q = (s.q || '').trim();
+var list = s.pays.filter(function (p) {
+if (s.tab !== 'all' && p.st !== s.tab) return false;
+if (!q) return true;
+return (p.id + ' ' + p.device + ' ' + p.buyer + ' ' + p.method).indexOf(q.replace('#', '')) !== -1;
+});
+var rows = list.map(function (p) {
+var st = ST[p.st];
+var tr = trial(p);
+var lv = LEVEL[p.st];
+var on = s.open === p.id;
+var net = p.amount * 0.85;
+var fee = p.amount - net;
+function bar(i) { if (p.st === 'refunded' && i > 2) return '#E8B4AE'; return i <= lv ? '#0D5C55' : '#C9D4CF'; }
+var transferHint = p.st === 'ready' ? 'فترة التجربة خلصت من غير شكوى — جاهز.' : p.st === 'trial' ? 'بيتفتح لما فترة التجربة تخلص (' + tr[0] + ').' : 'بيتفتح بعد الاستلام + 3 أيام تجربة.';
+return {
+order: '#' + p.id, device: p.device, icon: '#pm-ic-' + p.icon, buyer: p.buyer, phone: p.phone, gov: p.gov, seller: p.seller,
+amountTxt: fmt(p.amount), method: p.method,
+recv: p.recv || '—', deliv: p.deliv || (p.st === 'pending' || p.st === 'held' ? 'لسه' : '—'),
+trialTxt: tr[0], trBg: tr[1], trFg: tr[2],
+netTxt: fmt(net), feeTxt: fmt(fee),
+stTxt: st[0], stBg: st[1], stFg: st[2],
+open: on, expanded: on ? 'true' : 'false', rowBg: on ? '#F5F7F4' : '#FFFFFF', rot: on ? '180deg' : '0deg',
+toggle: function () { self.setState({ open: on ? '' : p.id, asking: '', refVal: '', fileName: '' }); },
+t1: bar(1), t2: bar(2), t3: bar(3), t4: bar(4), t5: bar(5),
+refShow: p.ref || '—', receiptShow: p.receipt ? 'الإيصال: ' + p.receipt : 'مفيش إيصال مرفوع',
+isPending: p.st === 'pending',
+refVal: s.refVal,
+onRef: function (e) { self.setState({ refVal: e.target.value }); },
+onFile: function (e) { var f = e.target.files && e.target.files[0]; self.setState({ fileName: f ? f.name : '' }); },
+fileTxt: s.fileName ? s.fileName : 'صورة أو PDF (اختياري)',
+confirmOff: !(s.refVal || '').trim(),
+confirm: function () { if (!(s.refVal || '').trim()) return; patch(p.id, { st: 'held', recv: TODAY, ref: s.refVal.trim(), receipt: s.fileName }, 'اتأكد وصول ' + fmt(p.amount) + ' ج.م لطلب #' + p.id + ' — الفلوس محفوظة دلوقتي.'); self.setState({ refVal: '', fileName: '' }); },
+isHeld: p.st === 'held',
+deliver: function () { patch(p.id, { st: 'trial', deliv: TODAY, left: 3 }, 'اتسجّل استلام طلب #' + p.id + ' — فترة التجربة 3 أيام بدأت.'); },
+showTransfer: p.st === 'held' || p.st === 'trial' || p.st === 'ready',
+transferOff: p.st !== 'ready',
+transferHint: transferHint,
+transferHintFg: p.st === 'ready' ? '#3F7A1F' : '#4A5A56',
+transfer: function () { if (p.st !== 'ready') return; patch(p.id, { st: 'paid', doneOn: TODAY }, 'اتحوّل ' + fmt(net) + ' ج.م للبايع على طلب #' + p.id + '.'); },
+showRefund: p.st === 'held' || p.st === 'trial' || p.st === 'ready',
+asking: s.asking === p.id, notAsking: s.asking !== p.id,
+askRefund: function () { self.setState({ asking: p.id }); },
+cancelRefund: function () { self.setState({ asking: '' }); },
+refund: function () { patch(p.id, { st: 'refunded', doneOn: TODAY }, 'اترجع ' + fmt(p.amount) + ' ج.م للمشتري على طلب #' + p.id + '.', 'bad'); },
+isDoneMsg: p.st === 'paid' || p.st === 'refunded',
+doneMsg: p.st === 'paid' ? 'اتحوّل ' + fmt(net) + ' ج.م للبايع يوم ' + (p.doneOn || '') + '.' : 'اترجع ' + fmt(p.amount) + ' ج.م للمشتري يوم ' + (p.doneOn || '') + '.'
+};
+});
+var TABS = [['all', 'الكل'], ['pending', 'مستني تأكيد الوصول'], ['held', 'محفوظ'], ['trial', 'في فترة التجربة'], ['ready', 'جاهز للتحويل'], ['paid', 'اتحوّل'], ['refunded', 'مرتجع']];
+var tabs = TABS.map(function (t) {
+var on = s.tab === t[0];
+return { label: t[1], n: String(counts[t[0]] || 0), sel: on ? 'true' : 'false', bg: on ? '#0D5C55' : '#FFFFFF', fg: on ? '#FFFFFF' : '#12221F', bd: on ? '#0D5C55' : '#C9D4CF', cbg: on ? '#FFFFFF' : '#EEF2F0', cfg: on ? '#0D5C55' : '#4A5A56', pick: function () { self.setState({ tab: t[0] }); } };
+});
+var heldSum = 0, heldN = 0, readySum = 0, readyN = 0, paidSum = 0, paidN = 0;
+s.pays.forEach(function (p) {
+if (p.st === 'held' || p.st === 'trial' || p.st === 'ready') { heldSum += p.amount; heldN++; }
+if (p.st === 'ready') { readySum += p.amount * 0.85; readyN++; }
+if (p.st === 'paid') { paidSum += p.amount * 0.85; paidN++; }
+});
+var feeHeldN = 0;
+var fees = s.fees.map(function (f) {
+var held = f.st === 'held';
+if (held) feeHeldN++;
+return {
+seller: f.seller, sub: f.sub, device: f.device, date: f.date,
+stTxt: held ? 'محفوظة' : 'اترجعت', bg: held ? '#FBEEDC' : '#E5EBE8', fg: held ? '#8A4209' : '#12221F',
+canRefund: held,
+refund: function () {
+self.setState({ fees: s.fees.map(function (x) { return x.id === f.id ? Object.assign({}, x, { st: 'back' }) : x; }), toast: 'اترجعت رسوم الجدية 300 ج.م على ' + f.sub + '.', toastKind: 'ok' });
+}
+};
+});
+var bad = s.toastKind === 'bad';
+return {
+today: TODAY,
+hasToast: !!s.toast, toast: s.toast,
+toastBg: bad ? '#FBE9E7' : '#EAF5DD', toastFg: bad ? '#7A1A14' : '#2F5E16', toastBd: bad ? '#E8B4AE' : '#BFDCA5',
+clearToast: function () { self.setState({ toast: '' }); },
+kHeld: fmt(heldSum), kHeldN: String(heldN),
+kReady: fmt(readySum), kReadyN: String(readyN),
+kPaid: fmt(paidSum), kPaidN: String(paidN),
+kDep: fmt(s.deps.length * 500), kDepN: String(s.deps.length),
+q: s.q, onQ: function (e) { self.setState({ q: e.target.value }); },
+qNote: q ? ' بالبحث ده' : '',
+tabs: tabs, rows: rows, noRows: rows.length === 0,
+fees: fees, feeHeld: fmt(feeHeldN * 300),
+deps: s.deps
+};
+}
+}
+</script>
+
+
+</body></html>

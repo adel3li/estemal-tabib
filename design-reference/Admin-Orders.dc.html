@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head>
+<meta charset="utf-8">
+<title>استعمال طبيب — لوحة التحكم: الطلبات والشحن</title>
+<script src="support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#EEF2F0}
+a{color:#0D5C55;text-decoration:none}a:hover{color:#08403B}
+.ad-card{padding:24px;border-radius:22px;background:#FFFFFF;border:1px solid #DCE3DF;box-shadow:0 10px 30px rgba(18,34,31,.05);display:flex;flex-direction:column;gap:16px}
+.ad-h{margin:0;font-size:19px;display:flex;align-items:center;gap:10px}
+.ad-n{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex:none}
+.ad-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.ad-field{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:14px;min-width:0}
+.ad-in{min-height:46px;padding:0 12px;border-radius:12px;border:1px solid #C9D4CF;background:#FFFFFF;font:inherit;font-weight:400;font-size:15px;color:#12221F;box-sizing:border-box;width:100%}
+textarea.ad-in{padding:10px 12px;min-height:84px;resize:vertical}
+.ad-in:hover{border-color:#9FB2AB}
+.ad-in:focus{outline:none;border-color:#0D5C55;box-shadow:0 0 0 3px rgba(13,92,85,.18)}
+.ad-chip{min-height:42px;padding:4px 16px;border-radius:999px;font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.ad-chip:focus-visible{outline:3px solid rgba(13,92,85,.35);outline-offset:2px}
+.ad-side a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;color:#C3D3CE;font-weight:500}
+.ad-side a:hover{background:#163B36;color:#FFFFFF}
+.ad-hint{font-weight:400;font-size:13px;color:#4A5A56}
+.ad-int{font-weight:400;font-size:12px;color:#8A4209;background:#FBEEDC;padding:1px 8px;border-radius:999px;margin-right:6px}
+.ad-btn{min-height:50px;padding:0 22px;border-radius:14px;font:inherit;font-weight:700;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.ad-pri{background:#0D5C55;color:#FFFFFF;border:0}.ad-pri:hover{background:#08403B}
+.ad-sec{background:#FFFFFF;color:#12221F;border:1px solid #C9D4CF}.ad-sec:hover{background:#F5F7F4}
+.ad-drop{border:2px dashed #9FB2AB;border-radius:16px;background:#F5F7F4;padding:18px;display:flex;align-items:center;gap:14px;cursor:pointer;font:inherit;color:#12221F;text-align:right;width:100%}
+.ad-drop:hover{border-color:#0D5C55;background:#E3F0ED}
+.or-kpi{padding:18px 20px;border-radius:20px;background:#FFFFFF;border:1px solid #DCE3DF;display:flex;flex-direction:column;gap:2px}
+.or-tbl{min-width:980px;font-size:14px}
+.or-tr{display:grid;grid-template-columns:110px minmax(220px,2fr) minmax(130px,1fr) minmax(130px,1fr) 120px 100px minmax(170px,1.2fr);align-items:center;gap:0}
+.or-th{font-weight:600;color:#4A5A56;font-size:13px;padding:10px 12px;border-bottom:1px solid #DCE3DF;white-space:nowrap}
+.or-td{padding:12px;border-bottom:1px solid #EDF1EF;min-width:0}
+.or-body .or-tr{cursor:pointer;border-radius:12px}
+.or-body .or-tr:hover{background:#F5F7F4 !important}
+.or-id{background:none;border:0;padding:0;font:inherit;font-weight:700;color:#0D5C55;cursor:pointer;text-decoration:underline;text-underline-offset:3px}
+.or-id:focus-visible{outline:3px solid rgba(13,92,85,.35);outline-offset:2px;border-radius:4px}
+.or-pill{display:inline-flex;align-items:center;gap:4px;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.or-bar{height:6px;border-radius:999px;background:#E5EBE8;overflow:hidden;width:110px}
+.or-mini{min-height:36px;padding:2px 14px;border-radius:999px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.or-mini:focus-visible{outline:3px solid rgba(13,92,85,.35);outline-offset:2px}
+.or-x{width:38px;height:38px;border-radius:12px;border:1px solid #C9D4CF;background:#FFFFFF;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#12221F}
+.or-x:hover{background:#F5F7F4}
+.or-wa{display:inline-flex;align-items:center;gap:6px;min-height:38px;padding:0 14px;border-radius:12px;background:#1F8F4E;color:#FFFFFF;font-weight:600;font-size:14px}
+.or-wa:hover{background:#17703C;color:#FFFFFF}
+.or-wa:focus-visible{outline:3px solid rgba(31,143,78,.35);outline-offset:2px}
+</style>
+</helmet>
+<div dir="rtl" style="min-height: 100vh; background: #EEF2F0; color: #12221F; font-family: 'IBM Plex Sans Arabic', 'Segoe UI', sans-serif; font-size: 16px; line-height: 1.7; display: flex; align-items: stretch">
+
+<svg aria-hidden="true" width="0" height="0" style="position: absolute; width: 0; height: 0; overflow: hidden">
+<symbol id="or-unit" sc-camel-view-box="0 0 64 64"><rect width="64" height="64" rx="14" fill="#E3F0ED"></rect><path d="M18 44h22l6-10h-9l-3-14h-8l3 16h-8z" fill="#0D5C55"></path><rect x="16" y="46" width="34" height="5" rx="2.5" fill="#12221F" opacity=".7"></rect><circle cx="44" cy="18" r="5" fill="#F2A33A"></circle><path d="M44 23v8" stroke="#4A5A56" stroke-width="2"></path></symbol>
+<symbol id="or-box" sc-camel-view-box="0 0 64 64"><rect width="64" height="64" rx="14" fill="#E6EDF7"></rect><rect x="12" y="16" width="40" height="32" rx="6" fill="#FFFFFF" stroke="#8FA09A" stroke-width="2"></rect><circle cx="28" cy="33" r="10" fill="#B9C6C1" stroke="#5D7A74" stroke-width="2"></circle><circle cx="28" cy="33" r="6" fill="#1D3330"></circle><rect x="42" y="22" width="5" height="18" rx="2.5" fill="#24508F"></rect></symbol>
+<symbol id="or-xray" sc-camel-view-box="0 0 64 64"><rect width="64" height="64" rx="14" fill="#FBEEDC"></rect><rect x="30" y="10" width="5" height="44" rx="2.5" fill="#4A5A56"></rect><path d="M33 18h16v8H33z" fill="#FFFFFF" stroke="#8A4209" stroke-width="2"></path><circle cx="49" cy="22" r="5" fill="#F2A33A"></circle><rect x="22" y="50" width="22" height="5" rx="2.5" fill="#12221F" opacity=".7"></rect></symbol>
+<symbol id="or-small" sc-camel-view-box="0 0 64 64"><rect width="64" height="64" rx="14" fill="#EAF5DD"></rect><rect x="14" y="26" width="26" height="22" rx="5" fill="#FFFFFF" stroke="#3F7A1F" stroke-width="2"></rect><rect x="18" y="30" width="18" height="7" rx="2" fill="#12221F"></rect><path d="M40 34c8 0 8-14 14-18" stroke="#4A5A56" stroke-width="2.5" fill="none" stroke-linecap="round"></path><rect x="50" y="10" width="6" height="12" rx="3" transform="rotate(30 53 16)" fill="#3F7A1F"></rect></symbol>
+</svg>
+
+<aside class="ad-side" aria-label="قائمة لوحة التحكم" style="flex: 0 0 250px; background: #0F2A26; color: #C3D3CE; padding: 22px 16px; display: flex; flex-direction: column; gap: 6px; box-sizing: border-box">
+<a href="Main.dc.html" style="color: #FFFFFF; margin-bottom: 4px">
+<span style="width: 38px; height: 38px; border-radius: 12px; background: #F2A33A; color: #12221F; display: flex; align-items: center; justify-content: center; flex: none"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3c-2.5 0-4 2-4 4.5 0 3 1.5 4.5 2 7 .5 3 1 6.5 2.5 6.5S9 18 10 15.5c.5-1.2 1.5-1.2 2 0 1 2.5 1.5 5.5 3 5.5s2-3.5 2.5-6.5c.5-2.5 2-4 2-7C19.5 5 18 3 15.5 3 13.5 3 13 4 12 4S10 3 7 3z"></path></svg></span>
+<span style="display: flex; flex-direction: column; line-height: 1.3"><span style="font-weight: 700">استعمال طبيب</span><span style="font-size: 12px; color: #9FB8B1">لوحة التحكم</span></span>
+</a>
+<div style="height: 1px; background: #2E5650; margin: 8px 0"></div>
+<a href="Admin-Listings.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="1.5"></rect><rect x="13" y="4" width="7" height="7" rx="1.5"></rect><rect x="4" y="13" width="7" height="7" rx="1.5"></rect><rect x="13" y="13" width="7" height="7" rx="1.5"></rect></svg>الأجهزة المعروضة</a>
+<a href="Admin.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>إضافة جهاز</a>
+<a href="Admin-Submissions.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16v12H4z"></path><path d="M4 7l8 6 8-6"></path></svg>طلبات البيع الواردة<span style="margin-right: auto; padding: 0 8px; border-radius: 999px; background: #F2A33A; color: #12221F; font-size: 12px; font-weight: 700">[٣]</span></a>
+<a href="Admin-Inspections.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"></circle><path d="M20 20l-4.5-4.5"></path></svg>الفحوصات</a>
+<a href="Admin-Orders.dc.html" aria-current="page" style="background: #F2A33A; color: #12221F; font-weight: 700"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3z"></path><path d="M14 10h4l3 3v3h-7"></path><circle cx="7" cy="17.5" r="1.8"></circle><circle cx="17" cy="17.5" r="1.8"></circle></svg>الطلبات والشحن</a>
+<a href="Admin-Payments.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>المدفوعات المحفوظة</a>
+<a href="Admin-Requests.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg>طلبات «اطلب جهاز»</a>
+<div style="margin-top: auto; padding: 12px; border-radius: 14px; background: #163B36; font-size: 13px; display: flex; align-items: center; gap: 10px">
+<span style="width: 34px; height: 34px; border-radius: 999px; background: #0D5C55; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700; flex: none">أ</span>
+<span style="display: flex; flex-direction: column; line-height: 1.4"><span style="color: #FFFFFF; font-weight: 600">[اسم الموظف]</span><span>أدمن</span></span>
+</div>
+</aside>
+
+<main style="flex: 1 1 auto; min-width: 0; padding: 26px 32px 60px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px">
+
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px">
+<div>
+<div style="font-size: 14px; color: #4A5A56">لوحة التحكم › الطلبات والشحن</div>
+<h1 style="margin: 0; font-size: 30px; line-height: 1.3">الطلبات والشحن</h1>
+<div style="color: #4A5A56">تابع كل طلب في خطواته السبعة، من التأكيد لحد ما الفلوس تتحول للبايع.</div>
+</div>
+<label style="min-width: 280px">
+<span style="position: absolute; width: 1px; height: 1px; overflow: hidden">دوّر في الطلبات</span>
+<input type="search" class="ad-in" value="{{q}}" sc-camel-on-change="{{onQ}}" placeholder="دوّر برقم الطلب أو الجهاز">
+</label>
+</div>
+
+<sc-if value="{{hasToast}}" hint-placeholder-val="{{false}}">
+<div role="status" style="padding: 14px 18px; border-radius: 16px; background: {{toastBg}}; border: 1px solid {{toastBd}}; color: {{toastFg}}; display: flex; align-items: center; gap: 12px; font-weight: 600">
+<span style="width: 28px; height: 28px; border-radius: 999px; background: {{toastFg}}; color: #FFFFFF; display: flex; align-items: center; justify-content: center; flex: none; font-size: 14px">{{toastIcon}}</span>
+<span style="flex: 1">{{toastTxt}}</span>
+<button type="button" class="or-mini" sc-camel-on-click="{{closeToast}}" style="border: 1px solid {{toastBd}}; background: #FFFFFF; color: #12221F">تمام</button>
+</div>
+</sc-if>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px">
+<sc-for list="{{kpis}}" as="k" hint-placeholder-count="4">
+<div class="or-kpi">
+<span style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: #4A5A56"><span style="width: 10px; height: 10px; border-radius: 999px; background: {{k.dot}}"></span>{{k.label}}</span>
+<span style="font-size: 30px; font-weight: 700; line-height: 1.25">{{k.val}}</span>
+<span style="font-size: 13px; color: #4A5A56">{{k.sub}}</span>
+</div>
+</sc-for>
+</div>
+
+<section class="ad-card" aria-labelledby="or-tbl-h">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px">
+<h2 class="ad-h" id="or-tbl-h"><span class="ad-n" style="background: #E3F0ED; color: #0D5C55"><svg aria-hidden="true" width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h10"></path></svg></span>كل الطلبات</h2>
+<span class="ad-hint">{{shownTxt}}</span>
+</div>
+<div role="group" aria-label="فلترة بالخطوة" style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{filters}}" as="c" hint-placeholder-count="9">
+<button type="button" class="ad-chip" sc-camel-on-click="{{c.pick}}" aria-pressed="{{c.pressed}}" style="min-height: 38px; padding: 2px 14px; font-size: 13px; border: 1px solid {{c.bd}}; background: {{c.bg}}; color: {{c.fg}}">{{c.label}} <span style="opacity: .75">({{c.n}})</span></button>
+</sc-for>
+</div>
+<div style="overflow-x: auto">
+<div class="or-tbl" role="table" aria-label="الطلبات">
+<div class="or-tr" role="row"><span class="or-th" role="columnheader">رقم الطلب</span><span class="or-th" role="columnheader">الجهاز</span><span class="or-th" role="columnheader">المشتري</span><span class="or-th" role="columnheader">البايع</span><span class="or-th" role="columnheader">المبلغ</span><span class="or-th" role="columnheader">المدفوع</span><span class="or-th" role="columnheader">الخطوة الحالية</span></div>
+<div class="or-body" role="rowgroup">
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="6">
+<div class="or-tr" role="row" sc-camel-on-click="{{r.open}}" aria-selected="{{r.selA}}" style="background: {{r.bg}}; box-shadow: inset -3px 0 0 {{r.mark}}">
+<span class="or-td" role="cell"><button type="button" class="or-id" aria-label="افتح الطلب {{r.id}}">{{r.id}}</button><span class="ad-hint" style="display: block; font-size: 12px">{{r.date}}</span></span>
+<span class="or-td" role="cell"><span style="display: flex; align-items: center; gap: 10px"><svg aria-hidden="true" width="38" height="38" sc-camel-view-box="0 0 64 64" style="flex: none"><use href="#{{r.sym}}"></use></svg><span style="display: flex; flex-direction: column; line-height: 1.4; min-width: 0"><span style="font-weight: 600">{{r.device}}</span><span class="ad-hint" style="font-size: 12px">{{r.cat}} · {{r.gov}}</span></span></span></span>
+<span class="or-td" role="cell">{{r.buyer}}</span>
+<span class="or-td" role="cell">{{r.seller}}</span>
+<span class="or-td" role="cell" style="font-weight: 700; white-space: nowrap">{{r.amountTxt}} <span style="font-size: 12px; color: #4A5A56; font-weight: 400">ج.م</span></span>
+<span class="or-td" role="cell"><span class="or-pill" style="background: {{r.payBg}}; color: {{r.payFg}}">{{r.payTxt}}</span></span>
+<span class="or-td" role="cell"><span style="display: flex; flex-direction: column; gap: 4px"><span style="display: flex; align-items: center; gap: 6px; font-weight: 600; white-space: nowrap"><span class="or-pill" style="background: {{r.stBg}}; color: {{r.stFg}}">{{r.stepNo}}</span>{{r.stepName}}</span><span class="or-bar" aria-hidden="true"><span style="display: block; height: 100%; width: {{r.pct}}; background: {{r.barCol}}; border-radius: 999px"></span></span></span></span>
+</div>
+</sc-for>
+</div>
+</div>
+<sc-if value="{{noRows}}" hint-placeholder-val="{{false}}">
+<div style="padding: 28px; border-radius: 16px; background: #F5F7F4; text-align: center; color: #4A5A56; margin-top: 10px">مفيش طلبات في الخطوة دي.</div>
+</sc-if>
+</div>
+</section>
+
+<sc-if value="{{hasSel}}" hint-placeholder-val="{{true}}">
+<section class="ad-card" aria-labelledby="or-det-h" style="border-color: #9CCBC2">
+<div style="display: flex; flex-wrap: wrap; align-items: flex-start; gap: 14px">
+<svg aria-hidden="true" width="56" height="56" sc-camel-view-box="0 0 64 64" style="flex: none"><use href="#{{sel.sym}}"></use></svg>
+<div style="flex: 1 1 300px; min-width: 0; line-height: 1.5">
+<div style="font-size: 13px; color: #4A5A56">الطلب {{sel.id}} · {{sel.date}}</div>
+<h2 id="or-det-h" style="margin: 0; font-size: 21px">{{sel.device}}</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px">
+<span class="or-pill" style="background: {{sel.payBg}}; color: {{sel.payFg}}">{{sel.payTxt}}</span>
+<span class="or-pill" style="background: {{sel.inspBg}}; color: {{sel.inspFg}}">{{sel.insp}}</span>
+<span class="or-pill" style="background: #F5F7F4; color: #3C4C48">صيانة مجانية {{sel.maint}} شهور</span>
+</div>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center">
+<sc-if value="{{sel.isDep}}" hint-placeholder-val="{{false}}">
+<button type="button" class="ad-btn ad-sec" sc-camel-on-click="{{payRest}}">سجّل دفع الباقي</button>
+</sc-if>
+<sc-if value="{{sel.open}}" hint-placeholder-val="{{true}}">
+<button type="button" class="ad-btn ad-pri" sc-camel-on-click="{{advance}}">{{advLabel}}<svg aria-hidden="true" width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg></button>
+</sc-if>
+<button type="button" class="or-x" sc-camel-on-click="{{closeSel}}" aria-label="اقفل تفاصيل الطلب"><svg aria-hidden="true" width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg></button>
+</div>
+</div>
+
+<ol aria-label="خطوات الطلب" style="list-style: none; margin: 0; padding: 4px 0 0; display: grid; grid-template-columns: repeat(7, minmax(96px, 1fr)); gap: 0; overflow-x: auto">
+<sc-for list="{{steps}}" as="p" hint-placeholder-count="7">
+<li aria-current="{{p.cur}}" style="display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; position: relative; padding: 0 4px">
+<span aria-hidden="true" style="position: absolute; top: 17px; right: 50%; left: -50%; height: 3px; background: {{p.line}}; display: {{p.lineShow}}"></span>
+<span style="position: relative; width: 36px; height: 36px; border-radius: 999px; background: {{p.bg}}; color: {{p.fg}}; border: 2px solid {{p.bd}}; box-shadow: {{p.ring}}; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; box-sizing: border-box">{{p.mark}}</span>
+<span style="font-size: 13px; font-weight: {{p.fw}}; color: {{p.tc}}; line-height: 1.4">{{p.label}}</span>
+<span style="font-size: 11px; color: {{p.sc}}">{{p.state}}</span>
+</li>
+</sc-for>
+</ol>
+<sc-if value="{{sel.closed}}" hint-placeholder-val="{{false}}">
+<div style="padding: 12px 16px; border-radius: 14px; background: #EAF5DD; color: #3F7A1F; font-weight: 600">الطلب اتقفل · الفلوس اتحولت للبايع.</div>
+</sc-if>
+<sc-if value="{{hasErr}}" hint-placeholder-val="{{false}}">
+<div role="alert" style="padding: 12px 16px; border-radius: 14px; background: #FBE9E7; border: 1px solid #E8B4AE; color: #B3261E; font-size: 14px; font-weight: 600">{{errTxt}}</div>
+</sc-if>
+
+<div style="display: flex; flex-wrap: wrap; gap: 18px; align-items: flex-start">
+
+<div style="flex: 999 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
+
+<div style="padding: 18px; border-radius: 18px; border: 1px solid #DCE3DF; display: flex; flex-direction: column; gap: 14px">
+<h3 style="margin: 0; font-size: 16px; display: flex; align-items: center; gap: 8px"><svg aria-hidden="true" width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="#0D5C55" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3z"></path><path d="M14 10h4l3 3v3h-7"></path><circle cx="7" cy="17.5" r="1.8"></circle><circle cx="17" cy="17.5" r="1.8"></circle></svg>بيانات الشحن</h3>
+<div class="ad-grid" style="grid-template-columns: repeat(auto-fill, minmax(180px, 1fr))">
+<label class="ad-field">شركة الشحن
+<input type="text" class="ad-in" value="{{sel.co}}" sc-camel-on-change="{{onCo}}" placeholder="[اسم شركة الشحن]">
+</label>
+<label class="ad-field">رقم الشحنة
+<input type="text" class="ad-in" value="{{sel.no}}" sc-camel-on-change="{{onNo}}" placeholder="[رقم الشحنة]" dir="ltr" style="text-align: right">
+</label>
+<label class="ad-field">ميعاد التسليم المتوقع
+<input type="date" class="ad-in" value="{{sel.eta}}" sc-camel-on-change="{{onEta}}">
+</label>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between">
+<span class="ad-hint">التوصيل لحد باب العيادة. {{shipHint}}</span>
+<button type="button" class="ad-btn ad-sec" style="min-height: 44px; font-size: 15px" sc-camel-on-click="{{saveShip}}">احفظ بيانات الشحن</button>
+</div>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px">
+<sc-for list="{{contacts}}" as="c" hint-placeholder-count="2">
+<div style="padding: 16px; border-radius: 18px; border: 1px solid #DCE3DF; display: flex; flex-direction: column; gap: 10px">
+<span style="display: flex; align-items: center; gap: 10px">
+<span style="width: 40px; height: 40px; border-radius: 999px; background: {{c.bg}}; color: {{c.fg}}; display: flex; align-items: center; justify-content: center; font-weight: 700; flex: none">{{c.initial}}</span>
+<span style="display: flex; flex-direction: column; line-height: 1.4"><span style="font-size: 12px; color: #4A5A56">{{c.role}}</span><span style="font-weight: 700">{{c.name}}</span></span>
+</span>
+<span style="font-size: 14px; color: #3C4C48">{{c.gov}} · <span dir="ltr">{{c.phone}}</span></span>
+<a href="#" class="or-wa" aria-label="كلّم {{c.role}} على واتساب" style="align-self: flex-start"><svg aria-hidden="true" width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z"></path><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8c-.9-.4-1.6-1.1-2-2l.8-1-1-2z"></path></svg>واتساب</a>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="flex: 1 1 300px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<div style="padding: 16px; border-radius: 18px; background: #F5F7F4; display: grid; grid-template-columns: 1fr auto; gap: 8px 12px; font-size: 14px">
+<span style="color: #4A5A56">سعر البيع</span><span style="font-weight: 700">{{sel.amountTxt}} ج.م</span>
+<span style="color: #4A5A56">المدفوع ومحفوظ</span><span style="font-weight: 700">{{sel.heldTxt}} ج.م</span>
+<sc-if value="{{sel.isDep}}" hint-placeholder-val="{{false}}"><span style="color: #8A4209">الباقي على المشتري</span></sc-if>
+<sc-if value="{{sel.isDep}}" hint-placeholder-val="{{false}}"><span style="font-weight: 700; color: #8A4209">{{sel.restTxt}} ج.م</span></sc-if>
+<span style="color: #4A5A56">صافي البايع<span class="ad-int">داخلي</span></span><span style="font-weight: 700">{{sel.netTxt}} ج.م</span>
+<span style="grid-column: 1 / -1; font-size: 12px; color: #4A5A56; border-top: 1px solid #DCE3DF; padding-top: 8px">الفلوس محفوظة لحد الاستلام + 3 أيام تجربة، وبعدها تتحول للبايع. استبدال أو استرجاع خلال 3 أيام.</span>
+</div>
+
+<div style="padding: 16px; border-radius: 18px; border: 1px solid #DCE3DF; display: flex; flex-direction: column; gap: 10px">
+<h3 style="margin: 0; font-size: 16px">سجل النشاط</h3>
+<div style="display: flex; gap: 8px">
+<label style="flex: 1">
+<span style="position: absolute; width: 1px; height: 1px; overflow: hidden">ملاحظة جديدة</span>
+<input type="text" class="ad-in" style="min-height: 40px; font-size: 14px" value="{{noteTxt}}" sc-camel-on-change="{{onNote}}" placeholder="اكتب ملاحظة للفريق">
+</label>
+<button type="button" class="or-mini" sc-camel-on-click="{{addNote}}" style="border: 0; background: #0D5C55; color: #FFFFFF; min-height: 40px">أضف</button>
+</div>
+<ol style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0">
+<sc-for list="{{log}}" as="l" hint-placeholder-count="4">
+<li style="display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid #EDF1EF">
+<span aria-hidden="true" style="width: 10px; height: 10px; border-radius: 999px; background: {{l.col}}; margin-top: 8px; flex: none"></span>
+<span style="display: flex; flex-direction: column; line-height: 1.5; font-size: 14px"><span>{{l.txt}}</span><span style="font-size: 12px; color: #4A5A56">{{l.when}} · {{l.who}}</span></span>
+</li>
+</sc-for>
+</ol>
+</div>
+</div>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{noSel}}" hint-placeholder-val="{{false}}">
+<div class="ad-card" style="align-items: center; text-align: center; padding: 32px">
+<div style="font-weight: 700">اختار طلب من الجدول</div>
+<div class="ad-hint">هتشوف خطواته، بيانات الشحن، أرقام الطرفين، وسجل النشاط.</div>
+</div>
+</sc-if>
+
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:2300}}">
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+function L(when, txt, who, col) { return { when: when, txt: txt, who: who || 'النظام', col: col || '#9FB2AB' }; }
+var orders = [
+{ id: '#2041', date: '20 أكتوبر', device: 'يونيت أسنان Fona', cat: 'يونيت أسنان', sym: 'or-unit', gov: 'القاهرة', buyer: '[د. المشتري ١]', bGov: 'الجيزة', seller: '[د. البايع ١]', amount: 85000, paid: 'full', step: 4, insp: 'تم الفحص', maint: 6, co: '[شركة الشحن]', no: '[EG-000000]', eta: '2026-10-29', log: [L('25 أكتوبر', 'الجهاز اتسلّم لشركة الشحن', '[اسم الموظف]', '#0D5C55'), L('23 أكتوبر', 'تقرير الفحص اتبعت للمشتري'), L('20 أكتوبر', 'الفلوس اتحفظت · دفع كامل', 'النظام', '#3F7A1F'), L('20 أكتوبر', 'الطلب اتأكد')] },
+{ id: '#2042', date: '26 أكتوبر', device: 'أوتوكلاف Class B 18 لتر', cat: 'أوتوكلاف', sym: 'or-box', gov: 'الإسكندرية', buyer: '[د. المشتري ٢]', bGov: 'البحيرة', seller: 'استعمال طبيب', sellerCo: true, amount: 45000, paid: 'dep', step: 0, insp: 'تم الفحص', maint: 3, co: '', no: '', eta: '', log: [L('26 أكتوبر', 'الطلب اتأكد · حجز بعربون 500 ج.م')] },
+{ id: '#2043', date: '25 أكتوبر', device: 'أوتوكلاف Class B 23 لتر', cat: 'أوتوكلاف', sym: 'or-box', gov: 'الجيزة', buyer: '[د. المشتري ٣]', bGov: 'القاهرة', seller: '[د. البايع ٢]', amount: 38000, paid: 'full', step: 2, insp: 'يُفحص عند الطلب', maint: 3, co: '', no: '', eta: '', log: [L('26 أكتوبر', 'ميعاد الفحص اتحدد: الثلاثاء 27 · 1:30 م', '[اسم الموظف]', '#24508F'), L('25 أكتوبر', 'الفلوس اتحفظت · دفع كامل', 'النظام', '#3F7A1F'), L('25 أكتوبر', 'الطلب اتأكد')] },
+{ id: '#2044', date: '24 أكتوبر', device: 'إندو موتور لاسلكي', cat: 'إندو موتور', sym: 'or-small', gov: 'الدقهلية', buyer: '[د. المشتري ٤]', bGov: 'الغربية', seller: '[د. البايع ٣]', amount: 12500, paid: 'dep', step: 1, insp: 'يُفحص عند الطلب', maint: 3, co: '', no: '', eta: '', log: [L('24 أكتوبر', 'العربون اتحفظ · 500 ج.م', 'النظام', '#3F7A1F'), L('24 أكتوبر', 'الطلب اتأكد')] },
+{ id: '#2045', date: '15 أكتوبر', device: 'لايت كيور LED', cat: 'لايت كيور', sym: 'or-small', gov: 'القليوبية', buyer: '[د. المشتري ٥]', bGov: 'القاهرة', seller: '[د. البايع ٤]', amount: 4800, paid: 'full', step: 6, insp: 'تم الفحص', maint: 3, co: '[شركة الشحن]', no: '[EG-000001]', eta: '2026-10-24', log: [L('25 أكتوبر', 'المشتري استلم · بدأت فترة التجربة 3 أيام', 'النظام', '#0D5C55'), L('22 أكتوبر', 'الجهاز اتشحن'), L('15 أكتوبر', 'الطلب اتأكد')] },
+{ id: '#2046', date: '18 أكتوبر', device: 'أشعة X-Mind', cat: 'أشعة', sym: 'or-xray', gov: 'القاهرة', buyer: '[د. المشتري ٦]', bGov: 'الشرقية', seller: '[د. البايع ٥]', amount: 62000, paid: 'full', step: 5, insp: 'تم الفحص', maint: 6, co: '[شركة الشحن]', no: '[EG-000002]', eta: '2026-10-27', log: [L('27 أكتوبر', 'المندوب وصل العيادة، مستنيين تأكيد الاستلام', '[اسم الموظف]', '#24508F'), L('24 أكتوبر', 'الجهاز اتشحن'), L('18 أكتوبر', 'الطلب اتأكد')] }
+];
+this.state = { orders: orders, sel: '#2043', filter: 'all', q: '', toast: null, err: '', note: '' };
+}
+renderVals() {
+var s = this.state;
+var self = this;
+var STEPS = ['الطلب اتأكد', 'الفلوس اتحفظت', 'الفحص', 'تقرير الفحص', 'الشحن', 'الاستلام', 'فترة التجربة 3 أيام'];
+var AR = ['١', '٢', '٣', '٤', '٥', '٦', '٧'];
+function fmt(n) { return Math.round(n).toLocaleString('en-US'); }
+function held(o) { if (o.step < 1 && o.paid === 'dep') return 0; return o.paid === 'full' ? o.amount : 500; }
+function now() { var d = new Date(); var h = d.getHours(), m = d.getMinutes(); return 'النهارده ' + h + ':' + (m < 10 ? '0' : '') + m; }
+function patch(id, fn) {
+return s.orders.map(function (o) { if (o.id !== id) return o; var c = {}; for (var k in o) c[k] = o[k]; c.log = o.log.slice(); fn(c); return c; });
+}
+var q = (s.q || '').trim();
+var base = s.orders.filter(function (o) { return !q || (o.id + ' ' + o.device + ' ' + o.cat).indexOf(q) >= 0; });
+function inF(o, f) { if (f === 'all') return true; if (f === 'closed') return o.step >= 7; return o.step === f; }
+var fdefs = [['all', 'الكل']].concat(STEPS.map(function (n, i) { return [i, AR[i] + ' · ' + n]; })).concat([['closed', 'اتقفل']]);
+var filters = fdefs.map(function (d) {
+var on = s.filter === d[0];
+return { label: d[1], n: base.filter(function (o) { return inF(o, d[0]); }).length, pressed: on ? 'true' : 'false', bg: on ? '#0D5C55' : '#FFFFFF', fg: on ? '#FFFFFF' : '#12221F', bd: on ? '#0D5C55' : '#C9D4CF', pick: function () { self.setState({ filter: d[0] }); } };
+});
+function stepCol(st) {
+if (st >= 7) return ['#EAF5DD', '#3F7A1F'];
+if (st === 6) return ['#EAF5DD', '#3F7A1F'];
+if (st === 4 || st === 5) return ['#E6EDF7', '#24508F'];
+if (st === 2 || st === 3) return ['#FBEEDC', '#8A4209'];
+return ['#E3F0ED', '#0D5C55'];
+}
+function view(o) {
+var dep = o.paid === 'dep';
+var sc = stepCol(o.step);
+var closed = o.step >= 7;
+return {
+id: o.id, date: o.date, device: o.device, cat: o.cat, sym: o.sym, gov: o.gov, buyer: o.buyer, seller: o.seller,
+amountTxt: fmt(o.amount),
+payTxt: dep ? 'عربون 500' : 'كامل', payBg: dep ? '#FBEEDC' : '#EAF5DD', payFg: dep ? '#8A4209' : '#3F7A1F',
+stepNo: closed ? '✓' : AR[o.step] + '/٧', stepName: closed ? 'اتقفل · اتحول للبايع' : STEPS[o.step],
+stBg: sc[0], stFg: sc[1], pct: Math.round(Math.min(o.step + 1, 7) / 7 * 100) + '%', barCol: closed ? '#3F7A1F' : '#0D5C55',
+bg: s.sel === o.id ? '#F2F8F6' : 'transparent', mark: s.sel === o.id ? '#0D5C55' : 'transparent', selA: s.sel === o.id ? 'true' : 'false',
+open: function () { self.setState({ sel: o.id, err: '', note: '' }); }
+};
+}
+var rows = base.filter(function (o) { return inF(o, s.filter); }).map(view);
+var openOrders = s.orders.filter(function (o) { return o.step < 7; });
+var heldSum = openOrders.reduce(function (a, o) { return a + held(o); }, 0);
+var kpis = [
+{ label: 'طلبات مفتوحة', val: String(openOrders.length), sub: s.orders.filter(function (o) { return o.paid === 'dep' && o.step < 7; }).length + ' منهم بعربون 500', dot: '#0D5C55' },
+{ label: 'فلوس محفوظة', val: fmt(heldSum) + ' ج.م', sub: 'متتحولش غير بعد الاستلام + 3 أيام', dot: '#3F7A1F' },
+{ label: 'في الشحن', val: String(s.orders.filter(function (o) { return o.step === 4 || o.step === 5; }).length), sub: 'شحن أو مستني تأكيد استلام', dot: '#24508F' },
+{ label: 'في فترة التجربة', val: String(s.orders.filter(function (o) { return o.step === 6; }).length), sub: 'بعدها الفلوس تتحول للبايع', dot: '#F2A33A' }
+];
+var so = null;
+s.orders.forEach(function (o) { if (o.id === s.sel) so = o; });
+var sel = { sym: 'or-unit' };
+var steps = [], contacts = [], log = [];
+if (so) {
+var v = view(so);
+var dep = so.paid === 'dep';
+var insped = so.insp === 'تم الفحص';
+sel = {
+id: so.id, date: so.date, device: so.device, sym: so.sym, payTxt: v.payTxt, payBg: v.payBg, payFg: v.payFg,
+insp: so.insp, inspBg: insped ? '#0D5C55' : '#E6EDF7', inspFg: insped ? '#FFFFFF' : '#24508F', maint: so.maint,
+isDep: dep, open: so.step < 7, closed: so.step >= 7,
+co: so.co, no: so.no, eta: so.eta,
+amountTxt: fmt(so.amount), heldTxt: fmt(held(so)), restTxt: fmt(so.amount - 500), netTxt: fmt(so.amount * 0.85)
+};
+steps = STEPS.map(function (n, i) {
+var done = i < so.step || so.step >= 7, cur = i === so.step;
+return {
+label: n, mark: done ? '✓' : AR[i], cur: cur ? 'step' : 'false',
+state: done ? 'خلصت' : (cur ? 'دلوقتي' : 'لسه'),
+bg: done ? '#0D5C55' : (cur ? '#F2A33A' : '#FFFFFF'), fg: done ? '#FFFFFF' : '#12221F', bd: done ? '#0D5C55' : (cur ? '#F2A33A' : '#C9D4CF'),
+ring: cur ? '0 0 0 5px rgba(242,163,58,.25)' : 'none',
+fw: cur ? '700' : '500', tc: done || cur ? '#12221F' : '#4A5A56', sc: cur ? '#8A4209' : (done ? '#0D5C55' : '#4A5A56'),
+line: i <= so.step || so.step >= 7 ? '#0D5C55' : '#DCE3DF', lineShow: i === 0 ? 'none' : 'block'
+};
+});
+contacts = [
+{ role: 'المشتري', name: so.buyer, gov: so.bGov, phone: '[01xxxxxxxxx]', initial: 'م', bg: '#E6EDF7', fg: '#24508F' },
+{ role: 'البايع', name: so.seller, gov: so.gov, phone: '[01xxxxxxxxx]', initial: so.sellerCo ? 'ط' : 'ب', bg: '#E3F0ED', fg: '#0D5C55' }
+];
+log = so.log.map(function (l) { return { txt: l.txt, when: l.when, who: l.who, col: l.col }; });
+}
+var advLabel = !so ? '' : (so.step === 6 ? 'خلصت التجربة · حوّل للبايع' : 'حرّك للخطوة الجاية');
+var t = s.toast;
+var TK = { ok: ['#EAF5DD', '#B9DCA4', '#3F7A1F', '✓'], info: ['#E6EDF7', '#B8C9E4', '#24508F', 'i'] };
+var tk = t ? TK[t.kind] : TK.ok;
+function field(key) { return function (e) { var val = e.target.value; self.setState({ orders: patch(so.id, function (c) { c[key] = val; }), err: '' }); }; }
+return {
+q: s.q, onQ: function (e) { self.setState({ q: e.target.value }); },
+kpis: kpis, filters: filters, rows: rows, noRows: rows.length === 0,
+shownTxt: rows.length + ' من ' + s.orders.length + ' طلبات',
+hasSel: !!so, noSel: !so, sel: sel, steps: steps, contacts: contacts, log: log, advLabel: advLabel,
+hasToast: !!t, toastTxt: t ? t.txt : '', toastBg: tk[0], toastBd: tk[1], toastFg: tk[2], toastIcon: tk[3],
+closeToast: function () { self.setState({ toast: null }); },
+hasErr: !!s.err, errTxt: s.err,
+closeSel: function () { self.setState({ sel: null, err: '' }); },
+onCo: field('co'), onNo: field('no'), onEta: field('eta'),
+shipHint: so && so.step < 4 ? 'بتتملى قبل خطوة الشحن.' : '',
+saveShip: function () {
+if (!so.co.trim() || !so.no.trim()) { self.setState({ err: 'اكتب شركة الشحن ورقم الشحنة الأول.' }); return; }
+self.setState({ orders: patch(so.id, function (c) { c.log.unshift({ when: now(), txt: 'بيانات الشحن اتحدثت: ' + c.co + ' · ' + c.no + (c.eta ? ' · التسليم ' + c.eta : ''), who: '[اسم الموظف]', col: '#24508F' }); }), err: '', toast: { kind: 'info', txt: 'بيانات شحن ' + so.id + ' اتحفظت.' } });
+},
+payRest: function () {
+self.setState({ orders: patch(so.id, function (c) { c.paid = 'full'; c.log.unshift({ when: now(), txt: 'الباقي اتدفع (' + fmt(c.amount - 500) + ' ج.م) · بقى دفع كامل ومحفوظ', who: '[اسم الموظف]', col: '#3F7A1F' }); }), toast: { kind: 'ok', txt: 'طلب ' + so.id + ' بقى مدفوع كامل.' } });
+},
+advance: function () {
+if (so.step === 4 && (!so.co.trim() || !so.no.trim())) { self.setState({ err: 'قبل ما تحرّكه للاستلام: اكتب شركة الشحن ورقم الشحنة واحفظهم.' }); return; }
+var next = so.step + 1;
+var txt = next >= 7 ? 'فترة التجربة خلصت · ' + fmt(so.amount * 0.85) + ' ج.م اتحولوا للبايع' : 'الطلب اتحرك لخطوة «' + STEPS[next] + '»';
+self.setState({ orders: patch(so.id, function (c) { c.step = next; c.log.unshift({ when: now(), txt: txt, who: '[اسم الموظف]', col: next >= 7 ? '#3F7A1F' : '#0D5C55' }); }), err: '', toast: { kind: 'ok', txt: so.id + ': ' + txt + '.' } });
+},
+noteTxt: s.note, onNote: function (e) { self.setState({ note: e.target.value }); },
+addNote: function () {
+var n = (s.note || '').trim(); if (!n) return;
+self.setState({ note: '', orders: patch(so.id, function (c) { c.log.unshift({ when: now(), txt: n, who: '[اسم الموظف]', col: '#F2A33A' }); }) });
+}
+};
+}
+}
+</script>
+
+
+</body></html>

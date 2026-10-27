@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head>
+<meta charset="utf-8">
+<title>استعمال طبيب — لوحة التحكم: طلبات البيع الواردة</title>
+<script src="support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#EEF2F0}
+a{color:#0D5C55;text-decoration:none}a:hover{color:#08403B}
+.ad-card{padding:24px;border-radius:22px;background:#FFFFFF;border:1px solid #DCE3DF;box-shadow:0 10px 30px rgba(18,34,31,.05);display:flex;flex-direction:column;gap:16px}
+.ad-h{margin:0;font-size:19px;display:flex;align-items:center;gap:10px}
+.ad-n{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex:none}
+.ad-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.ad-field{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:14px;min-width:0}
+.ad-in{min-height:46px;padding:0 12px;border-radius:12px;border:1px solid #C9D4CF;background:#FFFFFF;font:inherit;font-weight:400;font-size:15px;color:#12221F;box-sizing:border-box;width:100%}
+textarea.ad-in{padding:10px 12px;min-height:84px;resize:vertical}
+.ad-in:hover{border-color:#9FB2AB}
+.ad-in:focus{outline:none;border-color:#0D5C55;box-shadow:0 0 0 3px rgba(13,92,85,.18)}
+.ad-chip{min-height:42px;padding:4px 16px;border-radius:999px;font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.ad-chip:focus-visible{outline:3px solid rgba(13,92,85,.35);outline-offset:2px}
+.ad-side a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;color:#C3D3CE;font-weight:500}
+.ad-side a:hover{background:#163B36;color:#FFFFFF}
+.ad-hint{font-weight:400;font-size:13px;color:#4A5A56}
+.ad-int{font-weight:400;font-size:12px;color:#8A4209;background:#FBEEDC;padding:1px 8px;border-radius:999px;margin-right:6px}
+.ad-btn{min-height:50px;padding:0 22px;border-radius:14px;font:inherit;font-weight:700;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.ad-pri{background:#0D5C55;color:#FFFFFF;border:0}.ad-pri:hover{background:#08403B}
+.ad-sec{background:#FFFFFF;color:#12221F;border:1px solid #C9D4CF}.ad-sec:hover{background:#F5F7F4}
+.ad-drop{border:2px dashed #9FB2AB;border-radius:16px;background:#F5F7F4;padding:18px;display:flex;align-items:center;gap:14px;cursor:pointer;font:inherit;color:#12221F;text-align:right;width:100%}
+.ad-drop:hover{border-color:#0D5C55;background:#E3F0ED}
+.sb-tab{min-height:40px;padding:0 12px;border-radius:12px;border:0;font:inherit;font-size:14px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:6px;flex:1 1 auto;justify-content:center}
+.sb-tab:hover{background:#E3F0ED}
+.sb-item{width:100%;padding:14px;border-radius:16px;font:inherit;color:#12221F;text-align:right;cursor:pointer;display:flex;gap:12px;align-items:flex-start;background:#FFFFFF}
+.sb-item:hover{border-color:#9FB2AB;background:#F8FAF9}
+.sb-tab:focus-visible,.sb-item:focus-visible,.sb-act:focus-visible{outline:3px solid rgba(13,92,85,.35);outline-offset:2px}
+.sb-pill{display:inline-flex;align-items:center;gap:5px;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.sb-kv{display:flex;flex-direction:column;gap:2px;padding:12px 14px;border-radius:14px;background:#F5F7F4;min-width:0}
+.sb-kv span:first-child{font-size:12px;color:#4A5A56}
+.sb-kv span:last-child{font-weight:600}
+.sb-act{min-height:46px;padding:0 16px;border-radius:12px;font:inherit;font-weight:700;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;border:1px solid #C9D4CF;background:#FFFFFF;color:#12221F}
+.sb-act:hover{background:#F5F7F4;border-color:#9FB2AB}
+.sb-ok{background:#0D5C55;border-color:#0D5C55;color:#FFFFFF}.sb-ok:hover{background:#08403B;border-color:#08403B}
+.sb-no{color:#B3261E;border-color:#E9B3AE}.sb-no:hover{background:#FBE9E7;border-color:#B3261E}
+.sb-danger{background:#B3261E;border-color:#B3261E;color:#FFFFFF}.sb-danger:hover{background:#8E1D17;border-color:#8E1D17}
+</style>
+</helmet>
+<div dir="rtl" style="min-height: 100vh; background: #EEF2F0; color: #12221F; font-family: 'IBM Plex Sans Arabic', 'Segoe UI', sans-serif; font-size: 16px; line-height: 1.7; display: flex; align-items: stretch">
+
+<svg aria-hidden="true" width="0" height="0" style="position: absolute; width: 0; height: 0; overflow: hidden">
+<symbol id="sb-unit" sc-camel-view-box="0 0 120 90">
+<rect width="120" height="90" fill="#EEF4F1"></rect><ellipse cx="60" cy="80" rx="40" ry="4" fill="#12221F" opacity=".1"></ellipse>
+<path d="M34 50V22h20" stroke="#8FA09A" stroke-width="3" fill="none" stroke-linecap="round"></path>
+<ellipse cx="58" cy="22" rx="9" ry="4.5" fill="#F2A33A"></ellipse>
+<rect x="56" y="56" width="8" height="16" fill="#8FA09A"></rect>
+<rect x="42" y="71" width="36" height="7" rx="3" fill="#5D6E69"></rect>
+<rect x="28" y="48" width="54" height="10" rx="5" fill="#0D5C55"></rect>
+<rect x="76" y="22" width="10" height="32" rx="5" fill="#0D5C55" transform="rotate(16 81 38)"></rect>
+<rect x="83" y="14" width="10" height="8" rx="3" fill="#12221F" transform="rotate(16 88 18)"></rect>
+</symbol>
+<symbol id="sb-clave" sc-camel-view-box="0 0 120 90">
+<rect width="120" height="90" fill="#EEF4F1"></rect><ellipse cx="60" cy="80" rx="40" ry="4" fill="#12221F" opacity=".1"></ellipse>
+<rect x="24" y="20" width="72" height="56" rx="9" fill="#FFFFFF" stroke="#AEBDB7" stroke-width="1.5"></rect>
+<circle cx="52" cy="50" r="18" fill="#B9C6C1" stroke="#8FA09A"></circle>
+<circle cx="52" cy="50" r="12" fill="#1D3330"></circle>
+<rect x="76" y="28" width="14" height="8" rx="2" fill="#12221F"></rect>
+<circle cx="83" cy="52" r="3" fill="#0D5C55"></circle><circle cx="83" cy="62" r="3" fill="#F2A33A"></circle>
+</symbol>
+<symbol id="sb-xray" sc-camel-view-box="0 0 120 90">
+<rect width="120" height="90" fill="#EEF4F1"></rect>
+<rect x="18" y="12" width="10" height="44" rx="3" fill="#8FA09A"></rect>
+<path d="M28 24L62 32L80 46" stroke="#AEBDB7" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+<circle cx="62" cy="32" r="4" fill="#5D6E69"></circle>
+<rect x="72" y="42" width="24" height="18" rx="5" fill="#FFFFFF" stroke="#AEBDB7" stroke-width="1.5"></rect>
+<path d="M79 60h10l-2 16h-6z" fill="#F2A33A"></path>
+<circle cx="84" cy="51" r="3" fill="#0D5C55"></circle>
+</symbol>
+<symbol id="sb-motor" sc-camel-view-box="0 0 120 90">
+<rect width="120" height="90" fill="#EEF4F1"></rect><ellipse cx="54" cy="78" rx="36" ry="4" fill="#12221F" opacity=".1"></ellipse>
+<rect x="20" y="36" width="56" height="38" rx="7" fill="#FFFFFF" stroke="#AEBDB7" stroke-width="1.5"></rect>
+<rect x="28" y="43" width="26" height="15" rx="2" fill="#1D3330"></rect>
+<path d="M32 52h6l3-5 3 8 3-3h4" stroke="#5FC4B6" stroke-width="1.5" fill="none"></path>
+<circle cx="64" cy="48" r="3.5" fill="#0D5C55"></circle><circle cx="64" cy="60" r="3.5" fill="#F2A33A"></circle>
+<path d="M76 56c14 0 14-26 22-30" stroke="#8FA09A" stroke-width="2.5" fill="none"></path>
+<rect x="95" y="10" width="7" height="24" rx="3.5" fill="#B9C6C1" stroke="#8FA09A" transform="rotate(14 98 22)"></rect>
+</symbol>
+<symbol id="sb-cure" sc-camel-view-box="0 0 120 90">
+<rect width="120" height="90" fill="#EEF4F1"></rect>
+<rect x="30" y="64" width="44" height="9" rx="4" fill="#5D6E69"></rect>
+<rect x="20" y="40" width="70" height="15" rx="7.5" fill="#FFFFFF" stroke="#AEBDB7" stroke-width="1.5"></rect>
+<path d="M88 46L104 34" stroke="#F2A33A" stroke-width="7" stroke-linecap="round"></path>
+<circle cx="46" cy="47.5" r="3.5" fill="#0D5C55"></circle>
+<path d="M106 26l6-4M108 34h6" stroke="#F2A33A" stroke-width="2" stroke-linecap="round" opacity=".7"></path>
+</symbol>
+</svg>
+
+<aside class="ad-side" aria-label="قائمة لوحة التحكم" style="flex: 0 0 250px; background: #0F2A26; color: #C3D3CE; padding: 22px 16px; display: flex; flex-direction: column; gap: 6px; box-sizing: border-box">
+<a href="Main.dc.html" style="color: #FFFFFF; margin-bottom: 4px">
+<span style="width: 38px; height: 38px; border-radius: 12px; background: #F2A33A; color: #12221F; display: flex; align-items: center; justify-content: center; flex: none"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3c-2.5 0-4 2-4 4.5 0 3 1.5 4.5 2 7 .5 3 1 6.5 2.5 6.5S9 18 10 15.5c.5-1.2 1.5-1.2 2 0 1 2.5 1.5 5.5 3 5.5s2-3.5 2.5-6.5c.5-2.5 2-4 2-7C19.5 5 18 3 15.5 3 13.5 3 13 4 12 4S10 3 7 3z"></path></svg></span>
+<span style="display: flex; flex-direction: column; line-height: 1.3"><span style="font-weight: 700">استعمال طبيب</span><span style="font-size: 12px; color: #9FB8B1">لوحة التحكم</span></span>
+</a>
+<div style="height: 1px; background: #2E5650; margin: 8px 0"></div>
+<a href="Admin-Listings.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="1.5"></rect><rect x="13" y="4" width="7" height="7" rx="1.5"></rect><rect x="4" y="13" width="7" height="7" rx="1.5"></rect><rect x="13" y="13" width="7" height="7" rx="1.5"></rect></svg>الأجهزة المعروضة</a>
+<a href="Admin.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>إضافة جهاز</a>
+<a href="Admin-Submissions.dc.html" aria-current="page" style="background: #F2A33A; color: #12221F; font-weight: 700"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16v12H4z"></path><path d="M4 7l8 6 8-6"></path></svg>طلبات البيع الواردة<span style="margin-right: auto; padding: 0 8px; border-radius: 999px; background: #12221F; color: #F2A33A; font-size: 12px; font-weight: 700">[٣]</span></a>
+<a href="Admin-Inspections.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"></circle><path d="M20 20l-4.5-4.5"></path></svg>الفحوصات</a>
+<a href="Admin-Orders.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3z"></path><path d="M14 10h4l3 3v3h-7"></path><circle cx="7" cy="17.5" r="1.8"></circle><circle cx="17" cy="17.5" r="1.8"></circle></svg>الطلبات والشحن</a>
+<a href="Admin-Payments.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>المدفوعات المحفوظة</a>
+<a href="Admin-Requests.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg>طلبات «اطلب جهاز»</a>
+<div style="margin-top: auto; padding: 12px; border-radius: 14px; background: #163B36; font-size: 13px; display: flex; align-items: center; gap: 10px">
+<span style="width: 34px; height: 34px; border-radius: 999px; background: #0D5C55; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700; flex: none">أ</span>
+<span style="display: flex; flex-direction: column; line-height: 1.4"><span style="color: #FFFFFF; font-weight: 600">[اسم الموظف]</span><span>أدمن</span></span>
+</div>
+</aside>
+
+<main style="flex: 1 1 auto; min-width: 0; padding: 26px 32px 60px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px">
+
+<div>
+<div style="font-size: 14px; color: #4A5A56">لوحة التحكم › طلبات البيع الواردة</div>
+<h1 style="margin: 0; font-size: 30px; line-height: 1.3">طلبات البيع الواردة</h1>
+<div style="color: #4A5A56">طلبات الدكاترة اللي عايزين يبيعوا أجهزتهم. راجع الطلب، وبعدين اقبله وحوّله لإعلان، أو اطلب صور، أو حدد ميعاد فحص مع فني معتمد.</div>
+</div>
+
+<sc-if value="{{hasToast}}" hint-placeholder-val="{{false}}">
+<div role="status" aria-live="polite" style="padding: 12px 16px; border-radius: 14px; background: {{toastBg}}; border: 1px solid {{toastBd}}; color: {{toastFg}}; display: flex; align-items: center; gap: 10px; font-weight: 600">
+<span style="width: 26px; height: 26px; border-radius: 999px; background: {{toastFg}}; color: #FFFFFF; display: flex; align-items: center; justify-content: center; flex: none"><svg aria-hidden="true" width="14" height="14" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"></path></svg></span>
+<span style="flex: 1">{{toast}}</span>
+<button type="button" class="sb-act" sc-camel-on-click="{{closeToast}}" aria-label="اقفل الرسالة" style="min-height: 32px; padding: 0 10px; font-size: 13px">✕</button>
+</div>
+</sc-if>
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
+
+<section class="ad-card" aria-label="قائمة الطلبات" style="flex: 0 0 380px; padding: 16px; gap: 12px; min-width: 0">
+<div role="tablist" aria-label="حالة الطلب" style="display: flex; gap: 4px; padding: 4px; border-radius: 14px; background: #F5F7F4">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="4">
+<button type="button" role="tab" class="sb-tab" sc-camel-on-click="{{t.pick}}" aria-selected="{{t.sel}}" style="background: {{t.bg}}; color: {{t.fg}}; box-shadow: {{t.sh}}">{{t.label}}<span style="min-width: 20px; padding: 0 6px; border-radius: 999px; background: {{t.cbg}}; color: {{t.cfg}}; font-size: 12px; font-weight: 700; text-align: center">{{t.count}}</span></button>
+</sc-for>
+</div>
+<label style="position: relative; display: block">
+<span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">ابحث في الطلبات</span>
+<svg aria-hidden="true" width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="#4A5A56" stroke-width="2" stroke-linecap="round" style="position: absolute; top: 14px; right: 12px"><circle cx="11" cy="11" r="6"></circle><path d="M20 20l-4.5-4.5"></path></svg>
+<input type="search" class="ad-in" value="{{q}}" sc-camel-on-change="{{onQ}}" placeholder="رقم الطلب، الجهاز، أو المحافظة" style="padding-right: 38px">
+</label>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<sc-for list="{{items}}" as="it" hint-placeholder-count="3">
+<button type="button" class="sb-item" sc-camel-on-click="{{it.pick}}" aria-pressed="{{it.on}}" style="border: {{it.bw}} solid {{it.bd}}; background: {{it.bg}}">
+<span style="width: 60px; height: 45px; border-radius: 10px; overflow: hidden; border: 1px solid #DCE3DF; flex: none"><svg aria-hidden="true" sc-camel-view-box="0 0 120 90" style="display: block; width: 100%; height: 100%"><use href="{{it.img}}"></use></svg></span>
+<span style="flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; line-height: 1.45">
+<span style="display: flex; justify-content: space-between; gap: 8px; font-size: 12px; color: #4A5A56"><span>{{it.id}} · {{it.gov}}</span><span>{{it.when}}</span></span>
+<span style="font-weight: 700">{{it.device}}</span>
+<span style="font-size: 13px; color: #3C4C48">{{it.doctor}} · <span style="font-weight: 700; color: #12221F">{{it.priceTxt}} ج.م</span></span>
+<span style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px">
+<span class="sb-pill" style="background: {{it.stBg}}; color: {{it.stFg}}">{{it.stLabel}}</span>
+<span class="sb-pill" style="background: {{it.feeBg}}; color: {{it.feeFg}}">{{it.feeLabel}}</span>
+<span class="sb-pill" style="background: #F5F7F4; color: #3C4C48">{{it.keepShort}}</span>
+</span>
+</span>
+</button>
+</sc-for>
+<sc-if value="{{isEmpty}}" hint-placeholder-val="{{false}}">
+<div style="padding: 32px 12px; text-align: center; color: #4A5A56; font-size: 14px; display: flex; flex-direction: column; align-items: center; gap: 6px">
+<svg aria-hidden="true" width="34" height="34" sc-camel-view-box="0 0 24 24" fill="none" stroke="#9FB2AB" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16v12H4z"></path><path d="M4 7l8 6 8-6"></path></svg>
+<span style="font-weight: 700; color: #12221F">{{emptyTitle}}</span>
+<span>{{emptySub}}</span>
+</div>
+</sc-if>
+</div>
+</section>
+
+<sc-if value="{{hasSel}}" hint-placeholder-val="{{true}}">
+<section class="ad-card" aria-labelledby="sb-dt" style="flex: 1 1 520px; min-width: 0; gap: 18px">
+
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 12px">
+<div>
+<div style="font-size: 13px; color: #4A5A56">طلب {{pId}} · وصل {{pWhen}}</div>
+<h2 id="sb-dt" style="margin: 0; font-size: 24px; line-height: 1.4">{{pDevice}}</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px">
+<span class="sb-pill" style="background: {{pStBg}}; color: {{pStFg}}"><span style="width: 7px; height: 7px; border-radius: 999px; background: {{pStFg}}"></span>{{pStLabel}}</span>
+<span class="sb-pill" style="background: #E6EDF7; color: #24508F">{{pType}}</span>
+<span class="sb-pill" style="background: #F5F7F4; color: #3C4C48">الحالة: {{pCond}}</span>
+</div>
+</div>
+<div style="text-align: left">
+<div style="font-size: 13px; color: #4A5A56">السعر المطلوب</div>
+<div style="font-size: 28px; font-weight: 700; line-height: 1.2">{{pPrice}} <span style="font-size: 14px; font-weight: 400; color: #4A5A56">ج.م</span></div>
+<div style="font-size: 13px; color: #8A4209">صافي البايع: {{pNet}} ج.م<span class="ad-int">داخلي</span></div>
+</div>
+</div>
+
+<sc-if value="{{pFeeMissing}}" hint-placeholder-val="{{false}}">
+<div style="padding: 12px 16px; border-radius: 14px; background: #FBEEDC; border: 1px solid #F0C88A; color: #6B3A10; font-size: 14px; display: flex; gap: 10px; align-items: flex-start">
+<svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none; margin-top: 2px"><path d="M12 3l9 16H3z"></path><path d="M12 10v4M12 17h.01"></path></svg>
+<span><b>رسوم الجدية (300 ج.م) لسه متدفعتش.</b> فكّر البايع يدفعها قبل ما نحدد ميعاد فحص. الرسوم بتترد حسب الشروط.</span>
+</div>
+</sc-if>
+
+<sc-if value="{{pIsAccepted}}" hint-placeholder-val="{{false}}">
+<div style="padding: 14px 16px; border-radius: 14px; background: #EAF5DD; border: 1px solid #B9DB9A; color: #2C5A13; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px">
+<span><b>اتقبل الطلب واتعمل له إعلان مسودة.</b> كمّل بيانات الإعلان وانشره من «إضافة جهاز».</span>
+<a href="Admin.dc.html" class="sb-act sb-ok" style="color: #FFFFFF">كمّل الإعلان</a>
+</div>
+</sc-if>
+<sc-if value="{{pIsRejected}}" hint-placeholder-val="{{false}}">
+<div style="padding: 14px 16px; border-radius: 14px; background: #FBE9E7; border: 1px solid #E9B3AE; color: #7A1A14; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px">
+<span><b>اترفض:</b> {{pRejectReason}}</span>
+<button type="button" class="sb-act" sc-camel-on-click="{{reopen}}">رجّعه «محتاج متابعة»</button>
+</div>
+</sc-if>
+
+<div>
+<h3 style="margin: 0 0 8px; font-size: 16px">البايع</h3>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px">
+<div class="sb-kv"><span>الدكتور</span><span>{{pDoctor}}</span></div>
+<div class="sb-kv"><span>الموبايل</span><span dir="ltr" style="text-align: right">{{pPhone}}</span></div>
+<div class="sb-kv"><span>المحافظة</span><span>{{pGov}}</span></div>
+<div class="sb-kv"><span>رسوم الجدية 300 ج.م</span><span style="color: {{pFeeFg}}">{{pFeeTxt}}</span></div>
+</div>
+</div>
+
+<div>
+<h3 style="margin: 0 0 8px; font-size: 16px">الجهاز</h3>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px">
+<div class="sb-kv"><span>نوع الجهاز</span><span>{{pType}}</span></div>
+<div class="sb-kv"><span>سنة الصنع</span><span>{{pYear}}</span></div>
+<div class="sb-kv"><span>حالة المنتج</span><span>{{pCond}}</span></div>
+<div class="sb-kv"><span>مكان الجهاز للفحص</span><span>{{pKeep}}</span></div>
+</div>
+<div class="sb-kv" style="margin-top: 10px"><span>الملحقات</span><span style="font-weight: 400">{{pAcc}}</span></div>
+</div>
+
+<div>
+<h3 style="margin: 0 0 8px; font-size: 16px; display: flex; align-items: center; gap: 8px">الصور والفيديو<span style="font-size: 13px; font-weight: 400; color: #4A5A56">{{pPhotos}} صور · {{pVideoTxt}}</span></h3>
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 8px">
+<sc-for list="{{pThumbs}}" as="ph" hint-placeholder-count="6">
+<span style="position: relative; aspect-ratio: 4 / 3; border-radius: 12px; overflow: hidden; border: 1px solid #DCE3DF; display: block">
+<svg role="img" aria-label="{{ph.alt}}" sc-camel-view-box="0 0 120 90" style="display: block; width: 100%; height: 100%; transform: {{ph.tf}}"><use href="{{ph.img}}"></use></svg>
+<span style="position: absolute; bottom: 4px; right: 4px; padding: 0 6px; border-radius: 6px; background: rgba(18, 34, 31, 0.7); color: #FFFFFF; font-size: 11px">{{ph.n}}</span>
+</span>
+</sc-for>
+<sc-if value="{{pHasVideo}}" hint-placeholder-val="{{true}}">
+<span role="img" aria-label="فيديو الجهاز وهو شغال" style="aspect-ratio: 4 / 3; border-radius: 12px; background: #12221F; color: #FFFFFF; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; font-size: 12px">
+<svg aria-hidden="true" width="24" height="24" sc-camel-view-box="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"></path></svg>فيديو وهو شغال
+</span>
+</sc-if>
+</div>
+<sc-if value="{{pFewPhotos}}" hint-placeholder-val="{{false}}">
+<div class="ad-hint" style="margin-top: 6px; color: #8A4209">أقل من الحد المطلوب للإعلان (2 صور على الأقل، والأفضل صور من كل الجهات).</div>
+</sc-if>
+</div>
+
+<div style="padding: 14px 16px; border-radius: 14px; background: #FFF8EE; border: 1px dashed #F0C88A">
+<div style="font-size: 13px; font-weight: 600; color: #8A4209; display: flex; align-items: center; gap: 6px"><svg aria-hidden="true" width="14" height="14" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>سبب البيع<span class="ad-int">داخلي — مش بيظهر للمشتري</span></div>
+<div style="margin-top: 4px">{{pReason}}</div>
+</div>
+
+<div>
+<h3 style="margin: 0 0 8px; font-size: 16px">سجل الطلب</h3>
+<ol style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 0">
+<sc-for list="{{pLog}}" as="lg" hint-placeholder-count="2">
+<li style="display: flex; gap: 10px; align-items: flex-start; padding: 6px 0">
+<span style="width: 10px; height: 10px; border-radius: 999px; background: {{lg.dot}}; margin-top: 8px; flex: none"></span>
+<span style="display: flex; flex-direction: column; line-height: 1.5"><span style="font-size: 14px">{{lg.t}}</span><span style="font-size: 12px; color: #4A5A56">{{lg.at}}</span></span>
+</li>
+</sc-for>
+</ol>
+</div>
+
+<sc-if value="{{pOpen}}" hint-placeholder-val="{{true}}">
+<div style="padding-top: 16px; border-top: 1px solid #DCE3DF; display: flex; flex-direction: column; gap: 14px">
+
+<sc-if value="{{modeNone}}" hint-placeholder-val="{{true}}">
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px">
+<button type="button" class="sb-act sb-ok" sc-camel-on-click="{{accept}}"><svg aria-hidden="true" width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"></path></svg>قبول وتحويل لإعلان</button>
+<button type="button" class="sb-act" sc-camel-on-click="{{modePhotos}}"><svg aria-hidden="true" width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="9" cy="10" r="1.8"></circle><path d="M21 16l-5-5-8 8"></path></svg>اطلب صور تانية</button>
+<button type="button" class="sb-act" sc-camel-on-click="{{modeSched}}"><svg aria-hidden="true" width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M4 10h16M9 3v4M15 3v4"></path></svg>حدد ميعاد فحص</button>
+<button type="button" class="sb-act sb-no" sc-camel-on-click="{{modeReject}}"><svg aria-hidden="true" width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg>رفض</button>
+</div>
+</sc-if>
+
+<sc-if value="{{modeIsPhotos}}" hint-placeholder-val="{{false}}">
+<div style="padding: 16px; border-radius: 16px; background: #F5F7F4; display: flex; flex-direction: column; gap: 12px">
+<div style="font-weight: 700">محتاجين إيه من البايع؟</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{photoChips}}" as="c" hint-placeholder-count="4">
+<button type="button" class="ad-chip" sc-camel-on-click="{{c.pick}}" aria-pressed="{{c.pressed}}" style="border: 1px solid {{c.bd}}; background: {{c.bg}}; color: {{c.fg}}">{{c.label}}</button>
+</sc-for>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<button type="button" class="sb-act sb-ok" sc-camel-on-click="{{sendPhotos}}">ابعت الطلب للبايع</button>
+<button type="button" class="sb-act" sc-camel-on-click="{{cancelMode}}">إلغاء</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{modeIsSched}}" hint-placeholder-val="{{false}}">
+<div style="padding: 16px; border-radius: 16px; background: #E3F0ED; border: 1px solid #9CCBC2; display: flex; flex-direction: column; gap: 12px">
+<div style="font-weight: 700">ميعاد الفحص مع فني معتمد</div>
+<div style="font-size: 14px; color: #0B4A44">{{schedWhere}}</div>
+<div class="ad-grid">
+<label class="ad-field">اليوم
+<input type="date" class="ad-in" value="{{schedDate}}" sc-camel-on-change="{{onSchedDate}}">
+</label>
+<label class="ad-field">الوقت
+<sc-raw-select class="ad-in" value="{{schedSlot}}" sc-camel-on-change="{{onSchedSlot}}"><option>الصبح (10 – 1)</option><option>بعد الضهر (1 – 5)</option><option>بالليل (5 – 8)</option></sc-raw-select>
+</label>
+<label class="ad-field">الفني المعتمد
+<sc-raw-select class="ad-in"><option>[اسم الفني المعتمد]</option><option>[فني معتمد تاني]</option></sc-raw-select>
+</label>
+</div>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<button type="button" class="sb-act sb-ok" sc-camel-on-click="{{confirmSched}}">أكّد الميعاد وابعته للبايع</button>
+<button type="button" class="sb-act" sc-camel-on-click="{{cancelMode}}">إلغاء</button>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{modeIsReject}}" hint-placeholder-val="{{false}}">
+<div style="padding: 16px; border-radius: 16px; background: #FBE9E7; border: 1px solid #E9B3AE; display: flex; flex-direction: column; gap: 12px">
+<div style="font-weight: 700; color: #7A1A14">سبب الرفض<span aria-hidden="true" style="color: #B3261E; margin-right: 4px">*</span></div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px" role="group" aria-label="سبب الرفض">
+<sc-for list="{{rejChips}}" as="c" hint-placeholder-count="5">
+<button type="button" class="ad-chip" sc-camel-on-click="{{c.pick}}" aria-pressed="{{c.pressed}}" style="border: 1px solid {{c.bd}}; background: {{c.bg}}; color: {{c.fg}}">{{c.label}}</button>
+</sc-for>
+</div>
+<label class="ad-field">رسالة للبايع (اختياري)
+<textarea class="ad-in" value="{{rejNote}}" sc-camel-on-change="{{onRejNote}}" placeholder="مثال: ممكن تعيد عرض الجهاز بسعر أقرب للسوق"></textarea>
+</label>
+<sc-if value="{{rejMissing}}" hint-placeholder-val="{{false}}">
+<div role="alert" style="font-size: 13px; color: #B3261E; font-weight: 600">اختار سبب الرفض الأول.</div>
+</sc-if>
+<div style="display: flex; gap: 8px; flex-wrap: wrap">
+<button type="button" class="sb-act sb-danger" sc-camel-on-click="{{confirmReject}}">أكّد الرفض</button>
+<button type="button" class="sb-act" sc-camel-on-click="{{cancelMode}}">إلغاء</button>
+</div>
+</div>
+</sc-if>
+
+</div>
+</sc-if>
+
+</section>
+</sc-if>
+
+<sc-if value="{{noSel}}" hint-placeholder-val="{{false}}">
+<section class="ad-card" style="flex: 1 1 520px; min-width: 0; align-items: center; justify-content: center; text-align: center; min-height: 360px; color: #4A5A56">
+<svg aria-hidden="true" width="44" height="44" sc-camel-view-box="0 0 24 24" fill="none" stroke="#9FB2AB" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16v12H4z"></path><path d="M4 7l8 6 8-6"></path></svg>
+<div style="font-weight: 700; color: #12221F">اختار طلب من القايمة</div>
+<div>تفاصيل الطلب والصور والإجراءات هتظهر هنا.</div>
+</section>
+</sc-if>
+
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:2200}}">
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = {
+tab: 'new', q: '', sel: '#1024', mode: '', toast: '', tone: 'ok',
+photoReq: ['plate'], schedDate: '', schedSlot: 'الصبح (10 – 1)', rej: '', rejNote: '', rejTried: false,
+subs: [
+{ id: '#1024', device: 'أوتوكلاف Class B — 18 لتر', type: 'أوتوكلاف', img: '#sb-clave', doctor: '[د. ...]', phone: '[01xxxxxxxxx]', gov: 'القاهرة', year: '2021', cond: 'ممتازة (81–100%)', price: 40000, keep: 'send', fee: true, photos: 6, video: true, acc: 'رف داخلي، خرطوم تصريف، كتالوج', reason: 'بيجدد العيادة وجاب أوتوكلاف سعته أكبر.', when: 'النهارده 10:40 ص', st: 'new', log: [{ t: 'الطلب وصل من صفحة «اعرض جهازك»', at: 'النهارده 10:40 ص', dot: '#24508F' }, { t: 'رسوم الجدية 300 ج.م اتدفعت', at: 'النهارده 10:42 ص', dot: '#3F7A1F' }] },
+{ id: '#1023', device: 'يونيت أسنان كامل بالكرسي', type: 'يونيت أسنان', img: '#sb-unit', doctor: '[د. ...]', phone: '[01xxxxxxxxx]', gov: 'الجيزة', year: '2019', cond: 'جيدة (60–80%)', price: 120000, keep: 'keep', fee: true, photos: 8, video: true, acc: 'كرسي، لمبة، 3 خراطيم هاند بيس، فوت كنترول', reason: 'بيقفل الفرع التاني للعيادة.', when: 'امبارح 6:15 م', st: 'new', log: [{ t: 'الطلب وصل من صفحة «اعرض جهازك»', at: 'امبارح 6:15 م', dot: '#24508F' }, { t: 'رسوم الجدية 300 ج.م اتدفعت', at: 'امبارح 6:20 م', dot: '#3F7A1F' }] },
+{ id: '#1022', device: 'إندو موتور لاسلكي', type: 'إندو موتور', img: '#sb-motor', doctor: '[د. ...]', phone: '[01xxxxxxxxx]', gov: 'الدقهلية', year: '2023', cond: 'ممتازة (81–100%)', price: 11000, keep: 'keep', fee: false, photos: 3, video: false, acc: 'شاحن، 2 كونترا', reason: 'اشترى موديل أحدث.', when: 'امبارح 1:05 م', st: 'new', log: [{ t: 'الطلب وصل من صفحة «اعرض جهازك»', at: 'امبارح 1:05 م', dot: '#24508F' }] },
+{ id: '#1021', device: 'لايت كيور LED', type: 'لايت كيور', img: '#sb-cure', doctor: '[د. ...]', phone: '[01xxxxxxxxx]', gov: 'الإسكندرية', year: '2020', cond: 'جيدة (60–80%)', price: 2800, keep: 'send', fee: true, photos: 2, video: false, acc: 'قاعدة شحن', reason: 'مش بيستخدمه كتير.', when: '23 أكتوبر', st: 'follow', log: [{ t: 'الطلب وصل من صفحة «اعرض جهازك»', at: '23 أكتوبر', dot: '#24508F' }, { t: 'اتطلب من البايع: صورة الطرف من قريب، فيديو وهو شغال', at: '24 أكتوبر', dot: '#F2A33A' }] },
+{ id: '#1020', device: 'موتور جراحة وزراعة بالفوت كنترول', type: 'موتور جراحة وزراعة', img: '#sb-motor', doctor: '[د. ...]', phone: '[01xxxxxxxxx]', gov: 'الشرقية', year: '2022', cond: 'ممتازة (81–100%)', price: 55000, keep: 'send', fee: true, photos: 7, video: true, acc: 'هاند بيس جراحة، فوت كنترول، خراطيم ري', reason: 'بيسافر وبيصفّي العيادة.', when: '20 أكتوبر', st: 'acc', log: [{ t: 'الطلب وصل من صفحة «اعرض جهازك»', at: '20 أكتوبر', dot: '#24508F' }, { t: 'اتقبل واتحول لإعلان مسودة', at: '21 أكتوبر', dot: '#3F7A1F' }] },
+{ id: '#1019', device: 'جهاز أشعة بالذراع', type: 'أشعة', img: '#sb-xray', doctor: '[د. ...]', phone: '[01xxxxxxxxx]', gov: 'أسيوط', year: '2012', cond: 'أقل من 60%', price: 30000, keep: 'keep', fee: false, photos: 1, video: false, acc: '—', reason: 'الجهاز بقاله فترة مش شغال.', when: '18 أكتوبر', st: 'rej', rejectReason: 'السعر بعيد عن السوق لحالة الجهاز', log: [{ t: 'الطلب وصل من صفحة «اعرض جهازك»', at: '18 أكتوبر', dot: '#24508F' }, { t: 'اترفض: السعر بعيد عن السوق لحالة الجهاز', at: '19 أكتوبر', dot: '#B3261E' }] }
+]
+};
+}
+update(id, change, logLine, toast, tone) {
+var subs = this.state.subs.map(function (x) {
+if (x.id !== id) return x;
+var n = Object.assign({}, x, change);
+if (logLine) n.log = x.log.concat([logLine]);
+return n;
+});
+this.setState({ subs: subs, toast: toast, tone: tone || 'ok', mode: '', rej: '', rejNote: '', rejTried: false });
+}
+renderVals() {
+var s = this.state;
+var self = this;
+function fmt(n) { return Number(n).toLocaleString('en-US'); }
+var ST = {
+new: { l: 'جديد', bg: '#E6EDF7', fg: '#24508F' },
+follow: { l: 'محتاج متابعة', bg: '#FBEEDC', fg: '#8A4209' },
+acc: { l: 'اتقبل', bg: '#EAF5DD', fg: '#3F7A1F' },
+rej: { l: 'اترفض', bg: '#FBE9E7', fg: '#B3261E' }
+};
+var subs = s.subs;
+var q = (s.q || '').trim().toLowerCase();
+var matchQ = function (x) { return !q || (x.id + ' ' + x.device + ' ' + x.type + ' ' + x.gov).toLowerCase().indexOf(q) >= 0; };
+var counts = { new: 0, follow: 0, acc: 0, rej: 0 };
+subs.forEach(function (x) { if (matchQ(x)) counts[x.st]++; });
+var list = subs.filter(function (x) { return x.st === s.tab && matchQ(x); });
+
+var tabs = [['new', 'جديد'], ['follow', 'محتاج متابعة'], ['acc', 'اتقبل'], ['rej', 'اترفض']].map(function (t) {
+var on = s.tab === t[0];
+return { label: t[1], count: counts[t[0]], sel: on ? 'true' : 'false', bg: on ? '#FFFFFF' : 'transparent', fg: on ? '#0D5C55' : '#3C4C48', sh: on ? '0 2px 8px rgba(18,34,31,.08)' : 'none', cbg: on ? '#0D5C55' : '#DCE3DF', cfg: on ? '#FFFFFF' : '#3C4C48',
+pick: function () { var first = subs.filter(function (x) { return x.st === t[0] && matchQ(x); })[0]; self.setState({ tab: t[0], sel: first ? first.id : s.sel, mode: '' }); } };
+});
+
+var items = list.map(function (x) {
+var on = s.sel === x.id, st = ST[x.st];
+return {
+id: x.id, gov: x.gov, when: x.when, device: x.device, doctor: x.doctor, img: x.img, priceTxt: fmt(x.price),
+on: on ? 'true' : 'false', bd: on ? '#0D5C55' : '#DCE3DF', bw: on ? '2px' : '1px', bg: on ? '#F1F8F6' : '#FFFFFF',
+stLabel: st.l, stBg: st.bg, stFg: st.fg,
+feeLabel: x.fee ? 'رسوم الجدية ✓' : 'رسوم الجدية ✕', feeBg: x.fee ? '#EAF5DD' : '#FBEEDC', feeFg: x.fee ? '#3F7A1F' : '#8A4209',
+keepShort: x.keep === 'keep' ? 'يفضل معايا' : 'أبعته يتفحص',
+pick: function () { self.setState({ sel: x.id, mode: '', rejTried: false }); }
+};
+});
+
+var p = null;
+subs.forEach(function (x) { if (x.id === s.sel) p = x; });
+var out = {
+tabs: tabs, items: items, isEmpty: items.length === 0,
+emptyTitle: q ? 'مفيش نتايج للبحث ده' : 'مفيش طلبات هنا دلوقتي',
+emptySub: q ? 'جرّب كلمة تانية أو امسح البحث.' : 'الطلبات اللي تتنقل للحالة دي هتظهر هنا.',
+q: s.q, onQ: function (e) { self.setState({ q: e.target.value }); },
+hasToast: !!s.toast, toast: s.toast,
+toastBg: s.tone === 'bad' ? '#FBE9E7' : '#E3F0ED', toastBd: s.tone === 'bad' ? '#E9B3AE' : '#9CCBC2', toastFg: s.tone === 'bad' ? '#B3261E' : '#0D5C55',
+closeToast: function () { self.setState({ toast: '' }); },
+hasSel: !!p, noSel: !p
+};
+if (!p) return out;
+
+var st = ST[p.st];
+var now = 'دلوقتي · ' + '[اسم الموظف]';
+var tf = ['none', 'scaleX(-1)', 'scale(1.35) translate(8px, 4px)', 'scale(1.6) translate(-10px, -6px)', 'scale(1.25) translate(-14px, 6px)', 'scaleX(-1) scale(1.3)', 'scale(1.8) translate(6px, -4px)', 'scale(1.4) translate(10px, 8px)'];
+var thumbs = [];
+for (var i = 0; i < p.photos; i++) thumbs.push({ n: String(i + 1), alt: 'صورة ' + (i + 1) + ' من ' + p.photos + ' — ' + p.device, tf: tf[i % tf.length], img: p.img });
+var PH = [['plate', 'صورة اللوحة والسيريال'], ['sides', 'صور من كل الجهات'], ['close', 'صور قريبة للعيوب'], ['video', 'فيديو وهو شغال']];
+var REJ = ['السعر بعيد عن السوق لحالة الجهاز', 'الصور مش كفاية ومفيش رد', 'الجهاز مش من التصنيفات اللي بنعرضها', 'حالة الجهاز أقل من المطلوب', 'سبب تاني'];
+function chip(on, label, pick, col) { col = col || '#0D5C55'; return { label: label, pressed: on ? 'true' : 'false', bg: on ? col : '#FFFFFF', fg: on ? '#FFFFFF' : '#12221F', bd: on ? col : '#C9D4CF', pick: pick }; }
+
+out.pId = p.id; out.pWhen = p.when; out.pDevice = p.device; out.pType = p.type; out.pImg = p.img;
+out.pStLabel = st.l; out.pStBg = st.bg; out.pStFg = st.fg;
+out.pCond = p.cond; out.pPrice = fmt(p.price); out.pNet = fmt(Math.round(p.price * 0.85));
+out.pDoctor = p.doctor; out.pPhone = p.phone; out.pGov = p.gov; out.pYear = p.year; out.pAcc = p.acc;
+out.pFeeTxt = p.fee ? 'اتدفعت ✓' : 'لسه متدفعتش'; out.pFeeFg = p.fee ? '#3F7A1F' : '#8A4209';
+out.pFeeMissing = !p.fee && (p.st === 'new' || p.st === 'follow');
+out.pKeep = p.keep === 'keep' ? 'يفضل معايا (الفني يروح له)' : 'أبعته يتفحص (في مقر الفحص)';
+out.pPhotos = p.photos; out.pHasVideo = p.video; out.pVideoTxt = p.video ? 'فيه فيديو' : 'مفيش فيديو';
+out.pThumbs = thumbs; out.pFewPhotos = p.photos < 2;
+out.pReason = p.reason;
+out.pLog = p.log;
+out.pIsAccepted = p.st === 'acc'; out.pIsRejected = p.st === 'rej'; out.pRejectReason = p.rejectReason || '';
+out.pOpen = p.st === 'new' || p.st === 'follow';
+out.modeNone = !s.mode; out.modeIsPhotos = s.mode === 'photos'; out.modeIsSched = s.mode === 'sched'; out.modeIsReject = s.mode === 'reject';
+out.modePhotos = function () { self.setState({ mode: 'photos' }); };
+out.modeSched = function () { self.setState({ mode: 'sched' }); };
+out.modeReject = function () { self.setState({ mode: 'reject', rejTried: false }); };
+out.cancelMode = function () { self.setState({ mode: '', rejTried: false }); };
+
+out.accept = function () {
+self.update(p.id, { st: 'acc' }, { t: 'اتقبل واتحول لإعلان مسودة', at: now, dot: '#3F7A1F' }, 'طلب ' + p.id + ' اتقبل واتحول لإعلان مسودة — اتنقل لتاب «اتقبل».', 'ok');
+};
+out.photoChips = PH.map(function (o) {
+var on = s.photoReq.indexOf(o[0]) >= 0;
+return chip(on, o[1], function () { var a = s.photoReq.filter(function (k) { return k !== o[0]; }); if (!on) a.push(o[0]); self.setState({ photoReq: a }); });
+});
+out.sendPhotos = function () {
+var names = PH.filter(function (o) { return s.photoReq.indexOf(o[0]) >= 0; }).map(function (o) { return o[1]; });
+var what = names.length ? names.join('، ') : 'صور إضافية';
+self.update(p.id, { st: 'follow' }, { t: 'اتطلب من البايع: ' + what, at: now, dot: '#F2A33A' }, 'اتبعت للبايع طلب ' + what + ' — الطلب بقى «محتاج متابعة».', 'ok');
+};
+out.schedWhere = p.keep === 'keep' ? 'البايع اختار «يفضل معايا»: الفني المعتمد هيروح يعاين الجهاز عنده في ' + p.gov + '.' : 'البايع اختار «أبعته يتفحص»: البايع هيبعت الجهاز لمقر الفحص في الميعاد ده.';
+out.schedDate = s.schedDate; out.schedSlot = s.schedSlot;
+out.onSchedDate = function (e) { self.setState({ schedDate: e.target.value }); };
+out.onSchedSlot = function (e) { self.setState({ schedSlot: e.target.value }); };
+out.confirmSched = function () {
+var d = s.schedDate || '[التاريخ]';
+self.update(p.id, { st: 'follow' }, { t: 'ميعاد فحص: ' + d + ' · ' + s.schedSlot + ' · فني معتمد', at: now, dot: '#0D5C55' }, 'اتحدد ميعاد الفحص ' + d + ' (' + s.schedSlot + ') واتبعت للبايع.', 'ok');
+};
+out.rejChips = REJ.map(function (r) { return chip(s.rej === r, r, function () { self.setState({ rej: r }); }, '#B3261E'); });
+out.rejNote = s.rejNote;
+out.onRejNote = function (e) { self.setState({ rejNote: e.target.value }); };
+out.rejMissing = s.rejTried && !s.rej;
+out.confirmReject = function () {
+if (!s.rej) { self.setState({ rejTried: true }); return; }
+self.update(p.id, { st: 'rej', rejectReason: s.rej }, { t: 'اترفض: ' + s.rej, at: now, dot: '#B3261E' }, 'طلب ' + p.id + ' اترفض واتبعت السبب للبايع.', 'bad');
+};
+out.reopen = function () {
+self.update(p.id, { st: 'follow', rejectReason: '' }, { t: 'اتفتح تاني للمتابعة', at: now, dot: '#F2A33A' }, 'طلب ' + p.id + ' رجع «محتاج متابعة».', 'ok');
+};
+return out;
+}
+}
+</script>
+
+
+</body></html>

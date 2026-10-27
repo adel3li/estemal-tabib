@@ -1,9 +1,8 @@
-<!doctype html>
-<html lang="ar" dir="rtl">
-<head>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head>
 <meta charset="utf-8">
 <title>استعمال طبيب — كل الأجهزة</title>
-<script src="./support.js"></script>
+<script src="support.js"></script>
 </head>
 <body>
 <x-dc>
@@ -12,117 +11,449 @@
 <style>
 body{margin:0;background:#F5F7F4}
 a{color:#0D5C55;text-decoration:none}a:hover{color:#08403B}
+.br-nav a{color:#3C4C48;font-weight:500}
+.br-nav a:hover{color:#0D5C55}
+.br-nav a[aria-current="page"]{color:#0D5C55;font-weight:700}
+.br-ghost{transition:background .15s ease}
+.br-ghost:hover{background:#F5F7F4;color:#12221F}
+.br-amber{transition:background .15s ease, transform .15s ease}
+.br-amber:hover{background:#E8942A;color:#12221F;transform:translateY(-1px)}
+.br-card{transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease}
+.br-card:hover{transform:translateY(-4px);box-shadow:0 18px 36px rgba(18,34,31,.12);border-color:#9CCBC2;color:#12221F}
+.br-card:focus-visible{outline:3px solid #0D5C55;outline-offset:3px}
+.br-img svg{transition:transform .3s ease}
+.br-card:hover .br-img svg{transform:scale(1.04)}
+.br-more{transition:background .15s ease, color .15s ease}
+.br-card:hover .br-more{background:#0D5C55;color:#FFFFFF}
+.br-chip{transition:box-shadow .15s ease, transform .15s ease}
+.br-chip:hover{box-shadow:0 0 0 3px rgba(13,92,85,.12);transform:translateY(-1px)}
+.br-chip:focus-visible{outline:3px solid #0D5C55;outline-offset:2px}
+.br-input{transition:border-color .15s ease, box-shadow .15s ease}
+.br-input:focus{outline:none;border-color:#0D5C55 !important;box-shadow:0 0 0 3px rgba(13,92,85,.15)}
+.br-reset:hover{background:#E3F0ED !important}
+.br-cta-dark{transition:background .15s ease, transform .15s ease}
+.br-cta-dark:hover{background:#E8942A;color:#12221F;transform:translateY(-1px)}
+.br-ghost-dark:hover{background:#163A35;color:#FFFFFF}
+@media (min-width: 900px){
+.br-aside{position:sticky;top:88px;max-height:calc(100vh - 104px);overflow-y:auto}
+}
 </style>
 </helmet>
 <div dir="rtl" style="min-height: 100vh; background: #F5F7F4; color: #12221F; font-family: 'IBM Plex Sans Arabic', 'Segoe UI', sans-serif; font-size: 16px; line-height: 1.7">
 
-<header style="background: #FFFFFF; border-bottom: 1px solid #DCE3DF">
-<div style="max-width: 1240px; margin: 0 auto; padding: 14px 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<svg aria-hidden="true" width="0" height="0" style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<linearGradient id="br-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EEF4F1"></stop><stop offset="1" stop-color="#D6E3DE"></stop></linearGradient>
+<linearGradient id="br-body" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"></stop><stop offset="1" stop-color="#DCE5E1"></stop></linearGradient>
+<linearGradient id="br-steel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E9EEEC"></stop><stop offset=".5" stop-color="#B9C6C1"></stop><stop offset="1" stop-color="#8FA09A"></stop></linearGradient>
+<radialGradient id="br-glass" cx=".4" cy=".35" r=".7"><stop offset="0" stop-color="#5D7A74"></stop><stop offset="1" stop-color="#1D3330"></stop></radialGradient>
+<linearGradient id="br-teal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#23847A"></stop><stop offset="1" stop-color="#0D5C55"></stop></linearGradient>
+</defs>
+
+<symbol id="br-unit" sc-camel-view-box="0 0 400 300">
+<rect width="400" height="300" fill="url(#br-bg)"></rect>
+<ellipse cx="215" cy="258" rx="165" ry="12" fill="#12221F" opacity=".12"></ellipse>
+<path d="M226 186V74q0-16-16-16h-46" fill="none" stroke="#8FA09A" stroke-width="7" stroke-linecap="round"></path>
+<rect x="118" y="44" width="54" height="26" rx="13" fill="url(#br-body)" stroke="#AEBDB7" stroke-width="2"></rect>
+<ellipse cx="145" cy="66" rx="18" ry="5" fill="#FFE7B0"></ellipse>
+<rect x="128" y="244" width="160" height="14" rx="7" fill="#5D6E69"></rect>
+<rect x="190" y="196" width="36" height="52" rx="8" fill="url(#br-steel)"></rect>
+<path d="M124 184L86 112L106 102L146 178Z" fill="#1A7268" stroke="#1A7268" stroke-width="12" stroke-linejoin="round"></path>
+<rect x="80" y="74" width="20" height="38" rx="10" fill="#0D5C55" transform="rotate(-28 90 93)"></rect>
+<rect x="112" y="176" width="186" height="30" rx="15" fill="url(#br-teal)"></rect>
+<path d="M292 188L334 216L326 226L286 202Z" fill="#1A7268" stroke="#1A7268" stroke-width="10" stroke-linejoin="round"></path>
+<rect x="152" y="158" width="70" height="10" rx="5" fill="#C9D4CF"></rect>
+<rect x="210" y="166" width="6" height="12" fill="#AEBDB7"></rect>
+<path d="M130 186h150" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".35"></path>
+<rect x="350" y="126" width="8" height="122" rx="4" fill="url(#br-steel)"></rect>
+<rect x="330" y="244" width="48" height="10" rx="5" fill="#5D6E69"></rect>
+<rect x="316" y="108" width="78" height="22" rx="7" fill="url(#br-body)" stroke="#AEBDB7" stroke-width="2"></rect>
+<rect x="326" y="88" width="7" height="22" rx="3.5" fill="#3C4C48"></rect>
+<rect x="342" y="84" width="7" height="26" rx="3.5" fill="#5D6E69"></rect>
+<rect x="358" y="88" width="7" height="22" rx="3.5" fill="#3C4C48"></rect>
+<rect x="374" y="92" width="7" height="18" rx="3.5" fill="#F2A33A"></rect>
+</symbol>
+
+<symbol id="br-autoclave" sc-camel-view-box="0 0 400 300">
+<rect width="400" height="300" fill="url(#br-bg)"></rect>
+<ellipse cx="200" cy="262" rx="150" ry="12" fill="#12221F" opacity=".12"></ellipse>
+<rect x="70" y="70" width="260" height="185" rx="22" fill="url(#br-body)" stroke="#AEBDB7" stroke-width="2"></rect>
+<line x1="70" y1="108" x2="330" y2="108" stroke="#C9D4CF" stroke-width="2"></line>
+<rect x="232" y="78" width="78" height="22" rx="6" fill="#12221F"></rect>
+<text x="271" y="94" text-anchor="middle" font-family="monospace" font-size="13" fill="#7CE0C8">134°C</text>
+<circle cx="96" cy="89" r="6" fill="#0D5C55"></circle>
+<circle cx="116" cy="89" r="6" fill="#F2A33A"></circle>
+<rect x="134" y="84" width="40" height="10" rx="5" fill="#DCE3DF"></rect>
+<circle cx="182" cy="182" r="58" fill="url(#br-steel)" stroke="#8FA09A" stroke-width="3"></circle>
+<circle cx="182" cy="182" r="42" fill="url(#br-glass)"></circle>
+<path d="M160 160a30 30 0 0 1 26-12" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" fill="none" opacity=".45"></path>
+<rect x="252" y="160" width="14" height="46" rx="7" fill="#8FA09A"></rect>
+<rect x="282" y="128" width="30" height="104" rx="8" fill="#EEF3F1" stroke="#C9D4CF"></rect>
+<circle cx="297" cy="146" r="5" fill="#0D5C55"></circle>
+<rect x="289" y="160" width="16" height="4" rx="2" fill="#AEBDB7"></rect>
+<rect x="289" y="170" width="16" height="4" rx="2" fill="#AEBDB7"></rect>
+<rect x="289" y="180" width="16" height="4" rx="2" fill="#AEBDB7"></rect>
+<rect x="92" y="252" width="26" height="10" rx="3" fill="#5D6E69"></rect>
+<rect x="282" y="252" width="26" height="10" rx="3" fill="#5D6E69"></rect>
+</symbol>
+
+<symbol id="br-xray" sc-camel-view-box="0 0 400 300">
+<rect width="400" height="300" fill="url(#br-bg)"></rect>
+<rect x="0" y="0" width="34" height="300" fill="#DCE5E1"></rect>
+<ellipse cx="240" cy="266" rx="120" ry="10" fill="#12221F" opacity=".08"></ellipse>
+<rect x="34" y="56" width="70" height="124" rx="12" fill="url(#br-body)" stroke="#AEBDB7" stroke-width="2"></rect>
+<circle cx="69" cy="100" r="12" fill="url(#br-steel)" stroke="#8FA09A" stroke-width="2"></circle>
+<path d="M76 100L190 132" stroke="url(#br-steel)" stroke-width="16" stroke-linecap="round"></path>
+<path d="M76 100L190 132" stroke="#8FA09A" stroke-width="2" stroke-linecap="round" opacity=".5"></path>
+<circle cx="190" cy="132" r="13" fill="#E9EEEC" stroke="#8FA09A" stroke-width="2"></circle>
+<path d="M190 132L252 100" stroke="url(#br-steel)" stroke-width="13" stroke-linecap="round"></path>
+<circle cx="252" cy="100" r="10" fill="#E9EEEC" stroke="#8FA09A" stroke-width="2"></circle>
+<path d="M252 100v38" stroke="#8FA09A" stroke-width="8" stroke-linecap="round"></path>
+<rect x="214" y="134" width="80" height="58" rx="20" fill="url(#br-body)" stroke="#AEBDB7" stroke-width="2"></rect>
+<path d="M240 178l9-15 9 15z" fill="#F2A33A"></path>
+<rect x="268" y="146" width="16" height="6" rx="3" fill="#0D5C55"></rect>
+<path d="M292 148L344 138L350 196L292 180Z" fill="#F7FAF9" stroke="#AEBDB7" stroke-width="2" stroke-linejoin="round"></path>
+<ellipse cx="347" cy="167" rx="7" ry="28" fill="#3C4C48"></ellipse>
+<ellipse cx="347" cy="167" rx="3" ry="16" fill="#12221F"></ellipse>
+<rect x="46" y="200" width="46" height="58" rx="9" fill="url(#br-body)" stroke="#AEBDB7" stroke-width="2"></rect>
+<rect x="53" y="208" width="32" height="14" rx="3" fill="#12221F"></rect>
+<text x="69" y="219" text-anchor="middle" font-family="monospace" font-size="10" fill="#7CE0C8">0.25</text>
+<circle cx="69" cy="240" r="8" fill="#0D5C55"></circle>
+<path d="M69 180v20" stroke="#5D6E69" stroke-width="3"></path>
+</symbol>
+
+<symbol id="br-apex" sc-camel-view-box="0 0 400 300">
+<rect width="400" height="300" fill="url(#br-bg)"></rect>
+<ellipse cx="200" cy="254" rx="130" ry="11" fill="#12221F" opacity=".12"></ellipse>
+<path d="M270 196C322 204 334 240 304 256C290 263 274 252 262 254" fill="none" stroke="#3C4C48" stroke-width="4" stroke-linecap="round"></path>
+<path d="M270 172C318 168 340 128 328 104" fill="none" stroke="#3C4C48" stroke-width="4" stroke-linecap="round"></path>
+<path d="M328 104q-6-16-22-8q-6 4-2 12" fill="none" stroke="#8FA09A" stroke-width="6" stroke-linecap="round"></path>
+<rect x="240" y="248" width="24" height="12" rx="4" fill="#F2A33A"></rect>
+<rect x="110" y="88" width="162" height="156" rx="26" fill="url(#br-body)" stroke="#AEBDB7" stroke-width="2"></rect>
+<rect x="128" y="106" width="126" height="86" rx="10" fill="#12221F"></rect>
+<line x1="158" y1="112" x2="158" y2="168" stroke="#F2A33A" stroke-width="2"></line>
+<path d="M150 120c-6 0-10 5-10 13 0 8 4 13 6 20l3 20c1 4 4 4 5 0l3-16 3 16c1 4 4 4 5 0l3-20c2-7 6-12 6-20 0-8-4-13-10-13-4 0-5 2-7 2s-3-2-7-2z" fill="none" stroke="#7CE0C8" stroke-width="2"></path>
+<rect x="200" y="166" width="9" height="14" rx="2" fill="#7CE0C8"></rect>
+<rect x="214" y="156" width="9" height="24" rx="2" fill="#7CE0C8"></rect>
+<rect x="228" y="144" width="9" height="36" rx="2" fill="#F2A33A"></rect>
+<text x="218" y="130" text-anchor="middle" font-family="monospace" font-size="14" fill="#7CE0C8">0.5</text>
+<circle cx="146" cy="216" r="10" fill="#0D5C55"></circle>
+<circle cx="176" cy="216" r="10" fill="#FFFFFF" stroke="#C9D4CF" stroke-width="2"></circle>
+<rect x="202" y="208" width="48" height="16" rx="8" fill="#DCE3DF"></rect>
+</symbol>
+
+<symbol id="br-contra" sc-camel-view-box="0 0 400 300">
+<rect width="400" height="300" fill="url(#br-bg)"></rect>
+<ellipse cx="200" cy="246" rx="150" ry="11" fill="#12221F" opacity=".12"></ellipse>
+<g transform="rotate(-14 200 160)">
+<rect x="44" y="146" width="34" height="34" rx="8" fill="#8FA09A"></rect>
+<rect x="36" y="154" width="12" height="18" rx="3" fill="#5D6E69"></rect>
+<path d="M74 146L262 154L262 174L74 182Z" fill="url(#br-steel)" stroke="#8FA09A" stroke-width="2" stroke-linejoin="round"></path>
+<rect x="92" y="147" width="10" height="34" fill="#0D5C55"></rect>
+<g stroke="#8FA09A" stroke-width="2">
+<line x1="124" y1="150" x2="124" y2="178"></line>
+<line x1="134" y1="150" x2="134" y2="178"></line>
+<line x1="144" y1="151" x2="144" y2="177"></line>
+<line x1="154" y1="151" x2="154" y2="177"></line>
+</g>
+<path d="M170 157L252 160" stroke="#FFFFFF" stroke-width="3" opacity=".6" stroke-linecap="round"></path>
+<path d="M260 154L300 128L318 146L260 174Z" fill="url(#br-steel)" stroke="#8FA09A" stroke-width="2" stroke-linejoin="round"></path>
+<circle cx="312" cy="134" r="20" fill="url(#br-steel)" stroke="#8FA09A" stroke-width="2"></circle>
+<circle cx="312" cy="134" r="11" fill="#F7FAF9" stroke="#AEBDB7"></circle>
+<path d="M318 152L328 186" stroke="#5D6E69" stroke-width="4" stroke-linecap="round"></path>
+<circle cx="329" cy="188" r="4" fill="#AEBDB7"></circle>
+</g>
+</symbol>
+
+<symbol id="br-surg" sc-camel-view-box="0 0 400 300">
+<rect width="400" height="300" fill="url(#br-bg)"></rect>
+<ellipse cx="210" cy="262" rx="160" ry="12" fill="#12221F" opacity=".12"></ellipse>
+<rect x="258" y="40" width="6" height="84" rx="3" fill="url(#br-steel)"></rect>
+<path d="M261 46h28" stroke="#8FA09A" stroke-width="4" stroke-linecap="round"></path>
+<rect x="272" y="52" width="36" height="54" rx="12" fill="#DCEAF5" stroke="#A9BFE0" stroke-width="2"></rect>
+<rect x="278" y="72" width="24" height="28" rx="6" fill="#BFD5EC" opacity=".8"></rect>
+<path d="M290 106C292 140 300 170 330 186" fill="none" stroke="#A9BFE0" stroke-width="3"></path>
+<rect x="76" y="118" width="196" height="124" rx="20" fill="url(#br-body)" stroke="#AEBDB7" stroke-width="2"></rect>
+<rect x="96" y="136" width="114" height="60" rx="8" fill="#12221F"></rect>
+<text x="153" y="164" text-anchor="middle" font-family="monospace" font-size="20" fill="#7CE0C8">35 Ncm</text>
+<text x="153" y="184" text-anchor="middle" font-family="monospace" font-size="12" fill="#7CE0C8" opacity=".7">1200 rpm</text>
+<circle cx="240" cy="152" r="11" fill="#0D5C55"></circle>
+<circle cx="240" cy="182" r="11" fill="#FFFFFF" stroke="#C9D4CF" stroke-width="2"></circle>
+<rect x="96" y="210" width="30" height="16" rx="5" fill="#E3F0ED" stroke="#9CCBC2"></rect>
+<rect x="134" y="210" width="30" height="16" rx="5" fill="#FFFFFF" stroke="#C9D4CF"></rect>
+<rect x="172" y="210" width="30" height="16" rx="5" fill="#FFFFFF" stroke="#C9D4CF"></rect>
+<path d="M272 210C312 206 320 196 334 190" fill="none" stroke="#3C4C48" stroke-width="4" stroke-linecap="round"></path>
+<rect x="330" y="176" width="58" height="14" rx="7" fill="url(#br-steel)" stroke="#8FA09A" stroke-width="1.5" transform="rotate(-30 340 183)"></rect>
+<path d="M262 242C268 252 280 256 296 254" fill="none" stroke="#3C4C48" stroke-width="3"></path>
+<rect x="294" y="244" width="84" height="20" rx="10" fill="#3C4C48"></rect>
+<rect x="304" y="236" width="62" height="12" rx="6" fill="#5D6E69"></rect>
+</symbol>
+
+<symbol id="br-cure" sc-camel-view-box="0 0 400 300">
+<rect width="400" height="300" fill="url(#br-bg)"></rect>
+<ellipse cx="200" cy="260" rx="150" ry="11" fill="#12221F" opacity=".12"></ellipse>
+<rect x="70" y="214" width="170" height="40" rx="18" fill="url(#br-body)" stroke="#AEBDB7" stroke-width="2"></rect>
+<rect x="96" y="210" width="110" height="10" rx="5" fill="#C9D4CF"></rect>
+<circle cx="222" cy="236" r="4" fill="#0D5C55"></circle>
+<g transform="rotate(-16 210 170)">
+<rect x="96" y="150" width="210" height="36" rx="18" fill="url(#br-body)" stroke="#AEBDB7" stroke-width="2"></rect>
+<path d="M114 158h170" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".8"></path>
+<rect x="160" y="160" width="40" height="16" rx="8" fill="#0D5C55"></rect>
+<rect x="214" y="161" width="34" height="14" rx="4" fill="#12221F"></rect>
+<text x="231" y="172" text-anchor="middle" font-family="monospace" font-size="10" fill="#7CE0C8">20s</text>
+<path d="M304 158L330 162L330 174L304 178Z" fill="#AEBDB7"></path>
+<path d="M330 168Q362 168 370 200" fill="none" stroke="#8FA09A" stroke-width="10" stroke-linecap="round"></path>
+<ellipse cx="324" cy="168" rx="5" ry="20" fill="#F2A33A" opacity=".85"></ellipse>
+<circle cx="371" cy="206" r="24" fill="#5B8FE0" opacity=".2"></circle>
+<circle cx="371" cy="206" r="11" fill="#5B8FE0" opacity=".45"></circle>
+</g>
+</symbol>
+
+<symbol id="br-rotary" sc-camel-view-box="0 0 400 300">
+<rect width="400" height="300" fill="url(#br-bg)"></rect>
+<ellipse cx="210" cy="258" rx="160" ry="12" fill="#12221F" opacity=".12"></ellipse>
+<rect x="64" y="146" width="128" height="106" rx="18" fill="url(#br-body)" stroke="#AEBDB7" stroke-width="2"></rect>
+<rect x="82" y="164" width="92" height="44" rx="7" fill="#12221F"></rect>
+<text x="128" y="186" text-anchor="middle" font-family="monospace" font-size="15" fill="#7CE0C8">300 rpm</text>
+<text x="128" y="201" text-anchor="middle" font-family="monospace" font-size="10" fill="#7CE0C8" opacity=".7">2.0 N·cm</text>
+<circle cx="98" cy="228" r="8" fill="#0D5C55"></circle>
+<circle cx="122" cy="228" r="8" fill="#FFFFFF" stroke="#C9D4CF" stroke-width="2"></circle>
+<rect x="140" y="221" width="34" height="14" rx="7" fill="#DCE3DF"></rect>
+<g transform="rotate(-38 270 175)">
+<rect x="196" y="160" width="130" height="32" rx="16" fill="url(#br-body)" stroke="#AEBDB7" stroke-width="2"></rect>
+<path d="M210 168h100" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".8"></path>
+<circle cx="220" cy="176" r="5" fill="#0D5C55"></circle>
+<rect x="240" y="170" width="40" height="12" rx="6" fill="#DCE3DF"></rect>
+<path d="M324 166L358 170L358 182L324 186Z" fill="url(#br-steel)" stroke="#8FA09A"></path>
+<circle cx="366" cy="176" r="11" fill="url(#br-steel)" stroke="#8FA09A" stroke-width="2"></circle>
+<path d="M366 190V220" stroke="#5D6E69" stroke-width="3" stroke-linecap="round"></path>
+<rect x="361" y="186" width="10" height="6" rx="2" fill="#F2A33A"></rect>
+</g>
+</symbol>
+
+<symbol id="br-micro" sc-camel-view-box="0 0 400 300">
+<rect width="400" height="300" fill="url(#br-bg)"></rect>
+<ellipse cx="200" cy="258" rx="160" ry="12" fill="#12221F" opacity=".12"></ellipse>
+<path d="M246 152C266 172 264 204 238 214" fill="none" stroke="#3C4C48" stroke-width="5" stroke-linecap="round"></path>
+<rect x="196" y="120" width="30" height="20" rx="6" fill="#AEBDB7"></rect>
+<rect x="56" y="136" width="184" height="108" rx="16" fill="url(#br-body)" stroke="#AEBDB7" stroke-width="2"></rect>
+<circle cx="110" cy="190" r="38" fill="none" stroke="#C9D4CF" stroke-width="4" stroke-dasharray="3 7"></circle>
+<circle cx="110" cy="190" r="28" fill="url(#br-steel)" stroke="#8FA09A" stroke-width="2"></circle>
+<circle cx="110" cy="190" r="18" fill="#F7FAF9"></circle>
+<path d="M110 190L96 176" stroke="#0D5C55" stroke-width="4" stroke-linecap="round"></path>
+<rect x="166" y="166" width="50" height="22" rx="11" fill="#DCE3DF"></rect>
+<circle cx="204" cy="177" r="8" fill="#0D5C55"></circle>
+<circle cx="176" cy="214" r="4" fill="#0D5C55"></circle>
+<circle cx="192" cy="214" r="4" fill="#F2A33A"></circle>
+<rect x="166" y="224" width="50" height="6" rx="3" fill="#DCE3DF"></rect>
+<g transform="rotate(-22 300 130)">
+<rect x="240" y="116" width="120" height="30" rx="14" fill="url(#br-steel)" stroke="#8FA09A" stroke-width="2"></rect>
+<g stroke="#8FA09A" stroke-width="2">
+<line x1="262" y1="119" x2="262" y2="143"></line>
+<line x1="270" y1="119" x2="270" y2="143"></line>
+<line x1="278" y1="119" x2="278" y2="143"></line>
+<line x1="286" y1="119" x2="286" y2="143"></line>
+</g>
+<path d="M296 124h56" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".6"></path>
+<rect x="358" y="122" width="20" height="18" rx="5" fill="#8FA09A"></rect>
+<path d="M378 131H396" stroke="#5D6E69" stroke-width="3" stroke-linecap="round"></path>
+</g>
+</symbol>
+
+<symbol id="br-iocam" sc-camel-view-box="0 0 400 300">
+<rect width="400" height="300" fill="url(#br-bg)"></rect>
+<ellipse cx="200" cy="256" rx="160" ry="11" fill="#12221F" opacity=".12"></ellipse>
+<rect x="145" y="196" width="20" height="36" fill="url(#br-steel)"></rect>
+<rect x="108" y="228" width="94" height="12" rx="6" fill="#5D6E69"></rect>
+<rect x="60" y="66" width="190" height="134" rx="14" fill="#12221F" stroke="#3C4C48" stroke-width="6"></rect>
+<rect x="72" y="78" width="166" height="110" rx="6" fill="url(#br-glass)"></rect>
+<rect x="84" y="102" width="32" height="64" rx="14" fill="#F4F1E8"></rect>
+<rect x="122" y="98" width="34" height="68" rx="15" fill="#F7F4EC"></rect>
+<rect x="162" y="100" width="32" height="66" rx="14" fill="#F4F1E8"></rect>
+<rect x="200" y="106" width="30" height="60" rx="13" fill="#EDE9DE"></rect>
+<path d="M72 152q24 10 41 0q19 10 40 0q20 10 41 0q19 10 44 0v36H72z" fill="#C07B78"></path>
+<g stroke="#7CE0C8" stroke-width="2.5" fill="none" stroke-linecap="round">
+<path d="M84 90h14M84 90v14"></path>
+<path d="M226 90h-14M226 90v14"></path>
+</g>
+<circle cx="224" cy="176" r="4" fill="#E5534B"></circle>
+<path d="M246 232C226 250 196 252 172 236" fill="none" stroke="#3C4C48" stroke-width="4" stroke-linecap="round"></path>
+<g transform="rotate(-28 310 200)">
+<rect x="240" y="188" width="140" height="26" rx="13" fill="url(#br-body)" stroke="#AEBDB7" stroke-width="2"></rect>
+<path d="M256 195h90" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".8"></path>
+<rect x="354" y="190" width="30" height="22" rx="8" fill="#3C4C48"></rect>
+<circle cx="372" cy="201" r="5" fill="#7CE0C8"></circle>
+<rect x="282" y="184" width="24" height="7" rx="3.5" fill="#0D5C55"></rect>
+</g>
+</symbol>
+
+<symbol id="br-loupe" sc-camel-view-box="0 0 400 300">
+<rect width="400" height="300" fill="url(#br-bg)"></rect>
+<ellipse cx="200" cy="252" rx="160" ry="11" fill="#12221F" opacity=".12"></ellipse>
+<path d="M222 106C282 100 334 160 330 214" fill="none" stroke="#3C4C48" stroke-width="3"></path>
+<rect x="300" y="212" width="62" height="36" rx="10" fill="#3C4C48"></rect>
+<circle cx="316" cy="230" r="4" fill="#7CE0C8"></circle>
+<rect x="328" y="226" width="24" height="8" rx="4" fill="#5D6E69"></rect>
+<path d="M102 166L58 154L50 184" fill="none" stroke="#3C4C48" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M298 166L342 154L350 184" fill="none" stroke="#3C4C48" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"></path>
+<circle cx="148" cy="168" r="46" fill="#E8F1EE" stroke="#3C4C48" stroke-width="8"></circle>
+<circle cx="252" cy="168" r="46" fill="#E8F1EE" stroke="#3C4C48" stroke-width="8"></circle>
+<path d="M194 162Q200 146 206 162" fill="none" stroke="#3C4C48" stroke-width="8" stroke-linecap="round"></path>
+<circle cx="148" cy="168" r="30" fill="url(#br-steel)" stroke="#8FA09A" stroke-width="2"></circle>
+<circle cx="148" cy="168" r="19" fill="url(#br-glass)"></circle>
+<path d="M137 158a14 14 0 0 1 12-6" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" fill="none" opacity=".5"></path>
+<circle cx="252" cy="168" r="30" fill="url(#br-steel)" stroke="#8FA09A" stroke-width="2"></circle>
+<circle cx="252" cy="168" r="19" fill="url(#br-glass)"></circle>
+<path d="M241 158a14 14 0 0 1 12-6" stroke="#FFFFFF" stroke-width="3.5" stroke-linecap="round" fill="none" opacity=".5"></path>
+<rect x="194" y="116" width="12" height="34" rx="4" fill="#8FA09A"></rect>
+<rect x="178" y="90" width="44" height="30" rx="10" fill="url(#br-body)" stroke="#AEBDB7" stroke-width="2"></rect>
+<circle cx="200" cy="105" r="8" fill="#FFE7B0" stroke="#F2A33A" stroke-width="2"></circle>
+</symbol>
+</svg>
+
+<header style="background: #FFFFFF; border-bottom: 1px solid #DCE3DF; position: sticky; top: 0; z-index: 5">
+<div style="max-width: 1240px; margin: 0 auto; padding: 12px 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
 <a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; color: #12221F">
 <span style="width: 40px; height: 40px; border-radius: 12px; background: #0D5C55; color: #FFFFFF; display: flex; align-items: center; justify-content: center">
-<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3c-2.5 0-4 2-4 4.5 0 3 1.5 4.5 2 7 .5 3 1 6.5 2.5 6.5S9 18 10 15.5c.5-1.2 1.5-1.2 2 0 1 2.5 1.5 5.5 3 5.5s2-3.5 2.5-6.5c.5-2.5 2-4 2-7C19.5 5 18 3 15.5 3 13.5 3 13 4 12 4S10 3 7 3z"></path></svg>
+<svg aria-hidden="true" width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3c-2.5 0-4 2-4 4.5 0 3 1.5 4.5 2 7 .5 3 1 6.5 2.5 6.5S9 18 10 15.5c.5-1.2 1.5-1.2 2 0 1 2.5 1.5 5.5 3 5.5s2-3.5 2.5-6.5c.5-2.5 2-4 2-7C19.5 5 18 3 15.5 3 13.5 3 13 4 12 4S10 3 7 3z"></path></svg>
 </span>
 <span style="font-size: 20px; font-weight: 700">استعمال طبيب</span>
 </a>
+<nav class="br-nav" aria-label="الرئيسية" style="display: flex; flex-wrap: wrap; gap: 22px; font-size: 15px">
+<a href="Browse.dc.html" aria-current="page">كل الأجهزة</a>
+<a href="Main.dc.html#how">إزاي بنشتغل</a>
+<a href="Main.dc.html#warranty">الضمان</a>
+<a href="About.dc.html">مين إحنا</a>
+</nav>
 <div style="display: flex; flex-wrap: wrap; gap: 10px">
-<a href="Main.dc.html#sell" style="padding: 10px 18px; border-radius: 12px; border: 1px solid #C9D4CF; color: #12221F; font-weight: 600; min-height: 44px; box-sizing: border-box; display: flex; align-items: center">بيع جهازك</a>
-<a href="Order-Tracker.dc.html" style="padding: 10px 18px; border-radius: 12px; border: 1px solid #C9D4CF; color: #12221F; font-weight: 600; min-height: 44px; box-sizing: border-box; display: flex; align-items: center">تابع طلبك</a>
+<a href="Order-Tracker.dc.html" class="br-ghost" style="padding: 10px 16px; border-radius: 12px; border: 1px solid #C9D4CF; color: #12221F; font-weight: 600; min-height: 44px; box-sizing: border-box; display: flex; align-items: center">تابع طلبك</a>
+<a href="Sell.dc.html" class="br-amber" style="padding: 10px 18px; border-radius: 12px; background: #F2A33A; color: #12221F; font-weight: 700; min-height: 44px; box-sizing: border-box; display: flex; align-items: center">بيع جهازك</a>
 </div>
 </div>
 </header>
 
 <section style="background: #FFFFFF; border-bottom: 1px solid #E5EBE8">
-<div style="max-width: 1240px; margin: 0 auto; padding: 18px 20px 30px; display: flex; flex-direction: column; gap: 16px">
-<div style="font-size: 14px; color: #4A5A56"><a href="Main.dc.html">الرئيسية</a> / كل الأجهزة</div>
+<div style="max-width: 1240px; margin: 0 auto; padding: 18px 20px 30px; display: flex; flex-direction: column; gap: 18px">
+<div style="font-size: 14px; color: #4A5A56; display: flex; flex-wrap: wrap; gap: 6px; align-items: center"><a href="Main.dc.html">الرئيسية</a><span aria-hidden="true">›</span><span>كل الأجهزة</span></div>
 <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px">
-<div>
+<div style="flex: 1 1 420px; min-width: 0">
 <h1 style="margin: 0; font-size: 36px; line-height: 1.3">كل الأجهزة</h1>
 <p style="margin: 4px 0 0; color: #4A5A56; font-size: 17px">كل جهاز عليه علامة بتقولك اتفحص ولا هيتفحص عند الطلب، والضمان مكتوب عليه.</p>
 </div>
-<div style="display: flex; flex-wrap: wrap; gap: 16px; font-size: 14px">
-<span style="display: flex; align-items: center; gap: 6px"><span style="padding: 2px 10px; border-radius: 999px; background: #0D5C55; color: #FFFFFF; font-weight: 600">تم الفحص</span>التقرير متاح دلوقتي</span>
-<span style="display: flex; align-items: center; gap: 6px"><span style="padding: 2px 10px; border-radius: 999px; background: #E6EDF7; color: #24508F; font-weight: 600">يُفحص عند الطلب</span>بنفحصه قبل الشحن</span>
+<div style="display: flex; flex-wrap: wrap; gap: 10px; font-size: 14px">
+<span style="display: flex; align-items: center; gap: 8px; padding: 6px 12px 6px 6px; border-radius: 999px; background: #F5F7F4; border: 1px solid #E5EBE8"><span style="padding: 2px 10px; border-radius: 999px; background: #0D5C55; color: #FFFFFF; font-weight: 600; display: flex; align-items: center; gap: 4px"><svg aria-hidden="true" width="13" height="13" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"></path></svg>تم الفحص</span>التقرير متاح دلوقتي</span>
+<span style="display: flex; align-items: center; gap: 8px; padding: 6px 12px 6px 6px; border-radius: 999px; background: #F5F7F4; border: 1px solid #E5EBE8"><span style="padding: 2px 10px; border-radius: 999px; background: #E6EDF7; color: #24508F; font-weight: 600; display: flex; align-items: center; gap: 4px"><svg aria-hidden="true" width="13" height="13" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"></circle><path d="M20 20l-4.5-4.5"></path></svg>يُفحص عند الطلب</span>بنفحصه قبل الشحن</span>
 </div>
 </div>
 <label style="position: relative; display: block">
 <span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">ابحث عن جهاز</span>
-<span style="position: absolute; top: 50%; right: 16px; transform: translateY(-50%); color: #5D6E69; display: flex"><svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"></circle><path d="M20 20l-4.5-4.5"></path></svg></span>
-<input type="search" value="{{q}}" onChange="{{onQ}}" placeholder="ابحث باسم الجهاز: يونيت، أوتوكلاف، إندو موتور…" style="width: 100%; box-sizing: border-box; min-height: 54px; padding: 0 50px 0 16px; border-radius: 14px; border: 1px solid #C9D4CF; background: #F5F7F4; font: inherit; font-size: 17px; color: #12221F">
+<span style="position: absolute; top: 50%; right: 18px; transform: translateY(-50%); color: #0D5C55; display: flex"><svg aria-hidden="true" width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"></circle><path d="M20 20l-4.5-4.5"></path></svg></span>
+<input type="search" class="br-input" value="{{q}}" sc-camel-on-change="{{onQ}}" placeholder="ابحث باسم الجهاز: يونيت، أوتوكلاف، إندو موتور…" style="width: 100%; box-sizing: border-box; min-height: 56px; padding: 0 52px 0 16px; border-radius: 16px; border: 1px solid #C9D4CF; background: #F5F7F4; font: inherit; font-size: 17px; color: #12221F">
 </label>
 </div>
 </section>
 
-<section style="max-width: 1240px; margin: 0 auto; padding: 28px 20px 40px; display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start">
+<section style="max-width: 1240px; margin: 0 auto; padding: 28px 20px 56px; display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start">
 
-<aside aria-label="تصفية النتائج" style="flex: 1 1 260px; min-width: 0; padding: 22px; border-radius: 20px; background: #FFFFFF; border: 1px solid #DCE3DF; display: flex; flex-direction: column; gap: 22px">
-<div style="display: flex; justify-content: space-between; align-items: center">
-<span style="font-weight: 700; font-size: 18px">تصفية</span>
-<button type="button" onClick="{{reset}}" style="min-height: 36px; padding: 0 12px; border: 0; background: transparent; color: #0D5C55; font: inherit; font-weight: 600; cursor: pointer">مسح الكل</button>
+<aside class="br-aside" aria-label="تصفية النتائج" style="flex: 1 1 260px; min-width: 0; box-sizing: border-box; padding: 22px; border-radius: 24px; background: #FFFFFF; border: 1px solid #DCE3DF; box-shadow: 0 10px 30px rgba(18, 34, 31, 0.06); display: flex; flex-direction: column; gap: 0">
+<div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 14px; border-bottom: 1px solid #E5EBE8">
+<span style="font-weight: 700; font-size: 18px; display: flex; align-items: center; gap: 10px"><span style="width: 34px; height: 34px; border-radius: 10px; background: #E3F0ED; color: #0D5C55; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16l-6 8v5l-4 2v-7z"></path></svg></span>تصفية</span>
+<button type="button" class="br-reset" sc-camel-on-click="{{reset}}" style="min-height: 36px; padding: 0 12px; border: 0; border-radius: 10px; background: transparent; color: #0D5C55; font: inherit; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px"><svg aria-hidden="true" width="15" height="15" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.3-5.7L4 8.6"></path><path d="M4 4v4.6h4.6"></path></svg>مسح الكل</button>
 </div>
 
-<div style="display: flex; flex-direction: column; gap: 10px">
-<span style="font-weight: 600; font-size: 15px">حالة الفحص</span>
+<div role="group" aria-label="حالة الفحص" style="display: flex; flex-direction: column; gap: 10px; padding: 18px 0; border-bottom: 1px solid #E5EBE8">
+<span style="font-weight: 600; font-size: 15px; display: flex; align-items: center; gap: 8px"><svg aria-hidden="true" width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none" stroke="#0D5C55" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"></path><path d="M9 12l2 2 4-4"></path></svg>حالة الفحص</span>
 <div style="display: flex; flex-wrap: wrap; gap: 8px">
 <sc-for list="{{stateChips}}" as="c" hint-placeholder-count="3">
-<button type="button" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="min-height: 40px; padding: 4px 14px; border-radius: 999px; border: 1px solid {{c.bd}}; background: {{c.bg}}; color: {{c.fg}}; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer">{{c.label}}</button>
+<button type="button" class="br-chip" sc-camel-on-click="{{c.pick}}" aria-pressed="{{c.pressed}}" style="min-height: 40px; padding: 4px 14px; border-radius: 999px; border: 1px solid {{c.bd}}; background: {{c.bg}}; color: {{c.fg}}; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer">{{c.label}}</button>
 </sc-for>
 </div>
 </div>
 
-<div style="display: flex; flex-direction: column; gap: 10px">
-<span style="font-weight: 600; font-size: 15px">نوع الجهاز</span>
+<div role="group" aria-label="نوع الجهاز" style="display: flex; flex-direction: column; gap: 10px; padding: 18px 0; border-bottom: 1px solid #E5EBE8">
+<span style="font-weight: 600; font-size: 15px; display: flex; align-items: center; gap: 8px"><svg aria-hidden="true" width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none" stroke="#0D5C55" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="2"></rect><rect x="13" y="4" width="7" height="7" rx="2"></rect><rect x="4" y="13" width="7" height="7" rx="2"></rect><rect x="13" y="13" width="7" height="7" rx="2"></rect></svg>نوع الجهاز</span>
 <div style="display: flex; flex-wrap: wrap; gap: 8px">
 <sc-for list="{{catChips}}" as="c" hint-placeholder-count="5">
-<button type="button" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="min-height: 40px; padding: 4px 14px; border-radius: 999px; border: 1px solid {{c.bd}}; background: {{c.bg}}; color: {{c.fg}}; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer">{{c.label}}</button>
+<button type="button" class="br-chip" sc-camel-on-click="{{c.pick}}" aria-pressed="{{c.pressed}}" style="min-height: 40px; padding: 4px 14px; border-radius: 999px; border: 1px solid {{c.bd}}; background: {{c.bg}}; color: {{c.fg}}; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer">{{c.label}}</button>
 </sc-for>
 </div>
 </div>
 
-<div style="display: flex; flex-direction: column; gap: 10px">
-<span style="font-weight: 600; font-size: 15px">مدة الصيانة</span>
+<div role="group" aria-label="مدة الصيانة" style="display: flex; flex-direction: column; gap: 10px; padding: 18px 0; border-bottom: 1px solid #E5EBE8">
+<span style="font-weight: 600; font-size: 15px; display: flex; align-items: center; gap: 8px"><svg aria-hidden="true" width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none" stroke="#0D5C55" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4 2.5-2.5z"></path></svg>مدة الصيانة</span>
 <div style="display: flex; flex-wrap: wrap; gap: 8px">
 <sc-for list="{{maintChips}}" as="c" hint-placeholder-count="3">
-<button type="button" onClick="{{c.pick}}" aria-pressed="{{c.pressed}}" style="min-height: 40px; padding: 4px 14px; border-radius: 999px; border: 1px solid {{c.bd}}; background: {{c.bg}}; color: {{c.fg}}; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer">{{c.label}}</button>
+<button type="button" class="br-chip" sc-camel-on-click="{{c.pick}}" aria-pressed="{{c.pressed}}" style="min-height: 40px; padding: 4px 14px; border-radius: 999px; border: 1px solid {{c.bd}}; background: {{c.bg}}; color: {{c.fg}}; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer">{{c.label}}</button>
 </sc-for>
 </div>
 </div>
 
-<div style="padding: 14px; border-radius: 14px; background: #E3F0ED; font-size: 14px; color: #0B4A44; display: flex; gap: 10px; align-items: flex-start">
-<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex: none; margin-top: 2px"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>
-<span>على كل الأجهزة: استبدال أو استرجاع 14 يوم، وضمان تشغيل 14 يوم، وفلوسك محفوظة لحد الاستلام.</span>
+<div role="group" aria-label="حالة المنتج" style="display: flex; flex-direction: column; gap: 10px; padding: 18px 0; border-bottom: 1px solid #E5EBE8">
+<span style="font-weight: 600; font-size: 15px; display: flex; align-items: center; gap: 8px"><svg aria-hidden="true" width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none" stroke="#0D5C55" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z"></path></svg>حالة المنتج</span>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{condChips}}" as="c" hint-placeholder-count="4">
+<button type="button" class="br-chip" sc-camel-on-click="{{c.pick}}" aria-pressed="{{c.pressed}}" style="min-height: 40px; padding: 4px 14px; border-radius: 999px; border: 1px solid {{c.bd}}; background: {{c.bg}}; color: {{c.fg}}; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer">{{c.label}}</button>
+</sc-for>
+</div>
+</div>
+
+<div role="group" aria-label="السعر" style="display: flex; flex-direction: column; gap: 10px; padding: 18px 0">
+<span style="font-weight: 600; font-size: 15px; display: flex; align-items: center; gap: 8px"><svg aria-hidden="true" width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none" stroke="#0D5C55" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12V4h8l10 10-8 8z"></path><circle cx="7.5" cy="8.5" r="1.5"></circle></svg>السعر (ج.م)</span>
+<div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+<label style="display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: #4A5A56">من
+<input type="text" class="br-input" inputmode="numeric" value="{{pminVal}}" sc-camel-on-change="{{onPmin}}" placeholder="0" style="min-height: 44px; padding: 0 12px; border-radius: 12px; border: 1px solid #C9D4CF; background: #F5F7F4; font: inherit; font-size: 15px; color: #12221F; min-width: 0">
+</label>
+<label style="display: flex; flex-direction: column; gap: 4px; font-size: 13px; color: #4A5A56">لحد
+<input type="text" class="br-input" inputmode="numeric" value="{{pmaxVal}}" sc-camel-on-change="{{onPmax}}" placeholder="أي سعر" style="min-height: 44px; padding: 0 12px; border-radius: 12px; border: 1px solid #C9D4CF; background: #F5F7F4; font: inherit; font-size: 15px; color: #12221F; min-width: 0">
+</label>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{sortChips}}" as="c" hint-placeholder-count="3">
+<button type="button" class="br-chip" sc-camel-on-click="{{c.pick}}" aria-pressed="{{c.pressed}}" style="min-height: 40px; padding: 4px 14px; border-radius: 999px; border: 1px solid {{c.bd}}; background: {{c.bg}}; color: {{c.fg}}; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer">{{c.label}}</button>
+</sc-for>
+</div>
+</div>
+
+<div style="padding: 14px; border-radius: 16px; background: #E3F0ED; border: 1px solid #9CCBC2; font-size: 14px; color: #0B4A44; display: flex; gap: 10px; align-items: flex-start">
+<span style="flex: none; width: 32px; height: 32px; border-radius: 10px; background: #0D5C55; color: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="17" height="17" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg></span>
+<span>على كل الأجهزة: استبدال أو استرجاع 3 أيام، وضمان تشغيل 3 أيام، وفلوسك محفوظة لحد الاستلام.</span>
 </div>
 </aside>
 
 <div style="flex: 999 1 600px; min-width: 0; display: flex; flex-direction: column; gap: 18px">
-<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px">
-<span style="font-weight: 700; font-size: 18px" aria-live="polite">{{countLabel}}</span>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; padding: 10px 10px 10px 14px; border-radius: 16px; background: #FFFFFF; border: 1px solid #DCE3DF">
+<span style="font-weight: 700; font-size: 18px; display: flex; align-items: center; gap: 10px" aria-live="polite"><span aria-hidden="true" style="width: 34px; height: 34px; border-radius: 10px; background: #F5F7F4; color: #0D5C55; display: flex; align-items: center; justify-content: center"><svg width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="2"></rect><rect x="13" y="4" width="7" height="7" rx="2"></rect><rect x="4" y="13" width="7" height="7" rx="2"></rect><rect x="13" y="13" width="7" height="7" rx="2"></rect></svg></span>{{countLabel}}</span>
 <label style="display: flex; align-items: center; gap: 8px; font-size: 15px; color: #4A5A56">ترتيب حسب
-<select style="min-height: 42px; padding: 0 10px; border-radius: 10px; border: 1px solid #C9D4CF; background: #FFFFFF; font: inherit; color: #12221F">
-<option>الأحدث</option>
-<option>الأقرب ليك</option>
-<option>السعر: من الأقل</option>
-<option>السعر: من الأعلى</option>
-</select>
+<sc-raw-select class="br-input" value="{{sortVal}}" sc-camel-on-change="{{onSort}}" style="min-height: 42px; padding: 0 10px; border-radius: 10px; border: 1px solid #C9D4CF; background: #FFFFFF; font: inherit; color: #12221F">
+<option value="new">الأحدث</option>
+<option value="asc">من الأقل سعراً للأعلى</option>
+<option value="desc">من الأعلى سعراً للأقل</option>
+</sc-raw-select>
 </label>
 </div>
 
 <sc-if value="{{hasItems}}" hint-placeholder-val="{{true}}">
-<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 18px">
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px">
 <sc-for list="{{items}}" as="item" hint-placeholder-count="6">
-<a href="{{item.href}}" style="display: flex; flex-direction: column; border-radius: 18px; border: 1px solid #DCE3DF; background: #FFFFFF; overflow: hidden; color: #12221F">
-<div style="position: relative; height: 170px; background: #E7EDEA; display: flex; align-items: center; justify-content: center; color: #5D6E69; font-size: 13px">{{item.photo}}
+<a href="{{item.href}}" class="br-card" style="display: flex; flex-direction: column; border-radius: 22px; border: 1px solid #DCE3DF; background: #FFFFFF; overflow: hidden; color: #12221F; box-shadow: 0 4px 14px rgba(18, 34, 31, 0.04)">
+<div class="br-img" style="position: relative; aspect-ratio: 4 / 3; background: #E7EDEA; overflow: hidden">
+<svg role="img" aria-label="{{item.title}}" sc-camel-view-box="0 0 400 300" style="display: block; width: 100%; height: 100%"><use href="{{item.img}}"></use></svg>
 <sc-if value="{{item.inspected}}" hint-placeholder-val="{{true}}">
-<span style="position: absolute; top: 12px; right: 12px; padding: 4px 10px; border-radius: 999px; background: #0D5C55; color: #FFFFFF; font-size: 12px; font-weight: 600">تم الفحص</span>
+<span style="position: absolute; top: 12px; right: 12px; padding: 4px 11px; border-radius: 999px; background: #0D5C55; color: #FFFFFF; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 5px; box-shadow: 0 2px 8px rgba(18, 34, 31, 0.18)"><svg aria-hidden="true" width="13" height="13" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"></path></svg>تم الفحص</span>
 </sc-if>
 <sc-if value="{{item.onOrder}}" hint-placeholder-val="{{false}}">
-<span style="position: absolute; top: 12px; right: 12px; padding: 4px 10px; border-radius: 999px; background: #E6EDF7; color: #24508F; font-size: 12px; font-weight: 600">يُفحص عند الطلب</span>
+<span style="position: absolute; top: 12px; right: 12px; padding: 4px 11px; border-radius: 999px; background: #E6EDF7; color: #24508F; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 5px; box-shadow: 0 2px 8px rgba(18, 34, 31, 0.12)"><svg aria-hidden="true" width="13" height="13" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"></circle><path d="M20 20l-4.5-4.5"></path></svg>يُفحص عند الطلب</span>
 </sc-if>
+<span style="position: absolute; bottom: 10px; left: 10px; padding: 3px 10px; border-radius: 999px; background: rgba(255, 255, 255, 0.92); color: #3C4C48; font-size: 12px; font-weight: 500; display: flex; align-items: center; gap: 5px"><svg aria-hidden="true" width="13" height="13" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>{{item.photo}}</span>
 </div>
-<div style="padding: 16px 18px; display: flex; flex-direction: column; gap: 6px; flex: 1">
-<div style="font-weight: 700; font-size: 17px">{{item.title}}</div>
-<div style="font-size: 13px; color: #4A5A56">{{item.catLabel}} · [السنة] · {{item.gov}}</div>
-<div style="font-size: 13px; color: #0D5C55; font-weight: 600">ضمان + صيانة {{item.maint}} شهور</div>
-<div style="display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid #E5EBE8; margin-top: auto"><span style="font-weight: 700; font-size: 18px">[السعر] ج.م</span><span style="font-size: 13px; color: #0D5C55; font-weight: 600">التفاصيل ←</span></div>
+<div style="padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 8px; flex: 1">
+<div style="font-weight: 700; font-size: 18px; line-height: 1.45">{{item.title}}</div>
+<div style="font-size: 13px; color: #4A5A56; display: flex; align-items: center; gap: 5px"><svg aria-hidden="true" width="13" height="13" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><path d="M12 21s-7-6.5-7-12a7 7 0 0 1 14 0c0 5.5-7 12-7 12z"></path><circle cx="12" cy="9" r="2.5"></circle></svg>{{item.catLabel}} · [السنة] · {{item.gov}}</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px"><span style="padding: 2px 10px; border-radius: 999px; background: #F5F7F4; border: 1px solid #E5EBE8; font-size: 12px; font-weight: 600; color: #3C4C48">الحالة: {{item.condLabel}}</span><span style="padding: 2px 10px; border-radius: 999px; background: #E3F0ED; font-size: 12px; font-weight: 600; color: #0D5C55; display: flex; align-items: center; gap: 4px"><svg aria-hidden="true" width="12" height="12" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4 2.5-2.5z"></path></svg>صيانة {{item.maint}} شهور</span></div>
+<div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; padding-top: 12px; border-top: 1px solid #E5EBE8; margin-top: auto">
+<span style="font-weight: 700; font-size: 22px; line-height: 1.2; color: #12221F">{{item.priceTxt}} <span style="font-size: 14px; font-weight: 600; color: #4A5A56">ج.م</span></span>
+<span class="br-more" style="padding: 6px 12px; border-radius: 10px; background: #E3F0ED; font-size: 13px; color: #0D5C55; font-weight: 700; white-space: nowrap">التفاصيل ←</span>
+</div>
 </div>
 </a>
 </sc-for>
@@ -130,71 +461,128 @@ a{color:#0D5C55;text-decoration:none}a:hover{color:#08403B}
 </sc-if>
 
 <sc-if value="{{empty}}" hint-placeholder-val="{{false}}">
-<div style="padding: 48px 24px; border-radius: 20px; background: #FFFFFF; border: 1px dashed #9FB2AB; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center">
-<svg aria-hidden="true" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#5D6E69" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"></circle><path d="M20 20l-4.5-4.5"></path></svg>
-<div style="font-weight: 700; font-size: 19px">مفيش أجهزة بالمواصفات دي دلوقتي</div>
+<div style="padding: 48px 24px; border-radius: 24px; background: #FFFFFF; border: 1px dashed #9FB2AB; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center">
+<span style="width: 76px; height: 76px; border-radius: 22px; background: #E3F0ED; color: #0D5C55; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="38" height="38" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"></circle><path d="M20 20l-4.5-4.5"></path><path d="M9 11h4"></path></svg></span>
+<div style="font-weight: 700; font-size: 20px">مفيش أجهزة بالمواصفات دي دلوقتي</div>
 <div style="color: #4A5A56">جرّب تغيّر التصفية، أو اطلب الجهاز وهنبلغك أول ما يتعرض.</div>
-<button type="button" onClick="{{reset}}" style="min-height: 46px; padding: 0 20px; border-radius: 12px; border: 1px solid #C9D4CF; background: #FFFFFF; font: inherit; font-weight: 600; cursor: pointer">مسح التصفية</button>
+<button type="button" class="br-ghost" sc-camel-on-click="{{reset}}" style="min-height: 46px; padding: 0 20px; border-radius: 12px; border: 1px solid #C9D4CF; background: #FFFFFF; font: inherit; font-weight: 600; cursor: pointer">مسح التصفية</button>
 </div>
 </sc-if>
 
-<div style="margin-top: 10px; padding: 28px; border-radius: 22px; background: #0F2A26; color: #FFFFFF; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 18px">
-<div style="flex: 1 1 320px; min-width: 0">
+<div style="margin-top: 10px; padding: 28px; border-radius: 24px; background: #0F2A26; color: #FFFFFF; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 18px">
+<div style="flex: 1 1 320px; min-width: 0; display: flex; gap: 16px; align-items: center">
+<span aria-hidden="true" style="flex: none; width: 52px; height: 52px; border-radius: 16px; background: #163A35; color: #F2A33A; display: flex; align-items: center; justify-content: center"><svg width="26" height="26" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.7 21a2 2 0 0 1-3.4 0"></path></svg></span>
+<div style="min-width: 0">
 <div style="font-weight: 700; font-size: 22px">مش لاقي الجهاز اللي بتدوّر عليه؟</div>
 <div style="color: #C3D3CE">قولنا الجهاز والميزانية، وهنبلغك أول ما يتعرض جهاز مناسب.</div>
 </div>
+</div>
 <div style="display: flex; flex-wrap: wrap; gap: 10px">
-<button type="button" style="min-height: 48px; padding: 0 22px; border-radius: 12px; border: 0; background: #F2A33A; color: #12221F; font: inherit; font-weight: 700; cursor: pointer">اطلب جهاز</button>
-<a href="Main.dc.html#faq" style="min-height: 48px; padding: 0 18px; border-radius: 12px; border: 1px solid #2E5650; color: #FFFFFF; font-weight: 600; display: flex; align-items: center; gap: 8px"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7L4 20z"></path></svg>واتساب</a>
+<a href="Request.dc.html" class="br-cta-dark" style="min-height: 48px; padding: 0 22px; border-radius: 12px; background: #F2A33A; color: #12221F; font-weight: 700; display: flex; align-items: center">اطلب جهاز</a>
+<a href="Main.dc.html#faq" class="br-ghost-dark" style="min-height: 48px; padding: 0 18px; border-radius: 12px; border: 1px solid #2E5650; color: #FFFFFF; font-weight: 600; display: flex; align-items: center; gap: 8px"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7L4 20z"></path></svg>واتساب</a>
 </div>
 </div>
 </div>
 </section>
 
+
+<footer style="background: #0F2A26; color: #C3D3CE">
+<div style="max-width: 1200px; margin: 0 auto; padding: 52px 20px 24px; display: flex; flex-direction: column; gap: 36px">
+<div style="display: flex; flex-wrap: wrap; gap: 32px 48px; justify-content: space-between">
+<div style="flex: 2 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; color: #FFFFFF">
+<span style="width: 40px; height: 40px; border-radius: 12px; background: #F2A33A; color: #12221F; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3c-2.5 0-4 2-4 4.5 0 3 1.5 4.5 2 7 .5 3 1 6.5 2.5 6.5S9 18 10 15.5c.5-1.2 1.5-1.2 2 0 1 2.5 1.5 5.5 3 5.5s2-3.5 2.5-6.5c.5-2.5 2-4 2-7C19.5 5 18 3 15.5 3 13.5 3 13 4 12 4S10 3 7 3z"></path></svg></span>
+<span style="font-size: 22px; font-weight: 700">استعمال طبيب</span>
+</a>
+<span style="color: #FFFFFF; font-weight: 600">من دكتور أسنان لدكتور أسنان… بثقة</span>
+<span style="font-size: 15px; max-width: 360px">منصة متخصصة في أجهزة الأسنان المستعملة: فحص فني لكل جهاز، وفلوسك محفوظة، وضمان مكتوب.</span>
+</div>
+<nav aria-label="المنصة" style="flex: 1 1 150px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+<span style="color: #FFFFFF; font-weight: 700">المنصة</span>
+<a href="Browse.dc.html" style="color: #C3D3CE">كل الأجهزة</a>
+<a href="Request.dc.html" style="color: #C3D3CE">اطلب جهاز</a>
+<a href="Sell.dc.html" style="color: #C3D3CE">بيع جهازك</a>
+</nav>
+<nav aria-label="عن استعمال طبيب" style="flex: 1 1 150px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+<span style="color: #FFFFFF; font-weight: 700">عن استعمال طبيب</span>
+<a href="About.dc.html" style="color: #C3D3CE">مين إحنا</a>
+<a href="Main.dc.html#how" style="color: #C3D3CE">إزاي بنشتغل</a>
+<a href="Main.dc.html#warranty" style="color: #C3D3CE">الضمان</a>
+<a href="Main.dc.html#faq" style="color: #C3D3CE">أسئلة شائعة</a>
+<a href="Terms.dc.html" style="color: #C3D3CE">شروط البيع والشراء</a>
+</nav>
+<div style="flex: 1 1 200px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+<span style="color: #FFFFFF; font-weight: 700">تواصل معانا</span>
+<a href="#" style="align-self: flex-start; min-height: 44px; padding: 0 18px; border-radius: 12px; background: #F2A33A; color: #12221F; font-weight: 700; display: flex; align-items: center; gap: 8px"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7L4 20z"></path></svg>كلمنا على واتساب</a>
+<span>واتساب: [رقم الواتساب]</span>
+<span>[البريد الإلكتروني]</span>
+<span>[حسابات السوشيال ميديا]</span>
+</div>
+</div>
+<div style="padding-top: 18px; border-top: 1px solid #2E5650; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; font-size: 14px">
+<span>© 2026 استعمال طبيب. كل الحقوق محفوظة.</span>
+<a href="Terms.dc.html" style="color: #C3D3CE">الشروط والأحكام</a>
+</div>
+</div>
+</footer>
+
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2000}}'>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:2600}}">
 class Component extends DCLogic {
 constructor(props) {
 super(props);
-this.state = { st: 'all', cat: 'all', maint: 'all', gov: 'all', q: '' };
+this.state = { st: 'all', cat: 'all', maint: 'all', gov: 'all', q: '', cond: 'all', pmin: '', pmax: '', sort: 'new' };
 }
 renderVals() {
 var s = this.state;
 var self = this;
 var ALL = [
-{ title: 'يونيت أسنان كامل', cat: 'unit', catLabel: 'يونيت', inspected: true, gov: 'القاهرة', maint: 6 },
-{ title: 'أوتوكلاف Class B', cat: 'steril', catLabel: 'تعقيم', inspected: false, gov: 'الإسكندرية', maint: 3 },
-{ title: 'إندو موتور لاسلكي', cat: 'endo', catLabel: 'إندو وجراحة', inspected: true, gov: 'المنصورة', maint: 3 },
+{ title: 'يونيت أسنان كامل', cat: 'unit', catLabel: 'يونيت أسنان', inspected: true, gov: 'القاهرة', maint: 6 },
+{ title: 'أوتوكلاف Class B', cat: 'autoclave', catLabel: 'أوتوكلاف', inspected: false, gov: 'الإسكندرية', maint: 3 },
 { title: 'جهاز أشعة X-Ray حائطي', cat: 'xray', catLabel: 'أشعة', inspected: false, gov: 'الجيزة', maint: 6 },
-{ title: 'أبيكس لوكيتور', cat: 'endo', catLabel: 'إندو وجراحة', inspected: true, gov: 'القاهرة', maint: 3 },
-{ title: 'حساس أشعة رقمي RVG', cat: 'xray', catLabel: 'أشعة', inspected: true, gov: 'الإسكندرية', maint: 6 },
-{ title: 'موتور جراحة وزراعة', cat: 'endo', catLabel: 'إندو وجراحة', inspected: true, gov: 'القاهرة', maint: 6 },
-{ title: 'لايت كيور LED', cat: 'endo', catLabel: 'إندو وجراحة', inspected: false, gov: 'طنطا', maint: 3 },
-{ title: 'يونيت أسنان', cat: 'unit', catLabel: 'يونيت', inspected: false, gov: 'أسيوط', maint: 6 },
-{ title: 'جهاز تنظيف بالموجات Ultrasonic', cat: 'steril', catLabel: 'تعقيم', inspected: true, gov: 'الجيزة', maint: 3 }
+{ title: 'أبيكس لوكيتور', cat: 'apex', catLabel: 'أبيكس لوكيتور', inspected: true, gov: 'القاهرة', maint: 3 },
+{ title: 'كونترا أنجل', cat: 'contra', catLabel: 'كونترا', inspected: true, gov: 'الإسكندرية', maint: 3 },
+{ title: 'موتور جراحة وزراعة', cat: 'surg', catLabel: 'موتور جراحة وزراعة', inspected: true, gov: 'القاهرة', maint: 6 },
+{ title: 'لايت كيور LED', cat: 'cure', catLabel: 'لايت كيور', inspected: false, gov: 'طنطا', maint: 3 },
+{ title: 'روتاري لاسلكي', cat: 'rotary', catLabel: 'روتاري', inspected: false, gov: 'أسيوط', maint: 3 },
+{ title: 'ميكرو موتور', cat: 'micro', catLabel: 'ميكرو موتور', inspected: true, gov: 'الجيزة', maint: 3 },
+{ title: 'كاميرا إنترا أورال', cat: 'iocam', catLabel: 'كاميرا إنترا أورال', inspected: false, gov: 'القاهرة', maint: 6 },
+{ title: 'لوب تكبير بإضاءة LED', cat: 'loupe', catLabel: 'لوب تكبير', inspected: true, gov: 'المنصورة', maint: 6 }
 ];
+var EXTRA = { unit: [120000, 'a'], autoclave: [45000, 'b'], endo: [18000, 'a'], xray: [35000, 'b'], apex: [9000, 'a'], contra: [6000, 'b'], surg: [40000, 'a'], cure: [3500, 'c'], rotary: [15000, 'b'], micro: [12000, 'a'], iocam: [8000, 'c'], loupe: [7000, 'a'] };
+var CONDS = { a: 'ممتازة (81–100%)', b: 'جيدة (60–80%)', c: 'أقل من 60%' };
+var IMGS = { unit: '#br-unit', autoclave: '#br-autoclave', xray: '#br-xray', apex: '#br-apex', contra: '#br-contra', surg: '#br-surg', cure: '#br-cure', rotary: '#br-rotary', micro: '#br-micro', iocam: '#br-iocam', loupe: '#br-loupe' };
+ALL.forEach(function (x) { var e = EXTRA[x.cat] || [0, 'b']; x.price = e[0]; x.cond = e[1]; });
+function num(t) { var r = String(t || '').replace(/[٠-٩]/g, function (d) { return String(d.charCodeAt(0) - 1632); }).replace(/[^0-9.]/g, ''); var v = parseFloat(r); return v > 0 ? v : 0; }
+var pmin = num(s.pmin), pmax = num(s.pmax);
 var q = (s.q || '').trim();
 var items = ALL.filter(function (x) {
 if (s.st === 'done' && !x.inspected) return false;
 if (s.st === 'order' && x.inspected) return false;
 if (s.cat !== 'all' && x.cat !== s.cat) return false;
 if (s.maint !== 'all' && String(x.maint) !== s.maint) return false;
+if (s.cond !== 'all' && x.cond !== s.cond) return false;
+if (pmin && x.price < pmin) return false;
+if (pmax && x.price > pmax) return false;
 if (q && x.title.indexOf(q) === -1 && x.catLabel.indexOf(q) === -1) return false;
 return true;
 }).map(function (x) {
 return {
-title: x.title, catLabel: x.catLabel, gov: x.gov, maint: x.maint,
+title: x.title, catLabel: x.catLabel, gov: x.gov, maint: x.maint, price: x.price, priceTxt: x.price.toLocaleString('en-US'), condLabel: CONDS[x.cond],
 inspected: x.inspected, onOrder: !x.inspected,
 photo: x.inspected ? 'صورة من فريق الفحص' : 'صورة من البايع',
+img: IMGS[x.cat] || '#br-unit',
 href: x.inspected ? 'Listing-Inspected.dc.html' : 'Listing-OnOrder.dc.html'
 };
 });
+if (s.sort === 'asc') items.sort(function (a, b) { return a.price - b.price; });
+if (s.sort === 'desc') items.sort(function (a, b) { return b.price - a.price; });
 function chips(key, opts) {
 return opts.map(function (o) {
 var on = s[key] === o[0];
 return {
-label: o[1], pressed: on ? 'true' : 'false',
+id: o[0], on: on, label: o[1], pressed: on ? 'true' : 'false',
 bg: on ? '#0D5C55' : '#FFFFFF', fg: on ? '#FFFFFF' : '#12221F', bd: on ? '#0D5C55' : '#C9D4CF',
 pick: function () { var u = {}; u[key] = o[0]; self.setState(u); }
 };
@@ -209,14 +597,23 @@ countLabel: n === 1 ? 'جهاز واحد متاح' : n + ' أجهزة متاحة
 q: s.q,
 gov: s.gov,
 stateChips: chips('st', [['all', 'الكل'], ['done', 'تم الفحص'], ['order', 'يُفحص عند الطلب']]),
-catChips: chips('cat', [['all', 'الكل'], ['unit', 'يونيت'], ['xray', 'أشعة'], ['steril', 'تعقيم'], ['endo', 'إندو وجراحة']]),
+catChips: chips('cat', [['all', 'الكل'], ['cam', 'كاميرا'], ['rotary', 'روتاري'], ['micro', 'ميكرو موتور'], ['loupe', 'لوب تكبير'], ['cure', 'لايت كيور'], ['unit', 'يونيت أسنان'], ['xray', 'أشعة'], ['autoclave', 'أوتوكلاف'], ['surg', 'موتور جراحة وزراعة'], ['apex', 'أبيكس لوكيتور'], ['contra', 'كونترا'], ['iocam', 'كاميرا إنترا أورال'], ['other', 'جهاز تاني']]).map(function (c) { var top = ['cam', 'rotary', 'micro', 'loupe', 'cure'].indexOf(c.id) !== -1; if (top && !c.on) { c.bd = '#7DBB4A'; } if (top && c.on) { c.bd = '#7DBB4A'; } if (c.id === 'other' && !c.on) { c.bg = '#FBEEDC'; c.bd = '#F2A33A'; c.fg = '#6B3A10'; } if (c.id === 'other' && c.on) { c.bg = '#F2A33A'; c.bd = '#F2A33A'; c.fg = '#12221F'; } return c; }),
+condChips: chips('cond', [['all', 'الكل'], ['a', 'ممتازة 81–100%'], ['b', 'جيدة 60–80%'], ['c', 'أقل من 60%']]),
+sortChips: chips('sort', [['new', 'الأحدث'], ['asc', 'من الأقل سعراً للأعلى'], ['desc', 'من الأعلى سعراً للأقل']]),
+pminVal: s.pmin,
+pmaxVal: s.pmax,
+onPmin: function (e) { self.setState({ pmin: e.target.value }); },
+onPmax: function (e) { self.setState({ pmax: e.target.value }); },
+sortVal: s.sort,
+onSort: function (e) { self.setState({ sort: e.target.value }); },
 maintChips: chips('maint', [['all', 'الكل'], ['3', '3 شهور'], ['6', '6 شهور']]),
 onQ: function (e) { self.setState({ q: e.target.value }); },
 onGov: function (e) { self.setState({ gov: e.target.value }); },
-reset: function () { self.setState({ st: 'all', cat: 'all', maint: 'all', gov: 'all', q: '' }); }
+reset: function () { self.setState({ st: 'all', cat: 'all', maint: 'all', gov: 'all', q: '', cond: 'all', pmin: '', pmax: '', sort: 'new' }); }
 };
 }
 }
 </script>
-</body>
-</html>
+
+
+</body></html>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head>
+<meta charset="utf-8">
+<title>استعمال طبيب — لوحة التحكم: طلبات اطلب جهاز</title>
+<script src="support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#EEF2F0}
+a{color:#0D5C55;text-decoration:none}a:hover{color:#08403B}
+.ad-card{padding:24px;border-radius:22px;background:#FFFFFF;border:1px solid #DCE3DF;box-shadow:0 10px 30px rgba(18,34,31,.05);display:flex;flex-direction:column;gap:16px}
+.ad-h{margin:0;font-size:19px;display:flex;align-items:center;gap:10px}
+.ad-n{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex:none}
+.ad-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.ad-field{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:14px;min-width:0}
+.ad-in{min-height:46px;padding:0 12px;border-radius:12px;border:1px solid #C9D4CF;background:#FFFFFF;font:inherit;font-weight:400;font-size:15px;color:#12221F;box-sizing:border-box;width:100%}
+textarea.ad-in{padding:10px 12px;min-height:84px;resize:vertical}
+.ad-in:hover{border-color:#9FB2AB}
+.ad-in:focus{outline:none;border-color:#0D5C55;box-shadow:0 0 0 3px rgba(13,92,85,.18)}
+.ad-chip{min-height:42px;padding:4px 16px;border-radius:999px;font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.ad-chip:focus-visible{outline:3px solid rgba(13,92,85,.35);outline-offset:2px}
+.ad-side a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;color:#C3D3CE;font-weight:500}
+.ad-side a:hover{background:#163B36;color:#FFFFFF}
+.ad-hint{font-weight:400;font-size:13px;color:#4A5A56}
+.ad-int{font-weight:400;font-size:12px;color:#8A4209;background:#FBEEDC;padding:1px 8px;border-radius:999px;margin-right:6px}
+.ad-btn{min-height:50px;padding:0 22px;border-radius:14px;font:inherit;font-weight:700;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.ad-pri{background:#0D5C55;color:#FFFFFF;border:0}.ad-pri:hover{background:#08403B}
+.ad-sec{background:#FFFFFF;color:#12221F;border:1px solid #C9D4CF}.ad-sec:hover{background:#F5F7F4}
+.ad-drop{border:2px dashed #9FB2AB;border-radius:16px;background:#F5F7F4;padding:18px;display:flex;align-items:center;gap:14px;cursor:pointer;font:inherit;color:#12221F;text-align:right;width:100%}
+.ad-drop:hover{border-color:#0D5C55;background:#E3F0ED}
+/* page-specific */
+.rq-tab{min-height:42px;padding:0 16px;border-radius:999px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.rq-tab:hover{border-color:#0D5C55}
+.rq-tab:focus-visible{outline:3px solid rgba(13,92,85,.35);outline-offset:2px}
+.rq-cnt{min-width:20px;padding:0 6px;border-radius:999px;font-size:12px;font-weight:700;text-align:center}
+.rq-item{width:100%;padding:16px 18px;border-radius:18px;font:inherit;color:#12221F;text-align:right;cursor:pointer;display:flex;gap:14px;align-items:center;box-sizing:border-box;transition:border-color .12s,box-shadow .12s}
+.rq-item:hover{border-color:#9CCBC2 !important;box-shadow:0 6px 18px rgba(18,34,31,.06)}
+.rq-item:focus-visible{outline:3px solid rgba(13,92,85,.35);outline-offset:2px}
+.rq-pill{display:inline-flex;align-items:center;gap:6px;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.rq-dot{width:7px;height:7px;border-radius:999px;background:currentColor;flex:none}
+.rq-sub{font-size:13px;color:#4A5A56}
+.rq-match{display:flex;gap:12px;align-items:center;padding:10px;border-radius:14px;border:1px solid #DCE3DF;background:#FFFFFF}
+.rq-act{min-height:50px;padding:0 18px;border-radius:14px;font:inherit;font-weight:700;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;box-sizing:border-box}
+.rq-wa{background:#1F7A4D;color:#FFFFFF;border:0}.rq-wa:hover{background:#17603C;color:#FFFFFF}
+.rq-wa:focus-visible,.rq-act:focus-visible{outline:3px solid rgba(13,92,85,.35);outline-offset:2px}
+.rq-close{background:#FFFFFF;color:#B3261E;border:1px solid #E8B4AE}.rq-close:hover{background:#FBE9E7}
+.rq-link{background:none;border:0;padding:6px 8px;border-radius:8px;font:inherit;font-size:13px;font-weight:700;color:#0D5C55;cursor:pointer}
+.rq-link:hover{background:#E3F0ED}
+</style>
+</helmet>
+<div dir="rtl" style="min-height: 100vh; background: #EEF2F0; color: #12221F; font-family: 'IBM Plex Sans Arabic', 'Segoe UI', sans-serif; font-size: 16px; line-height: 1.7; display: flex; align-items: stretch">
+
+<svg aria-hidden="true" width="0" height="0" style="position: absolute; width: 0; height: 0; overflow: hidden">
+<symbol id="rq-ic-unit" sc-camel-view-box="0 0 40 40"><rect width="40" height="40" rx="10" fill="#E3F0ED"></rect><path d="M11 27h18" stroke="#0D5C55" stroke-width="2.4" stroke-linecap="round"></path><path d="M13 27l2-9h8l3 4h4" stroke="#0D5C55" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"></path><path d="M15 18l-1-6" stroke="#0D5C55" stroke-width="2.4" stroke-linecap="round"></path><circle cx="27" cy="12" r="3" fill="#F2A33A"></circle><path d="M27 15v4" stroke="#0D5C55" stroke-width="2" stroke-linecap="round"></path></symbol>
+<symbol id="rq-ic-box" sc-camel-view-box="0 0 40 40"><rect width="40" height="40" rx="10" fill="#E6EDF7"></rect><rect x="9" y="11" width="22" height="18" rx="4" fill="#FFFFFF" stroke="#24508F" stroke-width="2"></rect><circle cx="18" cy="20" r="5" fill="#24508F" opacity=".85"></circle><rect x="25" y="15" width="3" height="10" rx="1.5" fill="#24508F"></rect><rect x="11" y="29" width="4" height="2" rx="1" fill="#24508F"></rect><rect x="25" y="29" width="4" height="2" rx="1" fill="#24508F"></rect></symbol>
+<symbol id="rq-ic-hand" sc-camel-view-box="0 0 40 40"><rect width="40" height="40" rx="10" fill="#FBEEDC"></rect><path d="M10 28l14-14" stroke="#8A4209" stroke-width="4" stroke-linecap="round"></path><path d="M24 14l4-4" stroke="#8A4209" stroke-width="2.4" stroke-linecap="round"></path><circle cx="29" cy="9" r="2" fill="#F2A33A"></circle><path d="M10 28c-1 1-2 3-1 4s3 0 4-1" stroke="#8A4209" stroke-width="2" fill="none" stroke-linecap="round"></path></symbol>
+<symbol id="rq-ic-cam" sc-camel-view-box="0 0 40 40"><rect width="40" height="40" rx="10" fill="#EAF5DD"></rect><rect x="9" y="14" width="22" height="14" rx="3" fill="#FFFFFF" stroke="#3F7A1F" stroke-width="2"></rect><circle cx="20" cy="21" r="4" fill="#3F7A1F"></circle><rect x="15" y="11" width="10" height="4" rx="1.5" fill="#3F7A1F"></rect></symbol>
+<symbol id="rq-ic-loupe" sc-camel-view-box="0 0 40 40"><rect width="40" height="40" rx="10" fill="#EEF2F0"></rect><circle cx="14" cy="21" r="5" fill="#FFFFFF" stroke="#12221F" stroke-width="2.2"></circle><circle cx="26" cy="21" r="5" fill="#FFFFFF" stroke="#12221F" stroke-width="2.2"></circle><path d="M19 21h2M9 19l-1-5M31 19l1-5" stroke="#12221F" stroke-width="2.2" stroke-linecap="round"></path></symbol>
+</svg>
+
+<aside class="ad-side" aria-label="قائمة لوحة التحكم" style="flex: 0 0 250px; background: #0F2A26; color: #C3D3CE; padding: 22px 16px; display: flex; flex-direction: column; gap: 6px; box-sizing: border-box">
+<a href="Main.dc.html" style="color: #FFFFFF; margin-bottom: 4px">
+<span style="width: 38px; height: 38px; border-radius: 12px; background: #F2A33A; color: #12221F; display: flex; align-items: center; justify-content: center; flex: none"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3c-2.5 0-4 2-4 4.5 0 3 1.5 4.5 2 7 .5 3 1 6.5 2.5 6.5S9 18 10 15.5c.5-1.2 1.5-1.2 2 0 1 2.5 1.5 5.5 3 5.5s2-3.5 2.5-6.5c.5-2.5 2-4 2-7C19.5 5 18 3 15.5 3 13.5 3 13 4 12 4S10 3 7 3z"></path></svg></span>
+<span style="display: flex; flex-direction: column; line-height: 1.3"><span style="font-weight: 700">استعمال طبيب</span><span style="font-size: 12px; color: #9FB8B1">لوحة التحكم</span></span>
+</a>
+<div style="height: 1px; background: #2E5650; margin: 8px 0"></div>
+<a href="Admin-Listings.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="1.5"></rect><rect x="13" y="4" width="7" height="7" rx="1.5"></rect><rect x="4" y="13" width="7" height="7" rx="1.5"></rect><rect x="13" y="13" width="7" height="7" rx="1.5"></rect></svg>الأجهزة المعروضة</a>
+<a href="Admin.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>إضافة جهاز</a>
+<a href="Admin-Submissions.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16v12H4z"></path><path d="M4 7l8 6 8-6"></path></svg>طلبات البيع الواردة<span style="margin-right: auto; padding: 0 8px; border-radius: 999px; background: #F2A33A; color: #12221F; font-size: 12px; font-weight: 700">[٣]</span></a>
+<a href="Admin-Inspections.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"></circle><path d="M20 20l-4.5-4.5"></path></svg>الفحوصات</a>
+<a href="Admin-Orders.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3z"></path><path d="M14 10h4l3 3v3h-7"></path><circle cx="7" cy="17.5" r="1.8"></circle><circle cx="17" cy="17.5" r="1.8"></circle></svg>الطلبات والشحن</a>
+<a href="Admin-Payments.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>المدفوعات المحفوظة</a>
+<a href="Admin-Requests.dc.html" aria-current="page" style="background: #F2A33A; color: #12221F; font-weight: 700"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg>طلبات «اطلب جهاز»</a>
+<div style="margin-top: auto; padding: 12px; border-radius: 14px; background: #163B36; font-size: 13px; display: flex; align-items: center; gap: 10px">
+<span style="width: 34px; height: 34px; border-radius: 999px; background: #0D5C55; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700; flex: none">أ</span>
+<span style="display: flex; flex-direction: column; line-height: 1.4"><span style="color: #FFFFFF; font-weight: 600">[اسم الموظف]</span><span>أدمن</span></span>
+</div>
+</aside>
+
+<main style="flex: 1 1 auto; min-width: 0; padding: 26px 32px 60px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px">
+
+<div>
+<div style="font-size: 14px; color: #4A5A56">لوحة التحكم › طلبات «اطلب جهاز»</div>
+<h1 style="margin: 0; font-size: 30px; line-height: 1.3">طلبات «اطلب جهاز»</h1>
+<div style="color: #4A5A56">دكاترة بيدوروا على جهاز معيّن. شوف المطابق من الأجهزة المعروضة وبلّغهم على واتساب.</div>
+</div>
+
+<sc-if value="{{hasToast}}" hint-placeholder-val="{{false}}">
+<div role="status" style="padding: 12px 16px; border-radius: 14px; background: #EAF5DD; color: #2F5E16; border: 1px solid #BFDCA5; display: flex; align-items: center; gap: 10px; font-weight: 600">
+<svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"></path></svg>
+<span style="flex: 1 1 auto">{{toast}}</span>
+<button type="button" class="rq-link" sc-camel-on-click="{{clearToast}}" aria-label="اقفل الرسالة" style="color: inherit">✕</button>
+</div>
+</sc-if>
+
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px">
+<div role="tablist" aria-label="حالة الطلب" style="display: flex; flex-wrap: wrap; gap: 8px">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="3">
+<button type="button" role="tab" class="rq-tab" aria-selected="{{t.sel}}" sc-camel-on-click="{{t.pick}}" style="border: 1px solid {{t.bd}}; background: {{t.bg}}; color: {{t.fg}}">{{t.label}}<span class="rq-cnt" style="background: {{t.cbg}}; color: {{t.cfg}}">{{t.n}}</span></button>
+</sc-for>
+</div>
+<label style="flex: 0 1 300px; position: relative; display: flex">
+<span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">ابحث في الطلبات</span>
+<svg aria-hidden="true" width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="#4A5A56" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="position: absolute; right: 12px; top: 14px"><circle cx="11" cy="11" r="6"></circle><path d="M20 20l-4.5-4.5"></path></svg>
+<input type="search" class="ad-in" value="{{q}}" sc-camel-on-change="{{onQ}}" placeholder="نوع الجهاز أو المحافظة" style="padding-right: 38px">
+</label>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
+
+<section aria-label="قائمة الطلبات" style="flex: 999 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+<sc-for list="{{reqs}}" as="r" hint-placeholder-count="4">
+<button type="button" class="rq-item" sc-camel-on-click="{{r.pick}}" aria-pressed="{{r.pressed}}" style="border: 2px solid {{r.bd}}; background: {{r.bg}}">
+<svg aria-hidden="true" width="44" height="44" style="flex: none"><use href="{{r.icon}}"></use></svg>
+<span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 4px">
+<span style="display: flex; flex-wrap: wrap; align-items: center; gap: 8px"><span style="font-weight: 700; font-size: 17px">{{r.type}}</span><span class="rq-pill" style="background: {{r.stBg}}; color: {{r.stFg}}"><span class="rq-dot"></span>{{r.stTxt}}</span></span>
+<span class="rq-sub">{{r.doctor}} · {{r.gov}} · {{r.date}}</span>
+<span style="display: flex; flex-wrap: wrap; gap: 6px; font-size: 13px">
+<span class="rq-pill" style="background: #F5F7F4; color: #3C4C48; border: 1px solid #DCE3DF; font-weight: 600">الميزانية: {{r.budget}} ج.م</span>
+<span class="rq-pill" style="background: {{r.prefBg}}; color: {{r.prefFg}}; font-weight: 600">{{r.pref}}</span>
+</span>
+</span>
+<span style="flex: none; min-width: 86px; padding: 8px 10px; border-radius: 14px; background: {{r.mBg}}; color: {{r.mFg}}; display: flex; flex-direction: column; align-items: center; line-height: 1.3"><span style="font-size: 22px; font-weight: 700">{{r.mCount}}</span><span style="font-size: 12px; font-weight: 600">أجهزة مطابقة</span></span>
+</button>
+</sc-for>
+<sc-if value="{{noReqs}}" hint-placeholder-val="{{false}}">
+<div class="ad-card" style="align-items: center; text-align: center; color: #4A5A56; padding: 40px 20px">مفيش طلبات هنا{{qNote}}.</div>
+</sc-if>
+</section>
+
+<aside aria-label="تفاصيل الطلب" style="flex: 1 1 400px; min-width: 0; position: sticky; top: 20px">
+<sc-if value="{{noSel}}" hint-placeholder-val="{{false}}">
+<div class="ad-card" style="align-items: center; text-align: center; color: #4A5A56; padding: 40px 20px">
+<svg aria-hidden="true" width="40" height="40" sc-camel-view-box="0 0 24 24" fill="none" stroke="#9FB2AB" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg>
+اختار طلب من القائمة عشان تشوف الأجهزة المطابقة.
+</div>
+</sc-if>
+
+<sc-if value="{{hasSel}}" hint-placeholder-val="{{true}}">
+<div class="ad-card">
+<div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px">
+<div style="display: flex; flex-direction: column">
+<span class="rq-sub">طلب {{selNo}} · {{selDate}}</span>
+<h2 class="ad-h" style="font-size: 21px">{{selType}}</h2>
+</div>
+<span class="rq-pill" style="background: {{selStBg}}; color: {{selStFg}}"><span class="rq-dot"></span>{{selStTxt}}</span>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 14px">
+<div style="padding: 10px 12px; border-radius: 12px; background: #F5F7F4; display: flex; flex-direction: column"><span class="rq-sub" style="font-size: 12px">الدكتور</span><span style="font-weight: 600">{{selDoctor}}</span></div>
+<div style="padding: 10px 12px; border-radius: 12px; background: #F5F7F4; display: flex; flex-direction: column"><span class="rq-sub" style="font-size: 12px">الموبايل</span><span style="font-weight: 600" dir="ltr">{{selPhone}}</span></div>
+<div style="padding: 10px 12px; border-radius: 12px; background: #F5F7F4; display: flex; flex-direction: column"><span class="rq-sub" style="font-size: 12px">الميزانية</span><span style="font-weight: 600">{{selBudget}} ج.م</span></div>
+<div style="padding: 10px 12px; border-radius: 12px; background: #F5F7F4; display: flex; flex-direction: column"><span class="rq-sub" style="font-size: 12px">المحافظة</span><span style="font-weight: 600">{{selGov}}</span></div>
+<div style="grid-column: 1 / -1; padding: 10px 12px; border-radius: 12px; background: #F5F7F4; display: flex; justify-content: space-between; align-items: center; gap: 8px"><span class="rq-sub" style="font-size: 12px">الفحص</span><span class="rq-pill" style="background: {{selPrefBg}}; color: {{selPrefFg}}">{{selPref}}</span></div>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="font-weight: 700; display: flex; justify-content: space-between; align-items: center"><span>أجهزة مطابقة ({{selMCount}})</span><span class="rq-sub" style="font-weight: 400; font-size: 12px">نفس النوع وفي حدود الميزانية</span></div>
+<sc-for list="{{matches}}" as="m" hint-placeholder-count="2">
+<div class="rq-match">
+<svg aria-hidden="true" width="44" height="44" style="flex: none"><use href="{{m.icon}}"></use></svg>
+<span style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; line-height: 1.45">
+<span style="font-weight: 700; font-size: 15px">{{m.title}}</span>
+<span class="rq-sub" style="font-size: 12px">{{m.gov}} · {{m.cond}}</span>
+<span><span class="rq-pill" style="background: {{m.iBg}}; color: {{m.iFg}}; margin-top: 2px">{{m.insp}}</span></span>
+</span>
+<span style="flex: none; display: flex; flex-direction: column; align-items: flex-end; gap: 2px">
+<span style="font-weight: 700">{{m.priceTxt}} <span class="rq-sub" style="font-size: 12px">ج.م</span></span>
+<a href="{{m.href}}" style="font-size: 13px; font-weight: 600">الإعلان ←</a>
+</span>
+</div>
+</sc-for>
+<sc-if value="{{noMatch}}" hint-placeholder-val="{{false}}">
+<div style="padding: 14px; border-radius: 14px; background: #FBEEDC; color: #6B3A10; font-size: 14px">مفيش جهاز مطابق دلوقتي. سيب الطلب مفتوح وبلّغ الدكتور أول ما يتعرض جهاز.</div>
+</sc-if>
+</div>
+
+<sc-if value="{{hasMatch}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; flex-direction: column; gap: 6px">
+<span style="font-weight: 600; font-size: 14px">الرسالة اللي هتتبعت</span>
+<div style="padding: 12px 14px; border-radius: 14px 14px 4px 14px; background: #E3F0ED; font-size: 14px; color: #12221F; white-space: pre-line">{{waText}}</div>
+</div>
+</sc-if>
+
+<div style="display: flex; flex-direction: column; gap: 8px">
+<sc-if value="{{canSend}}" hint-placeholder-val="{{true}}">
+<a href="#" class="rq-act rq-wa" sc-camel-on-click="{{send}}"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z"></path><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8c-1-.4-1.8-1.2-2.2-2.2l.8-1-1-2z"></path></svg>{{sendLabel}}</a>
+</sc-if>
+<sc-if value="{{isOpen}}" hint-placeholder-val="{{true}}">
+<button type="button" class="rq-act rq-close" sc-camel-on-click="{{close}}"><svg aria-hidden="true" width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"></path></svg>اقفل الطلب</button>
+</sc-if>
+<sc-if value="{{isClosed}}" hint-placeholder-val="{{false}}">
+<div style="padding: 12px 14px; border-radius: 14px; background: #E5EBE8; font-size: 14px; font-weight: 600">الطلب مقفول.</div>
+<button type="button" class="rq-act ad-sec" sc-camel-on-click="{{reopen}}">افتح الطلب تاني</button>
+</sc-if>
+<sc-if value="{{sentNote}}" hint-placeholder-val="{{false}}">
+<span class="ad-hint">اتبلّغ يوم {{selSentOn}}.</span>
+</sc-if>
+</div>
+</div>
+</sc-if>
+</aside>
+</div>
+
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:2000}}">
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = {
+tab: 'new', q: '', sel: 'r1', toast: '',
+reqs: [
+{ id: 'r1', no: '#R-118', doctor: '[د. ...]', phone: '[01xxxxxxxxx]', type: 'أوتوكلاف', min: 35000, max: 50000, gov: 'القاهرة', pref: 'any', date: '27 أكتوبر', st: 'new', sentOn: '' },
+{ id: 'r2', no: '#R-117', doctor: '[د. ...]', phone: '[01xxxxxxxxx]', type: 'يونيت أسنان', min: 70000, max: 100000, gov: 'الجيزة', pref: 'done', date: '26 أكتوبر', st: 'new', sentOn: '' },
+{ id: 'r3', no: '#R-116', doctor: '[د. ...]', phone: '[01xxxxxxxxx]', type: 'إندو موتور', min: 10000, max: 16000, gov: 'الإسكندرية', pref: 'any', date: '26 أكتوبر', st: 'new', sentOn: '' },
+{ id: 'r4', no: '#R-115', doctor: '[د. ...]', phone: '[01xxxxxxxxx]', type: 'لوب تكبير', min: 8000, max: 15000, gov: 'المنوفية', pref: 'any', date: '25 أكتوبر', st: 'new', sentOn: '' },
+{ id: 'r5', no: '#R-112', doctor: '[د. ...]', phone: '[01xxxxxxxxx]', type: 'أشعة', min: 50000, max: 70000, gov: 'الدقهلية', pref: 'done', date: '23 أكتوبر', st: 'sent', sentOn: '24 أكتوبر' },
+{ id: 'r6', no: '#R-109', doctor: '[د. ...]', phone: '[01xxxxxxxxx]', type: 'أبيكس لوكيتور', min: 5000, max: 9000, gov: 'الشرقية', pref: 'any', date: '20 أكتوبر', st: 'closed', sentOn: '21 أكتوبر' }
+]
+};
+}
+renderVals() {
+var s = this.state;
+var self = this;
+var TODAY = '27 أكتوبر';
+function fmt(n) { return Math.round(n).toLocaleString('en-US'); }
+var LISTINGS = [
+{ title: 'أوتوكلاف Class B 23 لتر', type: 'أوتوكلاف', price: 45000, gov: 'القاهرة', insp: 'done', cond: 'ممتازة 81–100%' },
+{ title: 'أوتوكلاف 18 لتر', type: 'أوتوكلاف', price: 38000, gov: 'الجيزة', insp: 'order', cond: 'جيدة 60–80%' },
+{ title: 'أوتوكلاف Class B 29 لتر', type: 'أوتوكلاف', price: 62000, gov: 'الإسكندرية', insp: 'done', cond: 'ممتازة 81–100%' },
+{ title: 'يونيت أسنان كامل', type: 'يونيت أسنان', price: 85000, gov: 'القاهرة', insp: 'done', cond: 'ممتازة 81–100%' },
+{ title: 'يونيت أسنان بالكرسي', type: 'يونيت أسنان', price: 72000, gov: 'الدقهلية', insp: 'order', cond: 'جيدة 60–80%' },
+{ title: 'إندو موتور لاسلكي', type: 'إندو موتور', price: 14500, gov: 'الجيزة', insp: 'done', cond: 'ممتازة 81–100%' },
+{ title: 'إندو موتور بأبيكس', type: 'إندو موتور', price: 11000, gov: 'القاهرة', insp: 'order', cond: 'جيدة 60–80%' },
+{ title: 'جهاز أشعة حائط', type: 'أشعة', price: 62000, gov: 'القاهرة', insp: 'done', cond: 'ممتازة 81–100%' },
+{ title: 'أبيكس لوكيتور', type: 'أبيكس لوكيتور', price: 7200, gov: 'القاهرة', insp: 'done', cond: 'ممتازة 81–100%' },
+{ title: 'لايت كيور LED', type: 'لايت كيور', price: 6500, gov: 'الجيزة', insp: 'done', cond: 'جيدة 60–80%' },
+{ title: 'موتور جراحة وزراعة', type: 'موتور جراحة وزراعة', price: 38000, gov: 'القاهرة', insp: 'order', cond: 'ممتازة 81–100%' }
+];
+var ICON = { 'يونيت أسنان': 'unit', 'أوتوكلاف': 'box', 'أشعة': 'box', 'كاميرا إنترا أورال': 'cam', 'كاميرا': 'cam', 'لوب تكبير': 'loupe' };
+function icon(t) { return '#rq-ic-' + (ICON[t] || 'hand'); }
+function matchesFor(r) {
+return LISTINGS.filter(function (l) { return l.type === r.type && l.price >= r.min && l.price <= r.max && (r.pref === 'any' || l.insp === 'done'); });
+}
+var ST = { new: ['جديد', '#FBEEDC', '#8A4209'], sent: ['اتبلّغ', '#E6EDF7', '#24508F'], closed: ['مقفول', '#E5EBE8', '#4A5A56'] };
+function prefOf(r) { return r.pref === 'done' ? ['ما تم فحصه فقط', '#E3F0ED', '#0D5C55'] : ['أي حالة', '#F5F7F4', '#3C4C48']; }
+function patch(id, ch, msg) {
+self.setState({ reqs: s.reqs.map(function (r) { return r.id === id ? Object.assign({}, r, ch) : r; }), toast: msg || '' });
+}
+var counts = { new: 0, sent: 0, closed: 0 };
+s.reqs.forEach(function (r) { counts[r.st]++; });
+var q = (s.q || '').trim();
+var shown = s.reqs.filter(function (r) { return r.st === s.tab && (!q || (r.type + ' ' + r.gov + ' ' + r.no).indexOf(q) !== -1); });
+var reqs = shown.map(function (r) {
+var n = matchesFor(r).length;
+var on = s.sel === r.id;
+var st = ST[r.st], pf = prefOf(r);
+return {
+type: r.type, doctor: r.doctor, gov: r.gov, date: r.date, icon: icon(r.type),
+budget: fmt(r.min) + ' – ' + fmt(r.max), pref: pf[0], prefBg: pf[1], prefFg: pf[2],
+stTxt: st[0], stBg: st[1], stFg: st[2],
+mCount: String(n), mBg: n ? '#EAF5DD' : '#F5F7F4', mFg: n ? '#3F7A1F' : '#4A5A56',
+pressed: on ? 'true' : 'false', bd: on ? '#0D5C55' : '#DCE3DF', bg: on ? '#F7FBFA' : '#FFFFFF',
+pick: function () { self.setState({ sel: r.id }); }
+};
+});
+var cur = null;
+s.reqs.forEach(function (r) { if (r.id === s.sel && r.st === s.tab) cur = r; });
+var m = cur ? matchesFor(cur) : [];
+var sel = {};
+var waText = '';
+if (cur) {
+var st = ST[cur.st], pf = prefOf(cur);
+sel = { no: cur.no, date: cur.date, type: cur.type, doctor: cur.doctor, phone: cur.phone, gov: cur.gov, budget: fmt(cur.min) + ' – ' + fmt(cur.max), pref: pf[0], prefBg: pf[1], prefFg: pf[2], stTxt: st[0], stBg: st[1], stFg: st[2], mCount: String(m.length), sentOn: cur.sentOn };
+waText = 'أهلاً ' + cur.doctor + '، معاك استعمال طبيب بخصوص طلبك (' + cur.type + ').\nلقينا ' + m.length + ' ' + (m.length === 1 ? 'جهاز مطابق' : 'أجهزة مطابقة') + ' لطلبك:\n' + m.map(function (l) { return '• ' + l.title + ' — ' + fmt(l.price) + ' ج.م (' + (l.insp === 'done' ? 'تم الفحص' : 'يُفحص عند الطلب') + ')'; }).join('\n') + '\nمن طبيب لطبيب... بثقة.';
+}
+var matches = m.map(function (l) {
+var done = l.insp === 'done';
+return { title: l.title, gov: l.gov, cond: l.cond, priceTxt: fmt(l.price), icon: icon(l.type), insp: done ? 'تم الفحص' : 'يُفحص عند الطلب', iBg: done ? '#0D5C55' : '#E6EDF7', iFg: done ? '#FFFFFF' : '#24508F', href: done ? 'Listing-Inspected.dc.html' : 'Listing-OnOrder.dc.html' };
+});
+var TABS = [['new', 'جديد'], ['sent', 'اتبلّغ'], ['closed', 'مقفول']];
+var tabs = TABS.map(function (t) {
+var on = s.tab === t[0];
+return { label: t[1], n: String(counts[t[0]]), sel: on ? 'true' : 'false', bg: on ? '#0D5C55' : '#FFFFFF', fg: on ? '#FFFFFF' : '#12221F', bd: on ? '#0D5C55' : '#C9D4CF', cbg: on ? '#FFFFFF' : '#EEF2F0', cfg: on ? '#0D5C55' : '#4A5A56', pick: function () { self.setState({ tab: t[0], sel: '' }); } };
+});
+var isClosed = !!cur && cur.st === 'closed';
+var out = {
+hasToast: !!s.toast, toast: s.toast, clearToast: function () { self.setState({ toast: '' }); },
+tabs: tabs, reqs: reqs, noReqs: reqs.length === 0, qNote: q ? ' بالبحث ده' : '',
+q: s.q, onQ: function (e) { self.setState({ q: e.target.value }); },
+hasSel: !!cur, noSel: !cur, matches: matches,
+hasMatch: m.length > 0, noMatch: !!cur && m.length === 0, waText: waText,
+canSend: !!cur && !isClosed && m.length > 0,
+sendLabel: cur && cur.st === 'sent' ? 'ابعت تاني على واتساب' : 'ابعت للدكتور على واتساب',
+isOpen: !!cur && !isClosed, isClosed: isClosed,
+sentNote: !!cur && !!cur.sentOn && cur.st !== 'new',
+send: function (e) { if (e && e.preventDefault) e.preventDefault(); if (!cur) return; patch(cur.id, { st: 'sent', sentOn: TODAY }, 'اتبعت لـ' + cur.doctor + ' على واتساب — الطلب ' + cur.no + ' اتنقل لـ«اتبلّغ».'); self.setState({ tab: 'sent' }); },
+close: function () { if (!cur) return; patch(cur.id, { st: 'closed' }, 'الطلب ' + cur.no + ' اتقفل.'); self.setState({ tab: 'closed' }); },
+reopen: function () { if (!cur) return; patch(cur.id, { st: cur.sentOn ? 'sent' : 'new' }, 'الطلب ' + cur.no + ' اتفتح تاني.'); self.setState({ tab: cur.sentOn ? 'sent' : 'new' }); }
+};
+Object.keys(sel).forEach(function (k) { out['sel' + k.charAt(0).toUpperCase() + k.slice(1)] = sel[k]; });
+return out;
+}
+}
+</script>
+
+
+</body></html>

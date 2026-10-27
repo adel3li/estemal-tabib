@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head>
+<meta charset="utf-8">
+<title>استعمال طبيب — لوحة التحكم: الفحوصات</title>
+<script src="support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#EEF2F0}
+a{color:#0D5C55;text-decoration:none}a:hover{color:#08403B}
+.ad-card{padding:24px;border-radius:22px;background:#FFFFFF;border:1px solid #DCE3DF;box-shadow:0 10px 30px rgba(18,34,31,.05);display:flex;flex-direction:column;gap:16px}
+.ad-h{margin:0;font-size:19px;display:flex;align-items:center;gap:10px}
+.ad-n{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex:none}
+.ad-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.ad-field{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:14px;min-width:0}
+.ad-in{min-height:46px;padding:0 12px;border-radius:12px;border:1px solid #C9D4CF;background:#FFFFFF;font:inherit;font-weight:400;font-size:15px;color:#12221F;box-sizing:border-box;width:100%}
+textarea.ad-in{padding:10px 12px;min-height:84px;resize:vertical}
+.ad-in:hover{border-color:#9FB2AB}
+.ad-in:focus{outline:none;border-color:#0D5C55;box-shadow:0 0 0 3px rgba(13,92,85,.18)}
+.ad-chip{min-height:42px;padding:4px 16px;border-radius:999px;font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.ad-chip:focus-visible{outline:3px solid rgba(13,92,85,.35);outline-offset:2px}
+.ad-side a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;color:#C3D3CE;font-weight:500}
+.ad-side a:hover{background:#163B36;color:#FFFFFF}
+.ad-hint{font-weight:400;font-size:13px;color:#4A5A56}
+.ad-int{font-weight:400;font-size:12px;color:#8A4209;background:#FBEEDC;padding:1px 8px;border-radius:999px;margin-right:6px}
+.ad-btn{min-height:50px;padding:0 22px;border-radius:14px;font:inherit;font-weight:700;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.ad-pri{background:#0D5C55;color:#FFFFFF;border:0}.ad-pri:hover{background:#08403B}
+.ad-sec{background:#FFFFFF;color:#12221F;border:1px solid #C9D4CF}.ad-sec:hover{background:#F5F7F4}
+.ad-drop{border:2px dashed #9FB2AB;border-radius:16px;background:#F5F7F4;padding:18px;display:flex;align-items:center;gap:14px;cursor:pointer;font:inherit;color:#12221F;text-align:right;width:100%}
+.ad-drop:hover{border-color:#0D5C55;background:#E3F0ED}
+.in-kpi{padding:18px 20px;border-radius:20px;background:#FFFFFF;border:1px solid #DCE3DF;display:flex;flex-direction:column;gap:2px;font:inherit;text-align:right;cursor:pointer;color:#12221F}
+.in-kpi:hover{border-color:#9FB2AB;box-shadow:0 8px 22px rgba(18,34,31,.07)}
+.in-kpi:focus-visible,.in-day:focus-visible,.in-open:focus-visible{outline:3px solid rgba(13,92,85,.35);outline-offset:2px}
+.in-day{flex:1 1 0;min-width:84px;padding:10px 6px;border-radius:14px;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:0;line-height:1.4}
+.in-day:hover{border-color:#0D5C55 !important}
+.in-row{display:flex;flex-wrap:wrap;align-items:center;gap:14px;padding:12px 14px;border-radius:16px;border:1px solid #DCE3DF;background:#FFFFFF}
+.in-row:hover{border-color:#9FB2AB;background:#FAFBFA}
+.in-open{flex:1 1 260px;min-width:0;display:flex;align-items:center;gap:12px;background:none;border:0;padding:0;font:inherit;color:#12221F;text-align:right;cursor:pointer}
+.in-pill{display:inline-flex;align-items:center;gap:4px;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.in-sel{min-height:40px;padding:0 10px;border-radius:10px;border:1px solid #C9D4CF;background:#FFFFFF;font:inherit;font-size:14px;color:#12221F}
+.in-sel:focus{outline:none;border-color:#0D5C55;box-shadow:0 0 0 3px rgba(13,92,85,.18)}
+.in-mini{min-height:36px;padding:2px 14px;border-radius:999px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.in-mini:focus-visible{outline:3px solid rgba(13,92,85,.35);outline-offset:2px}
+.in-x{width:38px;height:38px;border-radius:12px;border:1px solid #C9D4CF;background:#FFFFFF;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#12221F}
+.in-x:hover{background:#F5F7F4}
+.in-file{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
+.in-drop:focus-within{outline:3px solid rgba(13,92,85,.35);outline-offset:2px}
+</style>
+</helmet>
+<div dir="rtl" style="min-height: 100vh; background: #EEF2F0; color: #12221F; font-family: 'IBM Plex Sans Arabic', 'Segoe UI', sans-serif; font-size: 16px; line-height: 1.7; display: flex; align-items: stretch">
+
+<svg aria-hidden="true" width="0" height="0" style="position: absolute; width: 0; height: 0; overflow: hidden">
+<symbol id="in-unit" sc-camel-view-box="0 0 64 64"><rect width="64" height="64" rx="14" fill="#E3F0ED"></rect><path d="M18 44h22l6-10h-9l-3-14h-8l3 16h-8z" fill="#0D5C55"></path><rect x="16" y="46" width="34" height="5" rx="2.5" fill="#12221F" opacity=".7"></rect><circle cx="44" cy="18" r="5" fill="#F2A33A"></circle><path d="M44 23v8" stroke="#4A5A56" stroke-width="2"></path></symbol>
+<symbol id="in-box" sc-camel-view-box="0 0 64 64"><rect width="64" height="64" rx="14" fill="#E6EDF7"></rect><rect x="12" y="16" width="40" height="32" rx="6" fill="#FFFFFF" stroke="#8FA09A" stroke-width="2"></rect><circle cx="28" cy="33" r="10" fill="#B9C6C1" stroke="#5D7A74" stroke-width="2"></circle><circle cx="28" cy="33" r="6" fill="#1D3330"></circle><rect x="42" y="22" width="5" height="18" rx="2.5" fill="#24508F"></rect></symbol>
+<symbol id="in-xray" sc-camel-view-box="0 0 64 64"><rect width="64" height="64" rx="14" fill="#FBEEDC"></rect><rect x="30" y="10" width="5" height="44" rx="2.5" fill="#4A5A56"></rect><path d="M33 18h16v8H33z" fill="#FFFFFF" stroke="#8A4209" stroke-width="2"></path><circle cx="49" cy="22" r="5" fill="#F2A33A"></circle><rect x="22" y="50" width="22" height="5" rx="2.5" fill="#12221F" opacity=".7"></rect></symbol>
+<symbol id="in-small" sc-camel-view-box="0 0 64 64"><rect width="64" height="64" rx="14" fill="#EAF5DD"></rect><rect x="14" y="26" width="26" height="22" rx="5" fill="#FFFFFF" stroke="#3F7A1F" stroke-width="2"></rect><rect x="18" y="30" width="18" height="7" rx="2" fill="#12221F"></rect><path d="M40 34c8 0 8-14 14-18" stroke="#4A5A56" stroke-width="2.5" fill="none" stroke-linecap="round"></path><rect x="50" y="10" width="6" height="12" rx="3" transform="rotate(30 53 16)" fill="#3F7A1F"></rect></symbol>
+<symbol id="in-cam" sc-camel-view-box="0 0 64 64"><rect width="64" height="64" rx="14" fill="#F5F7F4"></rect><rect x="10" y="28" width="40" height="9" rx="4.5" fill="#FFFFFF" stroke="#4A5A56" stroke-width="2"></rect><circle cx="47" cy="32.5" r="3" fill="#24508F"></circle><path d="M10 32.5c-3 0-4 6-2 10" stroke="#4A5A56" stroke-width="2" fill="none"></path></symbol>
+</svg>
+
+<aside class="ad-side" aria-label="قائمة لوحة التحكم" style="flex: 0 0 250px; background: #0F2A26; color: #C3D3CE; padding: 22px 16px; display: flex; flex-direction: column; gap: 6px; box-sizing: border-box">
+<a href="Main.dc.html" style="color: #FFFFFF; margin-bottom: 4px">
+<span style="width: 38px; height: 38px; border-radius: 12px; background: #F2A33A; color: #12221F; display: flex; align-items: center; justify-content: center; flex: none"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3c-2.5 0-4 2-4 4.5 0 3 1.5 4.5 2 7 .5 3 1 6.5 2.5 6.5S9 18 10 15.5c.5-1.2 1.5-1.2 2 0 1 2.5 1.5 5.5 3 5.5s2-3.5 2.5-6.5c.5-2.5 2-4 2-7C19.5 5 18 3 15.5 3 13.5 3 13 4 12 4S10 3 7 3z"></path></svg></span>
+<span style="display: flex; flex-direction: column; line-height: 1.3"><span style="font-weight: 700">استعمال طبيب</span><span style="font-size: 12px; color: #9FB8B1">لوحة التحكم</span></span>
+</a>
+<div style="height: 1px; background: #2E5650; margin: 8px 0"></div>
+<a href="Admin-Listings.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="1.5"></rect><rect x="13" y="4" width="7" height="7" rx="1.5"></rect><rect x="4" y="13" width="7" height="7" rx="1.5"></rect><rect x="13" y="13" width="7" height="7" rx="1.5"></rect></svg>الأجهزة المعروضة</a>
+<a href="Admin.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>إضافة جهاز</a>
+<a href="Admin-Submissions.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16v12H4z"></path><path d="M4 7l8 6 8-6"></path></svg>طلبات البيع الواردة<span style="margin-right: auto; padding: 0 8px; border-radius: 999px; background: #F2A33A; color: #12221F; font-size: 12px; font-weight: 700">[٣]</span></a>
+<a href="Admin-Inspections.dc.html" aria-current="page" style="background: #F2A33A; color: #12221F; font-weight: 700"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"></circle><path d="M20 20l-4.5-4.5"></path></svg>الفحوصات</a>
+<a href="Admin-Orders.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3z"></path><path d="M14 10h4l3 3v3h-7"></path><circle cx="7" cy="17.5" r="1.8"></circle><circle cx="17" cy="17.5" r="1.8"></circle></svg>الطلبات والشحن</a>
+<a href="Admin-Payments.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>المدفوعات المحفوظة</a>
+<a href="Admin-Requests.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg>طلبات «اطلب جهاز»</a>
+<div style="margin-top: auto; padding: 12px; border-radius: 14px; background: #163B36; font-size: 13px; display: flex; align-items: center; gap: 10px">
+<span style="width: 34px; height: 34px; border-radius: 999px; background: #0D5C55; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700; flex: none">أ</span>
+<span style="display: flex; flex-direction: column; line-height: 1.4"><span style="color: #FFFFFF; font-weight: 600">[اسم الموظف]</span><span>أدمن</span></span>
+</div>
+</aside>
+
+<main style="flex: 1 1 auto; min-width: 0; padding: 26px 32px 60px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px">
+
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px">
+<div>
+<div style="font-size: 14px; color: #4A5A56">لوحة التحكم › الفحوصات</div>
+<h1 style="margin: 0; font-size: 30px; line-height: 1.3">الفحوصات</h1>
+<div style="color: #4A5A56">مواعيد الفني المعتمد وتقارير الفحص، قبل النشر أو بعد طلب مشتري.</div>
+</div>
+<label style="display: flex; align-items: center; gap: 8px; min-width: 280px">
+<span style="position: absolute; width: 1px; height: 1px; overflow: hidden">دوّر في الفحوصات</span>
+<input type="search" class="ad-in" value="{{q}}" sc-camel-on-change="{{onQ}}" placeholder="دوّر بالجهاز، المحافظة أو رقم الفحص">
+</label>
+</div>
+
+<sc-if value="{{hasToast}}" hint-placeholder-val="{{false}}">
+<div role="status" style="padding: 14px 18px; border-radius: 16px; background: {{toastBg}}; border: 1px solid {{toastBd}}; color: {{toastFg}}; display: flex; align-items: center; gap: 12px; font-weight: 600">
+<span style="width: 28px; height: 28px; border-radius: 999px; background: {{toastFg}}; color: #FFFFFF; display: flex; align-items: center; justify-content: center; flex: none; font-size: 14px">{{toastIcon}}</span>
+<span style="flex: 1">{{toastTxt}}</span>
+<button type="button" class="in-mini" sc-camel-on-click="{{closeToast}}" style="border: 1px solid {{toastBd}}; background: #FFFFFF; color: #12221F">تمام</button>
+</div>
+</sc-if>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px">
+<sc-for list="{{kpis}}" as="k" hint-placeholder-count="4">
+<button type="button" class="in-kpi" sc-camel-on-click="{{k.pick}}" aria-pressed="{{k.pressed}}" style="border-color: {{k.bd}}; box-shadow: {{k.sh}}">
+<span style="display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 600; color: #4A5A56"><span style="width: 10px; height: 10px; border-radius: 999px; background: {{k.dot}}"></span>{{k.label}}</span>
+<span style="font-size: 34px; font-weight: 700; line-height: 1.2; color: {{k.fg}}">{{k.val}}</span>
+<span style="font-size: 13px; color: #4A5A56">{{k.sub}}</span>
+</button>
+</sc-for>
+</div>
+
+<div style="display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-start">
+
+<section class="ad-card" aria-labelledby="in-list-h" style="flex: 999 1 560px; min-width: 0">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px">
+<h2 class="ad-h" id="in-list-h"><span class="ad-n" style="background: #E3F0ED; color: #0D5C55"><svg aria-hidden="true" width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="2"></rect><path d="M4 10h16"></path><path d="M9 3v4"></path><path d="M15 3v4"></path></svg></span>جدول الأسبوع</h2>
+<span class="ad-hint">٢٤ – ٣٠ أكتوبر · النهارده الثلاثاء ٢٧</span>
+</div>
+
+<div role="group" aria-label="اختار يوم" style="display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px">
+<sc-for list="{{days}}" as="d" hint-placeholder-count="7">
+<button type="button" class="in-day" sc-camel-on-click="{{d.pick}}" aria-pressed="{{d.pressed}}" style="border: 1px solid {{d.bd}}; background: {{d.bg}}; color: {{d.fg}}">
+<span style="font-size: 13px; font-weight: 600">{{d.name}}</span>
+<span style="font-size: 20px; font-weight: 700">{{d.num}}</span>
+<span style="font-size: 12px; padding: 0 8px; border-radius: 999px; background: {{d.cBg}}; color: {{d.cFg}}">{{d.count}}</span>
+</button>
+</sc-for>
+</div>
+
+<div role="group" aria-label="فلترة الحالة" style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="5">
+<button type="button" class="ad-chip" sc-camel-on-click="{{t.pick}}" aria-pressed="{{t.pressed}}" style="border: 1px solid {{t.bd}}; background: {{t.bg}}; color: {{t.fg}}">{{t.label}} <span style="opacity: .75">({{t.n}})</span></button>
+</sc-for>
+<sc-if value="{{hasDay}}" hint-placeholder-val="{{false}}">
+<button type="button" class="in-mini" sc-camel-on-click="{{clearDay}}" style="border: 1px dashed #9FB2AB; background: #F5F7F4; color: #12221F">يوم {{dayName}} ✕</button>
+</sc-if>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="6">
+<div class="in-row" style="border-color: {{r.bd}}; background: {{r.bg}}">
+<button type="button" class="in-open" sc-camel-on-click="{{r.open}}" aria-label="افتح تقرير {{r.title}}">
+<svg aria-hidden="true" width="52" height="52" sc-camel-view-box="0 0 64 64" style="flex: none"><use href="#{{r.sym}}"></use></svg>
+<span style="display: flex; flex-direction: column; min-width: 0; line-height: 1.5">
+<span style="font-weight: 700">{{r.title}}</span>
+<span style="font-size: 13px; color: #4A5A56">{{r.id}} · {{r.gov}} — {{r.loc}}</span>
+<span style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px">
+<span class="in-pill" style="background: {{r.sBg}}; color: {{r.sFg}}">{{r.sTxt}}</span>
+<span class="in-pill" style="background: {{r.tBg}}; color: {{r.tFg}}">{{r.typeTxt}}</span>
+</span>
+</span>
+</button>
+<div style="display: flex; flex-direction: column; align-items: flex-start; min-width: 92px; line-height: 1.4">
+<span style="font-weight: 700">{{r.time}}</span>
+<span style="font-size: 13px; color: #4A5A56">{{r.dayName}} {{r.dayNum}}</span>
+</div>
+<label style="display: flex; flex-direction: column; gap: 2px; font-size: 12px; font-weight: 600; color: #4A5A56">اسم الفني
+<sc-raw-select class="in-sel" value="{{r.tech}}" sc-camel-on-change="{{r.assign}}" aria-label="اختار الفني لـ {{r.title}}" style="border-color: {{r.techBd}}">
+<option value="">— من غير فني —</option>
+<option value="[اسم الفني ١]">[اسم الفني ١]</option>
+<option value="[اسم الفني ٢]">[اسم الفني ٢]</option>
+<option value="[اسم الفني ٣]">[اسم الفني ٣]</option>
+</sc-raw-select>
+</label>
+</div>
+</sc-for>
+<sc-if value="{{noRows}}" hint-placeholder-val="{{false}}">
+<div style="padding: 28px; border-radius: 16px; background: #F5F7F4; text-align: center; color: #4A5A56">مفيش فحوصات بالفلتر ده.</div>
+</sc-if>
+</div>
+</section>
+
+<aside style="flex: 1 1 420px; min-width: 0; position: sticky; top: 20px; display: flex; flex-direction: column; gap: 14px">
+
+<sc-if value="{{noSel}}" hint-placeholder-val="{{false}}">
+<div class="ad-card" style="align-items: center; text-align: center; padding: 40px 24px">
+<span style="width: 60px; height: 60px; border-radius: 18px; background: #E3F0ED; color: #0D5C55; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="28" height="28" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l5 5v13H7z"></path><path d="M14 3v5h5"></path><path d="M10 13l2 2 4-4"></path></svg></span>
+<div style="font-weight: 700">اختار فحص من الجدول</div>
+<div class="ad-hint">هتلاقي هنا نموذج تقرير الفحص تملاه وتعتمده.</div>
+</div>
+</sc-if>
+
+<sc-if value="{{hasSel}}" hint-placeholder-val="{{true}}">
+<section class="ad-card" aria-labelledby="in-rep-h" style="gap: 18px">
+<div style="display: flex; align-items: flex-start; gap: 12px">
+<svg aria-hidden="true" width="56" height="56" sc-camel-view-box="0 0 64 64" style="flex: none"><use href="#{{sel.sym}}"></use></svg>
+<div style="flex: 1; min-width: 0; line-height: 1.5">
+<div style="font-size: 13px; color: #4A5A56">تقرير الفحص · {{sel.id}}</div>
+<h2 id="in-rep-h" style="margin: 0; font-size: 19px">{{sel.title}}</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px">
+<span class="in-pill" style="background: {{sel.sBg}}; color: {{sel.sFg}}">{{sel.sTxt}}</span>
+<span class="in-pill" style="background: {{sel.tBg}}; color: {{sel.tFg}}">{{sel.typeTxt}}</span>
+</div>
+</div>
+<button type="button" class="in-x" sc-camel-on-click="{{closeSel}}" aria-label="اقفل التقرير"><svg aria-hidden="true" width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg></button>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px 14px; padding: 12px 14px; border-radius: 14px; background: #F5F7F4; font-size: 14px">
+<span style="color: #4A5A56">النوع</span><span style="font-weight: 600">{{sel.cat}}</span>
+<span style="color: #4A5A56">الميعاد</span><span style="font-weight: 600">{{sel.dayName}} {{sel.dayNum}} أكتوبر · {{sel.time}}</span>
+<span style="color: #4A5A56">المكان</span><span style="font-weight: 600">{{sel.gov}} — {{sel.loc}}</span>
+<span style="color: #4A5A56">الفني</span><span style="font-weight: 600; color: {{sel.techFg}}">{{sel.techShow}}</span>
+<sc-if value="{{sel.isBuyer}}" hint-placeholder-val="{{false}}"><span style="color: #4A5A56">طلب المشتري</span></sc-if>
+<sc-if value="{{sel.isBuyer}}" hint-placeholder-val="{{false}}"><span style="font-weight: 600">{{sel.order}}</span></sc-if>
+</div>
+
+<div style="display: flex; flex-direction: column; gap: 10px">
+<div style="font-weight: 700">بنود الفحص</div>
+<sc-for list="{{checkRows}}" as="c" hint-placeholder-count="4">
+<div style="padding: 12px 14px; border-radius: 14px; border: 1px solid {{c.bd}}; background: {{c.bg}}; display: flex; flex-direction: column; gap: 8px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px">
+<span style="display: flex; flex-direction: column; line-height: 1.4"><span style="font-weight: 600">{{c.label}}</span><span class="ad-hint" style="font-size: 12px">{{c.sub}}</span></span>
+<span role="group" aria-label="نتيجة {{c.label}}" style="display: flex; gap: 6px">
+<button type="button" class="in-mini" sc-camel-on-click="{{c.pass}}" aria-pressed="{{c.passOn}}" style="border: 1px solid {{c.pBd}}; background: {{c.pBg}}; color: {{c.pFg}}">✓ سليم</button>
+<button type="button" class="in-mini" sc-camel-on-click="{{c.noteBtn}}" aria-pressed="{{c.noteOn}}" style="border: 1px solid {{c.nBd}}; background: {{c.nBg}}; color: {{c.nFg}}">فيه ملاحظة</button>
+</span>
+</div>
+<sc-if value="{{c.showNote}}" hint-placeholder-val="{{false}}">
+<input type="text" class="ad-in" style="min-height: 40px; font-size: 14px" value="{{c.note}}" sc-camel-on-change="{{c.onNote}}" aria-label="ملاحظة على {{c.label}}" placeholder="{{c.ph}}">
+</sc-if>
+</div>
+</sc-for>
+</div>
+
+<div class="ad-grid" style="grid-template-columns: repeat(auto-fill, minmax(170px, 1fr))">
+<label class="ad-field">كفاءة التشغيل الإجمالية
+<sc-raw-select class="ad-in" value="{{f.eff}}" sc-camel-on-change="{{onEff}}"><option value="">اختار</option><option>ممتاز</option><option>جيد جداً</option><option>جيد</option></sc-raw-select>
+</label>
+<label class="ad-field">حالة المنتج
+<sc-raw-select class="ad-in" value="{{f.cond}}" sc-camel-on-change="{{onCond}}"><option value="">اختار</option><option>ممتازة 81–100%</option><option>جيدة 60–80%</option><option>أقل من 60%</option></sc-raw-select>
+</label>
+</div>
+
+<label class="ad-field">العيوب المعلنة
+<textarea class="ad-in" value="{{f.defects}}" sc-camel-on-change="{{onDefects}}" placeholder="كل عيب بوضوح، هيظهر للمشتري في التقرير"></textarea>
+</label>
+
+<label class="ad-drop in-drop">
+<input type="file" accept="image/*,video/*" multiple="" class="in-file" sc-camel-on-change="{{onPhotos}}">
+<span style="width: 44px; height: 44px; border-radius: 12px; background: #3F7A1F; color: #FFFFFF; display: flex; align-items: center; justify-content: center; flex: none"><svg aria-hidden="true" width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="9" cy="10" r="1.8"></circle><path d="M21 16l-5-5-8 8"></path></svg></span>
+<span style="display: flex; flex-direction: column; flex: 1"><span style="font-weight: 700">صور وفيديو الفحص</span><span class="ad-hint">صور كل جزء اتفحص، وأي عيب من قريب</span></span>
+<span class="in-pill" style="background: {{photoBg}}; color: {{photoFg}}">{{photoTxt}}</span>
+</label>
+
+<sc-if value="{{hasErr}}" hint-placeholder-val="{{false}}">
+<div role="alert" style="padding: 12px 14px; border-radius: 14px; background: #FBE9E7; border: 1px solid #E8B4AE; color: #B3261E; font-size: 14px">
+<div style="font-weight: 700">لسه ناقص قبل الاعتماد:</div>
+<div>{{errTxt}}</div>
+</div>
+</sc-if>
+
+<sc-if value="{{canEdit}}" hint-placeholder-val="{{true}}">
+<div style="display: flex; flex-wrap: wrap; gap: 10px">
+<button type="button" class="ad-btn ad-sec" style="flex: 1 1 140px" sc-camel-on-click="{{saveRep}}">احفظ التقرير</button>
+<button type="button" class="ad-btn ad-pri" style="flex: 1 1 180px" sc-camel-on-click="{{approve}}"><svg aria-hidden="true" width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"></path></svg>اعتمد ونشّر</button>
+</div>
+<div class="ad-hint">«احفظ» بيحوّله لـ «محتاج مراجعة». «اعتمد ونشّر» {{approveHint}}</div>
+</sc-if>
+<sc-if value="{{isPub}}" hint-placeholder-val="{{false}}">
+<div style="padding: 12px 14px; border-radius: 14px; background: #EAF5DD; color: #3F7A1F; font-weight: 600; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap">
+<span>التقرير معتمد · {{pubTxt}}</span>
+<button type="button" class="in-mini" sc-camel-on-click="{{reopen}}" style="border: 1px solid #A9CF8E; background: #FFFFFF; color: #12221F">افتح للتعديل</button>
+</div>
+</sc-if>
+</section>
+</sc-if>
+
+<div style="padding: 14px 16px; border-radius: 16px; background: #FFFFFF; border: 1px solid #DCE3DF; font-size: 13px; color: #3C4C48; display: flex; flex-direction: column; gap: 4px">
+<span style="font-weight: 700; color: #12221F">تذكير</span>
+<span>الفحص بيعمله فني معتمد بس. الجهاز بيتعرض بحالة «تم الفحص» أو «يُفحص عند الطلب».</span>
+<span>سبب البيع داخلي، ميتكتبش في التقرير.</span>
+</div>
+</aside>
+</div>
+
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:2200}}">
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+var T1 = '[اسم الفني ١]', T2 = '[اسم الفني ٢]', T3 = '[اسم الفني ٣]';
+var items = [
+{ id: '#F-301', title: 'يونيت أسنان Sirona C8', cat: 'يونيت أسنان', sym: 'in-unit', gov: 'القاهرة', loc: 'عند البايع · مدينة نصر', tech: T1, day: 3, time: '10:00 ص', type: 'pre', st: 'sched' },
+{ id: '#F-302', title: 'أوتوكلاف Class B 23 لتر', cat: 'أوتوكلاف', sym: 'in-box', gov: 'الجيزة', loc: 'مقر الفحص', tech: T2, day: 3, time: '1:30 م', type: 'buyer', order: '#2043', st: 'sched' },
+{ id: '#F-303', title: 'أشعة X-Mind', cat: 'أشعة', sym: 'in-xray', gov: 'الإسكندرية', loc: 'عند البايع · سموحة', tech: '', day: 3, time: '4:00 م', type: 'pre', st: 'sched' },
+{ id: '#F-298', title: 'إندو موتور لاسلكي', cat: 'إندو موتور', sym: 'in-small', gov: 'الدقهلية', loc: 'عند البايع · المنصورة', tech: T3, day: 2, time: '12:00 م', type: 'buyer', order: '#2044', st: 'sched' },
+{ id: '#F-297', title: 'لايت كيور LED', cat: 'لايت كيور', sym: 'in-small', gov: 'القليوبية', loc: 'مقر الفحص', tech: T1, day: 1, time: '11:00 ص', type: 'pre', st: 'review' },
+{ id: '#F-296', title: 'موتور جراحة وزراعة', cat: 'موتور جراحة وزراعة', sym: 'in-small', gov: 'القاهرة', loc: 'عند البايع · المعادي', tech: T2, day: 0, time: '2:00 م', type: 'pre', st: 'review' },
+{ id: '#F-304', title: 'أبيكس لوكيتور', cat: 'أبيكس لوكيتور', sym: 'in-small', gov: 'الشرقية', loc: 'عند البايع · الزقازيق', tech: T3, day: 4, time: '11:00 ص', type: 'pre', st: 'sched' },
+{ id: '#F-305', title: 'كاميرا إنترا أورال', cat: 'كاميرا إنترا أورال', sym: 'in-cam', gov: 'القاهرة', loc: 'عند البايع · التجمع', tech: '', day: 5, time: '2:00 م', type: 'buyer', order: '#2047', st: 'sched' },
+{ id: '#F-295', title: 'روتاري Reciproc', cat: 'روتاري', sym: 'in-small', gov: 'الجيزة', loc: 'مقر الفحص', tech: T1, day: 0, time: '10:00 ص', type: 'pre', st: 'pub' }
+];
+var forms = {};
+items.forEach(function (it) { forms[it.id] = { checks: { run: { v: '', n: '' }, look: { v: '', n: '' }, parts: { v: '', n: '' }, maint: { v: '', n: '' } }, eff: '', cond: '', defects: '', photos: 0 }; });
+forms['#F-297'] = { checks: { run: { v: 'pass', n: '' }, look: { v: 'note', n: 'خدش بسيط في الجراب' }, parts: { v: 'pass', n: '' }, maint: { v: 'note', n: 'اتغيرت البطارية من سنة' } }, eff: 'ممتاز', cond: 'ممتازة 81–100%', defects: 'خدش بسيط في الجراب، مش مأثر على الشغل.', photos: 6 };
+forms['#F-296'] = { checks: { run: { v: 'pass', n: '' }, look: { v: 'pass', n: '' }, parts: { v: '', n: '' }, maint: { v: 'pass', n: '' } }, eff: 'جيد جداً', cond: '', defects: '', photos: 4 };
+forms['#F-295'] = { checks: { run: { v: 'pass', n: '' }, look: { v: 'pass', n: '' }, parts: { v: 'pass', n: '' }, maint: { v: 'pass', n: '' } }, eff: 'ممتاز', cond: 'ممتازة 81–100%', defects: 'مفيش', photos: 8 };
+this.state = { items: items, forms: forms, sel: '#F-297', tab: 'all', day: -1, q: '', toast: null, err: '' };
+}
+renderVals() {
+var s = this.state;
+var self = this;
+var TODAY = 3;
+var DAYS = [['السبت', '٢٤'], ['الحد', '٢٥'], ['الاتنين', '٢٦'], ['الثلاثاء', '٢٧'], ['الأربع', '٢٨'], ['الخميس', '٢٩'], ['الجمعة', '٣٠']];
+var CHECKS = [
+['run', 'التشغيل', 'الجهاز اشتغل واتجرب على كل الوظايف', 'مثال: الضغط بيقع بعد 10 دقايق'],
+['look', 'الحالة الظاهرية', 'الجسم، الشاشة، الكابلات، الكسور', 'مثال: خدش في الغطا'],
+['parts', 'الأجزاء المتغيرة', 'أي قطعة مش أصلية أو اتغيرت', 'مثال: الهاند بيس اتغير 2024'],
+['maint', 'الصيانة السابقة', 'آخر صيانة ومين عملها', 'مثال: صيانة توكيل من 6 شهور']
+];
+function status(it) {
+if (it.st === 'pub') return 'pub';
+if (it.st === 'review') return 'review';
+if (it.day < TODAY) return 'late';
+if (!it.tech) return 'notech';
+return 'sched';
+}
+var ST = {
+sched: ['مجدول', '#E6EDF7', '#24508F'],
+notech: ['محتاج فني', '#FBEEDC', '#8A4209'],
+late: ['متأخر', '#FBE9E7', '#B3261E'],
+review: ['التقرير محتاج مراجعة', '#FBEEDC', '#8A4209'],
+pub: ['تم الفحص', '#EAF5DD', '#3F7A1F']
+};
+function setItem(id, patch) {
+var items = s.items.map(function (it) { if (it.id !== id) return it; var c = {}; for (var k in it) c[k] = it[k]; for (var p in patch) c[p] = patch[p]; return c; });
+return items;
+}
+function setForm(id, fn) {
+var forms = {}; for (var k in s.forms) forms[k] = s.forms[k];
+var f = s.forms[id];
+var nf = { checks: {}, eff: f.eff, cond: f.cond, defects: f.defects, photos: f.photos };
+for (var c in f.checks) nf.checks[c] = { v: f.checks[c].v, n: f.checks[c].n };
+fn(nf);
+forms[id] = nf;
+self.setState({ forms: forms, err: '' });
+}
+var q = (s.q || '').trim();
+function matchQ(it) { return !q || (it.title + ' ' + it.id + ' ' + it.gov + ' ' + it.cat + ' ' + it.loc).indexOf(q) >= 0; }
+function inTab(it, tab) {
+var st = status(it);
+if (tab === 'all') return true;
+if (tab === 'today') return it.day === TODAY && st !== 'pub';
+if (tab === 'late') return st === 'late';
+if (tab === 'review') return st === 'review';
+if (tab === 'pub') return st === 'pub';
+return true;
+}
+var base = s.items.filter(matchQ);
+var kToday = s.items.filter(function (it) { return inTab(it, 'today'); }).length;
+var kWeek = s.items.length;
+var kWeekDone = s.items.filter(function (it) { return status(it) === 'pub'; }).length;
+var kLate = s.items.filter(function (it) { return inTab(it, 'late'); }).length;
+var kRev = s.items.filter(function (it) { return inTab(it, 'review'); }).length;
+var kNoTech = s.items.filter(function (it) { return !it.tech && status(it) !== 'pub'; }).length;
+function kpi(key, label, val, sub, col) {
+var on = s.tab === key;
+return { label: label, val: String(val), sub: sub, dot: col, fg: key === 'late' && val > 0 ? '#B3261E' : '#12221F', pressed: on ? 'true' : 'false', bd: on ? '#0D5C55' : '#DCE3DF', sh: on ? '0 0 0 3px rgba(13,92,85,.15)' : 'none', pick: function () { self.setState({ tab: on ? 'all' : key, day: -1 }); } };
+}
+var kpis = [
+kpi('today', 'النهارده', kToday, kNoTech ? kNoTech + ' فحص لسه من غير فني' : 'كل المواعيد ليها فني', '#24508F'),
+kpi('all', 'الأسبوع ده', kWeek, kWeekDone + ' اتعمدوا · ' + (kWeek - kWeekDone) + ' باقيين', '#0D5C55'),
+kpi('late', 'متأخر', kLate, kLate ? 'ميعادهم فات ولسه متفحصوش' : 'مفيش حاجة متأخرة', '#B3261E'),
+kpi('review', 'تقارير محتاجة مراجعة', kRev, 'اتملت ومستنية اعتماد', '#F2A33A')
+];
+var tabsDef = [['all', 'الكل'], ['today', 'النهارده'], ['late', 'متأخر'], ['review', 'محتاج مراجعة'], ['pub', 'تم الفحص']];
+var tabs = tabsDef.map(function (t) {
+var on = s.tab === t[0];
+return { label: t[1], n: base.filter(function (it) { return inTab(it, t[0]); }).length, pressed: on ? 'true' : 'false', bg: on ? '#0D5C55' : '#FFFFFF', fg: on ? '#FFFFFF' : '#12221F', bd: on ? '#0D5C55' : '#C9D4CF', pick: function () { self.setState({ tab: t[0] }); } };
+});
+var days = DAYS.map(function (d, i) {
+var on = s.day === i;
+var n = s.items.filter(function (it) { return it.day === i; }).length;
+var isT = i === TODAY;
+return { name: isT ? 'النهارده' : d[0], num: d[1], count: n ? n + ' فحص' : '—', pressed: on ? 'true' : 'false',
+bg: on ? '#0D5C55' : (isT ? '#E3F0ED' : '#FFFFFF'), fg: on ? '#FFFFFF' : '#12221F', bd: on ? '#0D5C55' : (isT ? '#9CCBC2' : '#DCE3DF'),
+cBg: on ? 'rgba(255,255,255,.2)' : (n ? '#F5F7F4' : 'transparent'), cFg: on ? '#FFFFFF' : '#4A5A56',
+pick: function () { self.setState({ day: on ? -1 : i }); } };
+});
+function view(it) {
+var st = status(it);
+var tBuyer = it.type === 'buyer';
+return {
+id: it.id, title: it.title, cat: it.cat, sym: it.sym, gov: it.gov, loc: it.loc, time: it.time, tech: it.tech,
+dayName: DAYS[it.day][0], dayNum: DAYS[it.day][1], order: it.order || '',
+sTxt: ST[st][0], sBg: ST[st][1], sFg: ST[st][2],
+typeTxt: tBuyer ? 'بعد طلب مشتري' : 'قبل النشر', tBg: tBuyer ? '#E6EDF7' : '#F5F7F4', tFg: tBuyer ? '#24508F' : '#3C4C48',
+isBuyer: tBuyer,
+techShow: it.tech || 'لسه محدش اتحدد', techFg: it.tech ? '#12221F' : '#B3261E', techBd: it.tech ? '#C9D4CF' : '#F0C88A',
+bd: s.sel === it.id ? '#0D5C55' : (st === 'late' ? '#E8B4AE' : '#DCE3DF'),
+bg: s.sel === it.id ? '#F2F8F6' : '#FFFFFF',
+open: function () { self.setState({ sel: it.id, err: '' }); },
+assign: function (e) { var v = e.target.value; self.setState({ items: setItem(it.id, { tech: v }), toast: { kind: 'ok', txt: v ? 'اتحدد ' + v + ' لفحص ' + it.title + '.' : 'اتشال الفني من فحص ' + it.title + '.' } }); }
+};
+}
+var rows = base.filter(function (it) { return inTab(it, s.tab) && (s.day < 0 || it.day === s.day); })
+.sort(function (a, b) { return a.day - b.day; }).map(view);
+var selIt = null;
+s.items.forEach(function (it) { if (it.id === s.sel) selIt = it; });
+var sel = selIt ? view(selIt) : { sym: 'in-unit' };
+var f = selIt ? s.forms[selIt.id] : { checks: { run: { v: '', n: '' }, look: { v: '', n: '' }, parts: { v: '', n: '' }, maint: { v: '', n: '' } }, eff: '', cond: '', defects: '', photos: 0 };
+var checkRows = CHECKS.map(function (c) {
+var r = f.checks[c[0]];
+var p = r.v === 'pass', n = r.v === 'note';
+return {
+label: c[1], sub: c[2], ph: c[3], note: r.n, showNote: n,
+passOn: p ? 'true' : 'false', noteOn: n ? 'true' : 'false',
+pBg: p ? '#3F7A1F' : '#FFFFFF', pFg: p ? '#FFFFFF' : '#12221F', pBd: p ? '#3F7A1F' : '#C9D4CF',
+nBg: n ? '#F2A33A' : '#FFFFFF', nFg: '#12221F', nBd: n ? '#F2A33A' : '#C9D4CF',
+bd: p ? '#B9DCA4' : (n ? '#F0C88A' : '#DCE3DF'), bg: p ? '#F6FBF1' : (n ? '#FFF9F0' : '#FFFFFF'),
+pass: function () { setForm(selIt.id, function (x) { x.checks[c[0]].v = 'pass'; }); },
+noteBtn: function () { setForm(selIt.id, function (x) { x.checks[c[0]].v = 'note'; }); },
+onNote: function (e) { var v = e.target.value; setForm(selIt.id, function (x) { x.checks[c[0]].n = v; }); }
+};
+});
+function missing() {
+var m = [];
+if (!selIt.tech) m.push('تحديد الفني');
+CHECKS.forEach(function (c) { var r = f.checks[c[0]]; if (!r.v) m.push('بند «' + c[1] + '»'); else if (r.v === 'note' && !r.n.trim()) m.push('ملاحظة «' + c[1] + '»'); });
+if (!f.eff) m.push('كفاءة التشغيل');
+if (!f.cond) m.push('حالة المنتج');
+if (!f.photos) m.push('صور الفحص');
+return m;
+}
+var t = s.toast;
+var TK = { ok: ['#EAF5DD', '#B9DCA4', '#3F7A1F', '✓'], info: ['#E6EDF7', '#B8C9E4', '#24508F', 'i'] };
+var tk = t ? TK[t.kind] : TK.ok;
+var isPub = !!selIt && selIt.st === 'pub';
+return {
+q: s.q, onQ: function (e) { self.setState({ q: e.target.value }); },
+kpis: kpis, tabs: tabs, days: days, rows: rows, noRows: rows.length === 0,
+hasDay: s.day >= 0, dayName: s.day >= 0 ? DAYS[s.day][0] : '', clearDay: function () { self.setState({ day: -1 }); },
+hasToast: !!t, toastTxt: t ? t.txt : '', toastBg: tk[0], toastBd: tk[1], toastFg: tk[2], toastIcon: tk[3],
+closeToast: function () { self.setState({ toast: null }); },
+noSel: !selIt, hasSel: !!selIt, sel: sel, f: f, checkRows: checkRows,
+closeSel: function () { self.setState({ sel: null, err: '' }); },
+onEff: function (e) { var v = e.target.value; setForm(selIt.id, function (x) { x.eff = v; }); },
+onCond: function (e) { var v = e.target.value; setForm(selIt.id, function (x) { x.cond = v; }); },
+onDefects: function (e) { var v = e.target.value; setForm(selIt.id, function (x) { x.defects = v; }); },
+onPhotos: function (e) { var n = (e.target.files && e.target.files.length) || 0; if (n) setForm(selIt.id, function (x) { x.photos = x.photos + n; }); },
+photoTxt: f.photos ? f.photos + ' ملف مرفوع' : 'لسه مفيش', photoBg: f.photos ? '#EAF5DD' : '#FBE9E7', photoFg: f.photos ? '#3F7A1F' : '#B3261E',
+hasErr: !!s.err, errTxt: s.err,
+canEdit: !!selIt && !isPub, isPub: isPub,
+approveHint: selIt && selIt.type === 'buyer' ? 'بيبعت التقرير للمشتري ويحرّك طلبه لخطوة «تقرير الفحص».' : 'بينشر الجهاز في «كل الأجهزة» بعلامة «تم الفحص».',
+pubTxt: selIt && selIt.type === 'buyer' ? 'اتبعت للمشتري (' + (selIt.order || '') + ')' : 'الجهاز منشور بعلامة «تم الفحص»',
+saveRep: function () { self.setState({ items: setItem(selIt.id, { st: 'review' }), err: '', toast: { kind: 'info', txt: 'تقرير ' + selIt.title + ' اتحفظ، وحالته بقت «محتاج مراجعة».' } }); },
+approve: function () {
+var m = missing();
+if (m.length) { self.setState({ err: m.join('، ') }); return; }
+var txt = selIt.type === 'buyer' ? 'التقرير اتعمد واتبعت للمشتري، وطلب ' + selIt.order + ' اتحرك لخطوة «تقرير الفحص».' : selIt.title + ' اتنشر في «كل الأجهزة» بعلامة «تم الفحص».';
+self.setState({ items: setItem(selIt.id, { st: 'pub' }), err: '', toast: { kind: 'ok', txt: txt } });
+},
+reopen: function () { self.setState({ items: setItem(selIt.id, { st: 'review' }), toast: { kind: 'info', txt: 'التقرير اتفتح للتعديل، ورجع «محتاج مراجعة».' } }); }
+};
+}
+}
+</script>
+
+
+</body></html>

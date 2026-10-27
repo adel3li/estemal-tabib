@@ -1,9 +1,8 @@
-<!doctype html>
-<html lang="ar" dir="rtl">
-<head>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head>
 <meta charset="utf-8">
 <title>استعمال طبيب — الرئيسية</title>
-<script src="./support.js"></script>
+<script src="support.js"></script>
 </head>
 <body>
 <x-dc>
@@ -12,323 +11,650 @@
 <style>
 body{margin:0;background:#F5F7F4}
 a{color:#0D5C55;text-decoration:none}a:hover{color:#08403B}
-summary{cursor:pointer}
+html{scroll-behavior:smooth}
+section[id]{scroll-margin-top:84px}
+.mn-nav a{color:#3C4C48;font-weight:500}
+.mn-nav a:hover{color:#0D5C55}
+.mn-ghost{transition:background .15s ease}
+.mn-ghost:hover{background:#F5F7F4;color:#12221F}
+.mn-cta{transition:background .15s ease, transform .15s ease, box-shadow .15s ease}
+.mn-cta:hover{background:#08403B;color:#FFFFFF;transform:translateY(-1px);box-shadow:0 8px 18px rgba(13,92,85,.22)}
+.mn-amber{transition:background .15s ease, transform .15s ease, box-shadow .15s ease}
+.mn-amber:hover{background:#E8952A;color:#12221F;transform:translateY(-1px);box-shadow:0 8px 18px rgba(242,163,58,.28)}
+.mn-card{transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease}
+.mn-card:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(18,34,31,.10);border-color:#C9D4CF;color:#12221F}
+.mn-card:hover .mn-more{gap:10px}
+.mn-more{transition:gap .15s ease}
+.mn-chip{transition:background .15s ease, border-color .15s ease}
+.mn-chip:hover{border-color:#0D5C55}
+.mn-field:focus{outline:none;border-color:#0D5C55;box-shadow:0 0 0 3px rgba(13,92,85,.15)}
+.mn-faq summary{list-style:none;cursor:pointer}
+.mn-faq summary::-webkit-details-marker{display:none}
+.mn-faq .mn-chev{transition:transform .2s ease}
+.mn-faq[open] .mn-chev{transform:rotate(180deg)}
+.mn-faq[open]{background:#FFFFFF;border-color:#9CCBC2;box-shadow:0 10px 30px rgba(18,34,31,.06)}
+.mn-upload{transition:border-color .15s ease, background .15s ease}
+.mn-upload:hover{border-color:#0D5C55;background:#FFFFFF}
 </style>
 </helmet>
 <div dir="rtl" style="min-height: 100vh; background: #F5F7F4; color: #12221F; font-family: 'IBM Plex Sans Arabic', 'Segoe UI', sans-serif; font-size: 16px; line-height: 1.7">
 
-<header style="background: #FFFFFF; border-bottom: 1px solid #DCE3DF">
-<div style="max-width: 1200px; margin: 0 auto; padding: 14px 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
-<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; color: #12221F">
+<svg aria-hidden="true" width="0" height="0" style="position: absolute; width: 0; height: 0; overflow: hidden">
+<defs>
+<linearGradient id="mn-body" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"></stop><stop offset="1" stop-color="#DCE5E1"></stop></linearGradient>
+<linearGradient id="mn-steel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#E9EEEC"></stop><stop offset=".5" stop-color="#B9C6C1"></stop><stop offset="1" stop-color="#8FA09A"></stop></linearGradient>
+<radialGradient id="mn-glass" cx=".4" cy=".35" r=".7"><stop offset="0" stop-color="#5D7A74"></stop><stop offset="1" stop-color="#1D3330"></stop></radialGradient>
+<linearGradient id="mn-bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EEF4F1"></stop><stop offset="1" stop-color="#D6E3DE"></stop></linearGradient>
+<linearGradient id="mn-uph" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1C8277"></stop><stop offset="1" stop-color="#0B4A44"></stop></linearGradient>
+<linearGradient id="mn-bgblue" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EEF3FA"></stop><stop offset="1" stop-color="#D3DFF0"></stop></linearGradient>
+<linearGradient id="mn-bgteal" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#EEF6F3"></stop><stop offset="1" stop-color="#D2E8E2"></stop></linearGradient>
+<linearGradient id="mn-shield" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1C8277"></stop><stop offset="1" stop-color="#0D5C55"></stop></linearGradient>
+</defs>
+
+<!-- Dental unit -->
+<symbol id="mn-unit" sc-camel-view-box="0 0 400 300">
+<rect width="400" height="300" fill="url(#mn-bg)"></rect>
+<circle cx="300" cy="70" r="96" fill="#FFFFFF" opacity=".35"></circle>
+<ellipse cx="205" cy="262" rx="165" ry="12" fill="#12221F" opacity=".12"></ellipse>
+<path d="M236 60 L196 160 L310 160 L274 60z" fill="#FFF6E3" opacity=".45"></path>
+<rect x="344" y="38" width="10" height="220" rx="5" fill="url(#mn-steel)"></rect>
+<rect x="252" y="38" width="102" height="9" rx="4.5" fill="#AEBDB7"></rect>
+<rect x="232" y="32" width="46" height="28" rx="11" fill="url(#mn-body)" stroke="#AEBDB7" stroke-width="2"></rect>
+<rect x="240" y="52" width="30" height="8" rx="4" fill="#FCE3B0"></rect>
+<rect x="332" y="252" width="34" height="10" rx="3" fill="#5D6E69"></rect>
+<path d="M200 212 L126 160" stroke="#9DADA7" stroke-width="8" stroke-linecap="round"></path>
+<circle cx="126" cy="160" r="7" fill="#8FA09A"></circle>
+<rect x="70" y="110" width="9" height="34" rx="4.5" fill="url(#mn-steel)"></rect>
+<rect x="88" y="106" width="9" height="38" rx="4.5" fill="url(#mn-steel)"></rect>
+<rect x="106" y="112" width="9" height="32" rx="4.5" fill="url(#mn-steel)"></rect>
+<rect x="56" y="140" width="104" height="18" rx="7" fill="url(#mn-body)" stroke="#AEBDB7" stroke-width="2"></rect>
+<rect x="124" y="145" width="26" height="8" rx="3" fill="#12221F"></rect>
+<circle cx="130" cy="149" r="2" fill="#7CE0C8"></circle>
+<path d="M74 158 q-8 28 6 52" stroke="#5D6E69" stroke-width="3" fill="none" stroke-linecap="round"></path>
+<path d="M92 158 q-4 30 10 50" stroke="#5D6E69" stroke-width="3" fill="none" stroke-linecap="round"></path>
+<path d="M110 158 q0 26 12 44" stroke="#5D6E69" stroke-width="3" fill="none" stroke-linecap="round"></path>
+<rect x="150" y="238" width="122" height="20" rx="8" fill="url(#mn-steel)" stroke="#8FA09A" stroke-width="1.5"></rect>
+<rect x="190" y="196" width="42" height="46" rx="6" fill="url(#mn-body)" stroke="#AEBDB7" stroke-width="2"></rect>
+<rect x="112" y="176" width="172" height="26" rx="13" fill="url(#mn-uph)"></rect>
+<path d="M126 182h140" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" opacity=".22"></path>
+<g transform="translate(86 210) rotate(61)"><rect x="-13" y="-36" width="26" height="72" rx="13" fill="url(#mn-uph)"></rect></g>
+<g transform="translate(300 140) rotate(30)"><rect x="-16" y="-58" width="32" height="116" rx="16" fill="url(#mn-uph)"></rect><rect x="-8" y="-46" width="4" height="90" rx="2" fill="#FFFFFF" opacity=".2"></rect><rect x="-18" y="-87" width="36" height="25" rx="12.5" fill="url(#mn-uph)"></rect></g>
+<rect x="198" y="162" width="62" height="9" rx="4.5" fill="url(#mn-steel)"></rect>
+<rect x="226" y="169" width="6" height="10" fill="#8FA09A"></rect>
+<rect x="104" y="246" width="34" height="9" rx="4.5" fill="#8FA09A"></rect>
+<ellipse cx="121" cy="256" rx="22" ry="5" fill="#5D6E69"></ellipse>
+<path d="M138 252 q26 -2 52 -4" stroke="#5D6E69" stroke-width="3" fill="none" stroke-linecap="round"></path>
+</symbol>
+
+<!-- Inspection seal -->
+<symbol id="mn-seal" sc-camel-view-box="0 0 120 120">
+<circle cx="60" cy="60" r="56" fill="#FFFFFF"></circle>
+<circle cx="60" cy="60" r="49" fill="none" stroke="#9CCBC2" stroke-width="2" stroke-dasharray="4 5"></circle>
+<path d="M60 22l28 11v22c0 18-12 31-28 37-16-6-28-19-28-37V33z" fill="url(#mn-shield)"></path>
+<path d="M46 58l10 10 19-21" stroke="#FFFFFF" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+<circle cx="96" cy="26" r="9" fill="#F2A33A"></circle>
+<path d="M92 26l3 3 5-6" stroke="#12221F" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+</symbol>
+
+<!-- Autoclave -->
+<symbol id="mn-autoclave" sc-camel-view-box="0 0 400 300">
+<rect width="400" height="300" fill="url(#mn-bg)"></rect>
+<circle cx="90" cy="70" r="80" fill="#FFFFFF" opacity=".35"></circle>
+<ellipse cx="200" cy="262" rx="150" ry="12" fill="#12221F" opacity=".12"></ellipse>
+<rect x="70" y="70" width="260" height="185" rx="22" fill="url(#mn-body)" stroke="#AEBDB7" stroke-width="2"></rect>
+<line x1="70" y1="108" x2="330" y2="108" stroke="#C9D4CF" stroke-width="2"></line>
+<rect x="232" y="78" width="78" height="22" rx="6" fill="#12221F"></rect>
+<text x="271" y="94" text-anchor="middle" font-family="monospace" font-size="13" fill="#7CE0C8">134°C</text>
+<circle cx="96" cy="89" r="6" fill="#0D5C55"></circle>
+<circle cx="116" cy="89" r="6" fill="#F2A33A"></circle>
+<rect x="134" y="84" width="40" height="10" rx="5" fill="#DCE3DF"></rect>
+<circle cx="182" cy="182" r="58" fill="url(#mn-steel)" stroke="#8FA09A" stroke-width="3"></circle>
+<circle cx="182" cy="182" r="42" fill="url(#mn-glass)"></circle>
+<path d="M160 160a30 30 0 0 1 26-12" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" fill="none" opacity=".45"></path>
+<rect x="252" y="160" width="14" height="46" rx="7" fill="#8FA09A"></rect>
+<rect x="282" y="128" width="30" height="104" rx="8" fill="#EEF3F1" stroke="#C9D4CF"></rect>
+<circle cx="297" cy="146" r="5" fill="#0D5C55"></circle>
+<rect x="289" y="160" width="16" height="4" rx="2" fill="#AEBDB7"></rect>
+<rect x="289" y="170" width="16" height="4" rx="2" fill="#AEBDB7"></rect>
+<rect x="289" y="180" width="16" height="4" rx="2" fill="#AEBDB7"></rect>
+<rect x="92" y="252" width="26" height="10" rx="3" fill="#5D6E69"></rect>
+<rect x="282" y="252" width="26" height="10" rx="3" fill="#5D6E69"></rect>
+</symbol>
+
+<!-- Cordless endo motor -->
+<symbol id="mn-endo" sc-camel-view-box="0 0 400 300">
+<rect width="400" height="300" fill="url(#mn-bg)"></rect>
+<circle cx="300" cy="80" r="86" fill="#FFFFFF" opacity=".35"></circle>
+<ellipse cx="200" cy="260" rx="130" ry="11" fill="#12221F" opacity=".12"></ellipse>
+<rect x="100" y="196" width="204" height="58" rx="22" fill="url(#mn-body)" stroke="#AEBDB7" stroke-width="2"></rect>
+<rect x="202" y="210" width="84" height="30" rx="7" fill="#12221F"></rect>
+<text x="244" y="230" text-anchor="middle" font-family="monospace" font-size="13" fill="#7CE0C8">350 rpm</text>
+<rect x="118" y="178" width="66" height="26" rx="11" fill="#EEF3F1" stroke="#C9D4CF" stroke-width="2"></rect>
+<g transform="translate(182 140) rotate(28) scale(.85)">
+<rect x="-15" y="-74" width="30" height="134" rx="15" fill="url(#mn-steel)" stroke="#8FA09A" stroke-width="2"></rect>
+<rect x="-15" y="-12" width="30" height="9" fill="#0D5C55"></rect>
+<rect x="-15" y="18" width="30" height="3" fill="#8FA09A"></rect>
+<rect x="-15" y="27" width="30" height="3" fill="#8FA09A"></rect>
+<rect x="-15" y="36" width="30" height="3" fill="#8FA09A"></rect>
+<rect x="-8" y="-100" width="16" height="32" rx="8" fill="url(#mn-steel)" stroke="#8FA09A" stroke-width="1.5"></rect>
+<circle cx="0" cy="-104" r="12" fill="url(#mn-steel)" stroke="#8FA09A" stroke-width="2"></circle>
+<path d="M-10 -108 L-44 -116" stroke="#5D6E69" stroke-width="3" stroke-linecap="round"></path>
+<path d="M-6 -58 v34" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" opacity=".5"></path>
+</g>
+<circle cx="126" cy="226" r="7" fill="#0D5C55"></circle>
+<circle cx="150" cy="226" r="7" fill="#FFFFFF" stroke="#C9D4CF" stroke-width="2"></circle>
+<circle cx="174" cy="226" r="7" fill="#F2A33A"></circle>
+</symbol>
+
+<!-- Wall-mounted X-Ray -->
+<symbol id="mn-xray" sc-camel-view-box="0 0 400 300">
+<rect width="400" height="300" fill="url(#mn-bg)"></rect>
+<rect x="352" y="0" width="48" height="300" fill="#FFFFFF" opacity=".45"></rect>
+<circle cx="110" cy="230" r="80" fill="#FFFFFF" opacity=".25"></circle>
+<rect x="322" y="48" width="34" height="92" rx="8" fill="url(#mn-body)" stroke="#AEBDB7" stroke-width="2"></rect>
+<path d="M330 92 L252 130" stroke="#9DADA7" stroke-width="13" stroke-linecap="round"></path>
+<path d="M252 130 L182 100" stroke="#9DADA7" stroke-width="11" stroke-linecap="round"></path>
+<circle cx="330" cy="92" r="10" fill="#8FA09A"></circle>
+<circle cx="252" cy="130" r="10" fill="#8FA09A"></circle>
+<circle cx="182" cy="100" r="9" fill="#8FA09A"></circle>
+<path d="M182 100 L178 116" stroke="#8FA09A" stroke-width="8" stroke-linecap="round"></path>
+<g transform="translate(118 172) rotate(40)">
+<rect x="-15" y="-32" width="30" height="62" rx="7" fill="#F7FAF9" stroke="#AEBDB7" stroke-width="2"></rect>
+<rect x="-15" y="22" width="30" height="8" fill="#0D5C55"></rect>
+</g>
+<g transform="translate(162 134) rotate(-20)">
+<rect x="-40" y="-25" width="80" height="50" rx="23" fill="url(#mn-body)" stroke="#AEBDB7" stroke-width="2"></rect>
+<circle cx="14" cy="0" r="10" fill="#E3F0ED" stroke="#9CCBC2" stroke-width="2"></circle>
+<circle cx="-14" cy="-6" r="5" fill="#F2A33A"></circle>
+</g>
+<rect x="300" y="170" width="60" height="84" rx="11" fill="url(#mn-body)" stroke="#AEBDB7" stroke-width="2"></rect>
+<rect x="310" y="182" width="40" height="20" rx="4" fill="#12221F"></rect>
+<text x="330" y="196" text-anchor="middle" font-family="monospace" font-size="11" fill="#7CE0C8">0.25s</text>
+<circle cx="318" cy="218" r="5" fill="#0D5C55"></circle>
+<circle cx="334" cy="218" r="5" fill="#DCE3DF"></circle>
+<circle cx="318" cy="234" r="5" fill="#DCE3DF"></circle>
+<circle cx="334" cy="234" r="5" fill="#F2A33A"></circle>
+</symbol>
+
+<!-- Semi-permanent instruments -->
+<symbol id="mn-tools" sc-camel-view-box="0 0 400 300">
+<rect width="400" height="300" fill="url(#mn-bg)"></rect>
+<circle cx="300" cy="80" r="86" fill="#FFFFFF" opacity=".35"></circle>
+<ellipse cx="200" cy="258" rx="150" ry="11" fill="#12221F" opacity=".12"></ellipse>
+<g transform="translate(270 98) rotate(-8)">
+<rect x="-58" y="-40" width="116" height="80" rx="8" fill="#FFFFFF" stroke="#C9D4CF" stroke-width="2"></rect>
+<rect x="-58" y="-40" width="116" height="16" rx="8" fill="#9CCBC2"></rect>
+<rect x="-58" y="-30" width="116" height="6" fill="#9CCBC2"></rect>
+<rect x="-40" y="-6" width="60" height="5" rx="2.5" fill="#DCE3DF"></rect>
+<rect x="-40" y="6" width="44" height="5" rx="2.5" fill="#DCE3DF"></rect>
+<circle cx="34" cy="16" r="9" fill="#E3F0ED" stroke="#0D5C55" stroke-width="2"></circle>
+</g>
+<rect x="64" y="146" width="272" height="102" rx="18" fill="url(#mn-steel)" stroke="#8FA09A" stroke-width="2"></rect>
+<rect x="78" y="158" width="244" height="78" rx="12" fill="#EEF3F1"></rect>
+<path d="M98 222 L218 180" stroke="#8FA09A" stroke-width="7" stroke-linecap="round"></path>
+<circle cx="232" cy="175" r="15" fill="#DCE7E3" stroke="#8FA09A" stroke-width="3"></circle>
+<path d="M226 170a8 8 0 0 1 8-3" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" fill="none"></path>
+<path d="M120 230 L288 196" stroke="#AEBDB7" stroke-width="5" stroke-linecap="round"></path>
+<path d="M288 196 q10 -2 8 -10" stroke="#AEBDB7" stroke-width="3" fill="none" stroke-linecap="round"></path>
+<path d="M150 170 q60 10 150 4" stroke="#5D6E69" stroke-width="5" fill="none" stroke-linecap="round"></path>
+<path d="M150 178 q60 2 150 -4" stroke="#5D6E69" stroke-width="5" fill="none" stroke-linecap="round"></path>
+<circle cx="148" cy="174" r="6" fill="none" stroke="#5D6E69" stroke-width="3"></circle>
+</symbol>
+
+<!-- Inspected: report -->
+<symbol id="mn-report" sc-camel-view-box="0 0 600 200">
+<rect width="600" height="200" fill="url(#mn-bgteal)"></rect>
+<g transform="translate(100 16)">
+<circle cx="80" cy="30" r="70" fill="#FFFFFF" opacity=".4"></circle>
+<rect x="144" y="18" width="112" height="146" rx="14" fill="#FFFFFF" stroke="#9CCBC2" stroke-width="2"></rect>
+<rect x="176" y="10" width="48" height="18" rx="8" fill="#0D5C55"></rect>
+<circle cx="166" cy="54" r="8" fill="#E3F0ED"></circle><path d="M162 54l3 3 5-6" stroke="#0D5C55" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+<rect x="182" y="50" width="56" height="7" rx="3.5" fill="#DCE3DF"></rect>
+<circle cx="166" cy="80" r="8" fill="#E3F0ED"></circle><path d="M162 80l3 3 5-6" stroke="#0D5C55" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+<rect x="182" y="76" width="44" height="7" rx="3.5" fill="#DCE3DF"></rect>
+<circle cx="166" cy="106" r="8" fill="#E3F0ED"></circle><path d="M162 106l3 3 5-6" stroke="#0D5C55" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+<rect x="182" y="102" width="52" height="7" rx="3.5" fill="#DCE3DF"></rect>
+<circle cx="166" cy="132" r="8" fill="#FBEEDC"></circle><rect x="165" y="127" width="2" height="6" rx="1" fill="#8A4209"></rect><circle cx="166" cy="136" r="1.2" fill="#8A4209"></circle>
+<rect x="182" y="128" width="36" height="7" rx="3.5" fill="#DCE3DF"></rect>
+<g transform="translate(266 120)"><circle r="26" fill="url(#mn-shield)"></circle><circle r="20" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-dasharray="3 3" opacity=".7"></circle><path d="M-9 0l6 6 12-13" stroke="#FFFFFF" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></g>
+</g>
+</symbol>
+
+<!-- On-order: visit at seller -->
+<symbol id="mn-visit" sc-camel-view-box="0 0 600 200">
+<rect width="600" height="200" fill="url(#mn-bgblue)"></rect>
+<g transform="translate(100 16)">
+<circle cx="320" cy="30" r="70" fill="#FFFFFF" opacity=".4"></circle>
+<ellipse cx="180" cy="150" rx="90" ry="8" fill="#12221F" opacity=".1"></ellipse>
+<rect x="110" y="62" width="140" height="86" rx="14" fill="url(#mn-body)" stroke="#AEBDB7" stroke-width="2"></rect>
+<line x1="110" y1="82" x2="250" y2="82" stroke="#C9D4CF" stroke-width="2"></line>
+<rect x="200" y="67" width="40" height="11" rx="3" fill="#12221F"></rect>
+<circle cx="164" cy="116" r="24" fill="url(#mn-steel)" stroke="#8FA09A" stroke-width="2"></circle>
+<circle cx="164" cy="116" r="16" fill="url(#mn-glass)"></circle>
+<circle cx="236" cy="96" r="38" fill="#FFFFFF" fill-opacity=".35" stroke="#24508F" stroke-width="8"></circle>
+<path d="M263 123 L292 152" stroke="#24508F" stroke-width="12" stroke-linecap="round"></path>
+<path d="M220 82a20 20 0 0 1 16-6" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" fill="none"></path>
+<g transform="translate(330 120)"><circle r="20" fill="#FFFFFF" stroke="#A9BFE0" stroke-width="2"></circle><path d="M0 -10v10l7 5" stroke="#24508F" stroke-width="3" fill="none" stroke-linecap="round"></path></g>
+</g>
+</symbol>
+
+<!-- Escrow / warranty (for dark section) -->
+<symbol id="mn-escrow" sc-camel-view-box="0 0 360 300">
+<circle cx="180" cy="150" r="128" fill="none" stroke="#2E5650" stroke-width="2" stroke-dasharray="6 8"></circle>
+<circle cx="180" cy="150" r="92" fill="#173A35"></circle>
+<path d="M180 62l70 27v54c0 45-30 77-70 92-40-15-70-47-70-92V89z" fill="url(#mn-shield)" stroke="#F2A33A" stroke-width="3"></path>
+<rect x="150" y="142" width="60" height="48" rx="10" fill="#FFFFFF"></rect>
+<path d="M161 142v-14a19 19 0 0 1 38 0v14" stroke="#FFFFFF" stroke-width="8" fill="none" stroke-linecap="round"></path>
+<circle cx="180" cy="162" r="6" fill="#0D5C55"></circle>
+<rect x="177" y="164" width="6" height="14" rx="3" fill="#0D5C55"></rect>
+<g transform="translate(52 150)"><circle r="26" fill="#0F2A26" stroke="#F2A33A" stroke-width="2"></circle><path d="M-10 -2a11 11 0 0 1 19-6l3 3M12 -10v5h-5M10 2a11 11 0 0 1-19 6l-3-3M-12 10v-5h5" stroke="#F2A33A" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></g>
+<g transform="translate(308 150)"><circle r="26" fill="#0F2A26" stroke="#F2A33A" stroke-width="2"></circle><path d="M4 -10a6 6 0 0 0-8 8l-8 8 4 4 8-8a6 6 0 0 0 8-8l-4 4-3-1-1-3z" stroke="#F2A33A" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></g>
+<g transform="translate(180 22)"><circle r="20" fill="#0F2A26" stroke="#F2A33A" stroke-width="2"></circle><path d="M-7 0l5 5 9-10" stroke="#F2A33A" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"></path></g>
+<circle cx="180" cy="278" r="5" fill="#F2A33A"></circle>
+</symbol>
+</svg>
+
+<header style="background: rgba(255, 255, 255, 0.96); border-bottom: 1px solid #DCE3DF; position: sticky; top: 0; z-index: 5; backdrop-filter: blur(6px)">
+<div style="max-width: 1200px; margin: 0 auto; padding: 12px 20px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px">
+<a href="Main.dc.html" aria-label="استعمال طبيب — الرئيسية" style="display: flex; align-items: center; gap: 10px; color: #12221F">
 <span style="width: 40px; height: 40px; border-radius: 12px; background: #0D5C55; color: #FFFFFF; display: flex; align-items: center; justify-content: center">
-<svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3c-2.5 0-4 2-4 4.5 0 3 1.5 4.5 2 7 .5 3 1 6.5 2.5 6.5S9 18 10 15.5c.5-1.2 1.5-1.2 2 0 1 2.5 1.5 5.5 3 5.5s2-3.5 2.5-6.5c.5-2.5 2-4 2-7C19.5 5 18 3 15.5 3 13.5 3 13 4 12 4S10 3 7 3z"></path></svg>
+<svg aria-hidden="true" width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3c-2.5 0-4 2-4 4.5 0 3 1.5 4.5 2 7 .5 3 1 6.5 2.5 6.5S9 18 10 15.5c.5-1.2 1.5-1.2 2 0 1 2.5 1.5 5.5 3 5.5s2-3.5 2.5-6.5c.5-2.5 2-4 2-7C19.5 5 18 3 15.5 3 13.5 3 13 4 12 4S10 3 7 3z"></path></svg>
 </span>
 <span style="display: flex; flex-direction: column; line-height: 1.2">
 <span style="font-size: 20px; font-weight: 700">استعمال طبيب</span>
 <span style="font-size: 12px; color: #4A5A56">أجهزة أسنان مستعملة بفحص وضمان</span>
 </span>
 </a>
-<nav aria-label="القائمة الرئيسية" style="display: flex; flex-wrap: wrap; gap: 22px; font-weight: 500">
-<a href="Browse.dc.html" style="color: #12221F">الأجهزة</a>
-<a href="#how" style="color: #12221F">إزاي بنشتغل</a>
-<a href="#warranty" style="color: #12221F">الضمان</a>
-<a href="#sell" style="color: #12221F">بيع جهازك</a>
-<a href="#faq" style="color: #12221F">أسئلة شائعة</a>
+<nav class="mn-nav" aria-label="القائمة الرئيسية" style="display: flex; flex-wrap: wrap; gap: 22px; font-size: 15px">
+<a href="Browse.dc.html">كل الأجهزة</a>
+<a href="#how">إزاي بنشتغل</a>
+<a href="#warranty">الضمان</a>
+<a href="#faq">أسئلة شائعة</a>
+<a href="About.dc.html">مين إحنا</a>
 </nav>
 <div style="display: flex; flex-wrap: wrap; gap: 10px">
-<a href="Order-Tracker.dc.html" style="padding: 10px 18px; border-radius: 12px; border: 1px solid #C9D4CF; color: #12221F; font-weight: 600; min-height: 44px; box-sizing: border-box; display: flex; align-items: center">تابع طلبك</a>
-<a href="Browse.dc.html" style="padding: 10px 18px; border-radius: 12px; background: #0D5C55; color: #FFFFFF; font-weight: 600; min-height: 44px; box-sizing: border-box; display: flex; align-items: center">اشتري جهاز</a>
+<a href="Order-Tracker.dc.html" class="mn-ghost" style="padding: 10px 16px; border-radius: 12px; border: 1px solid #C9D4CF; color: #12221F; font-weight: 600; min-height: 44px; box-sizing: border-box; display: flex; align-items: center">تابع طلبك</a>
+<a href="Sell.dc.html" class="mn-amber" style="padding: 10px 18px; border-radius: 12px; background: #F2A33A; color: #12221F; font-weight: 700; min-height: 44px; box-sizing: border-box; display: flex; align-items: center">بيع جهازك</a>
+<a href="Browse.dc.html" class="mn-cta" style="padding: 10px 18px; border-radius: 12px; background: #0D5C55; color: #FFFFFF; font-weight: 600; min-height: 44px; box-sizing: border-box; display: flex; align-items: center">اشتري جهاز</a>
 </div>
 </div>
 </header>
 
-<section style="max-width: 1200px; margin: 0 auto; padding: 64px 20px 56px; display: flex; flex-wrap: wrap; align-items: center; gap: 48px">
+<!-- HERO -->
+<div style="position: relative; overflow: hidden; background: linear-gradient(180deg, #FFFFFF 0%, #F5F7F4 100%); border-bottom: 1px solid #E5EBE8">
+<div aria-hidden="true" style="position: absolute; top: -160px; left: -140px; width: 560px; height: 560px; border-radius: 999px; background: radial-gradient(circle, rgba(13, 92, 85, 0.10) 0%, rgba(13, 92, 85, 0) 70%)"></div>
+<div aria-hidden="true" style="position: absolute; bottom: -200px; right: -160px; width: 520px; height: 520px; border-radius: 999px; background: radial-gradient(circle, rgba(242, 163, 58, 0.10) 0%, rgba(242, 163, 58, 0) 70%)"></div>
+<section style="position: relative; max-width: 1200px; margin: 0 auto; padding: 64px 20px 72px; display: flex; flex-wrap: wrap; align-items: center; gap: 48px">
 <div style="flex: 1 1 480px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
-<span style="align-self: flex-start; padding: 6px 14px; border-radius: 999px; background: #E3F0ED; color: #0D5C55; font-weight: 600; font-size: 14px">منصة متخصصة 100% في أجهزة الأسنان المستعملة</span>
-<h1 style="margin: 0; font-size: clamp(34px, 5vw, 58px); line-height: 1.25; font-weight: 700; letter-spacing: -0.5px">من دكتور أسنان لدكتور أسنان… <span style="color: #0D5C55">بثقة</span></h1>
-<p style="margin: 0; font-size: 19px; color: #4A5A56; max-width: 560px">اشتري أو بيع أجهزة عيادتك المستعملة من غير قلق. كل جهاز بيتفحص بواسطة فني معتمد ودكتور أسنان، وفلوسك بتفضل محفوظة معانا لحد ما تستلم الجهاز وتجربه في عيادتك.</p>
+<span style="align-self: flex-start; padding: 6px 14px 6px 16px; border-radius: 999px; background: #E3F0ED; border: 1px solid #9CCBC2; color: #0D5C55; font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 8px"><span aria-hidden="true" style="width: 8px; height: 8px; border-radius: 999px; background: #0D5C55"></span>منصة متخصصة 100% في أجهزة الأسنان المستعملة</span>
+<h1 style="margin: 0; font-size: clamp(34px, 5vw, 58px); line-height: 1.25; font-weight: 700; letter-spacing: -0.5px">من دكتور أسنان لدكتور أسنان… <span style="color: #0D5C55; position: relative; white-space: nowrap">بثقة<svg aria-hidden="true" sc-camel-view-box="0 0 120 12" sc-camel-preserve-aspect-ratio="none" style="position: absolute; right: 0; left: 0; bottom: -6px; width: 100%; height: 12px"><path d="M3 8 Q60 1 117 7" stroke="#F2A33A" stroke-width="4" fill="none" stroke-linecap="round"></path></svg></span></h1>
+<p style="margin: 0; font-size: 19px; color: #4A5A56; max-width: 560px">اشتري أو بيع أجهزة عيادتك المستعملة من غير قلق. كل جهاز بيتفحص بواسطة فني معتمد، وفلوسك بتفضل محفوظة معانا 3 أيام بعد ما تستلم الجهاز وتجربه بنفسك.</p>
 <div style="display: flex; flex-wrap: wrap; gap: 12px">
-<a href="Browse.dc.html" style="padding: 14px 26px; border-radius: 14px; background: #0D5C55; color: #FFFFFF; font-weight: 700; font-size: 17px; min-height: 52px; box-sizing: border-box; display: flex; align-items: center">اشتري جهاز</a>
-<a href="#sell" style="padding: 14px 26px; border-radius: 14px; background: #F2A33A; color: #12221F; font-weight: 700; font-size: 17px; min-height: 52px; box-sizing: border-box; display: flex; align-items: center">بيع جهازك</a>
+<a href="Browse.dc.html" class="mn-cta" style="padding: 14px 26px; border-radius: 14px; background: #0D5C55; color: #FFFFFF; font-weight: 700; font-size: 17px; min-height: 52px; box-sizing: border-box; display: flex; align-items: center; gap: 10px">اشتري جهاز<svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"></path><path d="M11 6l-6 6 6 6"></path></svg></a>
+<a href="Sell.dc.html" class="mn-amber" style="padding: 14px 26px; border-radius: 14px; background: #F2A33A; color: #12221F; font-weight: 700; font-size: 17px; min-height: 52px; box-sizing: border-box; display: flex; align-items: center">بيع جهازك</a>
 </div>
-<div style="display: flex; flex-wrap: wrap; gap: 18px 28px; padding-top: 6px; font-size: 15px; font-weight: 500">
-<span style="display: flex; align-items: center; gap: 8px"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D5C55" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"></path><path d="M9 12l2 2 4-4"></path></svg>فحص فني + دكتور أسنان</span>
-<span style="display: flex; align-items: center; gap: 8px"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D5C55" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>فلوسك محفوظة لحد الاستلام</span>
-<span style="display: flex; align-items: center; gap: 8px"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D5C55" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4 2.5-2.5z"></path></svg>صيانة لحد 6 شهور</span>
-</div>
+<ul style="list-style: none; margin: 0; padding: 6px 0 0; display: flex; flex-wrap: wrap; gap: 10px; font-size: 15px; font-weight: 600">
+<li style="display: flex; align-items: center; gap: 8px; padding: 8px 14px 8px 12px; border-radius: 12px; background: #FFFFFF; border: 1px solid #DCE3DF"><span style="width: 30px; height: 30px; border-radius: 9px; background: #E6EDF7; color: #24508F; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"></path><path d="M9 12l2 2 4-4"></path></svg></span>فحص فني</li>
+<li style="display: flex; align-items: center; gap: 8px; padding: 8px 14px 8px 12px; border-radius: 12px; background: #FFFFFF; border: 1px solid #DCE3DF"><span style="width: 30px; height: 30px; border-radius: 9px; background: #E3F0ED; color: #0D5C55; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg></span>فلوسك محفوظة لمدة 3 أيام</li>
+<li style="display: flex; align-items: center; gap: 8px; padding: 8px 14px 8px 12px; border-radius: 12px; background: #FFFFFF; border: 1px solid #DCE3DF"><span style="width: 30px; height: 30px; border-radius: 9px; background: #FBEEDC; color: #C46A12; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4 2.5-2.5z"></path></svg></span>صيانة لمدة 3 – 6 شهور</li>
+</ul>
 </div>
 
-<div style="flex: 1 1 420px; min-width: 0; max-width: 520px; background: #FFFFFF; border: 1px solid #DCE3DF; border-radius: 22px; box-shadow: 0 18px 40px rgba(18, 34, 31, 0.08); overflow: hidden">
-<div style="position: relative; height: 230px; background: #E7EDEA; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: #5D6E69">
-<svg aria-hidden="true" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="9" cy="10" r="1.8"></circle><path d="M21 16l-5-5-8 8"></path></svg>
-<span style="font-size: 14px">صورة حقيقية للجهاز من فريق الفحص</span>
-<span style="position: absolute; top: 14px; right: 14px; padding: 6px 12px; border-radius: 999px; background: #0D5C55; color: #FFFFFF; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 6px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>تم الفحص</span>
+<div style="flex: 1 1 420px; min-width: 0; max-width: 520px; position: relative">
+<div aria-hidden="true" style="position: absolute; inset: 18px -14px -14px 18px; border-radius: 26px; background: #E3F0ED; border: 1px solid #C9DED8"></div>
+<div style="position: relative; background: #FFFFFF; border: 1px solid #DCE3DF; border-radius: 24px; box-shadow: 0 24px 50px rgba(18, 34, 31, 0.10); overflow: hidden">
+<div style="position: relative; aspect-ratio: 4 / 2.7; background: #E7EDEA">
+<svg role="img" aria-label="رسم توضيحي ليونيت أسنان كامل بعد الفحص" sc-camel-view-box="0 0 400 300" sc-camel-preserve-aspect-ratio="xMidYMid slice" style="display: block; width: 100%; height: 100%"><use href="#mn-unit"></use></svg>
+<svg aria-hidden="true" sc-camel-view-box="0 0 120 120" style="position: absolute; bottom: 14px; left: 14px; width: 84px; height: 84px; filter: drop-shadow(0 6px 14px rgba(18, 34, 31, 0.18))"><use href="#mn-seal"></use></svg>
+<span style="position: absolute; top: 14px; right: 14px; padding: 6px 12px; border-radius: 999px; background: #0D5C55; color: #FFFFFF; font-size: 13px; font-weight: 600; display: flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(18, 34, 31, 0.18)"><svg aria-hidden="true" width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>تم الفحص</span>
+<span style="position: absolute; bottom: 14px; right: 14px; padding: 5px 10px; border-radius: 999px; background: rgba(18, 34, 31, 0.68); color: #FFFFFF; font-size: 12px; font-weight: 600">صورة حقيقية للجهاز من فريق الفحص</span>
 </div>
 <div style="padding: 22px 24px; display: flex; flex-direction: column; gap: 16px">
 <div>
 <div style="font-size: 20px; font-weight: 700">يونيت أسنان كامل — [الماركة / الموديل]</div>
 <div style="font-size: 14px; color: #4A5A56">سنة الصنع [السنة] · القاهرة</div>
 </div>
-<div style="display: flex; flex-direction: column; gap: 10px">
-<div style="font-size: 14px; font-weight: 600; color: #4A5A56">ملخص تقرير الفحص</div>
+<div style="display: flex; flex-direction: column; gap: 8px">
+<div style="font-size: 14px; font-weight: 600; color: #4A5A56; display: flex; align-items: center; gap: 6px"><svg aria-hidden="true" width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="#0D5C55" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l5 5v13H7z"></path><path d="M14 3v5h5"></path><path d="M10 13l2 2 4-4"></path></svg>ملخص تقرير الفحص</div>
 <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border-radius: 12px; background: #F5F7F4"><span>كفاءة التشغيل</span><span style="padding: 2px 10px; border-radius: 999px; background: #E3F0ED; color: #0D5C55; font-weight: 600; font-size: 14px">ممتاز</span></div>
 <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border-radius: 12px; background: #F5F7F4"><span>الهيدروليك والموتورات</span><span style="padding: 2px 10px; border-radius: 999px; background: #E3F0ED; color: #0D5C55; font-weight: 600; font-size: 14px">سليم</span></div>
 <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border-radius: 12px; background: #F5F7F4"><span>الحالة الظاهرية</span><span style="padding: 2px 10px; border-radius: 999px; background: #E3F0ED; color: #0D5C55; font-weight: 600; font-size: 14px">جيد جداً</span></div>
-<div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border-radius: 12px; background: #FBEEDC"><span>عيوب مُعلنة</span><span style="padding: 2px 10px; border-radius: 999px; background: #FFFFFF; color: #8A4209; font-weight: 600; font-size: 14px">ملاحظة واحدة</span></div>
+<div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; border-radius: 12px; background: #FBEEDC"><span style="color: #6B3A10">عيوب مُعلنة</span><span style="padding: 2px 10px; border-radius: 999px; background: #FFFFFF; color: #8A4209; font-weight: 600; font-size: 14px">ملاحظة واحدة</span></div>
 </div>
-<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; padding-top: 12px; border-top: 1px solid #E5EBE8; font-size: 13px; color: #4A5A56">
-<span>فحص بواسطة د. [اسم الطبيب] + فني [الاسم]</span>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; padding-top: 12px; border-top: 1px solid #E5EBE8; font-size: 13px; color: #4A5A56">
+<span>فحص بواسطة فني معتمد — [الاسم]</span>
 <a href="Listing-Inspected.dc.html" style="font-weight: 600">شوف التقرير الكامل ←</a>
 </div>
 </div>
 </div>
+</div>
 </section>
+</div>
 
-<section id="how" style="background: #FFFFFF; border-top: 1px solid #E5EBE8; border-bottom: 1px solid #E5EBE8">
-<div style="max-width: 1200px; margin: 0 auto; padding: 72px 20px; display: flex; flex-direction: column; gap: 36px">
+<!-- HOW IT WORKS -->
+<section id="how" style="background: #FFFFFF; border-bottom: 1px solid #E5EBE8">
+<div style="max-width: 1200px; margin: 0 auto; padding: 76px 20px; display: flex; flex-direction: column; gap: 36px">
 <div style="display: flex; flex-direction: column; gap: 8px">
 <h2 style="margin: 0; font-size: 34px; font-weight: 700">إزاي بنشتغل؟</h2>
 <p style="margin: 0; color: #4A5A56; font-size: 18px">أربع خطوات، وكل خطوة واضحة قدامك.</p>
 </div>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px">
-<div style="padding: 26px; border-radius: 18px; background: #F5F7F4; display: flex; flex-direction: column; gap: 10px">
-<span style="width: 44px; height: 44px; border-radius: 12px; background: #0D5C55; color: #FFFFFF; font-weight: 700; font-size: 20px; display: flex; align-items: center; justify-content: center">١</span>
-<h3 style="margin: 0; font-size: 20px">البايع بيعرض جهازه</h3>
-<p style="margin: 0; color: #4A5A56">بيانات الجهاز، صور وفيديو وهو شغال، وسبب البيع.</p>
-</div>
-<div style="padding: 26px; border-radius: 18px; background: #F5F7F4; display: flex; flex-direction: column; gap: 10px">
-<span style="width: 44px; height: 44px; border-radius: 12px; background: #0D5C55; color: #FFFFFF; font-weight: 700; font-size: 20px; display: flex; align-items: center; justify-content: center">٢</span>
-<h3 style="margin: 0; font-size: 20px">بنفحص الجهاز</h3>
-<p style="margin: 0; color: #4A5A56">أجهزة بتتفحص قبل ما تتعرض، والباقي بنفحصه عند البايع أول ما تطلبه وقبل الشحن.</p>
-</div>
-<div style="padding: 26px; border-radius: 18px; background: #F5F7F4; display: flex; flex-direction: column; gap: 10px">
-<span style="width: 44px; height: 44px; border-radius: 12px; background: #0D5C55; color: #FFFFFF; font-weight: 700; font-size: 20px; display: flex; align-items: center; justify-content: center">٣</span>
-<h3 style="margin: 0; font-size: 20px">تدفع وفلوسك محفوظة</h3>
-<p style="margin: 0; color: #4A5A56">الفلوس بتفضل عندنا ومش بتتحول للبايع غير بعد ما تستلم وتجرب.</p>
-</div>
-<div style="padding: 26px; border-radius: 18px; background: #F5F7F4; display: flex; flex-direction: column; gap: 10px">
-<span style="width: 44px; height: 44px; border-radius: 12px; background: #0D5C55; color: #FFFFFF; font-weight: 700; font-size: 20px; display: flex; align-items: center; justify-content: center">٤</span>
-<h3 style="margin: 0; font-size: 20px">نوصّل لعيادتك بضمان</h3>
-<p style="margin: 0; color: #4A5A56">شحن آمن لحد باب العيادة، وضمان تشغيل واستبدال وصيانة.</p>
-</div>
-</div>
+<ol style="list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px">
+<li style="padding: 24px; border-radius: 22px; background: #E3F0ED; border: 1px solid #9CCBC2; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; justify-content: space-between; align-items: center"><span style="width: 52px; height: 52px; border-radius: 16px; background: #0D5C55; color: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="26" height="26" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"></path><circle cx="12" cy="13" r="3.5"></circle></svg></span><span aria-hidden="true" style="font-size: 34px; font-weight: 700; color: #0D5C55; opacity: .3">١</span></div>
+<h3 style="margin: 0; font-size: 20px; color: #0B4A44">البايع بيعرض جهازه</h3>
+<p style="margin: 0; color: #2E4A45">بيانات الجهاز، وصور وفيديو وهو شغال.</p>
+</li>
+<li style="padding: 24px; border-radius: 22px; background: #E6EDF7; border: 1px solid #A9BFE0; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; justify-content: space-between; align-items: center"><span style="width: 52px; height: 52px; border-radius: 16px; background: #24508F; color: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="26" height="26" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"></circle><path d="M20 20l-4.5-4.5"></path></svg></span><span aria-hidden="true" style="font-size: 34px; font-weight: 700; color: #24508F; opacity: .3">٢</span></div>
+<h3 style="margin: 0; font-size: 20px; color: #1B3F73">بنفحص الجهاز</h3>
+<p style="margin: 0; color: #2D4566">أجهزة بتتفحص قبل ما تتعرض، والباقي بنفحصه عند البايع أول ما تطلبه وقبل الشحن.</p>
+</li>
+<li style="padding: 24px; border-radius: 22px; background: #FBEEDC; border: 1px solid #F0C88A; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; justify-content: space-between; align-items: center"><span style="width: 52px; height: 52px; border-radius: 16px; background: #C46A12; color: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="26" height="26" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg></span><span aria-hidden="true" style="font-size: 34px; font-weight: 700; color: #8A4209; opacity: .3">٣</span></div>
+<h3 style="margin: 0; font-size: 20px; color: #6B3A10">تدفع وفلوسك محفوظة</h3>
+<p style="margin: 0; color: #5E3A17">تدفع الفلوس أو جزء منها، وبتفضل عندنا 3 أيام بعد الاستلام قبل ما تتحول للبايع.</p>
+</li>
+<li style="padding: 24px; border-radius: 22px; background: #EAF5DD; border: 1px solid #A9D17F; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; justify-content: space-between; align-items: center"><span style="width: 52px; height: 52px; border-radius: 16px; background: #3F7A1F; color: #FFFFFF; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="26" height="26" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3z"></path><path d="M14 10h4l3 3v3h-7"></path><circle cx="7" cy="17.5" r="1.8"></circle><circle cx="17" cy="17.5" r="1.8"></circle></svg></span><span aria-hidden="true" style="font-size: 34px; font-weight: 700; color: #3F7A1F; opacity: .3">٤</span></div>
+<h3 style="margin: 0; font-size: 20px; color: #2F5A15">نوصّل لحد بابك بضمان</h3>
+<p style="margin: 0; color: #36521F">شحن آمن لحد بابك وتعاين بنفسك، مع ضمان تشغيل واستبدال وصيانة.</p>
+</li>
+</ol>
 </div>
 </section>
 
-<section style="max-width: 1200px; margin: 0 auto; padding: 72px 20px; display: flex; flex-direction: column; gap: 32px">
+<!-- TWO INSPECTION TYPES -->
+<section style="max-width: 1200px; margin: 0 auto; padding: 76px 20px; display: flex; flex-direction: column; gap: 32px">
 <div style="display: flex; flex-direction: column; gap: 8px">
 <h2 style="margin: 0; font-size: 34px; font-weight: 700">نوعين من الفحص… وانت عارف كل جهاز فين</h2>
 <p style="margin: 0; color: #4A5A56; font-size: 18px">على كل جهاز علامة بتقولك اتفحص ولا لسه هيتفحص قبل ما يتشحن لك.</p>
 </div>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px">
-<div style="padding: 30px; border-radius: 20px; background: #FFFFFF; border: 2px solid #0D5C55; display: flex; flex-direction: column; gap: 14px">
-<span style="align-self: flex-start; padding: 6px 14px; border-radius: 999px; background: #0D5C55; color: #FFFFFF; font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 6px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>تم الفحص</span>
+<div style="border-radius: 24px; background: #FFFFFF; border: 2px solid #0D5C55; overflow: hidden; box-shadow: 0 10px 30px rgba(18, 34, 31, 0.06); display: flex; flex-direction: column">
+<svg aria-hidden="true" sc-camel-view-box="0 0 600 200" sc-camel-preserve-aspect-ratio="xMidYMid slice" style="display: block; width: 100%; aspect-ratio: 3 / 1"><use href="#mn-report"></use></svg>
+<div style="padding: 26px 28px 30px; display: flex; flex-direction: column; gap: 14px">
+<span style="align-self: flex-start; padding: 6px 14px; border-radius: 999px; background: #0D5C55; color: #FFFFFF; font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 6px"><svg aria-hidden="true" width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>تم الفحص</span>
 <h3 style="margin: 0; font-size: 22px">الجهاز اتفحص قبل ما يتعرض</h3>
-<ul style="margin: 0; padding-right: 20px; color: #3C4C48; display: flex; flex-direction: column; gap: 6px">
-<li>تقرير الفحص الكامل قدامك قبل ما تدفع</li>
-<li>الصور والفيديو من فريق الفحص</li>
-<li>شحن أسرع لأن الفحص خلص</li>
+<ul style="list-style: none; margin: 0; padding: 0; color: #3C4C48; display: flex; flex-direction: column; gap: 8px">
+<li style="display: flex; gap: 10px; align-items: flex-start"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="#0D5C55" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex: none; margin-top: 4px"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>تقرير الفحص الكامل قدامك قبل ما تدفع</li>
+<li style="display: flex; gap: 10px; align-items: flex-start"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="#0D5C55" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex: none; margin-top: 4px"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>الصور والفيديو من فريق الفحص</li>
+<li style="display: flex; gap: 10px; align-items: flex-start"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="#0D5C55" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex: none; margin-top: 4px"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>شحن أسرع لأن الفحص خلص</li>
 </ul>
 </div>
-<div style="padding: 30px; border-radius: 20px; background: #FFFFFF; border: 2px solid #24508F; display: flex; flex-direction: column; gap: 14px">
-<span style="align-self: flex-start; padding: 6px 14px; border-radius: 999px; background: #E6EDF7; color: #24508F; font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 6px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"></circle><path d="M20 20l-4.5-4.5"></path></svg>يُفحص عند الطلب</span>
+</div>
+<div style="border-radius: 24px; background: #FFFFFF; border: 2px solid #24508F; overflow: hidden; box-shadow: 0 10px 30px rgba(18, 34, 31, 0.06); display: flex; flex-direction: column">
+<svg aria-hidden="true" sc-camel-view-box="0 0 600 200" sc-camel-preserve-aspect-ratio="xMidYMid slice" style="display: block; width: 100%; aspect-ratio: 3 / 1"><use href="#mn-visit"></use></svg>
+<div style="padding: 26px 28px 30px; display: flex; flex-direction: column; gap: 14px">
+<span style="align-self: flex-start; padding: 6px 14px; border-radius: 999px; background: #E6EDF7; color: #24508F; font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 6px"><svg aria-hidden="true" width="16" height="16" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"></circle><path d="M20 20l-4.5-4.5"></path></svg>يُفحص عند الطلب</span>
 <h3 style="margin: 0; font-size: 22px">بنفحصه عند البايع بعد طلبك وقبل الشحن</h3>
-<ul style="margin: 0; padding-right: 20px; color: #3C4C48; display: flex; flex-direction: column; gap: 6px">
-<li>تقرير الفحص بيوصلك قبل ما الجهاز يتشحن</li>
-<li>لو الجهاز طلع مش مطابق، فلوسك بترجعلك كاملة</li>
-<li>لحد الفحص، الصور والفيديو من البايع</li>
+<ul style="list-style: none; margin: 0; padding: 0; color: #3C4C48; display: flex; flex-direction: column; gap: 8px">
+<li style="display: flex; gap: 10px; align-items: flex-start"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="#24508F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex: none; margin-top: 4px"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>تقرير الفحص بيوصلك قبل ما الجهاز يتشحن</li>
+<li style="display: flex; gap: 10px; align-items: flex-start"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="#24508F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex: none; margin-top: 4px"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>لو الجهاز طلع مش مطابق، فلوسك بترجعلك كاملة</li>
+<li style="display: flex; gap: 10px; align-items: flex-start"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="#24508F" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex: none; margin-top: 4px"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>لحد الفحص، الصور والفيديو من البايع</li>
 </ul>
+</div>
 </div>
 </div>
 </section>
 
+<!-- LISTINGS -->
 <section id="listings" style="background: #FFFFFF; border-top: 1px solid #E5EBE8; border-bottom: 1px solid #E5EBE8">
-<div style="max-width: 1200px; margin: 0 auto; padding: 72px 20px; display: flex; flex-direction: column; gap: 26px">
+<div style="max-width: 1200px; margin: 0 auto; padding: 76px 20px; display: flex; flex-direction: column; gap: 24px">
 <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 12px">
 <h2 style="margin: 0; font-size: 34px; font-weight: 700">أجهزة متاحة دلوقتي</h2>
 <a href="Browse.dc.html" style="font-weight: 600">شوف كل الأجهزة ←</a>
 </div>
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
 <div style="display: flex; flex-wrap: wrap; gap: 10px" role="group" aria-label="تصفية الأجهزة">
-<button type="button" style="min-height: 44px; padding: 8px 18px; border-radius: 999px; border: 1px solid #0D5C55; background: #0D5C55; color: #FFFFFF; font: inherit; font-weight: 600">الكل</button>
-<button type="button" style="min-height: 44px; padding: 8px 18px; border-radius: 999px; border: 1px solid #C9D4CF; background: #FFFFFF; color: #12221F; font: inherit">تم الفحص فقط</button>
-<button type="button" style="min-height: 44px; padding: 8px 18px; border-radius: 999px; border: 1px solid #C9D4CF; background: #FFFFFF; color: #12221F; font: inherit">يونيت</button>
-<button type="button" style="min-height: 44px; padding: 8px 18px; border-radius: 999px; border: 1px solid #C9D4CF; background: #FFFFFF; color: #12221F; font: inherit">أشعة</button>
-<button type="button" style="min-height: 44px; padding: 8px 18px; border-radius: 999px; border: 1px solid #C9D4CF; background: #FFFFFF; color: #12221F; font: inherit">تعقيم</button>
-<button type="button" style="min-height: 44px; padding: 8px 18px; border-radius: 999px; border: 1px solid #C9D4CF; background: #FFFFFF; color: #12221F; font: inherit">إندو وجراحة</button>
+<sc-for list="{{filters}}" as="f" hint-placeholder-count="6">
+<button type="button" class="mn-chip" sc-camel-on-click="{{f.pick}}" aria-pressed="{{f.pressed}}" style="min-height: 44px; padding: 8px 18px; border-radius: 999px; border: 1px solid {{f.bd}}; background: {{f.bg}}; color: {{f.fg}}; font: inherit; font-weight: {{f.fw}}; cursor: pointer">{{f.label}}</button>
+</sc-for>
+</div>
+<span aria-live="polite" style="font-size: 14px; color: #4A5A56">{{countText}}</span>
 </div>
 <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px">
-
-<a href="Listing-Inspected.dc.html" style="display: flex; flex-direction: column; border-radius: 18px; border: 1px solid #DCE3DF; background: #FFFFFF; overflow: hidden; color: #12221F">
-<div style="position: relative; height: 170px; background: #E7EDEA; display: flex; align-items: center; justify-content: center; color: #5D6E69; font-size: 13px">صورة الجهاز
-<span style="position: absolute; top: 12px; right: 12px; padding: 4px 10px; border-radius: 999px; background: #0D5C55; color: #FFFFFF; font-size: 12px; font-weight: 600">تم الفحص</span>
+<sc-for list="{{items}}" as="c" hint-placeholder-count="4">
+<a href="{{c.href}}" class="mn-card" style="display: flex; flex-direction: column; border-radius: 20px; border: 1px solid #DCE3DF; background: #FFFFFF; overflow: hidden; color: #12221F; box-shadow: 0 4px 14px rgba(18, 34, 31, 0.04)">
+<div style="position: relative; aspect-ratio: 4 / 3; background: #E7EDEA">
+<svg role="img" aria-label="{{c.alt}}" sc-camel-view-box="0 0 400 300" style="display: block; width: 100%; height: 100%"><use href="{{c.ref}}"></use></svg>
+<sc-if value="{{c.insp}}" hint-placeholder-val="{{true}}"><span style="position: absolute; top: 12px; right: 12px; padding: 4px 10px; border-radius: 999px; background: #0D5C55; color: #FFFFFF; font-size: 12px; font-weight: 600; display: flex; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(18, 34, 31, 0.15)"><svg aria-hidden="true" width="13" height="13" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg>تم الفحص</span></sc-if>
+<sc-if value="{{c.onorder}}" hint-placeholder-val="{{false}}"><span style="position: absolute; top: 12px; right: 12px; padding: 4px 10px; border-radius: 999px; background: #FFFFFF; color: #24508F; font-size: 12px; font-weight: 700; display: flex; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(18, 34, 31, 0.15)"><svg aria-hidden="true" width="13" height="13" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"></circle><path d="M20 20l-4.5-4.5"></path></svg>يُفحص عند الطلب</span>
+<span style="position: absolute; bottom: 10px; right: 10px; padding: 3px 9px; border-radius: 999px; background: rgba(18, 34, 31, 0.68); color: #FFFFFF; font-size: 11px; font-weight: 600">صورة من البايع</span></sc-if>
 </div>
-<div style="padding: 16px 18px; display: flex; flex-direction: column; gap: 6px">
-<div style="font-weight: 700; font-size: 17px">يونيت أسنان كامل</div>
-<div style="font-size: 13px; color: #4A5A56">[السنة] · القاهرة</div>
-<div style="font-size: 13px; color: #0D5C55; font-weight: 600">ضمان + صيانة 6 شهور</div>
-<div style="display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid #E5EBE8; margin-top: 4px"><span style="font-weight: 700; font-size: 18px">[السعر] ج.م</span><span style="font-size: 13px; color: #0D5C55; font-weight: 600">التفاصيل ←</span></div>
-</div>
-</a>
-
-<a href="Listing-OnOrder.dc.html" style="display: flex; flex-direction: column; border-radius: 18px; border: 1px solid #DCE3DF; background: #FFFFFF; overflow: hidden; color: #12221F">
-<div style="position: relative; height: 170px; background: #E7EDEA; display: flex; align-items: center; justify-content: center; color: #5D6E69; font-size: 13px">صورة من البايع
-<span style="position: absolute; top: 12px; right: 12px; padding: 4px 10px; border-radius: 999px; background: #E6EDF7; color: #24508F; font-size: 12px; font-weight: 600">يُفحص عند الطلب</span>
-</div>
-<div style="padding: 16px 18px; display: flex; flex-direction: column; gap: 6px">
-<div style="font-weight: 700; font-size: 17px">أوتوكلاف Class B</div>
-<div style="font-size: 13px; color: #4A5A56">[السنة] · الإسكندرية</div>
-<div style="font-size: 13px; color: #0D5C55; font-weight: 600">ضمان + صيانة 3 شهور</div>
-<div style="display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid #E5EBE8; margin-top: 4px"><span style="font-weight: 700; font-size: 18px">[السعر] ج.م</span><span style="font-size: 13px; color: #0D5C55; font-weight: 600">التفاصيل ←</span></div>
+<div style="padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 6px; flex: 1">
+<div style="font-weight: 700; font-size: 17px">{{c.title}}</div>
+<div style="font-size: 13px; color: #4A5A56; display: flex; align-items: center; gap: 4px"><svg aria-hidden="true" width="13" height="13" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.5-7-12a7 7 0 0 1 14 0c0 5.5-7 12-7 12z"></path><circle cx="12" cy="9" r="2.5"></circle></svg>{{c.meta}}</div>
+<div style="align-self: flex-start; padding: 2px 10px; border-radius: 999px; background: #E3F0ED; font-size: 12px; color: #0D5C55; font-weight: 600; display: flex; align-items: center; gap: 4px"><svg aria-hidden="true" width="12" height="12" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"></path></svg>{{c.warranty}}</div>
+<div style="display: flex; justify-content: space-between; align-items: center; padding-top: 10px; border-top: 1px solid #E5EBE8; margin-top: auto"><span style="font-weight: 700; font-size: 18px">[السعر] ج.م</span><span class="mn-more" style="font-size: 13px; color: #0D5C55; font-weight: 600; display: flex; align-items: center; gap: 6px">التفاصيل<span aria-hidden="true">←</span></span></div>
 </div>
 </a>
-
-<a href="Listing-Inspected.dc.html" style="display: flex; flex-direction: column; border-radius: 18px; border: 1px solid #DCE3DF; background: #FFFFFF; overflow: hidden; color: #12221F">
-<div style="position: relative; height: 170px; background: #E7EDEA; display: flex; align-items: center; justify-content: center; color: #5D6E69; font-size: 13px">صورة الجهاز
-<span style="position: absolute; top: 12px; right: 12px; padding: 4px 10px; border-radius: 999px; background: #0D5C55; color: #FFFFFF; font-size: 12px; font-weight: 600">تم الفحص</span>
-</div>
-<div style="padding: 16px 18px; display: flex; flex-direction: column; gap: 6px">
-<div style="font-weight: 700; font-size: 17px">إندو موتور لاسلكي</div>
-<div style="font-size: 13px; color: #4A5A56">[السنة] · المنصورة</div>
-<div style="font-size: 13px; color: #0D5C55; font-weight: 600">ضمان + صيانة 3 شهور</div>
-<div style="display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid #E5EBE8; margin-top: 4px"><span style="font-weight: 700; font-size: 18px">[السعر] ج.م</span><span style="font-size: 13px; color: #0D5C55; font-weight: 600">التفاصيل ←</span></div>
-</div>
-</a>
-
-<a href="Listing-OnOrder.dc.html" style="display: flex; flex-direction: column; border-radius: 18px; border: 1px solid #DCE3DF; background: #FFFFFF; overflow: hidden; color: #12221F">
-<div style="position: relative; height: 170px; background: #E7EDEA; display: flex; align-items: center; justify-content: center; color: #5D6E69; font-size: 13px">صورة من البايع
-<span style="position: absolute; top: 12px; right: 12px; padding: 4px 10px; border-radius: 999px; background: #E6EDF7; color: #24508F; font-size: 12px; font-weight: 600">يُفحص عند الطلب</span>
-</div>
-<div style="padding: 16px 18px; display: flex; flex-direction: column; gap: 6px">
-<div style="font-weight: 700; font-size: 17px">جهاز أشعة X-Ray حائطي</div>
-<div style="font-size: 13px; color: #4A5A56">[السنة] · الجيزة</div>
-<div style="font-size: 13px; color: #0D5C55; font-weight: 600">ضمان + صيانة 6 شهور</div>
-<div style="display: flex; justify-content: space-between; align-items: center; padding-top: 8px; border-top: 1px solid #E5EBE8; margin-top: 4px"><span style="font-weight: 700; font-size: 18px">[السعر] ج.م</span><span style="font-size: 13px; color: #0D5C55; font-weight: 600">التفاصيل ←</span></div>
-</div>
-</a>
-
+</sc-for>
 </div>
 </div>
 </section>
 
-<section id="warranty" style="background: #0F2A26; color: #FFFFFF">
-<div style="max-width: 1200px; margin: 0 auto; padding: 76px 20px; display: flex; flex-direction: column; gap: 34px">
-<div style="display: flex; flex-direction: column; gap: 8px">
-<h2 style="margin: 0; font-size: 34px; font-weight: 700">ضمانك مش كلمة… ضمانك مكتوب</h2>
-<p style="margin: 0; color: #C3D3CE; font-size: 18px">كل جهاز معاه 3 مستويات حماية، ومدة الصيانة بتختلف حسب نوع الجهاز ومكتوبة في صفحته.</p>
+<!-- WARRANTY -->
+<section id="warranty" style="background: #0F2A26; color: #FFFFFF; position: relative; overflow: hidden">
+<div aria-hidden="true" style="position: absolute; top: -180px; left: -120px; width: 520px; height: 520px; border-radius: 999px; background: radial-gradient(circle, rgba(242, 163, 58, 0.10) 0%, rgba(242, 163, 58, 0) 70%)"></div>
+<div style="position: relative; max-width: 1200px; margin: 0 auto; padding: 80px 20px; display: flex; flex-direction: column; gap: 34px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 32px 48px">
+<div style="flex: 1 1 460px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+<span style="align-self: flex-start; padding: 5px 12px; border-radius: 999px; background: rgba(242, 163, 58, 0.14); color: #F2A33A; font-size: 14px; font-weight: 700">الضمان</span>
+<h2 style="margin: 0; font-size: 36px; font-weight: 700; line-height: 1.35">ضمانك مش كلمة… ضمانك مكتوب</h2>
+<p style="margin: 0; color: #C3D3CE; font-size: 18px; max-width: 560px">كل جهاز معاه 3 مستويات حماية، ومدة الصيانة بتختلف حسب نوع الجهاز ومكتوبة في صفحته.</p>
 </div>
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px">
-<div style="padding: 28px; border-radius: 18px; background: #173A35; display: flex; flex-direction: column; gap: 10px">
-<svg aria-hidden="true" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#F2A33A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 14-5.3L20 9"></path><path d="M20 4v5h-5"></path><path d="M20 12a8 8 0 0 1-14 5.3L4 15"></path><path d="M4 20v-5h5"></path></svg>
+<div style="flex: 0 1 300px; min-width: 0; margin: 0 auto">
+<svg aria-hidden="true" sc-camel-view-box="0 0 360 300" style="display: block; width: 100%; max-width: 300px; height: auto"><use href="#mn-escrow"></use></svg>
+</div>
+</div>
+<ol style="list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px">
+<li style="padding: 26px; border-radius: 22px; background: #173A35; border: 1px solid #2E5650; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; justify-content: space-between; align-items: center"><span style="width: 52px; height: 52px; border-radius: 16px; background: rgba(242, 163, 58, 0.14); display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="28" height="28" sc-camel-view-box="0 0 24 24" fill="none" stroke="#F2A33A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 14-5.3L20 9"></path><path d="M20 4v5h-5"></path><path d="M20 12a8 8 0 0 1-14 5.3L4 15"></path><path d="M4 20v-5h5"></path></svg></span><span aria-hidden="true" style="font-size: 30px; font-weight: 700; color: #F2A33A; opacity: .35">١</span></div>
 <h3 style="margin: 0; font-size: 21px">استبدال أو استرجاع</h3>
-<p style="margin: 0; color: #C3D3CE">خلال 14 يوم لو الجهاز مطلعش زي التقرير.</p>
-</div>
-<div style="padding: 28px; border-radius: 18px; background: #173A35; display: flex; flex-direction: column; gap: 10px">
-<svg aria-hidden="true" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#F2A33A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"></path><path d="M9 12l2 2 4-4"></path></svg>
-<h3 style="margin: 0; font-size: 21px">ضمان تشغيل 14 يوم</h3>
+<p style="margin: 0; color: #C3D3CE">خلال 3 أيام لو الجهاز مطلعش زي التقرير.</p>
+</li>
+<li style="padding: 26px; border-radius: 22px; background: #173A35; border: 1px solid #2E5650; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; justify-content: space-between; align-items: center"><span style="width: 52px; height: 52px; border-radius: 16px; background: rgba(242, 163, 58, 0.14); display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="28" height="28" sc-camel-view-box="0 0 24 24" fill="none" stroke="#F2A33A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"></path><path d="M9 12l2 2 4-4"></path></svg></span><span aria-hidden="true" style="font-size: 30px; font-weight: 700; color: #F2A33A; opacity: .35">٢</span></div>
+<h3 style="margin: 0; font-size: 21px">ضمان تشغيل 3 أيام</h3>
 <p style="margin: 0; color: #C3D3CE">جرّب الجهاز في عيادتك على حالات حقيقية واتأكد بنفسك.</p>
-</div>
-<div style="padding: 28px; border-radius: 18px; background: #173A35; display: flex; flex-direction: column; gap: 10px">
-<svg aria-hidden="true" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#F2A33A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4 2.5-2.5z"></path></svg>
+</li>
+<li style="padding: 26px; border-radius: 22px; background: #173A35; border: 1px solid #2E5650; display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; justify-content: space-between; align-items: center"><span style="width: 52px; height: 52px; border-radius: 16px; background: rgba(242, 163, 58, 0.14); display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="28" height="28" sc-camel-view-box="0 0 24 24" fill="none" stroke="#F2A33A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4 2.5-2.5z"></path></svg></span><span aria-hidden="true" style="font-size: 30px; font-weight: 700; color: #F2A33A; opacity: .35">٣</span></div>
 <h3 style="margin: 0; font-size: 21px">صيانة 3 أو 6 شهور</h3>
 <p style="margin: 0; color: #C3D3CE">حسب نوع الجهاز، ومكتوبة بوضوح على كل جهاز.</p>
-</div>
-</div>
-<div style="padding: 18px 22px; border-radius: 14px; border: 1px solid #2E5650; display: flex; align-items: center; gap: 12px; font-size: 17px">
-<svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F2A33A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>
+</li>
+</ol>
+<div style="padding: 18px 22px; border-radius: 16px; background: rgba(13, 92, 85, 0.35); border: 1px solid #2E5650; display: flex; align-items: center; gap: 14px; font-size: 17px">
+<span style="flex: none; width: 44px; height: 44px; border-radius: 12px; background: #F2A33A; color: #12221F; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="24" height="24" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg></span>
 <span>وطول فترة التجربة، فلوسك محفوظة عندنا ومش بتتحول للبايع غير بعد تأكيدك.</span>
 </div>
 </div>
 </section>
 
-<section style="max-width: 1200px; margin: 0 auto; padding: 72px 20px; display: flex; flex-direction: column; gap: 28px">
+<!-- CATEGORIES -->
+<section style="max-width: 1200px; margin: 0 auto; padding: 76px 20px; display: flex; flex-direction: column; gap: 28px">
 <h2 style="margin: 0; font-size: 34px; font-weight: 700">كل اللي عيادتك محتاجاه</h2>
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px">
-<a href="Browse.dc.html" style="padding: 28px; border-radius: 18px; background: #FFFFFF; border: 1px solid #DCE3DF; color: #12221F; display: flex; flex-direction: column; gap: 8px">
+<a href="Browse.dc.html" class="mn-card" style="border-radius: 22px; background: #FFFFFF; border: 1px solid #DCE3DF; color: #12221F; overflow: hidden; display: flex; flex-direction: column">
+<svg aria-hidden="true" sc-camel-view-box="0 0 400 300" sc-camel-preserve-aspect-ratio="xMidYMid slice" style="display: block; width: 100%; height: 220px"><use href="#mn-unit"></use></svg>
+<div style="padding: 22px 24px 24px; display: flex; flex-direction: column; gap: 8px">
 <h3 style="margin: 0; font-size: 21px">الأجهزة الكبيرة</h3>
 <p style="margin: 0; color: #4A5A56">يونيت، أشعة X-Ray وX-Mind، أوتوكلاف، موتور جراحة.</p>
+<span class="mn-more" aria-hidden="true" style="color: #0D5C55; font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 6px">تصفّح ←</span>
+</div>
 </a>
-<a href="Browse.dc.html" style="padding: 28px; border-radius: 18px; background: #FFFFFF; border: 1px solid #DCE3DF; color: #12221F; display: flex; flex-direction: column; gap: 8px">
+<a href="Browse.dc.html" class="mn-card" style="border-radius: 22px; background: #FFFFFF; border: 1px solid #DCE3DF; color: #12221F; overflow: hidden; display: flex; flex-direction: column">
+<svg aria-hidden="true" sc-camel-view-box="0 0 400 300" sc-camel-preserve-aspect-ratio="xMidYMid slice" style="display: block; width: 100%; height: 220px"><use href="#mn-endo"></use></svg>
+<div style="padding: 22px 24px 24px; display: flex; flex-direction: column; gap: 8px">
 <h3 style="margin: 0; font-size: 21px">إندو وجراحة</h3>
 <p style="margin: 0; color: #4A5A56">أبيكس لوكيتور، إندو موتور، لايت كيور.</p>
+<span class="mn-more" aria-hidden="true" style="color: #0D5C55; font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 6px">تصفّح ←</span>
+</div>
 </a>
-<a href="Browse.dc.html" style="padding: 28px; border-radius: 18px; background: #FFFFFF; border: 1px solid #DCE3DF; color: #12221F; display: flex; flex-direction: column; gap: 8px">
+<a href="Browse.dc.html" class="mn-card" style="border-radius: 22px; background: #FFFFFF; border: 1px solid #DCE3DF; color: #12221F; overflow: hidden; display: flex; flex-direction: column">
+<svg aria-hidden="true" sc-camel-view-box="0 0 400 300" sc-camel-preserve-aspect-ratio="xMidYMid slice" style="display: block; width: 100%; height: 220px"><use href="#mn-tools"></use></svg>
+<div style="padding: 22px 24px 24px; display: flex; flex-direction: column; gap: 8px">
 <h3 style="margin: 0; font-size: 21px">أدوات شبه دائمة</h3>
 <p style="margin: 0; color: #4A5A56">أدوات جراحية ومعدات مساعدة بحالة ممتازة.</p>
+<span class="mn-more" aria-hidden="true" style="color: #0D5C55; font-weight: 600; font-size: 14px; display: flex; align-items: center; gap: 6px">تصفّح ←</span>
+</div>
 </a>
 </div>
 </section>
 
-<section id="sell" style="max-width: 1200px; margin: 0 auto; padding: 0 20px 72px">
-<div style="padding: 40px; border-radius: 24px; background: #FFFFFF; border: 1px solid #DCE3DF; display: flex; flex-wrap: wrap; gap: 40px; align-items: center">
+<!-- SELL -->
+<section id="sell" style="max-width: 1200px; margin: 0 auto; padding: 0 20px 76px">
+<div style="padding: 40px; border-radius: 24px; background: #FFFFFF; border: 1px solid #DCE3DF; box-shadow: 0 10px 30px rgba(18, 34, 31, 0.06); display: flex; flex-wrap: wrap; gap: 40px; align-items: center">
 <div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 16px">
+<span style="align-self: flex-start; width: 52px; height: 52px; border-radius: 16px; background: #FBEEDC; color: #C46A12; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="26" height="26" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12l-8 8-9-9V3h8z"></path><circle cx="7.5" cy="7.5" r="1.5"></circle></svg></span>
 <h2 style="margin: 0; font-size: 32px; font-weight: 700">عندك جهاز عايز تبيعه؟</h2>
 <p style="margin: 0; color: #4A5A56; font-size: 18px">اعرض جهازك في دقايق، وإحنا نتابع الفحص والتسعير والشحن والتحصيل. من غير وسطاء ولا مشترين مش جادين.</p>
-<ul style="margin: 0; padding-right: 20px; display: flex; flex-direction: column; gap: 6px">
-<li>سعر عادل حسب حالة الجهاز وسعر السوق</li>
-<li>المشترين دكاترة أسنان بس</li>
-<li>فلوسك بتوصلك بعد ما المشتري يستلم ويأكّد</li>
+<ul style="list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px">
+<li style="display: flex; gap: 10px; align-items: flex-start"><span style="flex: none; margin-top: 3px; width: 22px; height: 22px; border-radius: 999px; background: #E3F0ED; color: #0D5C55; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="14" height="14" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span>سعر عادل حسب حالة الجهاز وسعر السوق</li>
+<li style="display: flex; gap: 10px; align-items: flex-start"><span style="flex: none; margin-top: 3px; width: 22px; height: 22px; border-radius: 999px; background: #E3F0ED; color: #0D5C55; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="14" height="14" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span>المشترين دكاترة أسنان بس</li>
+<li style="display: flex; gap: 10px; align-items: flex-start"><span style="flex: none; margin-top: 3px; width: 22px; height: 22px; border-radius: 999px; background: #E3F0ED; color: #0D5C55; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="14" height="14" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"></path></svg></span>فلوسك بتوصلك بعد 3 أيام من استلام المشتري للجهاز</li>
 </ul>
 </div>
-<form style="flex: 1 1 360px; min-width: 0; padding: 26px; border-radius: 18px; background: #F5F7F4; display: flex; flex-direction: column; gap: 14px">
+<form style="flex: 1 1 360px; min-width: 0; padding: 26px; border-radius: 20px; background: #F5F7F4; border: 1px solid #E5EBE8; display: flex; flex-direction: column; gap: 14px">
 <label style="display: flex; flex-direction: column; gap: 6px; font-weight: 600; font-size: 14px">نوع الجهاز
-<select style="min-height: 46px; padding: 0 12px; border-radius: 10px; border: 1px solid #C9D4CF; background: #FFFFFF; font: inherit; font-weight: 400"><option>يونيت أسنان</option><option>أشعة</option><option>أوتوكلاف</option><option>إندو موتور</option><option>أبيكس لوكيتور</option></select>
+<sc-raw-select class="mn-field" style="min-height: 46px; padding: 0 12px; border-radius: 10px; border: 1px solid #C9D4CF; background: #FFFFFF; font: inherit; font-weight: 400"><option>يونيت أسنان</option><option>أشعة</option><option>أوتوكلاف</option><option>إندو موتور</option><option>أبيكس لوكيتور</option></sc-raw-select>
 </label>
 <label style="display: flex; flex-direction: column; gap: 6px; font-weight: 600; font-size: 14px">الموديل وسنة الصنع
-<input type="text" placeholder="مثال: [الموديل] — [السنة]" style="min-height: 46px; padding: 0 12px; border-radius: 10px; border: 1px solid #C9D4CF; background: #FFFFFF; font: inherit; font-weight: 400">
+<input type="text" class="mn-field" placeholder="مثال: [الموديل] — [السنة]" style="min-height: 46px; padding: 0 12px; border-radius: 10px; border: 1px solid #C9D4CF; background: #FFFFFF; font: inherit; font-weight: 400">
 </label>
 <label style="display: flex; flex-direction: column; gap: 6px; font-weight: 600; font-size: 14px">السعر المطلوب
-<input type="text" placeholder="ج.م" style="min-height: 46px; padding: 0 12px; border-radius: 10px; border: 1px solid #C9D4CF; background: #FFFFFF; font: inherit; font-weight: 400">
+<input type="text" class="mn-field" placeholder="ج.م" style="min-height: 46px; padding: 0 12px; border-radius: 10px; border: 1px solid #C9D4CF; background: #FFFFFF; font: inherit; font-weight: 400">
 </label>
-<div style="padding: 18px; border-radius: 12px; border: 1.5px dashed #9FB2AB; text-align: center; color: #4A5A56; font-size: 14px">ارفع صور وفيديو للجهاز وهو شغال</div>
-<button type="button" style="min-height: 50px; border-radius: 12px; border: 0; background: #F2A33A; color: #12221F; font: inherit; font-weight: 700; font-size: 17px">اعرض جهازك</button>
+<div class="mn-upload" style="padding: 18px; border-radius: 14px; border: 1.5px dashed #9FB2AB; background: #FBFCFB; text-align: center; color: #4A5A56; font-size: 14px; display: flex; flex-direction: column; align-items: center; gap: 8px">
+<span style="width: 40px; height: 40px; border-radius: 12px; background: #E3F0ED; color: #0D5C55; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"></path><path d="M7 9l5-5 5 5"></path><path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3"></path></svg></span>
+ارفع صور وفيديو للجهاز وهو شغال
+</div>
+<a href="Sell.dc.html" class="mn-amber" style="min-height: 50px; border-radius: 12px; background: #F2A33A; color: #12221F; font-weight: 700; font-size: 17px; display: flex; align-items: center; justify-content: center">كمّل بيانات جهازك</a>
 </form>
 </div>
 </section>
 
+<!-- FAQ -->
 <section id="faq" style="background: #FFFFFF; border-top: 1px solid #E5EBE8">
-<div style="max-width: 860px; margin: 0 auto; padding: 72px 20px; display: flex; flex-direction: column; gap: 14px">
-<h2 style="margin: 0 0 10px; font-size: 34px; font-weight: 700">أسئلة شائعة</h2>
-<details style="padding: 18px 22px; border-radius: 14px; background: #F5F7F4">
-<summary style="font-weight: 600; font-size: 18px">مين اللي بيفحص الأجهزة؟</summary>
-<p style="margin: 10px 0 0; color: #4A5A56">فني معتمد متخصص في أجهزة الأسنان، والتقرير بيراجعه دكتور أسنان. اسم الفاحص وتاريخ الفحص مكتوبين في كل تقرير.</p>
+<div style="max-width: 860px; margin: 0 auto; padding: 76px 20px; display: flex; flex-direction: column; gap: 12px">
+<h2 style="margin: 0 0 12px; font-size: 34px; font-weight: 700">أسئلة شائعة</h2>
+<details class="mn-faq" style="padding: 18px 22px; border-radius: 16px; background: #F5F7F4; border: 1px solid transparent">
+<summary style="font-weight: 600; font-size: 18px; display: flex; justify-content: space-between; align-items: center; gap: 12px">مين اللي بيفحص الأجهزة؟<svg class="mn-chev" aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="#0D5C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><path d="M6 9l6 6 6-6"></path></svg></summary>
+<p style="margin: 10px 0 0; color: #4A5A56">فني معتمد متخصص في أجهزة الأسنان. اسم الفاحص وتاريخ الفحص مكتوبين في كل تقرير.</p>
 </details>
-<details style="padding: 18px 22px; border-radius: 14px; background: #F5F7F4">
-<summary style="font-weight: 600; font-size: 18px">يعني إيه "يُفحص عند الطلب"؟</summary>
+<details class="mn-faq" style="padding: 18px 22px; border-radius: 16px; background: #F5F7F4; border: 1px solid transparent">
+<summary style="font-weight: 600; font-size: 18px; display: flex; justify-content: space-between; align-items: center; gap: 12px">يعني إيه "يُفحص عند الطلب"؟<svg class="mn-chev" aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="#0D5C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><path d="M6 9l6 6 6-6"></path></svg></summary>
 <p style="margin: 10px 0 0; color: #4A5A56">لما تطلب الجهاز، فريقنا بيروح يفحصه عند البايع. تقرير الفحص بيوصلك قبل الشحن، ولو الجهاز مش مطابق فلوسك بترجعلك كاملة.</p>
 </details>
-<details style="padding: 18px 22px; border-radius: 14px; background: #F5F7F4">
-<summary style="font-weight: 600; font-size: 18px">ليه الصيانة 3 شهور في أجهزة و6 في أجهزة تانية؟</summary>
+<details class="mn-faq" style="padding: 18px 22px; border-radius: 16px; background: #F5F7F4; border: 1px solid transparent">
+<summary style="font-weight: 600; font-size: 18px; display: flex; justify-content: space-between; align-items: center; gap: 12px">ليه الصيانة 3 شهور في أجهزة و6 في أجهزة تانية؟<svg class="mn-chev" aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="#0D5C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><path d="M6 9l6 6 6-6"></path></svg></summary>
 <p style="margin: 10px 0 0; color: #4A5A56">المدة بتختلف حسب نوع الجهاز. [المعيار النهائي لتحديد المدة]</p>
 </details>
-<details style="padding: 18px 22px; border-radius: 14px; background: #F5F7F4">
-<summary style="font-weight: 600; font-size: 18px">المنصة بتاخد كام؟</summary>
+<details class="mn-faq" style="padding: 18px 22px; border-radius: 16px; background: #F5F7F4; border: 1px solid transparent">
+<summary style="font-weight: 600; font-size: 18px; display: flex; justify-content: space-between; align-items: center; gap: 12px">المنصة بتاخد كام؟<svg class="mn-chev" aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="#0D5C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><path d="M6 9l6 6 6-6"></path></svg></summary>
 <p style="margin: 10px 0 0; color: #4A5A56">[نموذج العمولة: نسبة من البايع / المشتري / الاتنين]</p>
 </details>
-<details style="padding: 18px 22px; border-radius: 14px; background: #F5F7F4">
-<summary style="font-weight: 600; font-size: 18px">بتوصلوا لأنهي محافظات؟</summary>
+<details class="mn-faq" style="padding: 18px 22px; border-radius: 16px; background: #F5F7F4; border: 1px solid transparent">
+<summary style="font-weight: 600; font-size: 18px; display: flex; justify-content: space-between; align-items: center; gap: 12px">بتوصلوا لأنهي محافظات؟<svg class="mn-chev" aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="#0D5C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><path d="M6 9l6 6 6-6"></path></svg></summary>
 <p style="margin: 10px 0 0; color: #4A5A56">[المحافظات المتاحة في البداية]</p>
+</details>
+<details class="mn-faq" style="padding: 18px 22px; border-radius: 16px; background: #F5F7F4; border: 1px solid transparent">
+<summary style="font-weight: 600; font-size: 18px; display: flex; justify-content: space-between; align-items: center; gap: 12px">إيه هي رسوم الجدية؟<svg class="mn-chev" aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="#0D5C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex: none"><path d="M6 9l6 6 6-6"></path></svg></summary>
+<p style="margin: 10px 0 0; color: #4A5A56">البايع بيدفع 300 ج.م لما يعرض جهازه، وبترجعله لما الجهاز يتباع. المشتري بيحجز الجهاز بـ 500 ج.م بتتخصم من سعره. <a href="Terms.dc.html" style="font-weight: 600">اقرأ شروط البيع والشراء كاملة</a></p>
 </details>
 </div>
 </section>
 
 <footer style="background: #0F2A26; color: #C3D3CE">
-<div style="max-width: 1200px; margin: 0 auto; padding: 40px 20px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px">
-<div style="display: flex; flex-direction: column; gap: 4px">
-<span style="font-size: 20px; font-weight: 700; color: #FFFFFF">استعمال طبيب</span>
-<span>من دكتور أسنان لدكتور أسنان… بثقة</span>
+<div style="max-width: 1200px; margin: 0 auto; padding: 52px 20px 24px; display: flex; flex-direction: column; gap: 36px">
+<div style="display: flex; flex-wrap: wrap; gap: 32px 48px; justify-content: space-between">
+<div style="flex: 2 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 12px">
+<a href="Main.dc.html" style="display: flex; align-items: center; gap: 10px; color: #FFFFFF">
+<span style="width: 40px; height: 40px; border-radius: 12px; background: #F2A33A; color: #12221F; display: flex; align-items: center; justify-content: center"><svg aria-hidden="true" width="22" height="22" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3c-2.5 0-4 2-4 4.5 0 3 1.5 4.5 2 7 .5 3 1 6.5 2.5 6.5S9 18 10 15.5c.5-1.2 1.5-1.2 2 0 1 2.5 1.5 5.5 3 5.5s2-3.5 2.5-6.5c.5-2.5 2-4 2-7C19.5 5 18 3 15.5 3 13.5 3 13 4 12 4S10 3 7 3z"></path></svg></span>
+<span style="font-size: 22px; font-weight: 700">استعمال طبيب</span>
+</a>
+<span style="color: #FFFFFF; font-weight: 600">من دكتور أسنان لدكتور أسنان… بثقة</span>
+<span style="font-size: 15px; max-width: 360px">منصة متخصصة في أجهزة الأسنان المستعملة: فحص فني لكل جهاز، وفلوسك محفوظة، وضمان مكتوب.</span>
 </div>
-<a href="#faq" style="min-height: 44px; padding: 10px 20px; border-radius: 12px; background: #F2A33A; color: #12221F; font-weight: 700; box-sizing: border-box; display: flex; align-items: center; gap: 8px"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7L4 20z"></path></svg>كلمنا على واتساب</a>
+<nav aria-label="المنصة" style="flex: 1 1 150px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+<span style="color: #FFFFFF; font-weight: 700">المنصة</span>
+<a href="Browse.dc.html" style="color: #C3D3CE">كل الأجهزة</a>
+<a href="Request.dc.html" style="color: #C3D3CE">اطلب جهاز</a>
+<a href="Sell.dc.html" style="color: #C3D3CE">بيع جهازك</a>
+</nav>
+<nav aria-label="عن استعمال طبيب" style="flex: 1 1 150px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+<span style="color: #FFFFFF; font-weight: 700">عن استعمال طبيب</span>
+<a href="About.dc.html" style="color: #C3D3CE">مين إحنا</a>
+<a href="Main.dc.html#how" style="color: #C3D3CE">إزاي بنشتغل</a>
+<a href="Main.dc.html#warranty" style="color: #C3D3CE">الضمان</a>
+<a href="Main.dc.html#faq" style="color: #C3D3CE">أسئلة شائعة</a>
+<a href="Terms.dc.html" style="color: #C3D3CE">شروط البيع والشراء</a>
+</nav>
+<div style="flex: 1 1 200px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
+<span style="color: #FFFFFF; font-weight: 700">تواصل معانا</span>
+<a href="#" style="align-self: flex-start; min-height: 44px; padding: 0 18px; border-radius: 12px; background: #F2A33A; color: #12221F; font-weight: 700; display: flex; align-items: center; gap: 8px"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7L4 20z"></path></svg>كلمنا على واتساب</a>
+<span>واتساب: [رقم الواتساب]</span>
+<span>[البريد الإلكتروني]</span>
+<span>[حسابات السوشيال ميديا]</span>
+</div>
+</div>
+<div style="padding-top: 18px; border-top: 1px solid #2E5650; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; font-size: 14px">
+<span>© 2026 استعمال طبيب. كل الحقوق محفوظة.</span>
+<a href="Terms.dc.html" style="color: #C3D3CE">الشروط والأحكام</a>
+</div>
 </div>
 </footer>
 
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":4500}}'>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:5600}}">
 class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = { f: 0 };
+}
 renderVals() {
-return {};
+var self = this;
+var cur = this.state.f;
+var FILTERS = [
+['الكل', function () { return true; }],
+['تم الفحص فقط', function (x) { return x.insp; }],
+['يونيت', function (x) { return x.cat === 'unit'; }],
+['أشعة', function (x) { return x.cat === 'xray'; }],
+['تعقيم', function (x) { return x.cat === 'steril'; }],
+['إندو وجراحة', function (x) { return x.cat === 'endo'; }]
+];
+var ITEMS = [
+{ title: 'يونيت أسنان كامل', meta: '[السنة] · القاهرة', warranty: 'ضمان + صيانة 6 شهور', href: 'Listing-Inspected.dc.html', insp: true, cat: 'unit', ref: '#mn-unit', alt: 'رسم توضيحي ليونيت أسنان كامل' },
+{ title: 'أوتوكلاف Class B', meta: '[السنة] · الإسكندرية', warranty: 'ضمان + صيانة 3 شهور', href: 'Listing-OnOrder.dc.html', insp: false, cat: 'steril', ref: '#mn-autoclave', alt: 'رسم توضيحي لأوتوكلاف Class B' },
+{ title: 'إندو موتور لاسلكي', meta: '[السنة] · المنصورة', warranty: 'ضمان + صيانة 3 شهور', href: 'Listing-Inspected.dc.html', insp: true, cat: 'endo', ref: '#mn-endo', alt: 'رسم توضيحي لإندو موتور لاسلكي' },
+{ title: 'جهاز أشعة X-Ray حائطي', meta: '[السنة] · الجيزة', warranty: 'ضمان + صيانة 6 شهور', href: 'Listing-OnOrder.dc.html', insp: false, cat: 'xray', ref: '#mn-xray', alt: 'رسم توضيحي لجهاز أشعة X-Ray حائطي' }
+];
+var test = FILTERS[cur][1];
+var shown = ITEMS.filter(test).map(function (x) {
+return { title: x.title, meta: x.meta, warranty: x.warranty, href: x.href, insp: x.insp, onorder: !x.insp, ref: x.ref, alt: x.alt };
+});
+var n = shown.length;
+var countText = n === 1 ? 'جهاز واحد' : (n === 2 ? 'جهازين' : n + ' أجهزة');
+return {
+filters: FILTERS.map(function (f, k) {
+var on = k === cur;
+return {
+label: f[0],
+pressed: on ? 'true' : 'false',
+bg: on ? '#0D5C55' : '#FFFFFF',
+bd: on ? '#0D5C55' : '#C9D4CF',
+fg: on ? '#FFFFFF' : '#12221F',
+fw: on ? '600' : '400',
+pick: function () { self.setState({ f: k }); }
+};
+}),
+items: shown,
+countText: countText
+};
 }
 }
 </script>
-</body>
-</html>
+
+
+</body></html>

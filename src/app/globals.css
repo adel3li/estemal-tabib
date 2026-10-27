@@ -1,72 +1,54 @@
 @import "tailwindcss";
 
+/* Brand tokens — see PHASE1_PROMPT.md §4 */
 @theme {
-  --font-sans: var(--font-plex), "Segoe UI", sans-serif;
-
   --color-ink: #12221f;
   --color-muted: #4a5a56;
-  --color-subtle: #5d6e69;
   --color-ground: #f5f7f4;
   --color-surface: #ffffff;
   --color-line: #dce3df;
-  --color-line-soft: #e5ebe8;
-  --color-field: #c9d4cf;
-  --color-photo: #e7edea;
+  --color-line-input: #c9d4cf;
 
-  --color-primary: #0d5c55;
-  --color-primary-hover: #08403b;
-  --color-primary-soft: #e3f0ed;
-  --color-primary-ink: #0b4a44;
+  --color-teal: #0d5c55;
+  --color-teal-hover: #08403b;
+  --color-teal-soft: #e3f0ed;
 
   --color-dark: #0f2a26;
   --color-dark-2: #173a35;
-  --color-dark-line: #2e5650;
-  --color-dark-muted: #c3d3ce;
 
-  --color-accent: #f2a33a;
+  --color-amber: #f2a33a;
+  --color-amber-soft: #fbeedc;
+  --color-amber-ink: #8a4209;
 
-  --color-info: #24508f;
-  --color-info-soft: #e6edf7;
-  --color-info-ink: #1b3f73;
+  --color-blue: #24508f;
+  --color-blue-soft: #e6edf7;
 
-  --color-warn: #8a4209;
-  --color-warn-soft: #fbeedc;
-  --color-warn-tint: #fdf6ec;
+  --color-green: #3f7a1f;
+  --color-green-soft: #eaf5dd;
+  --color-green-chip: #7dbb4a;
+
+  --color-red: #b3261e;
+
+  --radius-input: 12px;
+  --radius-card: 22px;
+
+  --shadow-card: 0 10px 30px rgba(18, 34, 31, 0.06);
+
+  --font-sans: "IBM Plex Sans Arabic", system-ui, sans-serif;
 }
 
-@layer base {
-  html {
-    scroll-behavior: smooth;
-    /* Keep anchor targets clear of the sticky header. */
-    scroll-padding-top: 84px;
-    -webkit-tap-highlight-color: transparent;
-  }
-  body {
-    @apply bg-ground text-ink font-sans leading-[1.7];
-  }
-  a {
-    @apply text-primary;
-  }
-  a:hover {
-    @apply text-primary-hover;
-  }
-  summary {
-    cursor: pointer;
-  }
-  :focus-visible {
-    outline: 3px solid var(--color-accent);
-    outline-offset: 2px;
-  }
+html {
+  background: var(--color-ground);
+  color: var(--color-ink);
 }
 
-@utility no-scrollbar {
-  scrollbar-width: none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
+body {
+  background: var(--color-ground);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
 }
 
-/* Bottom space for the fixed mobile action bars. */
-@utility pb-safe {
-  padding-bottom: max(12px, env(safe-area-inset-bottom));
+:focus-visible {
+  outline: 2px solid var(--color-teal);
+  outline-offset: 2px;
 }

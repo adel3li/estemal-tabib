@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head>
+<meta charset="utf-8">
+<title>استعمال طبيب — لوحة التحكم: الأجهزة المعروضة</title>
+<script src="support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&amp;display=swap">
+<style>
+body{margin:0;background:#EEF2F0}
+a{color:#0D5C55;text-decoration:none}a:hover{color:#08403B}
+.ad-card{padding:24px;border-radius:22px;background:#FFFFFF;border:1px solid #DCE3DF;box-shadow:0 10px 30px rgba(18,34,31,.05);display:flex;flex-direction:column;gap:16px}
+.ad-h{margin:0;font-size:19px;display:flex;align-items:center;gap:10px}
+.ad-n{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex:none}
+.ad-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.ad-field{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:14px;min-width:0}
+.ad-in{min-height:46px;padding:0 12px;border-radius:12px;border:1px solid #C9D4CF;background:#FFFFFF;font:inherit;font-weight:400;font-size:15px;color:#12221F;box-sizing:border-box;width:100%}
+textarea.ad-in{padding:10px 12px;min-height:84px;resize:vertical}
+.ad-in:hover{border-color:#9FB2AB}
+.ad-in:focus{outline:none;border-color:#0D5C55;box-shadow:0 0 0 3px rgba(13,92,85,.18)}
+.ad-chip{min-height:42px;padding:4px 16px;border-radius:999px;font:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.ad-chip:focus-visible{outline:3px solid rgba(13,92,85,.35);outline-offset:2px}
+.ad-side a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;color:#C3D3CE;font-weight:500}
+.ad-side a:hover{background:#163B36;color:#FFFFFF}
+.ad-hint{font-weight:400;font-size:13px;color:#4A5A56}
+.ad-int{font-weight:400;font-size:12px;color:#8A4209;background:#FBEEDC;padding:1px 8px;border-radius:999px;margin-right:6px}
+.ad-btn{min-height:50px;padding:0 22px;border-radius:14px;font:inherit;font-weight:700;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px}
+.ad-pri{background:#0D5C55;color:#FFFFFF;border:0}.ad-pri:hover{background:#08403B}
+.ad-sec{background:#FFFFFF;color:#12221F;border:1px solid #C9D4CF}.ad-sec:hover{background:#F5F7F4}
+.ad-drop{border:2px dashed #9FB2AB;border-radius:16px;background:#F5F7F4;padding:18px;display:flex;align-items:center;gap:14px;cursor:pointer;font:inherit;color:#12221F;text-align:right;width:100%}
+.ad-drop:hover{border-color:#0D5C55;background:#E3F0ED}
+.al-kpi{padding:18px 20px;border-radius:20px;background:#FFFFFF;border:1px solid #DCE3DF;font:inherit;color:#12221F;text-align:right;cursor:pointer;display:flex;flex-direction:column;gap:2px;box-shadow:0 6px 18px rgba(18,34,31,.04)}
+.al-kpi:hover{border-color:#9FB2AB;box-shadow:0 10px 24px rgba(18,34,31,.08)}
+.al-kpi:focus-visible,.al-tab:focus-visible,.al-act:focus-visible,.al-name:focus-visible{outline:3px solid rgba(13,92,85,.35);outline-offset:2px}
+.al-tab{min-height:42px;padding:0 16px;border-radius:12px;border:0;font:inherit;font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px}
+.al-tab:hover{background:#E3F0ED}
+.al-tbl{display:table;width:100%;border-collapse:collapse;font-size:14px}
+.al-thead{display:table-header-group}.al-tbody{display:table-row-group}.al-tr{display:table-row}
+.al-tbl sc-for,.al-tbl sc-if{display:contents}
+.al-th{display:table-cell;font-size:13px;font-weight:600;color:#4A5A56;text-align:right;padding:10px 12px;border-bottom:1px solid #DCE3DF;white-space:nowrap}
+.al-td{display:table-cell;padding:12px;border-bottom:1px solid #EDF1EF;vertical-align:middle}
+.al-tbody .al-tr{cursor:pointer;transition:background .12s}
+.al-tbody .al-tr:hover{background:#F5F8F6}
+.al-pill{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.al-act{min-height:34px;padding:0 12px;border-radius:10px;border:1px solid #C9D4CF;background:#FFFFFF;font:inherit;font-size:13px;font-weight:600;color:#12221F;cursor:pointer;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.al-act:hover{background:#F5F7F4;border-color:#9FB2AB;color:#12221F}
+.al-name{border:0;background:none;padding:0;font:inherit;font-weight:700;font-size:15px;color:#12221F;cursor:pointer;text-align:right}
+.al-name:hover{color:#0D5C55;text-decoration:underline}
+.al-kv{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid #EDF1EF;font-size:14px}
+.al-kv span:first-child{color:#4A5A56}
+</style>
+</helmet>
+<div dir="rtl" style="min-height: 100vh; background: #EEF2F0; color: #12221F; font-family: 'IBM Plex Sans Arabic', 'Segoe UI', sans-serif; font-size: 16px; line-height: 1.7; display: flex; align-items: stretch">
+
+<svg aria-hidden="true" width="0" height="0" style="position: absolute; width: 0; height: 0; overflow: hidden">
+<symbol id="al-unit" sc-camel-view-box="0 0 120 90">
+<rect width="120" height="90" fill="#EEF4F1"></rect><ellipse cx="60" cy="80" rx="40" ry="4" fill="#12221F" opacity=".1"></ellipse>
+<path d="M34 50V22h20" stroke="#8FA09A" stroke-width="3" fill="none" stroke-linecap="round"></path>
+<ellipse cx="58" cy="22" rx="9" ry="4.5" fill="#F2A33A"></ellipse>
+<rect x="56" y="56" width="8" height="16" fill="#8FA09A"></rect>
+<rect x="42" y="71" width="36" height="7" rx="3" fill="#5D6E69"></rect>
+<rect x="28" y="48" width="54" height="10" rx="5" fill="#0D5C55"></rect>
+<rect x="76" y="22" width="10" height="32" rx="5" fill="#0D5C55" transform="rotate(16 81 38)"></rect>
+<rect x="83" y="14" width="10" height="8" rx="3" fill="#12221F" transform="rotate(16 88 18)"></rect>
+</symbol>
+<symbol id="al-clave" sc-camel-view-box="0 0 120 90">
+<rect width="120" height="90" fill="#EEF4F1"></rect><ellipse cx="60" cy="80" rx="40" ry="4" fill="#12221F" opacity=".1"></ellipse>
+<rect x="24" y="20" width="72" height="56" rx="9" fill="#FFFFFF" stroke="#AEBDB7" stroke-width="1.5"></rect>
+<circle cx="52" cy="50" r="18" fill="#B9C6C1" stroke="#8FA09A"></circle>
+<circle cx="52" cy="50" r="12" fill="#1D3330"></circle>
+<rect x="76" y="28" width="14" height="8" rx="2" fill="#12221F"></rect>
+<circle cx="83" cy="52" r="3" fill="#0D5C55"></circle><circle cx="83" cy="62" r="3" fill="#F2A33A"></circle>
+</symbol>
+<symbol id="al-xray" sc-camel-view-box="0 0 120 90">
+<rect width="120" height="90" fill="#EEF4F1"></rect>
+<rect x="18" y="12" width="10" height="44" rx="3" fill="#8FA09A"></rect>
+<path d="M28 24L62 32L80 46" stroke="#AEBDB7" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+<circle cx="62" cy="32" r="4" fill="#5D6E69"></circle>
+<rect x="72" y="42" width="24" height="18" rx="5" fill="#FFFFFF" stroke="#AEBDB7" stroke-width="1.5"></rect>
+<path d="M79 60h10l-2 16h-6z" fill="#F2A33A"></path>
+<circle cx="84" cy="51" r="3" fill="#0D5C55"></circle>
+</symbol>
+<symbol id="al-motor" sc-camel-view-box="0 0 120 90">
+<rect width="120" height="90" fill="#EEF4F1"></rect><ellipse cx="54" cy="78" rx="36" ry="4" fill="#12221F" opacity=".1"></ellipse>
+<rect x="20" y="36" width="56" height="38" rx="7" fill="#FFFFFF" stroke="#AEBDB7" stroke-width="1.5"></rect>
+<rect x="28" y="43" width="26" height="15" rx="2" fill="#1D3330"></rect>
+<path d="M32 52h6l3-5 3 8 3-3h4" stroke="#5FC4B6" stroke-width="1.5" fill="none"></path>
+<circle cx="64" cy="48" r="3.5" fill="#0D5C55"></circle><circle cx="64" cy="60" r="3.5" fill="#F2A33A"></circle>
+<path d="M76 56c14 0 14-26 22-30" stroke="#8FA09A" stroke-width="2.5" fill="none"></path>
+<rect x="95" y="10" width="7" height="24" rx="3.5" fill="#B9C6C1" stroke="#8FA09A" transform="rotate(14 98 22)"></rect>
+</symbol>
+<symbol id="al-cure" sc-camel-view-box="0 0 120 90">
+<rect width="120" height="90" fill="#EEF4F1"></rect>
+<rect x="30" y="64" width="44" height="9" rx="4" fill="#5D6E69"></rect>
+<rect x="20" y="40" width="70" height="15" rx="7.5" fill="#FFFFFF" stroke="#AEBDB7" stroke-width="1.5"></rect>
+<path d="M88 46L104 34" stroke="#F2A33A" stroke-width="7" stroke-linecap="round"></path>
+<circle cx="46" cy="47.5" r="3.5" fill="#0D5C55"></circle>
+<path d="M106 26l6-4M108 34h6" stroke="#F2A33A" stroke-width="2" stroke-linecap="round" opacity=".7"></path>
+</symbol>
+<symbol id="al-cam" sc-camel-view-box="0 0 120 90">
+<rect width="120" height="90" fill="#EEF4F1"></rect>
+<rect x="56" y="14" width="46" height="32" rx="4" fill="#1D3330" stroke="#5D6E69"></rect>
+<circle cx="79" cy="30" r="8" fill="#5D7A74"></circle>
+<rect x="76" y="46" width="6" height="12" fill="#8FA09A"></rect><rect x="66" y="58" width="26" height="5" rx="2" fill="#5D6E69"></rect>
+<rect x="14" y="62" width="48" height="10" rx="5" fill="#FFFFFF" stroke="#AEBDB7" stroke-width="1.5"></rect>
+<circle cx="20" cy="67" r="2.5" fill="#0D5C55"></circle>
+</symbol>
+</svg>
+
+<aside class="ad-side" aria-label="قائمة لوحة التحكم" style="flex: 0 0 250px; background: #0F2A26; color: #C3D3CE; padding: 22px 16px; display: flex; flex-direction: column; gap: 6px; box-sizing: border-box">
+<a href="Main.dc.html" style="color: #FFFFFF; margin-bottom: 4px">
+<span style="width: 38px; height: 38px; border-radius: 12px; background: #F2A33A; color: #12221F; display: flex; align-items: center; justify-content: center; flex: none"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3c-2.5 0-4 2-4 4.5 0 3 1.5 4.5 2 7 .5 3 1 6.5 2.5 6.5S9 18 10 15.5c.5-1.2 1.5-1.2 2 0 1 2.5 1.5 5.5 3 5.5s2-3.5 2.5-6.5c.5-2.5 2-4 2-7C19.5 5 18 3 15.5 3 13.5 3 13 4 12 4S10 3 7 3z"></path></svg></span>
+<span style="display: flex; flex-direction: column; line-height: 1.3"><span style="font-weight: 700">استعمال طبيب</span><span style="font-size: 12px; color: #9FB8B1">لوحة التحكم</span></span>
+</a>
+<div style="height: 1px; background: #2E5650; margin: 8px 0"></div>
+<a href="Admin-Listings.dc.html" aria-current="page" style="background: #F2A33A; color: #12221F; font-weight: 700"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="7" height="7" rx="1.5"></rect><rect x="13" y="4" width="7" height="7" rx="1.5"></rect><rect x="4" y="13" width="7" height="7" rx="1.5"></rect><rect x="13" y="13" width="7" height="7" rx="1.5"></rect></svg>الأجهزة المعروضة</a>
+<a href="Admin.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>إضافة جهاز</a>
+<a href="Admin-Submissions.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16v12H4z"></path><path d="M4 7l8 6 8-6"></path></svg>طلبات البيع الواردة<span style="margin-right: auto; padding: 0 8px; border-radius: 999px; background: #F2A33A; color: #12221F; font-size: 12px; font-weight: 700">[٣]</span></a>
+<a href="Admin-Inspections.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"></circle><path d="M20 20l-4.5-4.5"></path></svg>الفحوصات</a>
+<a href="Admin-Orders.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h11v9H3z"></path><path d="M14 10h4l3 3v3h-7"></path><circle cx="7" cy="17.5" r="1.8"></circle><circle cx="17" cy="17.5" r="1.8"></circle></svg>الطلبات والشحن</a>
+<a href="Admin-Payments.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"></rect><path d="M8 11V8a4 4 0 0 1 8 0v3"></path></svg>المدفوعات المحفوظة</a>
+<a href="Admin-Requests.dc.html"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg>طلبات «اطلب جهاز»</a>
+<div style="margin-top: auto; padding: 12px; border-radius: 14px; background: #163B36; font-size: 13px; display: flex; align-items: center; gap: 10px">
+<span style="width: 34px; height: 34px; border-radius: 999px; background: #0D5C55; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-weight: 700; flex: none">أ</span>
+<span style="display: flex; flex-direction: column; line-height: 1.4"><span style="color: #FFFFFF; font-weight: 600">[اسم الموظف]</span><span>أدمن</span></span>
+</div>
+</aside>
+
+<main style="flex: 1 1 auto; min-width: 0; padding: 26px 32px 60px; box-sizing: border-box; display: flex; flex-direction: column; gap: 20px">
+
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 16px">
+<div>
+<div style="font-size: 14px; color: #4A5A56">لوحة التحكم › الأجهزة › الأجهزة المعروضة</div>
+<h1 style="margin: 0; font-size: 30px; line-height: 1.3">الأجهزة المعروضة</h1>
+<div style="color: #4A5A56">كل الأجهزة اللي على المنصة، سواء ملك الشركة أو بالنيابة عن بايع. دوس على أي جهاز عشان تشوف تفاصيله.</div>
+</div>
+<a href="Admin.dc.html" class="ad-btn ad-pri" style="color: #FFFFFF"><svg aria-hidden="true" width="20" height="20" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>إضافة جهاز</a>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px" role="group" aria-label="ملخص الأجهزة">
+<sc-for list="{{kpis}}" as="k" hint-placeholder-count="4">
+<button type="button" class="al-kpi" sc-camel-on-click="{{k.pick}}" aria-pressed="{{k.pressed}}" aria-label="{{k.aria}}" style="border-color: {{k.bd}}; box-shadow: 0 0 0 {{k.ring}} {{k.ringCol}}">
+<span style="display: flex; align-items: center; justify-content: space-between; gap: 8px"><span style="font-size: 14px; font-weight: 600; color: #4A5A56">{{k.label}}</span><span style="width: 10px; height: 10px; border-radius: 999px; background: {{k.dot}}"></span></span>
+<span style="font-size: 34px; font-weight: 700; line-height: 1.2">{{k.count}}</span>
+<span style="font-size: 12px; color: #4A5A56">{{k.sub}}</span>
+</button>
+</sc-for>
+</div>
+
+<sc-if value="{{hasToast}}" hint-placeholder-val="{{false}}">
+<div role="status" aria-live="polite" style="padding: 12px 16px; border-radius: 14px; background: #E3F0ED; border: 1px solid #9CCBC2; color: #0B4A44; display: flex; align-items: center; gap: 10px; font-weight: 600">
+<span style="width: 26px; height: 26px; border-radius: 999px; background: #0D5C55; color: #FFFFFF; display: flex; align-items: center; justify-content: center; flex: none"><svg aria-hidden="true" width="14" height="14" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l4 4 10-10"></path></svg></span>
+<span style="flex: 1">{{toast}}</span>
+<button type="button" class="al-act" sc-camel-on-click="{{closeToast}}" aria-label="اقفل الرسالة" style="min-height: 30px; padding: 0 10px">✕</button>
+</div>
+</sc-if>
+
+<section class="ad-card" aria-label="قائمة الأجهزة" style="padding: 18px 20px; gap: 14px">
+<div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px">
+<div role="tablist" aria-label="حالة الإعلان" style="display: flex; flex-wrap: wrap; gap: 4px; padding: 4px; border-radius: 14px; background: #F5F7F4">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="5">
+<button type="button" role="tab" class="al-tab" sc-camel-on-click="{{t.pick}}" aria-selected="{{t.sel}}" style="background: {{t.bg}}; color: {{t.fg}}; box-shadow: {{t.sh}}">{{t.label}}<span style="min-width: 22px; padding: 0 6px; border-radius: 999px; background: {{t.cbg}}; color: {{t.cfg}}; font-size: 12px; font-weight: 700; text-align: center">{{t.count}}</span></button>
+</sc-for>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center">
+<label style="position: relative; display: block">
+<span style="position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0)">ابحث في الأجهزة</span>
+<svg aria-hidden="true" width="18" height="18" sc-camel-view-box="0 0 24 24" fill="none" stroke="#4A5A56" stroke-width="2" stroke-linecap="round" style="position: absolute; top: 14px; right: 12px"><circle cx="11" cy="11" r="6"></circle><path d="M20 20l-4.5-4.5"></path></svg>
+<input type="search" class="ad-in" value="{{q}}" sc-camel-on-change="{{onQ}}" placeholder="اسم الجهاز، النوع، أو رقم الإعلان" style="width: 280px; padding-right: 38px">
+</label>
+<label class="ad-field" style="flex-direction: row; align-items: center; gap: 8px"><span style="white-space: nowrap">الفحص</span>
+<sc-raw-select class="ad-in" value="{{insp}}" sc-camel-on-change="{{onInsp}}" style="width: 170px"><option value="all">الكل</option><option value="done">تم الفحص</option><option value="order">يُفحص عند الطلب</option></sc-raw-select>
+</label>
+<label class="ad-field" style="flex-direction: row; align-items: center; gap: 8px"><span style="white-space: nowrap">المصدر</span>
+<sc-raw-select class="ad-in" value="{{src}}" sc-camel-on-change="{{onSrc}}" style="width: 130px"><option value="all">الكل</option><option value="company">الشركة</option><option value="seller">بايع</option></sc-raw-select>
+</label>
+<sc-if value="{{hasFilters}}" hint-placeholder-val="{{false}}">
+<button type="button" class="al-act" sc-camel-on-click="{{clearFilters}}">امسح الفلاتر</button>
+</sc-if>
+</div>
+</div>
+
+<div style="font-size: 13px; color: #4A5A56">{{resultTxt}}</div>
+
+<div style="position: relative; min-height: 640px">
+<div style="overflow-x: auto">
+<div class="al-tbl" role="table" aria-label="الأجهزة">
+<div class="al-thead" role="rowgroup"><div class="al-tr" role="row"><div class="al-th" role="columnheader">الجهاز</div><div class="al-th" role="columnheader">النوع</div><div class="al-th" role="columnheader">المصدر</div><div class="al-th" role="columnheader">الفحص</div><div class="al-th" role="columnheader">السعر</div><div class="al-th" role="columnheader">الحالة</div><div class="al-th" role="columnheader">مشاهدات · تاريخ</div><div class="al-th" role="columnheader">إجراءات</div></div></div>
+<div class="al-tbody" role="rowgroup">
+<sc-for list="{{rows}}" as="d" hint-placeholder-count="8">
+<div class="al-tr" role="row" sc-camel-on-click="{{d.open}}" style="background: {{d.rowBg}}; box-shadow: inset -3px 0 0 {{d.rowMark}}">
+<div class="al-td" role="cell">
+<div style="display: flex; align-items: center; gap: 12px">
+<span style="width: 64px; height: 48px; border-radius: 10px; overflow: hidden; border: 1px solid #DCE3DF; flex: none; position: relative"><svg role="img" aria-label="{{d.name}}" sc-camel-view-box="0 0 120 90" style="display: block; width: 100%; height: 100%"><use href="{{d.img}}"></use></svg></span>
+<span style="display: flex; flex-direction: column; line-height: 1.4; min-width: 0">
+<button type="button" class="al-name" sc-camel-on-click="{{d.open}}" aria-label="{{d.openAria}}">{{d.name}}</button>
+<span style="font-size: 12px; color: #4A5A56; display: flex; gap: 6px; align-items: center">{{d.id}} · {{d.gov}}<sc-if value="{{d.featured}}" hint-placeholder-val="{{false}}"><span class="al-pill" style="background: #FBEEDC; color: #8A4209; padding: 0 8px">★ مميز</span></sc-if></span>
+</span>
+</div>
+</div>
+<div class="al-td" role="cell" style="white-space: nowrap">{{d.type}}</div>
+<div class="al-td" role="cell"><span class="al-pill" style="background: {{d.srcBg}}; color: {{d.srcFg}}">{{d.srcLabel}}</span></div>
+<div class="al-td" role="cell"><span class="al-pill" style="background: {{d.inspBg}}; color: {{d.inspFg}}">{{d.inspLabel}}</span></div>
+<div class="al-td" role="cell" style="white-space: nowrap; font-weight: 700">{{d.priceTxt}} <span style="font-size: 12px; font-weight: 400; color: #4A5A56">ج.م</span></div>
+<div class="al-td" role="cell"><span class="al-pill" style="background: {{d.stBg}}; color: {{d.stFg}}"><span style="width: 7px; height: 7px; border-radius: 999px; background: {{d.stFg}}"></span>{{d.stLabel}}</span></div>
+<div class="al-td" role="cell" style="white-space: nowrap; font-size: 13px; line-height: 1.5"><span style="font-weight: 600">{{d.viewsTxt}}</span><br><span style="color: #4A5A56">{{d.date}}</span></div>
+<div class="al-td" role="cell">
+<div style="display: flex; gap: 6px">
+<a href="Admin.dc.html" class="al-act" sc-camel-on-click="{{d.stop}}" aria-label="{{d.editAria}}"><svg aria-hidden="true" width="14" height="14" sc-camel-view-box="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9l-4-4L4 16z"></path></svg>تعديل</a>
+<sc-if value="{{d.canToggle}}" hint-placeholder-val="{{true}}">
+<button type="button" class="al-act" sc-camel-on-click="{{d.toggle}}" aria-label="{{d.toggleAria}}" style="color: {{d.toggleFg}}">{{d.toggleLabel}}</button>
+</sc-if>
+<sc-if value="{{d.locked}}" hint-placeholder-val="{{false}}">
+<span class="al-act" title="{{d.lockTitle}}" style="cursor: default; color: #8A9A95; background: #F5F7F4; border-style: dashed">{{d.lockLabel}}</span>
+</sc-if>
+<button type="button" class="al-act" sc-camel-on-click="{{d.feature}}" aria-pressed="{{d.featPressed}}" aria-label="{{d.featAria}}" style="background: {{d.featBg}}; color: {{d.featFg}}; border-color: {{d.featBd}}">{{d.featLabel}}</button>
+</div>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+
+<sc-if value="{{isEmpty}}" hint-placeholder-val="{{false}}">
+<div style="padding: 48px 20px; text-align: center; color: #4A5A56; display: flex; flex-direction: column; align-items: center; gap: 10px">
+<svg aria-hidden="true" width="40" height="40" sc-camel-view-box="0 0 24 24" fill="none" stroke="#9FB2AB" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="6"></circle><path d="M20 20l-4.5-4.5"></path></svg>
+<div style="font-weight: 700; color: #12221F">مفيش أجهزة بالفلاتر دي</div>
+<button type="button" class="al-act" sc-camel-on-click="{{clearFilters}}">امسح الفلاتر وارجع للكل</button>
+</div>
+</sc-if>
+
+<sc-if value="{{hasSel}}" hint-placeholder-val="{{false}}">
+<div sc-camel-on-click="{{closeSel}}" aria-hidden="true" style="position: absolute; inset: 0; background: rgba(238, 242, 240, 0.55); border-radius: 14px"></div>
+<aside role="dialog" aria-label="{{pAria}}" style="position: absolute; top: 0; left: 0; width: 420px; max-width: 100%; background: #FFFFFF; border: 1px solid #DCE3DF; border-radius: 20px; box-shadow: -4px 20px 50px rgba(18, 34, 31, 0.16); display: flex; flex-direction: column; overflow: hidden; z-index: 2">
+<div style="position: relative; aspect-ratio: 4 / 3; background: #EEF4F1">
+<svg role="img" aria-label="{{pName}}" sc-camel-view-box="0 0 120 90" style="display: block; width: 100%; height: 100%"><use href="{{pImg}}"></use></svg>
+<span class="al-pill" style="position: absolute; top: 12px; right: 12px; background: {{pInspSolidBg}}; color: {{pInspSolidFg}}">{{pInspLabel}}</span>
+<sc-if value="{{pFeatured}}" hint-placeholder-val="{{false}}"><span class="al-pill" style="position: absolute; top: 12px; left: 56px; background: #F2A33A; color: #12221F">★ مميز</span></sc-if>
+<button type="button" class="al-act" sc-camel-on-click="{{closeSel}}" aria-label="اقفل التفاصيل" style="position: absolute; top: 10px; left: 10px; width: 38px; padding: 0; justify-content: center">✕</button>
+</div>
+<div style="padding: 18px 20px 20px; display: flex; flex-direction: column; gap: 12px">
+<div>
+<div style="font-size: 12px; color: #4A5A56">{{pId}} · {{pType}}</div>
+<h2 style="margin: 0; font-size: 21px; line-height: 1.4">{{pName}}</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px">
+<span class="al-pill" style="background: {{pStBg}}; color: {{pStFg}}"><span style="width: 7px; height: 7px; border-radius: 999px; background: {{pStFg}}"></span>{{pStLabel}}</span>
+<span class="al-pill" style="background: {{pSrcBg}}; color: {{pSrcFg}}">{{pSrcLabel}}</span>
+</div>
+</div>
+<div style="display: flex; justify-content: space-between; align-items: baseline; padding: 12px 14px; border-radius: 14px; background: #F5F7F4"><span style="color: #4A5A56; font-size: 14px">سعر البيع</span><span style="font-size: 24px; font-weight: 700">{{pPrice}} <span style="font-size: 13px; color: #4A5A56; font-weight: 400">ج.م</span></span></div>
+<div>
+<div class="al-kv"><span>المحافظة</span><span>{{pGov}}</span></div>
+<div class="al-kv"><span>حالة المنتج</span><span>{{pCond}}</span></div>
+<div class="al-kv"><span>الصيانة المجانية</span><span>{{pMaint}} شهور</span></div>
+<div class="al-kv"><span>اتضاف</span><span>{{pDate}}</span></div>
+<div class="al-kv"><span>المشاهدات</span><span>{{pViews}}</span></div>
+<sc-if value="{{pIsSeller}}" hint-placeholder-val="{{false}}">
+<div class="al-kv"><span>البايع</span><span>[د. ...] · [01xxxxxxxxx]</span></div>
+<div class="al-kv" style="background: #FFF8EE; margin: 0 -8px; padding: 9px 8px; border-radius: 8px"><span>صافي البايع (السعر × 0.85)<span class="ad-int">داخلي</span></span><span style="font-weight: 700">{{pNet}} ج.م</span></div>
+</sc-if>
+<sc-if value="{{pIsCompany}}" hint-placeholder-val="{{true}}">
+<div class="al-kv"><span>الملكية</span><span>ملك الشركة</span></div>
+</sc-if>
+</div>
+<div style="padding: 12px 14px; border-radius: 14px; background: {{pNoteBg}}; color: {{pNoteFg}}; font-size: 14px; display: flex; flex-direction: column; gap: 4px">
+<span style="font-weight: 700">{{pNoteTitle}}</span>
+<span>{{pNoteBody}}</span>
+<a href="{{pNoteHref}}" style="font-weight: 600; color: inherit; text-decoration: underline">{{pNoteLink}}</a>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 8px">
+<a href="Admin.dc.html" class="ad-btn ad-pri" style="color: #FFFFFF; min-height: 44px; font-size: 15px; flex: 1 1 120px">تعديل</a>
+<sc-if value="{{pCanToggle}}" hint-placeholder-val="{{true}}">
+<button type="button" class="ad-btn ad-sec" sc-camel-on-click="{{pToggle}}" style="min-height: 44px; font-size: 15px; flex: 1 1 120px">{{pToggleLabel}}</button>
+</sc-if>
+<button type="button" class="ad-btn ad-sec" sc-camel-on-click="{{pFeature}}" aria-pressed="{{pFeatPressed}}" style="min-height: 44px; font-size: 15px; flex: 1 1 120px">{{pFeatLabel}}</button>
+</div>
+</div>
+</aside>
+</sc-if>
+</div>
+</section>
+
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script="" data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:2000}}">
+class Component extends DCLogic {
+constructor(props) {
+super(props);
+this.state = {
+tab: 'all', q: '', insp: 'all', src: 'all', sel: null, toast: '',
+items: [
+{ id: 'L-201', name: 'يونيت أسنان كامل بالكرسي والإضاءة', type: 'يونيت أسنان', img: '#al-unit', src: 'company', insp: 'done', price: 185000, st: 'pub', views: 412, date: '12 أكتوبر 2026', featured: true, gov: 'القاهرة', cond: 'ممتازة (81–100%)', maint: 6 },
+{ id: 'L-202', name: 'أوتوكلاف Class B — 23 لتر', type: 'أوتوكلاف', img: '#al-clave', src: 'seller', insp: 'done', price: 45000, st: 'pub', views: 268, date: '15 أكتوبر 2026', featured: false, gov: 'الجيزة', cond: 'ممتازة (81–100%)', maint: 3 },
+{ id: 'L-203', name: 'جهاز أشعة X-Mind بالذراع', type: 'أشعة', img: '#al-xray', src: 'company', insp: 'order', price: 38000, st: 'res', views: 190, date: '9 أكتوبر 2026', featured: false, gov: 'الإسكندرية', cond: 'جيدة (60–80%)', maint: 3 },
+{ id: 'L-204', name: 'إندو موتور لاسلكي بالأبيكس', type: 'إندو موتور', img: '#al-motor', src: 'seller', insp: 'done', price: 9500, st: 'sold', views: 335, date: '2 أكتوبر 2026', featured: false, gov: 'الدقهلية', cond: 'ممتازة (81–100%)', maint: 3 },
+{ id: 'L-205', name: 'أبيكس لوكيتور بشاشة ملونة', type: 'أبيكس لوكيتور', img: '#al-motor', src: 'seller', insp: 'order', price: 6000, st: 'draft', views: 0, date: '24 أكتوبر 2026', featured: false, gov: 'القاهرة', cond: 'جيدة (60–80%)', maint: 3 },
+{ id: 'L-206', name: 'موتور جراحة وزراعة بالفوت كنترول', type: 'موتور جراحة وزراعة', img: '#al-motor', src: 'company', insp: 'done', price: 62000, st: 'pub', views: 154, date: '18 أكتوبر 2026', featured: true, gov: 'القاهرة', cond: 'ممتازة (81–100%)', maint: 6 },
+{ id: 'L-207', name: 'لايت كيور LED لاسلكي', type: 'لايت كيور', img: '#al-cure', src: 'seller', insp: 'order', price: 3200, st: 'pub', views: 97, date: '20 أكتوبر 2026', featured: false, gov: 'الشرقية', cond: 'جيدة (60–80%)', maint: 3 },
+{ id: 'L-208', name: 'كاميرا إنترا أورال بالشاشة', type: 'كاميرا إنترا أورال', img: '#al-cam', src: 'company', insp: 'order', price: 14000, st: 'draft', views: 0, date: '26 أكتوبر 2026', featured: false, gov: 'الجيزة', cond: 'ممتازة (81–100%)', maint: 3 }
+]
+};
+}
+patch(id, change, msg) {
+var items = this.state.items.map(function (d) { return d.id === id ? Object.assign({}, d, change) : d; });
+this.setState({ items: items, toast: msg, sel: id });
+}
+renderVals() {
+var s = this.state;
+var self = this;
+function fmt(n) { return Number(n).toLocaleString('en-US'); }
+function stop(e) { if (e && e.stopPropagation) e.stopPropagation(); }
+var ST = {
+pub: { l: 'منشور', bg: '#EAF5DD', fg: '#3F7A1F', dot: '#3F7A1F', sub: 'ظاهر للمشترين في «كل الأجهزة»' },
+draft: { l: 'مسودة', bg: '#EEF2F0', fg: '#4A5A56', dot: '#8A9A95', sub: 'مخفي، مستني يتكمل أو يتنشر' },
+res: { l: 'محجوز', bg: '#FBEEDC', fg: '#8A4209', dot: '#F2A33A', sub: 'محجوز بعربون 500 ج.م' },
+sold: { l: 'اتباع', bg: '#E6EDF7', fg: '#24508F', dot: '#24508F', sub: 'الفلوس محفوظة لحد الاستلام + 3 أيام' }
+};
+var SRC = { company: { l: 'الشركة', bg: '#FBEEDC', fg: '#8A4209' }, seller: { l: 'بايع', bg: '#E3F0ED', fg: '#0D5C55' } };
+var INSP = { done: { l: 'تم الفحص', bg: '#E3F0ED', fg: '#0D5C55', sbg: '#0D5C55', sfg: '#FFFFFF' }, order: { l: 'يُفحص عند الطلب', bg: '#E6EDF7', fg: '#24508F', sbg: '#E6EDF7', sfg: '#24508F' } };
+var items = s.items;
+var counts = { all: items.length, pub: 0, draft: 0, res: 0, sold: 0 };
+items.forEach(function (d) { counts[d.st]++; });
+
+var q = (s.q || '').trim().toLowerCase();
+var base = items.filter(function (d) {
+if (s.insp !== 'all' && d.insp !== s.insp) return false;
+if (s.src !== 'all' && d.src !== s.src) return false;
+if (q && (d.name + ' ' + d.type + ' ' + d.id + ' ' + d.gov).toLowerCase().indexOf(q) < 0) return false;
+return true;
+});
+var tabCounts = { all: base.length, pub: 0, draft: 0, res: 0, sold: 0 };
+base.forEach(function (d) { tabCounts[d.st]++; });
+var list = base.filter(function (d) { return s.tab === 'all' || d.st === s.tab; });
+
+function toggleOf(d) {
+if (d.st === 'pub') return { label: 'إخفاء', fg: '#B3261E', to: 'draft', msg: 'اتخفى «' + d.name + '» من «كل الأجهزة» واتحول لمسودة.' };
+return { label: 'نشر', fg: '#3F7A1F', to: 'pub', msg: 'اتنشر «' + d.name + '» وبقى ظاهر للمشترين.' };
+}
+function doToggle(d) { var t = toggleOf(d); self.patch(d.id, { st: t.to }, t.msg); }
+function doFeature(d) { self.patch(d.id, { featured: !d.featured }, d.featured ? 'اتشال التمييز من «' + d.name + '».' : '«' + d.name + '» بقى مميز وهيظهر في أول النتايج.'); }
+
+var rows = list.map(function (d) {
+var st = ST[d.st], sr = SRC[d.src], ins = INSP[d.insp];
+var canToggle = d.st === 'pub' || d.st === 'draft';
+var t = toggleOf(d);
+var on = s.sel === d.id;
+return {
+id: d.id, name: d.name, type: d.type, img: d.img, gov: d.gov, date: d.date, featured: d.featured,
+rowBg: on ? '#EEF6F3' : 'transparent', rowMark: on ? '#0D5C55' : 'transparent',
+srcLabel: sr.l, srcBg: sr.bg, srcFg: sr.fg,
+inspLabel: ins.l, inspBg: ins.bg, inspFg: ins.fg,
+stLabel: st.l, stBg: st.bg, stFg: st.fg,
+priceTxt: fmt(d.price),
+viewsTxt: d.views ? fmt(d.views) + ' مشاهدة' : 'لسه متنشرش',
+open: function () { self.setState({ sel: d.id }); },
+openAria: 'افتح تفاصيل ' + d.name,
+stop: stop,
+editAria: 'عدّل ' + d.name,
+canToggle: canToggle, locked: !canToggle,
+toggleLabel: t.label, toggleFg: t.fg, toggleAria: t.label + ' ' + d.name,
+toggle: function (e) { stop(e); doToggle(d); },
+lockLabel: d.st === 'res' ? 'محجوز' : 'اتباع',
+lockTitle: d.st === 'res' ? 'مينفعش يتخفى وهو محجوز بعربون' : 'الجهاز اتباع، تابعه من الطلبات والشحن',
+featLabel: d.featured ? '★ مميز' : '☆ تمييز', featPressed: d.featured ? 'true' : 'false',
+featBg: d.featured ? '#FBEEDC' : '#FFFFFF', featFg: d.featured ? '#8A4209' : '#12221F', featBd: d.featured ? '#F0C88A' : '#C9D4CF',
+featAria: (d.featured ? 'شيل التمييز من ' : 'ميّز ') + d.name,
+feature: function (e) { stop(e); doFeature(d); }
+};
+});
+
+var kpis = ['pub', 'draft', 'res', 'sold'].map(function (k) {
+var on = s.tab === k;
+return { label: ST[k].l, count: counts[k], sub: ST[k].sub, dot: ST[k].dot, pressed: on ? 'true' : 'false', bd: on ? '#0D5C55' : '#DCE3DF', ring: on ? '2px' : '0', ringCol: on ? 'rgba(13,92,85,.25)' : 'transparent', aria: ST[k].l + ': ' + counts[k] + ' — اعرضهم بس', pick: function () { self.setState({ tab: on ? 'all' : k }); } };
+});
+var tabs = [['all', 'الكل'], ['pub', 'منشور'], ['draft', 'مسودة'], ['res', 'محجوز'], ['sold', 'اتباع']].map(function (t) {
+var on = s.tab === t[0];
+return { label: t[1], count: tabCounts[t[0]], sel: on ? 'true' : 'false', bg: on ? '#FFFFFF' : 'transparent', fg: on ? '#0D5C55' : '#3C4C48', sh: on ? '0 2px 8px rgba(18,34,31,.08)' : 'none', cbg: on ? '#0D5C55' : '#DCE3DF', cfg: on ? '#FFFFFF' : '#3C4C48', pick: function () { self.setState({ tab: t[0] }); } };
+});
+
+var p = null;
+items.forEach(function (d) { if (d.id === s.sel) p = d; });
+var pv = {};
+if (p) {
+var pst = ST[p.st], psr = SRC[p.src], pin = INSP[p.insp], pt = toggleOf(p);
+var note;
+if (p.st === 'res') note = ['#FBEEDC', '#6B3A10', 'محجوز بعربون 500 ج.م', 'مشتري حجز الجهاز ودفع العربون. الجهاز مش هيظهر لحد تاني لحد ما الطلب يكمل أو يتلغي.', 'Admin-Orders.dc.html', 'افتح الطلب في «الطلبات والشحن»'];
+else if (p.st === 'sold') note = ['#E6EDF7', '#1D3F72', 'الطلب ماشي', 'فلوس المشتري محفوظة، وبتتحول للبايع بعد الاستلام وفترة التجربة 3 أيام.', 'Admin-Payments.dc.html', 'شوف الدفعة في «المدفوعات المحفوظة»'];
+else if (p.insp === 'order') note = ['#E6EDF7', '#1D3F72', 'يُفحص عند الطلب', 'أول ما مشتري يطلبه، فني معتمد بيفحصه وبيترفع تقرير الفحص قبل الشحن.', 'Admin-Inspections.dc.html', 'افتح «الفحوصات»'];
+else note = ['#E3F0ED', '#0B4A44', 'تم الفحص بفني معتمد', 'تقرير الفحص مرفوع وظاهر للمشتري في صفحة الجهاز.', 'Admin-Inspections.dc.html', 'شوف تقرير الفحص'];
+pv = {
+pId: p.id, pName: p.name, pType: p.type, pImg: p.img, pGov: p.gov, pCond: p.cond, pMaint: p.maint, pDate: p.date,
+pViews: p.views ? fmt(p.views) : '—', pFeatured: p.featured,
+pPrice: fmt(p.price), pNet: fmt(Math.round(p.price * 0.85)),
+pIsSeller: p.src === 'seller', pIsCompany: p.src === 'company',
+pStLabel: pst.l, pStBg: pst.bg, pStFg: pst.fg,
+pSrcLabel: p.src === 'seller' ? 'بالنيابة عن بايع' : 'ملك الشركة', pSrcBg: psr.bg, pSrcFg: psr.fg,
+pInspLabel: pin.l, pInspSolidBg: pin.sbg, pInspSolidFg: pin.sfg,
+pNoteBg: note[0], pNoteFg: note[1], pNoteTitle: note[2], pNoteBody: note[3], pNoteHref: note[4], pNoteLink: note[5],
+pCanToggle: p.st === 'pub' || p.st === 'draft',
+pToggleLabel: pt.label === 'نشر' ? 'انشر الجهاز' : 'اخفي الجهاز',
+pToggle: function () { doToggle(p); },
+pFeature: function () { doFeature(p); },
+pFeatLabel: p.featured ? 'شيل التمييز' : '☆ ميّز الجهاز', pFeatPressed: p.featured ? 'true' : 'false',
+pAria: 'تفاصيل ' + p.name
+};
+}
+
+var hasFilters = !!q || s.insp !== 'all' || s.src !== 'all' || s.tab !== 'all';
+var out = {
+kpis: kpis, tabs: tabs, rows: rows,
+isEmpty: rows.length === 0,
+resultTxt: 'بيظهر ' + rows.length + ' من ' + items.length + ' جهاز',
+q: s.q, insp: s.insp, src: s.src,
+onQ: function (e) { self.setState({ q: e.target.value }); },
+onInsp: function (e) { self.setState({ insp: e.target.value }); },
+onSrc: function (e) { self.setState({ src: e.target.value }); },
+hasFilters: hasFilters,
+clearFilters: function () { self.setState({ q: '', insp: 'all', src: 'all', tab: 'all' }); },
+hasToast: !!s.toast, toast: s.toast,
+closeToast: function () { self.setState({ toast: '' }); },
+hasSel: !!p,
+closeSel: function () { self.setState({ sel: null }); }
+};
+for (var k in pv) out[k] = pv[k];
+return out;
+}
+}
+</script>
+
+
+</body></html>
