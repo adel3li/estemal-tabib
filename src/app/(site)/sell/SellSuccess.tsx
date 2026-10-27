@@ -40,7 +40,7 @@ export function SellSuccess({ id, onAgain }: { id: string; onAgain: () => void }
             </svg>
           </span>
         </span>
-        <h1 style={{ margin: 0, fontSize: 28 }}>استلمنا بيانات جهازك</h1>
+        <h1 style={{ margin: 0, fontWeight: 700, fontSize: 28 }}>استلمنا بيانات جهازك</h1>
         <span style={{ padding: "4px 16px", borderRadius: 999, background: "#F5F7F4", border: "1px solid #DCE3DF", fontWeight: 700, fontSize: 15 }}>
           رقم الطلب: <span dir="ltr" data-testid="sell-id">{id}</span>
         </span>

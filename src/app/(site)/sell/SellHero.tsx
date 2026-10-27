@@ -19,7 +19,7 @@ export function SellHero() {
           بيع جهازك
         </span>
         <div>
-          <h1 style={{ margin: 0, fontSize: 38, lineHeight: 1.3 }}>اعرض جهازك للبيع</h1>
+          <h1 style={{ margin: 0, fontWeight: 700, fontSize: 38, lineHeight: 1.3 }}>اعرض جهازك للبيع</h1>
           <p style={{ margin: "8px 0 0", color: "#4A5A56", fontSize: 17, maxWidth: 560 }}>كل ما كانت البيانات أدق، كل ما الجهاز اتباع أسرع. بعد ما تبعت الطلب هنكلمك خلال 24 ساعة نحدد ميعاد الفحص.</p>
         </div>
         <nav aria-label="خطوات النموذج">

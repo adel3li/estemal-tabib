@@ -94,7 +94,7 @@ function CardHead({ n, title, step, stepFg, bg, fg, children }: { n: number; tit
       </span>
       <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.3 }}>
         <span style={{ fontSize: 13, fontWeight: 600, color: stepFg }}>{step}</span>
-        <h2 id={`rq-h${n}`} style={{ margin: 0, fontSize: 21 }}>
+        <h2 id={`rq-h${n}`} style={{ margin: 0, fontWeight: 700, fontSize: 21 }}>
           {title}
         </h2>
       </span>

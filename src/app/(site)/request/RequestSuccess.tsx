@@ -20,7 +20,7 @@ export function RequestSuccess({ id, onAgain }: { id: string; onAgain: () => voi
             </svg>
           </span>
         </span>
-        <h1 style={{ margin: 0, fontSize: 28 }}>وصلنا طلبك</h1>
+        <h1 style={{ margin: 0, fontWeight: 700, fontSize: 28 }}>وصلنا طلبك</h1>
         <span style={{ padding: "4px 16px", borderRadius: 999, background: "#F5F7F4", border: "1px solid #DCE3DF", fontWeight: 700, fontSize: 15 }}>
           رقم الطلب: <span dir="ltr" data-testid="request-id">{id}</span>
         </span>
