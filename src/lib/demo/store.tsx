@@ -57,7 +57,7 @@ function nextCode(existing: string[], prefix: string, start: number): string {
 
 const today = () => "النهارده";
 
-type NewSubmission = Omit<Submission, "id" | "createdAt" | "status" | "log" | "feeStatus" | "sellerNet"> &
+type NewSubmission = Omit<Submission, "id" | "createdAt" | "status" | "log" | "feeStatus" | "sellerNet" | "feeReference"> &
   Partial<Pick<Submission, "feeReference">>;
 type NewRequest = Omit<DeviceRequest, "id" | "createdAt" | "status" | "notifiedAt">;
 

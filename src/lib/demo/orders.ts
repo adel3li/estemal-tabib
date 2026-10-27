@@ -1,5 +1,3 @@
-"use client";
-
 // Phase 2 demo data: buyer orders + held payments (PHASE1_PROMPT.md §11).
 // Not part of the shared demo store: orders live in their own tiny store,
 // persisted to localStorage so /admin/orders and the buyer tracker

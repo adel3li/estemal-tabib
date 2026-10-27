@@ -18,4 +18,5 @@
 /* Responsive additions (the design is desktop-only) */
 @media (max-width: 760px){
   .sb-list{flex:1 1 100% !important}
+  .sb-tabs{flex-wrap:wrap}
 }

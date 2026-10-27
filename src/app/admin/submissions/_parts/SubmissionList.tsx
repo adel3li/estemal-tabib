@@ -18,8 +18,8 @@ type Props = {
 
 export function SubmissionList({ tab, counts, onTab, q, onQ, items, sel, onPick }: Props) {
   return (
-    <section className="ad-card sb-list" aria-label="قائمة الطلبات" style={{ flex: "0 0 380px", padding: 16, gap: 12, minWidth: 0 }}>
-      <div role="tablist" aria-label="حالة الطلب" style={{ display: "flex", gap: 4, padding: 4, borderRadius: 14, background: "#F5F7F4" }}>
+    <section className="ad-card sb-list" aria-label="قائمة الطلبات" style={{ flex: "0 0 414px", padding: 16, gap: 12, minWidth: 0 }}>
+      <div role="tablist" aria-label="حالة الطلب" className="sb-tabs" style={{ display: "flex", gap: 4, padding: 4, borderRadius: 14, background: "#F5F7F4" }}>
         {TABS.map(([key, label]) => {
           const on = tab === key;
           return (
