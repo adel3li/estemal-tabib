@@ -1,4 +1,8 @@
-// STUB — to be ported from design-reference/Admin.dc.html
-export default function Page() {
-  return <div style={{ padding: 40 }}>قيد البناء: Admin</div>;
+"use client";
+
+// Ported from design-reference/Admin.dc.html
+import { DeviceForm } from "../_form/DeviceForm";
+
+export default function NewDevicePage() {
+  return <DeviceForm />;
 }

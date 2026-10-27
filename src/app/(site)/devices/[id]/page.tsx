@@ -1,4 +1,9 @@
-// STUB — to be ported from design-reference/Listing.dc.html
+import type { Metadata } from "next";
+import "./styles.css";
+import { DeviceClient } from "./DeviceClient";
+
+export const metadata: Metadata = { title: "تفاصيل الجهاز" };
+
 export default function Page() {
-  return <div style={{ padding: 40 }}>قيد البناء: Listing</div>;
+  return <DeviceClient />;
 }

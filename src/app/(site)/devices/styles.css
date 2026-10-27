@@ -1,0 +1,22 @@
+/* Ported from design-reference/Browse.dc.html <helmet> (header/nav rules live in the global header). */
+.br-ghost{transition:background .15s ease}
+.br-ghost:hover{background:#F5F7F4;color:#12221F}
+.br-card{transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease}
+.br-card:hover{transform:translateY(-4px);box-shadow:0 18px 36px rgba(18,34,31,.12);border-color:#9CCBC2;color:#12221F}
+.br-card:focus-visible{outline:3px solid #0D5C55;outline-offset:3px}
+.br-img svg{transition:transform .3s ease}
+.br-card:hover .br-img svg{transform:scale(1.04)}
+.br-more{transition:background .15s ease, color .15s ease}
+.br-card:hover .br-more{background:#0D5C55;color:#FFFFFF}
+.br-chip{transition:box-shadow .15s ease, transform .15s ease}
+.br-chip:hover{box-shadow:0 0 0 3px rgba(13,92,85,.12);transform:translateY(-1px)}
+.br-chip:focus-visible{outline:3px solid #0D5C55;outline-offset:2px}
+.br-input{transition:border-color .15s ease, box-shadow .15s ease}
+.br-input:focus{outline:none;border-color:#0D5C55 !important;box-shadow:0 0 0 3px rgba(13,92,85,.15)}
+.br-reset:hover{background:#E3F0ED !important}
+.br-cta-dark{transition:background .15s ease, transform .15s ease}
+.br-cta-dark:hover{background:#E8942A;color:#12221F;transform:translateY(-1px)}
+.br-ghost-dark:hover{background:#163A35;color:#FFFFFF}
+@media (min-width: 900px){
+.br-aside{position:sticky;top:88px;max-height:calc(100vh - 104px);overflow-y:auto}
+}

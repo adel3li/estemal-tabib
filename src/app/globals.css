@@ -107,3 +107,6 @@ textarea.ad-in{padding:10px 12px;min-height:84px;resize:vertical}
 
 /* Demo bar */
 .demo-bar button:hover, .demo-bar a:hover { text-decoration: underline; }
+
+/* Browser-default heading weight (Tailwind's reset removes it; the designs rely on it). */
+h1, h2, h3, h4 { font-weight: 700; }

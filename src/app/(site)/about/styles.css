@@ -1,0 +1,9 @@
+/* Ported from design-reference/About.dc.html <helmet> */
+.ab-cta{transition:background .15s ease, transform .15s ease, box-shadow .15s ease}
+.ab-cta:hover{background:#08403B;color:#FFFFFF;transform:translateY(-1px);box-shadow:0 8px 18px rgba(13,92,85,.22)}
+.ab-amber{transition:background .15s ease, transform .15s ease, box-shadow .15s ease}
+.ab-amber:hover{background:#E8952A;color:#12221F;transform:translateY(-1px);box-shadow:0 8px 18px rgba(242,163,58,.28)}
+.ab-value{transition:transform .18s ease, box-shadow .18s ease}
+.ab-value:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(18,34,31,.08)}
+/* Browser defaults the design relies on (Tailwind preflight resets them). */
+.ab-page :is(h1,h2,h3){font-weight:700}

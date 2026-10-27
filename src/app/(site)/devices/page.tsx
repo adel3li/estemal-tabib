@@ -1,4 +1,14 @@
-// STUB — to be ported from design-reference/Browse.dc.html
+import type { Metadata } from "next";
+import { Suspense } from "react";
+import "./styles.css";
+import { BrowseClient } from "./BrowseClient";
+
+export const metadata: Metadata = { title: "كل الأجهزة" };
+
 export default function Page() {
-  return <div style={{ padding: 40 }}>قيد البناء: Browse</div>;
+  return (
+    <Suspense fallback={null}>
+      <BrowseClient />
+    </Suspense>
+  );
 }

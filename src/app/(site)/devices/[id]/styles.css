@@ -1,0 +1,11 @@
+/* Ported from design-reference/Listing-Inspected.dc.html (li-*) and Listing-OnOrder.dc.html (oo-*). */
+.li-thumb{transition:transform .15s ease, box-shadow .15s ease}
+.li-thumb:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(18,34,31,.10)}
+.li-thumb:focus-visible,.li-cta:focus-visible,.li-ghost:focus-visible{outline:3px solid #F2A33A;outline-offset:2px}
+.li-cta{transition:background .15s ease, transform .15s ease}
+.li-cta:hover{background:#08403B;color:#FFFFFF;transform:translateY(-1px)}
+.li-cta:disabled,.li-cta[aria-disabled="true"]{background:#9FB2AB;cursor:not-allowed;transform:none}
+.li-ghost{transition:background .15s ease}
+.li-ghost:hover{background:#F5F7F4;color:#12221F}
+.li-row{transition:background .15s ease}
+.li-row:hover{background:#F8FAF9}

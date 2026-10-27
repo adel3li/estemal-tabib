@@ -1,0 +1,27 @@
+/* Admin-Listings.dc.html (al-*) — ad-* classes are global */
+.al-kpi{padding:18px 20px;border-radius:20px;background:#FFFFFF;border:1px solid #DCE3DF;font:inherit;color:#12221F;text-align:right;cursor:pointer;display:flex;flex-direction:column;gap:2px;box-shadow:0 6px 18px rgba(18,34,31,.04)}
+.al-kpi:hover{border-color:#9FB2AB;box-shadow:0 10px 24px rgba(18,34,31,.08)}
+.al-kpi:focus-visible,.al-tab:focus-visible,.al-act:focus-visible,.al-name:focus-visible{outline:3px solid rgba(13,92,85,.35);outline-offset:2px}
+.al-tab{min-height:42px;padding:0 16px;border-radius:12px;border:0;font:inherit;font-size:15px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px}
+.al-tab:hover{background:#E3F0ED}
+.al-tbl{display:table;width:100%;border-collapse:collapse;font-size:14px}
+.al-thead{display:table-header-group}.al-tbody{display:table-row-group}.al-tr{display:table-row}
+.al-th{display:table-cell;font-size:13px;font-weight:600;color:#4A5A56;text-align:right;padding:10px 12px;border-bottom:1px solid #DCE3DF;white-space:nowrap}
+.al-td{display:table-cell;padding:12px;border-bottom:1px solid #EDF1EF;vertical-align:middle}
+.al-tbody .al-tr{cursor:pointer;transition:background .12s}
+.al-tbody .al-tr:hover{background:#F5F8F6}
+.al-pill{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.al-act{min-height:34px;padding:0 12px;border-radius:10px;border:1px solid #C9D4CF;background:#FFFFFF;font:inherit;font-size:13px;font-weight:600;color:#12221F;cursor:pointer;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.al-act:hover{background:#F5F7F4;border-color:#9FB2AB;color:#12221F}
+.al-name{border:0;background:none;padding:0;font:inherit;font-weight:700;font-size:15px;color:#12221F;cursor:pointer;text-align:right}
+.al-name:hover{color:#0D5C55;text-decoration:underline}
+.al-kv{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid #EDF1EF;font-size:14px}
+.al-kv span:first-child{color:#4A5A56}
+
+/* Responsive additions (not in the design, which is desktop-only) */
+.al-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+@media (max-width: 900px){
+  .al-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .al-search{width:100% !important}
+  .al-search-wrap{flex:1 1 100%}
+}

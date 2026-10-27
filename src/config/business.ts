@@ -6,6 +6,8 @@ export const BUSINESS = {
   sellerSeriousnessFeeEGP: 300, // paid after submitting a device (manual in Phase 1)
   buyerReservationDepositEGP: 500, // Phase 2 (deducted from price)
   trialDays: 3, // replacement/return + money held after delivery
+  minListingDays: 7, // a listing stays up at least this long (seller terms)
+  sellerHandoverBusinessDays: 3, // seller must hand the device over within this after a purchase
   maintenanceMonthsOptions: [3, 6] as const,
   deliveryDaysInspected: "2 – 5",
   deliveryDaysWithInspection: "[5 – 7]", // TODO(open question §12.7)

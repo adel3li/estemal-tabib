@@ -1,0 +1,16 @@
+/* Ported from design-reference/Terms.dc.html <helmet> */
+.tm-tab{transition:background .15s ease, color .15s ease, box-shadow .15s ease}
+.tm-tab[aria-selected="false"]:hover{background:#EEF3F1 !important;color:#0D5C55 !important}
+.tm-tab:focus-visible,.tm-toc a:focus-visible,.tm-cta:focus-visible{outline:3px solid #F2A33A;outline-offset:2px}
+.tm-toc a{color:#3C4C48;transition:background .15s ease, color .15s ease}
+.tm-toc a:hover{background:#E3F0ED;color:#0D5C55}
+.tm-cta{transition:background .15s ease, transform .15s ease}
+.tm-cta:hover{transform:translateY(-1px)}
+.tm-cta-teal:hover{background:#08403B;color:#FFFFFF}
+.tm-cta-amber:hover{background:#E8952A;color:#12221F}
+.tm-num{display:inline-block;padding:0 7px;border-radius:7px;background:#FFF1DA;color:#8A4209;font-weight:700;white-space:nowrap;line-height:1.6}
+.tm-num-t{display:inline-block;padding:0 7px;border-radius:7px;background:#FFFFFF;color:#0D5C55;font-weight:700;white-space:nowrap;line-height:1.6}
+.tm-art{scroll-margin-top:96px}
+/* Browser defaults the design relies on (Tailwind preflight resets them). */
+.tm-page :is(h1,h2,h3){font-weight:700}
+.tm-page article ul{list-style:disc}

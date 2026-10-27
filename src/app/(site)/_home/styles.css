@@ -1,0 +1,21 @@
+/* Ported from design-reference/Main.dc.html <helmet> */
+.mn-cta{transition:background .15s ease, transform .15s ease, box-shadow .15s ease}
+.mn-cta:hover{background:#08403B;color:#FFFFFF;transform:translateY(-1px);box-shadow:0 8px 18px rgba(13,92,85,.22)}
+.mn-amber{transition:background .15s ease, transform .15s ease, box-shadow .15s ease}
+.mn-amber:hover{background:#E8952A;color:#12221F;transform:translateY(-1px);box-shadow:0 8px 18px rgba(242,163,58,.28)}
+.mn-card{transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease}
+.mn-card:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(18,34,31,.10);border-color:#C9D4CF;color:#12221F}
+.mn-card:hover .mn-more{gap:10px}
+.mn-more{transition:gap .15s ease}
+.mn-chip{transition:background .15s ease, border-color .15s ease}
+.mn-chip:hover{border-color:#0D5C55}
+.mn-field:focus{outline:none;border-color:#0D5C55;box-shadow:0 0 0 3px rgba(13,92,85,.15)}
+.mn-faq summary{list-style:none;cursor:pointer}
+.mn-faq summary::-webkit-details-marker{display:none}
+.mn-faq .mn-chev{transition:transform .2s ease}
+.mn-faq[open] .mn-chev{transform:rotate(180deg)}
+.mn-faq[open]{background:#FFFFFF;border-color:#9CCBC2;box-shadow:0 10px 30px rgba(18,34,31,.06)}
+.mn-upload{transition:border-color .15s ease, background .15s ease}
+.mn-upload:hover{border-color:#0D5C55;background:#FFFFFF}
+/* Browser defaults the design relies on (Tailwind preflight resets them). */
+.mn-page :is(h1,h2,h3){font-weight:700}

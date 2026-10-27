@@ -1,0 +1,4 @@
+/* Admin.dc.html has no page-specific classes beyond the global ad-*; small responsive fixes only. */
+@media (max-width: 900px) {
+  .adf-aside { position: static !important; }
+}
