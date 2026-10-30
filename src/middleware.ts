@@ -16,6 +16,13 @@ const PROTECTED = ["/sell", "/request", "/account", "/admin", "/onboarding"];
 const under = (path: string, base: string) => path === base || path.startsWith(`${base}/`);
 
 export async function middleware(request: NextRequest) {
+  // Supabase env vars missing on this deployment: keep the public pages up
+  // instead of crashing every request; pages that need an account can't work.
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+    if (!PROTECTED.some((p) => under(request.nextUrl.pathname, p))) return NextResponse.next();
+    return new NextResponse("Sign-in isn't configured on this deployment (NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_ANON_KEY).", { status: 503 });
+  }
+
   let response = NextResponse.next({ request });
 
   const supabase = createServerClient(SUPABASE_URL, SUPABASE_ANON_KEY, {

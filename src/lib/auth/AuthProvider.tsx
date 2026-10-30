@@ -6,6 +6,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 import { supabaseBrowser } from "@/lib/supabase/client";
+import { SUPABASE_ANON_KEY, SUPABASE_URL } from "@/lib/supabase/env";
 import { PROFILE_COLUMNS, type Profile } from "./profile";
 
 export type { AccountType, Profile } from "./profile";
@@ -39,6 +40,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
+    // Env vars missing on this deployment: behave as signed out, don't crash the site.
+    if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time fallback
+      setReady(true);
+      return;
+    }
     const sb = supabaseBrowser();
     let alive = true;
     sb.auth.getSession().then(async ({ data }) => {
