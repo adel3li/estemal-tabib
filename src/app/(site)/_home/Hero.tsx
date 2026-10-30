@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { routes } from "@/lib/routes";
 import { BUSINESS } from "@/config/business";
+import { HeroCarousel } from "./HeroCarousel";
 
 const DAYS = BUSINESS.trialDays;
 const [M1, M2] = BUSINESS.maintenanceMonthsOptions;
@@ -57,52 +58,7 @@ export function Hero() {
             </li>
           </ul>
         </div>
-        <div className="mn-hero-card" style={{ flex: "1 1 420px", minWidth: 0, maxWidth: 520, position: "relative" }}>
-          <div aria-hidden="true" style={{ position: "absolute", inset: "18px -14px -14px 18px", borderRadius: 26, background: "#E3F0ED", border: "1px solid #C9DED8" }} />
-          <div style={{ position: "relative", background: "#FFFFFF", border: "1px solid #DCE3DF", borderRadius: 24, boxShadow: "0 24px 50px rgba(18, 34, 31, 0.10)", overflow: "hidden" }}>
-            <div style={{ position: "relative", aspectRatio: "4 / 2.7", background: "#E7EDEA" }}>
-              <svg role="img" aria-label="رسم توضيحي ليونيت أسنان كامل بعد الفحص" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" style={{ display: "block", width: "100%", height: "100%" }}><use href="#mn-unit" /></svg>
-              <svg aria-hidden="true" viewBox="0 0 120 120" style={{ position: "absolute", bottom: 14, left: 14, width: 84, height: 84, filter: "drop-shadow(0 6px 14px rgba(18, 34, 31, 0.18))" }}><use href="#mn-seal" /></svg>
-              <span style={{ position: "absolute", top: 14, right: 14, padding: "6px 12px", borderRadius: 999, background: "#0D5C55", color: "#FFFFFF", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6, boxShadow: "0 2px 8px rgba(18, 34, 31, 0.18)" }}>
-                <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
-                تم الفحص
-              </span>
-              <span style={{ position: "absolute", bottom: 14, right: 14, padding: "5px 10px", borderRadius: 999, background: "rgba(18, 34, 31, 0.68)", color: "#FFFFFF", fontSize: 12, fontWeight: 600 }}>صورة حقيقية للجهاز من فريق الفحص</span>
-            </div>
-            <div style={{ padding: "22px 24px", display: "flex", flexDirection: "column", gap: 16 }}>
-              <div>
-                <div style={{ fontSize: 20, fontWeight: 700, overflowWrap: "anywhere" }}>يونيت أسنان كامل — [الماركة / الموديل]</div>
-                <div style={{ fontSize: 14, color: "#4A5A56" }}>سنة الصنع [السنة] · القاهرة</div>
-              </div>
-              <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                <div style={{ fontSize: 14, fontWeight: 600, color: "#4A5A56", display: "flex", alignItems: "center", gap: 6 }}>
-                  <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D5C55" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M7 3h7l5 5v13H7z" /><path d="M14 3v5h5" /><path d="M10 13l2 2 4-4" /></svg>
-                  ملخص تقرير الفحص
-                </div>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 14px", borderRadius: 12, background: "#F5F7F4" }}>
-                  <span>كفاءة التشغيل</span>
-                  <span style={{ padding: "2px 10px", borderRadius: 999, background: "#E3F0ED", color: "#0D5C55", fontWeight: 600, fontSize: 14 }}>ممتاز</span>
-                </div>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 14px", borderRadius: 12, background: "#F5F7F4" }}>
-                  <span>الهيدروليك والموتورات</span>
-                  <span style={{ padding: "2px 10px", borderRadius: 999, background: "#E3F0ED", color: "#0D5C55", fontWeight: 600, fontSize: 14 }}>سليم</span>
-                </div>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 14px", borderRadius: 12, background: "#F5F7F4" }}>
-                  <span>الحالة الظاهرية</span>
-                  <span style={{ padding: "2px 10px", borderRadius: 999, background: "#E3F0ED", color: "#0D5C55", fontWeight: 600, fontSize: 14 }}>جيد جداً</span>
-                </div>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "10px 14px", borderRadius: 12, background: "#FBEEDC" }}>
-                  <span style={{ color: "#6B3A10" }}>عيوب مُعلنة</span>
-                  <span style={{ padding: "2px 10px", borderRadius: 999, background: "#FFFFFF", color: "#8A4209", fontWeight: 600, fontSize: 14 }}>ملاحظة واحدة</span>
-                </div>
-              </div>
-              <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 8, paddingTop: 12, borderTop: "1px solid #E5EBE8", fontSize: 13, color: "#4A5A56" }}>
-                <span>فحص بواسطة فني معتمد — [الاسم]</span>
-                <Link href={`${routes.device("L-201")}#report`} className="mn-link44" style={{ fontWeight: 600 }}>شوف التقرير الكامل ←</Link>
-              </div>
-            </div>
-          </div>
-        </div>
+        <HeroCarousel />
       </section>
     </div>
     </>

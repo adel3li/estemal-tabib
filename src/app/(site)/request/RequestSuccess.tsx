@@ -38,7 +38,7 @@ export function RequestSuccess({ id, onAgain }: { id: string; onAgain: () => voi
                 <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.4, minWidth: 0 }}>
                   <span style={{ fontWeight: 700 }}>{d.title}</span>
                   <span style={{ fontSize: 13, color: "#4A5A56" }}>
-                    {d.governorate} · {CONDITIONS[d.condition].short} · {INSPECTION_LABEL[d.inspection]}
+                    {CONDITIONS[d.condition].short} · {INSPECTION_LABEL[d.inspection]}
                   </span>
                 </span>
                 <span style={{ fontWeight: 700, color: "#0D5C55", flex: "none" }}>{fmt(d.price)} ج.م</span>

@@ -14,8 +14,8 @@ export function WarrantyAndCategories() {
         <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "32px 48px" }}>
           <div style={{ flex: "1 1 460px", minWidth: 0, display: "flex", flexDirection: "column", gap: 10 }}>
             <span style={{ alignSelf: "flex-start", padding: "5px 12px", borderRadius: 999, background: "rgba(242, 163, 58, 0.14)", color: "#F2A33A", fontSize: 14, fontWeight: 700 }}>الضمان</span>
-            <h2 className="mn-h2 mn-h2-lg" style={{ margin: 0, fontWeight: 700, lineHeight: 1.35 }}>ضمانك مش كلمة… ضمانك مكتوب</h2>
-            <p className="mn-lead" style={{ margin: 0, color: "#C3D3CE", maxWidth: 560 }}>كل جهاز معاه 3 مستويات حماية، ومدة الصيانة بتختلف حسب نوع الجهاز ومكتوبة في صفحته.</p>
+            <h2 className="mn-h2 mn-h2-lg" style={{ margin: 0, fontWeight: 700, lineHeight: 1.35 }}>جهازك مضمون..<br />فتشتري وأنت متطمن.</h2>
+            <p className="mn-lead" style={{ margin: 0, color: "#C3D3CE", maxWidth: 560 }}>من أول ما الموقع يفحصه.. لحد المعاينة وفترة الصيانة.</p>
           </div>
           <div style={{ flex: "0 1 300px", minWidth: 0, margin: "0 auto" }}>
             <svg aria-hidden="true" viewBox="0 0 360 300" style={{ display: "block", width: "100%", maxWidth: 300, height: "auto" }}><use href="#mn-escrow" /></svg>

@@ -20,7 +20,7 @@ export function HowItWorks() {
               <span aria-hidden="true" style={{ fontSize: 34, fontWeight: 700, color: "#0D5C55", opacity: 0.3 }}>١</span>
             </div>
             <h3 style={{ margin: 0, fontSize: 20, color: "#0B4A44" }}>البايع بيعرض جهازه</h3>
-            <p style={{ margin: 0, color: "#2E4A45" }}>بيانات الجهاز، وصور وفيديو وهو شغال.</p>
+            <p style={{ margin: 0, color: "#2E4A45" }}>بيانات الجهاز، وصوره وهو شغال.</p>
           </li>
           <li style={{ padding: 24, borderRadius: 22, background: "#E6EDF7", border: "1px solid #A9BFE0", display: "flex", flexDirection: "column", gap: 12 }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -30,7 +30,7 @@ export function HowItWorks() {
               <span aria-hidden="true" style={{ fontSize: 34, fontWeight: 700, color: "#24508F", opacity: 0.3 }}>٢</span>
             </div>
             <h3 style={{ margin: 0, fontSize: 20, color: "#1B3F73" }}>بنفحص الجهاز</h3>
-            <p style={{ margin: 0, color: "#2D4566" }}>أجهزة بتتفحص قبل ما تتعرض، والباقي بنفحصه عند البايع أول ما تطلبه وقبل الشحن.</p>
+            <p style={{ margin: 0, color: "#2D4566" }}>أجهزة بتتفحص قبل ما تتعرض، والباقي بنفحصه أول ما تطلبه وقبل الشحن.</p>
           </li>
           <li style={{ padding: 24, borderRadius: 22, background: "#FBEEDC", border: "1px solid #F0C88A", display: "flex", flexDirection: "column", gap: 12 }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -82,7 +82,7 @@ export function HowItWorks() {
               </li>
               <li style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
                 <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D5C55" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none", marginTop: 4 }}><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
-                الصور والفيديو من فريق الفحص
+                الصور من فريق الفحص
               </li>
               <li style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
                 <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D5C55" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none", marginTop: 4 }}><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
@@ -98,7 +98,7 @@ export function HowItWorks() {
               <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="6" /><path d="M20 20l-4.5-4.5" /></svg>
               يُفحص عند الطلب
             </span>
-            <h3 style={{ margin: 0, fontSize: 22 }}>بنفحصه عند البايع بعد طلبك وقبل الشحن</h3>
+            <h3 style={{ margin: 0, fontSize: 22 }}>بنفحصه بعد طلبك وقبل الشحن</h3>
             <ul style={{ listStyle: "none", margin: 0, padding: 0, color: "#3C4C48", display: "flex", flexDirection: "column", gap: 8 }}>
               <li style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
                 <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#24508F" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none", marginTop: 4 }}><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
@@ -110,7 +110,7 @@ export function HowItWorks() {
               </li>
               <li style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
                 <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#24508F" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none", marginTop: 4 }}><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
-                لحد الفحص، الصور والفيديو من البايع
+                لحد الفحص، الصور من البايع
               </li>
             </ul>
           </div>

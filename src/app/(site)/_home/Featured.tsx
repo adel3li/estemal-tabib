@@ -6,8 +6,9 @@ import Link from "next/link";
 import { useState } from "react";
 import { routes } from "@/lib/routes";
 import { isListed, useDemo } from "@/lib/demo/store";
-import { fmt } from "@/lib/demo/labels";
-import type { Device, DeviceType } from "@/lib/demo/types";
+import { fmt, typeLabel } from "@/lib/demo/labels";
+import type { Device } from "@/lib/demo/types";
+import { artFor } from "./artMap";
 
 const SHOW = 4;
 
@@ -19,20 +20,6 @@ const FILTERS: [string, (d: Device) => boolean][] = [
   ["تعقيم", (d) => d.type === "autoclave"],
   ["إندو وجراحة", (d) => ["endo", "apex", "cure", "surg"].includes(d.type)],
 ];
-
-/** Which of the page's illustrations to use for a device type. */
-const ART: Partial<Record<DeviceType, string>> = {
-  unit: "#mn-unit",
-  autoclave: "#mn-autoclave",
-  xray: "#mn-xray",
-  endo: "#mn-endo",
-  apex: "#mn-endo",
-  cure: "#mn-endo",
-  surg: "#mn-endo",
-  rotary: "#mn-endo",
-  contra: "#mn-endo",
-  micro: "#mn-endo",
-};
 
 const countText = (n: number) => (n === 1 ? "جهاز واحد" : n === 2 ? "جهازين" : `${n} أجهزة`);
 
@@ -98,7 +85,7 @@ function DeviceCard({ d }: { d: Device }) {
     <Link href={routes.device(d.id)} className="mn-card" style={{ display: "flex", flexDirection: "column", borderRadius: 20, border: "1px solid #DCE3DF", background: "#FFFFFF", overflow: "hidden", color: "#12221F", boxShadow: "0 4px 14px rgba(18, 34, 31, 0.04)" }}>
       <div className="mn-card-img" style={{ position: "relative", background: "#E7EDEA" }}>
         <svg role="img" aria-label={`رسم توضيحي ل${d.title}`} viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" style={{ display: "block", width: "100%", height: "100%" }}>
-          <use href={ART[d.type] ?? "#mn-tools"} />
+          <use href={artFor(d.type)} />
         </svg>
         {insp ? (
           <span style={{ position: "absolute", top: 12, right: 12, padding: "4px 10px", borderRadius: 999, background: "#0D5C55", color: "#FFFFFF", fontSize: 12, fontWeight: 600, display: "flex", alignItems: "center", gap: 4, boxShadow: "0 2px 8px rgba(18, 34, 31, 0.15)" }}>
@@ -111,22 +98,19 @@ function DeviceCard({ d }: { d: Device }) {
               <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="6" /><path d="M20 20l-4.5-4.5" /></svg>
               يُفحص عند الطلب
             </span>
-            <span style={{ position: "absolute", bottom: 10, right: 10, padding: "3px 9px", borderRadius: 999, background: "rgba(18, 34, 31, 0.68)", color: "#FFFFFF", fontSize: 12, fontWeight: 600 }}>صورة من البايع</span>
+            <span className="mn-card-tag" style={{ position: "absolute", bottom: 10, right: 10, padding: "3px 9px", borderRadius: 999, background: "rgba(18, 34, 31, 0.68)", color: "#FFFFFF", fontSize: 12, fontWeight: 600 }}>صورة من البايع</span>
           </>
         )}
       </div>
-      <div style={{ padding: "16px 18px 18px", display: "flex", flexDirection: "column", gap: 6, flex: 1 }}>
-        <div style={{ fontWeight: 700, fontSize: 17, overflowWrap: "anywhere" }}>{d.title}</div>
-        <div style={{ fontSize: 13, color: "#4A5A56", display: "flex", alignItems: "center", gap: 4 }}>
-          <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 21s-7-6.5-7-12a7 7 0 0 1 14 0c0 5.5-7 12-7 12z" /><circle cx="12" cy="9" r="2.5" /></svg>
-          {d.year} · {d.governorate}
-        </div>
-        <div style={{ alignSelf: "flex-start", padding: "2px 10px", borderRadius: 999, background: "#E3F0ED", fontSize: 12, color: "#0D5C55", fontWeight: 600, display: "flex", alignItems: "center", gap: 4 }}>
+      <div className="mn-card-body" style={{ padding: "16px 18px 18px", display: "flex", flexDirection: "column", gap: 6, flex: 1 }}>
+        <div className="mn-card-title" style={{ fontWeight: 700, fontSize: 17, overflowWrap: "anywhere" }}>{d.title}</div>
+        <div style={{ fontSize: 13, color: "#4A5A56" }}>{typeLabel(d.type)}</div>
+        <div className="mn-card-pill" style={{ alignSelf: "flex-start", padding: "2px 10px", borderRadius: 999, background: "#E3F0ED", fontSize: 12, color: "#0D5C55", fontWeight: 600, display: "flex", alignItems: "center", gap: 4 }}>
           <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" /></svg>
           ضمان + صيانة {d.maintenanceMonths} شهور
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: 10, borderTop: "1px solid #E5EBE8", marginTop: "auto" }}>
-          <span style={{ fontWeight: 700, fontSize: 18 }}>{fmt(d.price)} ج.م</span>
+          <span className="mn-card-price" style={{ fontWeight: 700, fontSize: 18 }}>{fmt(d.price)} ج.م</span>
           <span className="mn-more" style={{ fontSize: 13, color: "#0D5C55", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
             التفاصيل<span aria-hidden="true">←</span>
           </span>

@@ -25,7 +25,7 @@ export function Faq() {
             <svg className="mn-chev" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D5C55" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none" }}><path d="M6 9l6 6 6-6" /></svg>
           </summary>
           <p style={{ margin: "10px 0 0", color: "#4A5A56" }}>
-            لما تطلب الجهاز، فريقنا بيروح يفحصه عند البايع. تقرير الفحص بيوصلك قبل الشحن، ولو الجهاز مش مطابق فلوسك بترجعلك كاملة.
+            لما تطلب الجهاز، فريقنا بيفحصه قبل الشحن. تقرير الفحص بيوصلك قبل الشحن، ولو الجهاز مش مطابق فلوسك بترجعلك كاملة.
           </p>
         </details>
         <details className="mn-faq" style={{ padding: "18px 22px", borderRadius: 16, background: "#F5F7F4", border: "1px solid transparent" }}>

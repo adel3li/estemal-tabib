@@ -62,11 +62,18 @@
   .mn-lead{font-size:16px}
   .mn-steps,.mn-g3{grid-template-columns:minmax(0, 1fr)}
   .mn-cat-art{height:auto;aspect-ratio:16 / 9}
-  .mn-card-img{aspect-ratio:16 / 10}
-  /* Filter chips: one swipeable row, bleeding to the screen edges. */
-  .mn-chips{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;
-    margin-inline:-20px;padding-inline:20px;width:calc(100% + 40px);scroll-padding-inline:20px}
-  .mn-chips::-webkit-scrollbar{display:none}
+  /* Filter chips: wrap onto rows so every option is visible. */
+  .mn-chips{flex-wrap:wrap;gap:8px !important}
+  .mn-chip{padding:6px 14px !important;font-size:15px}
+  /* Two device cards per row. */
+  .mn-cards{grid-template-columns:repeat(2, minmax(0, 1fr)) !important;gap:12px !important}
+  .mn-card{border-radius:16px !important}
+  .mn-card-img{aspect-ratio:4 / 3}
+  .mn-card-tag,.mn-more{display:none !important}
+  .mn-card-body{padding:12px !important;gap:4px !important}
+  .mn-card-title{font-size:15px !important;line-height:1.45}
+  .mn-card-pill{font-size:11px !important;padding:2px 8px !important}
+  .mn-card-price{font-size:16px !important}
   .mn-sell{padding:22px 18px;gap:26px}
   .mn-sell-form{padding:18px}
   .mn-faq summary{font-size:17px !important}
@@ -78,4 +85,18 @@
 /* Touch screens: cards shouldn't stay "lifted" after a tap. */
 @media (hover: none){
   .mn-card:hover,.mn-cta:hover,.mn-amber:hover{transform:none}
+}
+
+/* Hero carousel */
+.mn-slide{animation:mn-slide-in .45s ease}
+@keyframes mn-slide-in{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:none}}
+.mn-car-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:999px;border:1px solid #C9D4CF;background:#FFFFFF;color:#12221F;cursor:pointer;transition:border-color .15s ease}
+.mn-car-btn:hover{border-color:#0D5C55}
+.mn-car-dot{display:inline-flex;align-items:center;justify-content:center;width:28px;height:44px;border:0;padding:0;background:transparent;cursor:pointer}
+.mn-car-dot span{display:block;width:8px;height:8px;border-radius:999px;background:#C9D4CF;transition:width .2s ease, background .2s ease}
+.mn-car-dot[aria-current="true"] span{width:22px;background:#0D5C55}
+.mn-car-btn:focus-visible,.mn-car-dot:focus-visible{outline:3px solid #0D5C55;outline-offset:2px}
+@media (prefers-reduced-motion: reduce){
+  .mn-slide{animation:none}
+  .mn-car-dot span{transition:none}
 }

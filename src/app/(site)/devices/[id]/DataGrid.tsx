@@ -33,7 +33,6 @@ export function DataGrid({ d }: { d: Device }) {
             <Cell label="الماركة / الموديل" value={brandModel(d)} />
             <Cell label="سنة الصنع" value={d.year} />
             <Cell label="بلد المنشأ" value={d.origin} />
-            <Cell label="الجهاز في" value={d.governorate} />
             {d.report ? <Cell label="كفاءة التشغيل" value={d.report.efficiency} bg="#E3F0ED" lab="#0B4A44" fg="#0D5C55" /> : null}
             <Cell label="عيوب مُعلنة" value={defectInfo(d).count} bg="#FBEEDC" lab="#6B3A10" fg="#8A4209" />
           </>

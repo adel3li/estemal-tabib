@@ -22,10 +22,6 @@ export function PriceCard({ d }: { d: Device }) {
       <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
           <span style={pill}>{typeLabel(d.type)}</span>
-          <span style={{ ...pill, display: "flex", alignItems: "center", gap: 4 }}>
-            <svg {...ic(12)} strokeWidth={2}><path d="M12 21s-7-6.5-7-12a7 7 0 0 1 14 0c0 5.5-7 12-7 12z" /><circle cx="12" cy="9" r="2.5" /></svg>
-            {d.governorate}
-          </span>
           {inspected ? (
             <span style={{ ...pill, background: "#E3F0ED", fontWeight: 700, color: "#0D5C55", display: "flex", alignItems: "center", gap: 4 }}>
               <svg {...ic(12)} strokeWidth={2.6}><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>تم الفحص
@@ -34,7 +30,7 @@ export function PriceCard({ d }: { d: Device }) {
         </div>
         <h1 className="li-h1" style={{ margin: 0, lineHeight: 1.35 }}>{d.title} — {subtitle}</h1>
         {inspected ? (
-          <div style={{ color: "#4A5A56", fontSize: 15 }}>سنة الصنع {d.year} · بلد المنشأ {d.origin} · الجهاز في {d.governorate}</div>
+          <div style={{ color: "#4A5A56", fontSize: 15 }}>سنة الصنع {d.year} · بلد المنشأ {d.origin}</div>
         ) : null}
       </div>
 
@@ -79,7 +75,7 @@ export function PriceCard({ d }: { d: Device }) {
       ) : (
         <div style={{ padding: 16, borderRadius: 16, background: "#E6EDF7", border: "1px solid #C6D4EA", display: "flex", flexDirection: "column", gap: 6 }}>
           <div style={{ fontWeight: 700, color: "#1B3F73" }}>لو الجهاز مطلعش مطابق في الفحص، فلوسك بترجعلك كاملة.</div>
-          <div style={{ fontSize: 15, color: "#2D4566" }}>الفحص بيتم عند البايع خلال {days} أيام عمل من طلبك، وتقرير الفحص بيوصلك قبل الشحن.</div>
+          <div style={{ fontSize: 15, color: "#2D4566" }}>الفحص بيتم خلال {days} أيام عمل من طلبك، وتقرير الفحص بيوصلك قبل الشحن.</div>
         </div>
       )}
 

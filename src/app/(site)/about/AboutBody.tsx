@@ -71,7 +71,7 @@ export function AboutBody() {
             <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" /><path d="M9 12l2 2 4-4" /></svg>
           </span>
           <h3 style={{ margin: 0, fontSize: 19, color: "#1B3F73" }}>الفحص قبل البيع</h3>
-          <p style={{ margin: 0, color: "#2D4566" }}>فني معتمد بيفحص الجهاز قبل ما يتعرض، أو عند البايع قبل الشحن.</p>
+          <p style={{ margin: 0, color: "#2D4566" }}>فني معتمد بيفحص الجهاز قبل ما يتعرض، أو بعد طلبك وقبل الشحن.</p>
         </div>
         <div className="ab-value" style={{ padding: 24, borderRadius: 22, background: "#FBEEDC", border: "1px solid #F0C88A", display: "flex", flexDirection: "column", gap: 10 }}>
           <span style={{ width: 48, height: 48, borderRadius: 14, background: "#C46A12", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center" }}>

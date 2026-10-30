@@ -57,7 +57,14 @@
   .br-cta-box{padding:20px}
   .br-cta-actions{width:100%}
   .br-cta-actions > *{flex:1 1 140px}
-  .br-grid{grid-template-columns:minmax(0,1fr);gap:16px}
+  /* Two cards per row on phones. */
+  .br-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .br-card{border-radius:16px !important}
+  .br-photo-tag,.br-more{display:none !important}
+  .br-body{padding:12px !important;gap:6px !important}
+  .br-name{font-size:15px !important}
+  .br-price{font-size:17px !important}
+  .br-img > span{font-size:11px !important;padding:3px 8px !important;top:8px !important;right:8px !important}
   .br-bar .br-count{flex:1 1 100%;font-size:17px}
   .br-bar{padding:10px 12px !important;gap:10px !important}
   .br-filter-btn{flex:1 1 auto}
