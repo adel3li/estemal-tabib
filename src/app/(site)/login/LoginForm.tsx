@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { EMAIL_LOGIN_ENABLED } from "@/config/features";
 import { authErrorAr, isEmail } from "@/lib/auth/messages";
 import { supabaseBrowser } from "@/lib/supabase/client";
 import { routes } from "@/lib/routes";
@@ -62,7 +63,11 @@ export function LoginForm({ next, hasNext, initialEmail, google, error }: Props)
         </span>
         <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
           <h1 className="au-h1">ادخل حسابك</h1>
-          <p className="au-lead">أول مرة؟ هنعملك حساب في نفس الخطوة. من غير باسورد.</p>
+          <p className="au-lead">
+            {EMAIL_LOGIN_ENABLED
+              ? "أول مرة؟ هنعملك حساب في نفس الخطوة. من غير باسورد."
+              : "ادخل بحساب جوجل بتاعك. أول مرة؟ هنعملك حساب في نفس الخطوة، من غير باسورد."}
+          </p>
         </div>
 
         {hasNext ? <p className="au-note" style={{ margin: 0 }}>{reasonFor(next)}</p> : null}
@@ -82,47 +87,51 @@ export function LoginForm({ next, hasNext, initialEmail, google, error }: Props)
           </span>
         ) : null}
 
-        <div className="au-or">أو بالإيميل</div>
+        {EMAIL_LOGIN_ENABLED ? (
+          <>
+            <div className="au-or">أو بالإيميل</div>
 
-        <form
-          noValidate
-          onSubmit={(e) => {
-            e.preventDefault();
-            void sendCode();
-          }}
-          style={{ display: "flex", flexDirection: "column", gap: 14 }}
-        >
-          <label className="au-field" htmlFor="au-email">
-            الإيميل
-            <input
-              id="au-email"
-              type="email"
-              inputMode="email"
-              autoComplete="email"
-              enterKeyHint="send"
-              dir="ltr"
-              placeholder="name@gmail.com"
-              className={msg ? "au-in au-bad" : "au-in"}
-              style={{ textAlign: "right" }}
-              value={email}
-              aria-invalid={msg ? true : undefined}
-              aria-describedby={msg ? "au-email-msg" : "au-email-hint"}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            {msg ? (
-              <span id="au-email-msg" className="au-msg" role="alert">
-                {msg}
-              </span>
-            ) : (
-              <span id="au-email-hint" className="au-small" style={{ fontWeight: 400 }}>
-                هنبعتلك كود من 6 أرقام على الإيميل ده.
-              </span>
-            )}
-          </label>
-          <button type="submit" className="au-btn au-primary" disabled={busy !== ""}>
-            {busy === "email" ? "بنبعت الكود…" : "ابعتلي الكود"}
-          </button>
-        </form>
+            <form
+              noValidate
+              onSubmit={(e) => {
+                e.preventDefault();
+                void sendCode();
+              }}
+              style={{ display: "flex", flexDirection: "column", gap: 14 }}
+            >
+              <label className="au-field" htmlFor="au-email">
+                الإيميل
+                <input
+                  id="au-email"
+                  type="email"
+                  inputMode="email"
+                  autoComplete="email"
+                  enterKeyHint="send"
+                  dir="ltr"
+                  placeholder="name@gmail.com"
+                  className={msg ? "au-in au-bad" : "au-in"}
+                  style={{ textAlign: "right" }}
+                  value={email}
+                  aria-invalid={msg ? true : undefined}
+                  aria-describedby={msg ? "au-email-msg" : "au-email-hint"}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                {msg ? (
+                  <span id="au-email-msg" className="au-msg" role="alert">
+                    {msg}
+                  </span>
+                ) : (
+                  <span id="au-email-hint" className="au-small" style={{ fontWeight: 400 }}>
+                    هنبعتلك كود من 6 أرقام على الإيميل ده.
+                  </span>
+                )}
+              </label>
+              <button type="submit" className="au-btn au-primary" disabled={busy !== ""}>
+                {busy === "email" ? "بنبعت الكود…" : "ابعتلي الكود"}
+              </button>
+            </form>
+          </>
+        ) : null}
 
         <p className="au-small" style={{ margin: 0 }}>
           بدخولك إنت موافق على <Link href={routes.terms}>شروط البيع والشراء</Link>.
