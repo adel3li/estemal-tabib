@@ -61,12 +61,12 @@ export function SectionCondition({ f, set, err }: SectionProps) {
       <div className="sl-body">
         <fieldset style={{ margin: 0, padding: 0, border: 0, display: "flex", flexDirection: "column", gap: 10, minWidth: 0 }}>
           <legend style={{ padding: 0, marginBottom: 10, fontWeight: 600, fontSize: 14, color: "#24332F" }}>
-            حالة الجهاز العامة<Star />
+            حالة الجهاز العامة{f.wantsRepair ? null : <Star />}
           </legend>
           <div style={grid(200, 10)}>
             {COND.map((c, i) => (
               <label key={c.id} className={err.condition ? "sl-cond sl-bad-box" : "sl-cond"}>
-                <input type="radio" name="condition" id={i === 0 ? fieldId("condition") : undefined} checked={f.condition === c.id} onChange={() => set({ condition: c.id })} style={radioStyle(20)} required={i === 0} />
+                <input type="radio" name="condition" id={i === 0 ? fieldId("condition") : undefined} checked={f.condition === c.id} onChange={() => set({ condition: c.id, wantsRepair: false })} style={radioStyle(20)} required={i === 0 && !f.wantsRepair} />
                 <span style={{ flex: 1, display: "flex", flexDirection: "column", lineHeight: 1.35 }}>
                   <span style={{ fontWeight: 700, fontSize: 17 }}>{c.range}</span>
                   <span style={{ fontSize: 13, color: "#4A5A56" }}>{c.label}</span>
@@ -94,7 +94,8 @@ export function SectionCondition({ f, set, err }: SectionProps) {
           </div>
           <span style={{ fontSize: 15, color: "#3C4C48" }}>بدل ما تبيعه بسعر أقل، سيبنا نصلّحه الأول، فيتباع أسرع وبسعر أحسن.</span>
           <label className="sl-ack" style={{ background: "#FFFFFF", fontSize: 15, fontWeight: 600, alignItems: "center" }}>
-            <input type="checkbox" checked={f.wantsRepair} onChange={(e) => set({ wantsRepair: e.target.checked })} style={radioStyle(22)} />
+            {/* Picking repair replaces the condition choice: the condition is set after the repair. */}
+            <input type="checkbox" checked={f.wantsRepair} onChange={(e) => set(e.target.checked ? { wantsRepair: true, condition: "" } : { wantsRepair: false })} style={radioStyle(22)} />
             أيوه، عايز تصلّحوه وتعرضوه للبيع
           </label>
           <label className="sl-field">

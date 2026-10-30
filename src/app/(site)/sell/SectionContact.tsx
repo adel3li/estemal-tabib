@@ -75,7 +75,7 @@ export function SectionContact({ f, set, err }: SectionProps) {
             <Msg k="governorate" err={err} />
           </label>
           <label className="sl-field">
-            <span>عنوان استلام الجهاز للفحص<Star /></span>
+            <span>عنوان استلام الجهاز<Star /></span>
             <input type="text" placeholder="العيادة أو البيت" {...bad("pickupAddress", err)} autoComplete="street-address" enterKeyHint="done" value={f.pickupAddress} onChange={(e) => set({ pickupAddress: e.target.value })} required />
             <Msg k="pickupAddress" err={err} />
           </label>

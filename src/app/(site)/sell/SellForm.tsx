@@ -102,7 +102,7 @@ export function SellForm() {
       year: "",
       accessories: f.accessories.trim(),
       saleReason: f.saleReason.trim(),
-      condition: f.condition as Condition,
+      condition: f.wantsRepair ? "c" : (f.condition as Condition),
       wantsRepair: f.wantsRepair,
       repairDescription: f.wantsRepair ? f.repairDescription.trim() : "",
       hasWarranty: f.warranty === "yes",

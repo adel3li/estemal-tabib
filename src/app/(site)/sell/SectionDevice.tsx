@@ -46,7 +46,7 @@ export function SectionDevice({ f, set, err }: SectionProps) {
         </div>
         <label className="sl-field">
           <span>الملحقات اللي مع الجهاز<Star /></span>
-          <textarea rows={2} placeholder="مثال: شاحن، 2 هاند بيس، فوت كنترول" {...bad("accessories", err)} value={f.accessories} onChange={(e) => set({ accessories: e.target.value })} required />
+          <textarea rows={2} placeholder="مثال: شاحن، هاند بيس، فوت كنترول" {...bad("accessories", err)} value={f.accessories} onChange={(e) => set({ accessories: e.target.value })} required />
           <Msg k="accessories" err={err} />
         </label>
         <label className="sl-field">

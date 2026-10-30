@@ -118,7 +118,7 @@ export function validate(f: SellForm, m: Media): Errors {
   if (!f.details.trim()) e.details = "اكتب الموديل أو المواصفات";
   if (!f.accessories.trim()) e.accessories = "اكتب الملحقات، ولو مفيش اكتب: مفيش";
   if (!f.saleReason.trim()) e.saleReason = req;
-  if (!f.condition) e.condition = "اختار حالة الجهاز";
+  if (!f.condition && !f.wantsRepair) e.condition = "اختار حالة الجهاز، أو اختار إننا نصلّحه";
   if (f.wantsRepair && !f.repairDescription.trim()) e.repairDescription = "اوصفلنا العطل علشان نقدّر التصليح";
   if (!f.warranty) e.warranty = "اختار أيوه أو لأ";
   if (!f.box) e.box = "اختار أيوه أو لأ";

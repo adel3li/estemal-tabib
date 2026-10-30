@@ -1,5 +1,3 @@
-import Link from "next/link";
-import { routes } from "@/lib/routes";
 import { BUSINESS } from "@/config/business";
 
 const DAYS = BUSINESS.trialDays;
@@ -66,36 +64,6 @@ export function WarrantyAndCategories() {
           </span>
           <span>وطول فترة التجربة، فلوسك محفوظة عندنا ومش بتتحول للبايع غير بعد تأكيدك.</span>
         </div>
-      </div>
-    </section>
-    {/* CATEGORIES */}
-    <section className="mn-sec" style={{ maxWidth: 1200, margin: "0 auto", display: "flex", flexDirection: "column", gap: 28 }}>
-      <h2 className="mn-h2" style={{ margin: 0, fontWeight: 700 }}>كل اللي عيادتك محتاجاه</h2>
-      <div className="mn-g3 mn-g3-c" style={{ display: "grid", gap: 20 }}>
-        <Link href={`${routes.devices}?cat=unit`} className="mn-card" style={{ borderRadius: 22, background: "#FFFFFF", border: "1px solid #DCE3DF", color: "#12221F", overflow: "hidden", display: "flex", flexDirection: "column" }}>
-          <svg aria-hidden="true" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" className="mn-cat-art" style={{ display: "block", width: "100%" }}><use href="#mn-unit" /></svg>
-          <div style={{ padding: "22px 24px 24px", display: "flex", flexDirection: "column", gap: 8 }}>
-            <h3 style={{ margin: 0, fontSize: 21 }}>الأجهزة الكبيرة</h3>
-            <p style={{ margin: 0, color: "#4A5A56" }}>يونيت، أشعة X-Ray وX-Mind، أوتوكلاف، موتور جراحة.</p>
-            <span className="mn-more" aria-hidden="true" style={{ color: "#0D5C55", fontWeight: 600, fontSize: 14, display: "flex", alignItems: "center", gap: 6 }}>تصفّح ←</span>
-          </div>
-        </Link>
-        <Link href={`${routes.devices}?cat=apex`} className="mn-card" style={{ borderRadius: 22, background: "#FFFFFF", border: "1px solid #DCE3DF", color: "#12221F", overflow: "hidden", display: "flex", flexDirection: "column" }}>
-          <svg aria-hidden="true" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" className="mn-cat-art" style={{ display: "block", width: "100%" }}><use href="#mn-endo" /></svg>
-          <div style={{ padding: "22px 24px 24px", display: "flex", flexDirection: "column", gap: 8 }}>
-            <h3 style={{ margin: 0, fontSize: 21 }}>إندو وجراحة</h3>
-            <p style={{ margin: 0, color: "#4A5A56" }}>أبيكس لوكيتور، إندو موتور، لايت كيور.</p>
-            <span className="mn-more" aria-hidden="true" style={{ color: "#0D5C55", fontWeight: 600, fontSize: 14, display: "flex", alignItems: "center", gap: 6 }}>تصفّح ←</span>
-          </div>
-        </Link>
-        <Link href={`${routes.devices}?cat=other`} className="mn-card" style={{ borderRadius: 22, background: "#FFFFFF", border: "1px solid #DCE3DF", color: "#12221F", overflow: "hidden", display: "flex", flexDirection: "column" }}>
-          <svg aria-hidden="true" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" className="mn-cat-art" style={{ display: "block", width: "100%" }}><use href="#mn-tools" /></svg>
-          <div style={{ padding: "22px 24px 24px", display: "flex", flexDirection: "column", gap: 8 }}>
-            <h3 style={{ margin: 0, fontSize: 21 }}>أدوات شبه دائمة</h3>
-            <p style={{ margin: 0, color: "#4A5A56" }}>أدوات جراحية ومعدات مساعدة بحالة ممتازة.</p>
-            <span className="mn-more" aria-hidden="true" style={{ color: "#0D5C55", fontWeight: 600, fontSize: 14, display: "flex", alignItems: "center", gap: 6 }}>تصفّح ←</span>
-          </div>
-        </Link>
       </div>
     </section>
     </>

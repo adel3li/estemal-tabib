@@ -14,11 +14,9 @@ const QUICK_TYPES: DeviceType[] = ["unit", "xray", "autoclave", "endo", "apex"];
 
 export function SellQuick() {
   const [type, setType] = useState<DeviceType>("unit");
-  const [details, setDetails] = useState("");
   const [price, setPrice] = useState("");
 
   const qs = new URLSearchParams({ type });
-  if (details.trim()) qs.set("details", details.trim());
   const priceNum = parseNum(price);
   if (priceNum) qs.set("price", String(priceNum));
   const sellHref = `${routes.sell}?${qs.toString()}`;
@@ -62,10 +60,6 @@ export function SellQuick() {
                 <option key={t} value={t}>{typeLabel(t)}</option>
               ))}
             </select>
-          </label>
-          <label style={{ display: "flex", flexDirection: "column", gap: 6, fontWeight: 600, fontSize: 14 }}>
-            الموديل وسنة الصنع{" "}
-            <input type="text" value={details} onChange={(e) => setDetails(e.target.value)} className="mn-field" autoComplete="off" enterKeyHint="next" placeholder="مثال: [الموديل] — [السنة]" style={{ minHeight: 46, padding: "0 12px", borderRadius: 10, border: "1px solid #C9D4CF", background: "#FFFFFF", font: "inherit", fontWeight: 400 }} />
           </label>
           <label style={{ display: "flex", flexDirection: "column", gap: 6, fontWeight: 600, fontSize: 14 }}>
             السعر المطلوب{" "}
