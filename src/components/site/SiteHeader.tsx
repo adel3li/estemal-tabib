@@ -6,10 +6,13 @@
 // Row 2 (scrolls with the page): a tab per page, on every screen size, so each
 // part of the site is its own page instead of one long home page.
 // For the clickable demo «تابع طلبك» opens the demo order tracker.
+// Account: «دخول» or the avatar menu sit in row 1 from 600px; below that they
+// live at the top of the menu panel (the row has no room at 360–599px).
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { ToothIcon } from "@/components/icons";
+import { AccountMenu, AccountPanel, MenuBadge } from "./AccountMenu";
 import { routes } from "@/lib/routes";
 
 const TABS = [
@@ -88,6 +91,7 @@ export function SiteHeader() {
           <Link href={routes.devices} className="site-btn site-cta site-desktop">
             اشتري جهاز
           </Link>
+          <AccountMenu />
           <button
             ref={buttonRef}
             type="button"
@@ -96,7 +100,9 @@ export function SiteHeader() {
             aria-controls="site-menu"
             aria-label={open ? "اقفل القائمة" : "افتح القائمة"}
             onClick={() => setOpen((v) => !v)}
+            style={{ position: "relative" }}
           >
+            <MenuBadge />
             <svg aria-hidden width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               {open ? (
                 <>
@@ -116,6 +122,7 @@ export function SiteHeader() {
       </div>
 
       <div id="site-menu" ref={panelRef} className="site-menu site-mobile" hidden={!open}>
+        <AccountPanel onNavigate={close} />
         <nav aria-label="القائمة الرئيسية">
           {TABS.map((n) => (
             <Link key={n.href} href={n.href} onClick={close} aria-current={isActive(pathname, n.href) ? "page" : undefined}>

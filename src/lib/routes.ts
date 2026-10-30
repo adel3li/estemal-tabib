@@ -14,6 +14,11 @@ export const routes = {
   terms: "/terms",
   termsBuyer: "/terms?tab=buyer",
   about: "/about",
+  login: "/login",
+  verify: "/login/verify",
+  onboarding: "/onboarding",
+  account: "/account",
+  accountTab: (tab: "devices" | "requests" | "saved" | "profile" | "orders") => `/account?tab=${tab}`,
   order: (id: string) => `/orders/${encodeURIComponent(id.replace(/^#/, ""))}`,
   /** Demo order the header «تابع طلبك» opens (inspect-on-order, step 3/7). */
   demoOrder: "/orders/2043",

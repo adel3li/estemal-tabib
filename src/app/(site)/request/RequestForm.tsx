@@ -1,8 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { useState, type ReactNode } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useAuth } from "@/lib/auth/AuthProvider";
+import { loginHref } from "@/lib/auth/next";
+import { supabaseBrowser } from "@/lib/supabase/client";
 import { DEVICE_TYPES, GOVERNORATES, parseNum } from "@/lib/demo/labels";
 import { useDemo } from "@/lib/demo/store";
 import type { DeviceRequest, DeviceType } from "@/lib/demo/types";
@@ -44,6 +47,32 @@ const EMPTY: Form = {
   governorate: GOVERNORATES[0],
   notes: "",
 };
+
+// Draft across the login redirect (PHASE1_PROMPT.md §6), like /sell.
+const DRAFT_KEY = "istimal-tabib-request-draft";
+function loadDraft(): Partial<Form> | null {
+  try {
+    const raw = window.localStorage.getItem(DRAFT_KEY);
+    return raw ? (JSON.parse(raw) as Partial<Form>) : null;
+  } catch {
+    return null;
+  }
+}
+function saveDraft(f: Form) {
+  try {
+    if (JSON.stringify(f) === JSON.stringify(EMPTY)) window.localStorage.removeItem(DRAFT_KEY);
+    else window.localStorage.setItem(DRAFT_KEY, JSON.stringify(f));
+  } catch {
+    /* storage blocked — the form still works */
+  }
+}
+function clearDraft() {
+  try {
+    window.localStorage.removeItem(DRAFT_KEY);
+  } catch {
+    /* ignore */
+  }
+}
 
 function validate(f: Form): Errors {
   const e: Errors = {};
@@ -106,20 +135,51 @@ const grid = (min: number) => ({ display: "grid", gridTemplateColumns: `repeat(a
 
 export function RequestForm() {
   const q = useSearchParams();
+  const router = useRouter();
   const { addRequest } = useDemo();
-  // ?type=<DeviceType id> prefill (read once, at mount).
-  const [f, setF] = useState<Form>(() => {
-    const t = q.get("type");
-    return t && DEVICE_TYPES.some((x) => x.id === t) ? { ...EMPTY, deviceType: t as DeviceType } : EMPTY;
-  });
+  const auth = useAuth();
+  const [f, setF] = useState<Form>(EMPTY);
   const [tried, setTried] = useState(false);
   const [doneId, setDoneId] = useState<string | null>(null);
+  const [sending, setSending] = useState(false);
+  const [sendErr, setSendErr] = useState("");
+  const restored = useRef(false);
+  const prefilled = useRef(false);
+
+  // Restore the draft, then the ?type=<DeviceType id> prefill on top (read once).
+  useEffect(() => {
+    if (restored.current) return;
+    restored.current = true;
+    const draft = loadDraft() ?? {};
+    const t = q.get("type");
+    const fromQ = t && DEVICE_TYPES.some((x) => x.id === t) ? { deviceType: t as DeviceType } : {};
+    setF({ ...EMPTY, ...draft, ...fromQ });
+  }, [q]);
+
+  useEffect(() => {
+    if (restored.current && !doneId) saveDraft(f);
+  }, [f, doneId]);
+
+  // Contact part from the profile — only fields that are still empty.
+  const { profile } = auth;
+  useEffect(() => {
+    if (prefilled.current || !profile || !restored.current) return;
+    prefilled.current = true;
+    setF((p) => ({
+      ...p,
+      fullName: p.fullName || profile.full_name || "",
+      phone: p.phone || profile.phone || "",
+      governorate: p.fullName || p.phone ? p.governorate : profile.governorate || p.governorate,
+    }));
+  }, [profile]);
 
   const set = (patch: Partial<Form>) => setF((p) => ({ ...p, ...patch }));
   const err: Errors = tried ? validate(f) : {};
 
-  const submit = () => {
+  const submit = async () => {
+    if (sending) return;
     setTried(true);
+    setSendErr("");
     const e = validate(f);
     const first = ORDER.find((k) => e[k]);
     if (first) {
@@ -133,18 +193,57 @@ export function RequestForm() {
       }
       return;
     }
+    if (!auth.userId) {
+      saveDraft(f);
+      router.push(loginHref(routes.request));
+      return;
+    }
+    setSending(true);
+    const lo = Math.round(parseNum(f.min));
+    const hi = Math.round(parseNum(f.max));
+    const { data, error } = await supabaseBrowser()
+      .from("device_requests")
+      .insert({
+        user_id: auth.userId,
+        full_name: f.fullName.trim(),
+        phone: normalizePhone(f.phone),
+        governorate: f.governorate,
+        device_type: f.deviceType,
+        brand_pref: f.brandPref.trim() || null,
+        budget_min: lo || null,
+        budget_max: hi || null,
+        needed_by: f.neededBy,
+        inspection_pref: f.inspectionPref,
+        notes: f.notes.trim() || null,
+      })
+      .select("public_code")
+      .single();
+    setSending(false);
+    if (error || !data) {
+      if (error?.code === "PGRST301" || /jwt|auth/i.test(error?.message ?? "")) {
+        saveDraft(f);
+        router.push(loginHref(routes.request));
+        return;
+      }
+      setSendErr("ما قدرناش نبعت الطلب دلوقتي. بياناتك محفوظة، جرّب تاني بعد شوية.");
+      return;
+    }
+    // Mirror into the demo store under the same number for the (still demo)
+    // admin pages — remove in Step 7.
     const id = addRequest({
+      id: data.public_code as string,
       fullName: f.fullName.trim(),
       phone: normalizePhone(f.phone),
       governorate: f.governorate,
       deviceType: f.deviceType,
       brandPref: f.brandPref.trim(),
-      budgetMin: Math.round(parseNum(f.min)),
-      budgetMax: Math.round(parseNum(f.max)),
+      budgetMin: lo,
+      budgetMax: hi,
       neededBy: f.neededBy,
       inspectionPref: f.inspectionPref,
       notes: f.notes.trim(),
     });
+    clearDraft();
     setDoneId(id);
     window.scrollTo({ top: 0 });
   };
@@ -174,7 +273,7 @@ export function RequestForm() {
 
       <RequestHero />
 
-      <form noValidate onSubmit={(e) => { e.preventDefault(); submit(); }} style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      <form noValidate onSubmit={(e) => { e.preventDefault(); void submit(); }} style={{ display: "flex", flexDirection: "column", gap: 20 }}>
         <div id="rq-s1" className="rq-card" role="group" aria-labelledby="rq-h1">
           <CardHead n={1} title="الجهاز اللي محتاجه" step="الخطوة ١ من ٣" stepFg="#0D5C55" bg="#E3F0ED" fg="#0D5C55">
             <rect x="3" y="7" width="18" height="13" rx="3" />
@@ -283,8 +382,13 @@ export function RequestForm() {
               <span style={{ fontSize: 14, color: "#4A5A56" }}>هنبلغك على واتساب أول ما يتعرض جهاز مناسب.</span>
             </span>
           </div>
-          <button type="submit" className="rq-cta" style={{ flex: "1 1 260px", minHeight: 58, padding: "0 24px", borderRadius: 16, border: 0, background: "#0D5C55", color: "#FFFFFF", font: "inherit", fontWeight: 700, fontSize: 18, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
-            ابعت الطلب
+          {sendErr ? (
+            <span role="alert" style={{ flex: "1 1 100%", padding: "10px 14px", borderRadius: 12, background: "#FCEBEA", border: "1px solid #E8B4B0", color: "#8C1D17", fontWeight: 600, fontSize: 15 }}>
+              {sendErr}
+            </span>
+          ) : null}
+          <button type="submit" disabled={sending} aria-busy={sending || undefined} className="rq-cta" style={{ flex: "1 1 260px", minHeight: 58, padding: "0 24px", borderRadius: 16, border: 0, background: "#0D5C55", color: "#FFFFFF", font: "inherit", fontWeight: 700, fontSize: 18, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
+            {sending ? "بنبعت…" : "ابعت الطلب"}
             <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M19 12H5" />
               <path d="M11 6l-6 6 6 6" />

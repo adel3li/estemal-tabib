@@ -5,6 +5,7 @@ import { useState } from "react";
 import { BUSINESS } from "@/config/business";
 import { useDemo } from "@/lib/demo/store";
 import { routes } from "@/lib/routes";
+import { supabaseBrowser } from "@/lib/supabase/client";
 
 const NEXT_STEPS = [
   "حوّل رسوم الجدية وسجّل رقم التحويل هنا.",
@@ -12,18 +13,26 @@ const NEXT_STEPS = [
   "الفني المعتمد يفحص الجهاز، وبعدها نعرضه على المنصة.",
 ];
 
-export function SellSuccess({ id, onAgain }: { id: string; onAgain: () => void }) {
+/** `dbId`: the seller_submissions row (the transfer reference is saved there too). */
+export function SellSuccess({ id, dbId, onAgain }: { id: string; dbId?: string; onAgain: () => void }) {
   const { state, updateSubmission } = useDemo();
   const sub = state.submissions.find((s) => s.id === id);
   const [ref, setRef] = useState("");
   const [msg, setMsg] = useState("");
   const saved = sub?.feeReference ?? "";
 
-  const saveRef = () => {
+  const saveRef = async () => {
     const v = ref.trim();
     if (v.length < 4) {
       setMsg("اكتب رقم التحويل زي ما ظاهر في رسالة البنك أو إنستاباي");
       return;
+    }
+    if (dbId) {
+      const { error } = await supabaseBrowser().from("seller_submissions").update({ fee_reference: v }).eq("id", dbId);
+      if (error) {
+        setMsg("ما قدرناش نسجّل الرقم دلوقتي. جرّب تاني بعد شوية.");
+        return;
+      }
     }
     updateSubmission(id, { feeReference: v }, { text: `البايع سجّل رقم التحويل: ${v}`, tone: "info" });
     setMsg("");
@@ -75,7 +84,7 @@ export function SellSuccess({ id, onAgain }: { id: string; onAgain: () => void }
               {msg}
             </span>
           ) : null}
-          <button type="button" onClick={saveRef} className="sl-teal sl-ref-btn" style={{ alignSelf: "flex-start", minHeight: 46, display: "flex", alignItems: "center", padding: "0 20px", borderRadius: 12, border: 0, background: "#0D5C55", color: "#FFFFFF", font: "inherit", fontWeight: 700, cursor: "pointer" }}>
+          <button type="button" onClick={() => void saveRef()} className="sl-teal sl-ref-btn" style={{ alignSelf: "flex-start", minHeight: 46, display: "flex", alignItems: "center", padding: "0 20px", borderRadius: 12, border: 0, background: "#0D5C55", color: "#FFFFFF", font: "inherit", fontWeight: 700, cursor: "pointer" }}>
             سجّل رقم التحويل
           </button>
         </div>
@@ -83,6 +92,9 @@ export function SellSuccess({ id, onAgain }: { id: string; onAgain: () => void }
         <div className="sl-done-actions" style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center", paddingTop: 6 }}>
           <Link href={routes.home} className="sl-teal" style={{ minHeight: 48, padding: "0 22px", borderRadius: 12, background: "#0D5C55", color: "#FFFFFF", fontWeight: 700, display: "flex", alignItems: "center" }}>
             ارجع للرئيسية
+          </Link>
+          <Link href={routes.accountTab("devices")} className="sl-ghost" style={{ minHeight: 48, padding: "0 22px", borderRadius: 12, border: "1px solid #C9D4CF", background: "#FFFFFF", color: "#12221F", fontWeight: 600, display: "flex", alignItems: "center" }}>
+            تابع طلبك من حسابك
           </Link>
           <Link href={routes.devices} className="sl-ghost" style={{ minHeight: 48, padding: "0 22px", borderRadius: 12, border: "1px solid #C9D4CF", background: "#FFFFFF", color: "#12221F", fontWeight: 600, display: "flex", alignItems: "center" }}>
             شوف كل الأجهزة

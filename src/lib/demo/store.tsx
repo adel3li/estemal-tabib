@@ -58,8 +58,9 @@ function nextCode(existing: string[], prefix: string, start: number): string {
 const today = () => "النهارده";
 
 type NewSubmission = Omit<Submission, "id" | "createdAt" | "status" | "log" | "feeStatus" | "sellerNet" | "feeReference"> &
-  Partial<Pick<Submission, "feeReference">>;
-type NewRequest = Omit<DeviceRequest, "id" | "createdAt" | "status" | "notifiedAt">;
+  Partial<Pick<Submission, "feeReference" | "id">>;
+// `id`: the public code the database gave the row, so the demo admin shows the same number.
+type NewRequest = Omit<DeviceRequest, "id" | "createdAt" | "status" | "notifiedAt"> & Partial<Pick<DeviceRequest, "id">>;
 
 export type DemoApi = {
   /** false until localStorage has been read (first client render uses the seed). */
@@ -154,7 +155,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
   const addSubmission: DemoApi["addSubmission"] = useCallback((input) => {
     let id = "";
     commit((s) => {
-      id = nextCode(s.submissions.map((x) => x.id), "#", 1025);
+      id = input.id ?? nextCode(s.submissions.map((x) => x.id), "#", 1025);
       const sub: Submission = {
         ...input,
         id,
@@ -237,7 +238,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
   const addRequest: DemoApi["addRequest"] = useCallback((input) => {
     let id = "";
     commit((s) => {
-      id = nextCode(s.requests.map((x) => x.id), "R-", 119);
+      id = input.id ?? nextCode(s.requests.map((x) => x.id), "R-", 119);
       const r: DeviceRequest = { ...input, id, createdAt: "27 أكتوبر", status: "new" };
       return { ...s, requests: [r, ...s.requests] };
     });

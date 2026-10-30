@@ -54,7 +54,7 @@ export function SectionAcks({ f, set, err }: SectionProps) {
 }
 
 /** «رسوم جدية العرض» box + progress + submit button. */
-export function FeeBox({ f, onSubmit }: { f: SectionProps["f"]; onSubmit: () => void }) {
+export function FeeBox({ f, onSubmit, sending = false }: { f: SectionProps["f"]; onSubmit: () => void; sending?: boolean }) {
   const n = ackCount(f);
   const ready = n === ACKS.length;
   const fee = BUSINESS.sellerSeriousnessFeeEGP;
@@ -123,14 +123,15 @@ export function FeeBox({ f, onSubmit }: { f: SectionProps["f"]; onSubmit: () => 
             type="button"
             className="sl-submit"
             onClick={onSubmit}
-            aria-disabled={!ready}
+            aria-disabled={!ready || sending}
+            aria-busy={sending || undefined}
             style={{ flex: "1 1 280px", minHeight: 58, padding: "0 22px", borderRadius: 16, border: 0, background: ready ? "#0D5C55" : "#C9D4CF", color: ready ? "#FFFFFF" : "#3C4C48", font: "inherit", fontWeight: 700, fontSize: 18, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}
           >
             <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <rect x="5" y="11" width="14" height="9" rx="2" />
               <path d="M8 11V8a4 4 0 0 1 8 0v3" />
             </svg>
-            ابعت الطلب
+            {sending ? "بنبعت…" : "ابعت الطلب"}
           </button>
         </div>
       </div>

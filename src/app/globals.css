@@ -257,3 +257,33 @@ button, a, input, select, textarea, label, summary { touch-action: manipulation;
 
 /* Browser-default heading weight (Tailwind's reset removes it; the designs rely on it). */
 h1, h2, h3, h4 { font-weight: 700; }
+
+/* Header account controls (src/components/site/AccountMenu.tsx) */
+.acc-slot { display: block; width: 44px; height: 44px; }
+.acc-wrap { position: relative; }
+.acc-btn { width: 44px; height: 44px; border-radius: 999px; border: 0; padding: 0; background: none; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.acc-btn:focus-visible { outline: 3px solid #0d5c55; outline-offset: 2px; }
+.acc-avatar { border-radius: 999px; background: #0d5c55; color: #fff; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; line-height: 1; flex: none; box-shadow: 0 0 0 2px #fff, 0 0 0 3px #dce3df; }
+.acc-menu { position: absolute; top: calc(100% + 8px); inset-inline-end: 0; min-width: 230px; max-width: min(300px, calc(100vw - 32px)); background: #fff; border: 1px solid #dce3df; border-radius: 16px; box-shadow: 0 18px 40px rgba(18, 34, 31, 0.16); padding: 8px; display: flex; flex-direction: column; z-index: 50; }
+.acc-who { display: flex; flex-direction: column; min-width: 0; line-height: 1.4; }
+.acc-menu .acc-who { padding: 8px 10px 10px; border-bottom: 1px solid #edf1ef; margin-bottom: 6px; }
+.acc-name { font-weight: 700; color: #12221f; overflow-wrap: anywhere; }
+.acc-email { font-size: 13px; color: #4a5a56; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: right; }
+.acc-item { min-height: 44px; padding: 0 10px; border-radius: 10px; display: flex; align-items: center; color: #12221f; font: inherit; font-weight: 600; font-size: 15px; background: none; border: 0; cursor: pointer; text-align: right; width: 100%; }
+.acc-item:hover, .acc-item:focus-visible { background: #f5f7f4; color: #0d5c55; outline: none; }
+.acc-out { color: #b3261e; }
+.acc-item.acc-out:hover { color: #b3261e; background: #fcebea; }
+.acc-panel { padding: 12px 0 14px; border-bottom: 1px solid #edf1ef; display: flex; flex-direction: column; gap: 12px; }
+.acc-panel > .site-btn { width: 100%; }
+.acc-panel-who { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.acc-panel-links { display: flex; flex-wrap: wrap; gap: 8px; }
+.acc-chip { min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid #c9d4cf; background: #fff; color: #12221f; font: inherit; font-weight: 600; font-size: 15px; display: flex; align-items: center; cursor: pointer; }
+.acc-chip.acc-out { border-color: #e8b4b0; }
+.acc-badge { position: absolute; top: -6px; inset-inline-start: -6px; }
+.acc-badge .acc-avatar { font-size: 11px !important; }
+/* The menu panel has its own account block below 600px; the row one above. */
+@media (max-width: 599px) { .acc-wide { display: none !important; } }
+@media (min-width: 600px) {
+  .acc-panel { display: none; }
+  .acc-badge { display: none; }
+}
