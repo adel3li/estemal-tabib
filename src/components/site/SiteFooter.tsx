@@ -59,6 +59,7 @@ export function SiteFooter() {
             <Link href={routes.how} style={link}>إزاي بنشتغل</Link>
             <Link href={routes.warranty} style={link}>الضمان</Link>
             <Link href={routes.faq} style={link}>أسئلة شائعة</Link>
+            <Link href={routes.reviews} style={link}>آراء العملاء</Link>
             <Link href={routes.terms} style={link}>شروط البيع والشراء</Link>
           </nav>
 

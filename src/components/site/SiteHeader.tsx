@@ -1,9 +1,10 @@
 "use client";
 
-// Public site header — ported from Main.dc.html <header>.
-// Desktop (≥ 1024px): logo · nav · 3 buttons, as in the design.
-// Phones & tablets: logo + «بيع جهازك» + a menu button that opens a panel with
-// the nav links and the other buttons (the design only shows desktop).
+// Public site header.
+// Row 1 (sticky): logo + buttons. Desktop (≥ 1024px) shows «تابع طلبك»,
+// «بيع جهازك», «اشتري جهاز»; phones & tablets show «بيع جهازك» + a menu button.
+// Row 2 (scrolls with the page): a tab per page, on every screen size, so each
+// part of the site is its own page instead of one long home page.
 // For the clickable demo «تابع طلبك» opens the demo order tracker.
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -11,19 +12,37 @@ import { useEffect, useRef, useState } from "react";
 import { ToothIcon } from "@/components/icons";
 import { routes } from "@/lib/routes";
 
-const NAV = [
-  { href: routes.devices, label: "كل الأجهزة" },
+const TABS = [
+  { href: routes.home, label: "الرئيسية" },
+  { href: routes.devices, label: "اشتري جهاز" },
+  { href: routes.sell, label: "بيع جهازك" },
+  { href: routes.request, label: "اطلب جهاز" },
   { href: routes.how, label: "إزاي بنشتغل" },
   { href: routes.warranty, label: "الضمان" },
+  { href: routes.reviews, label: "آراء العملاء" },
   { href: routes.faq, label: "أسئلة شائعة" },
+  { href: routes.terms, label: "الشروط" },
   { href: routes.about, label: "مين إحنا" },
 ];
+
+const isActive = (pathname: string, href: string) =>
+  href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const panelRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const tabsRef = useRef<HTMLElement>(null);
+
+  // Phones: bring the current page's tab into view in the scrolling tab row.
+  useEffect(() => {
+    const row = tabsRef.current;
+    const tab = row?.querySelector<HTMLElement>('[aria-current="page"]');
+    if (!row || !tab) return;
+    const left = tab.offsetLeft - (row.clientWidth - tab.offsetWidth) / 2;
+    row.scrollTo({ left, behavior: "auto" });
+  }, [pathname]);
 
   // Close on navigation (also covers same-page hash links via click handler below).
   // eslint-disable-next-line react-hooks/set-state-in-effect -- reset UI state on route change
@@ -46,6 +65,7 @@ export function SiteHeader() {
   const close = () => setOpen(false);
 
   return (
+    <>
     <header className="site-header">
       <div className="site-header-row">
         <Link href={routes.home} aria-label="استعمال طبيب — الرئيسية" className="site-logo" onClick={close}>
@@ -57,14 +77,6 @@ export function SiteHeader() {
             <span className="site-logo-sub">أجهزة أسنان مستعملة بفحص وضمان</span>
           </span>
         </Link>
-
-        <nav className="site-nav site-desktop" aria-label="القائمة الرئيسية">
-          {NAV.map((n) => (
-            <Link key={n.href} href={n.href}>
-              {n.label}
-            </Link>
-          ))}
-        </nav>
 
         <div className="site-actions">
           <Link href={routes.demoOrder} className="site-btn site-ghost site-desktop">
@@ -105,17 +117,11 @@ export function SiteHeader() {
 
       <div id="site-menu" ref={panelRef} className="site-menu site-mobile" hidden={!open}>
         <nav aria-label="القائمة الرئيسية">
-          {NAV.map((n) => (
-            <Link key={n.href} href={n.href} onClick={close}>
+          {TABS.map((n) => (
+            <Link key={n.href} href={n.href} onClick={close} aria-current={isActive(pathname, n.href) ? "page" : undefined}>
               {n.label}
             </Link>
           ))}
-          <Link href={routes.request} onClick={close}>
-            اطلب جهاز
-          </Link>
-          <Link href={routes.terms} onClick={close}>
-            شروط البيع والشراء
-          </Link>
         </nav>
         <div className="site-menu-actions">
           <Link href={routes.devices} className="site-btn site-cta" onClick={close}>
@@ -128,5 +134,13 @@ export function SiteHeader() {
       </div>
       {open ? <div className="site-menu-scrim site-mobile" aria-hidden onClick={close} /> : null}
     </header>
+    <nav ref={tabsRef} className="site-tabs" aria-label="صفحات الموقع">
+      {TABS.map((n) => (
+        <Link key={n.href} href={n.href} className="site-tab" aria-current={isActive(pathname, n.href) ? "page" : undefined}>
+          {n.label}
+        </Link>
+      ))}
+    </nav>
+    </>
   );
 }

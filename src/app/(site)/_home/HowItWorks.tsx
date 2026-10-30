@@ -8,7 +8,7 @@ export function HowItWorks() {
     <section id="how" style={{ background: "#FFFFFF", borderBottom: "1px solid #E5EBE8" }}>
       <div className="mn-sec" style={{ maxWidth: 1200, margin: "0 auto", display: "flex", flexDirection: "column", gap: 36 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          <h2 className="mn-h2" style={{ margin: 0, fontWeight: 700 }}>إزاي بنشتغل؟</h2>
+          <h1 className="mn-h2" style={{ margin: 0, fontWeight: 700 }}>إزاي بنشتغل؟</h1>
           <p style={{ margin: 0, color: "#4A5A56" }} className="mn-lead">أربع خطوات، وكل خطوة واضحة قدامك.</p>
         </div>
         <ol className="mn-steps" style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gap: 18 }}>

@@ -11,7 +11,7 @@ export function Faq() {
     <>
     <section id="faq" style={{ background: "#FFFFFF", borderTop: "1px solid #E5EBE8" }}>
       <div className="mn-sec" style={{ maxWidth: 860, margin: "0 auto", display: "flex", flexDirection: "column", gap: 12 }}>
-        <h2 className="mn-h2" style={{ margin: "0 0 12px", fontWeight: 700 }}>أسئلة شائعة</h2>
+        <h1 className="mn-h2" style={{ margin: "0 0 12px", fontWeight: 700 }}>أسئلة شائعة</h1>
         <details className="mn-faq" style={{ padding: "18px 22px", borderRadius: 16, background: "#F5F7F4", border: "1px solid transparent" }}>
           <summary style={{ fontWeight: 600, fontSize: 18, display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
             مين اللي بيفحص الأجهزة؟
@@ -56,7 +56,7 @@ export function Faq() {
             <svg className="mn-chev" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D5C55" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none" }}><path d="M6 9l6 6 6-6" /></svg>
           </summary>
           <p style={{ margin: "10px 0 0", color: "#4A5A56" }}>
-            البايع بيدفع {SELLER_FEE} ج.م لما يعرض جهازه، وبترجعله لما الجهاز يتباع. المشتري بيحجز الجهاز بـ {BUYER_DEPOSIT} ج.م بتتخصم من سعره.{" "}
+            البايع بيدفع رسوم جدية {SELLER_FEE} ج.م بحد أدنى لما يعرض جهازه، وبترجعله لما الجهاز يتباع. المشتري بيحجز الجهاز بـ {BUYER_DEPOSIT} ج.م بحد أدنى بتتخصم من سعره.{" "}
             <Link href={routes.terms} style={{ fontWeight: 600 }}>اقرأ شروط البيع والشراء كاملة</Link>
           </p>
         </details>

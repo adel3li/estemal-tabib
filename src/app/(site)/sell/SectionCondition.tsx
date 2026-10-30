@@ -116,10 +116,12 @@ export function SectionCondition({ f, set, err }: SectionProps) {
             </legend>
             <Pills name="warranty" value={f.warranty} options={YES_NO} onPick={(v) => set({ warranty: v })} invalid={!!err.warranty} />
             <Msg k="warranty" err={err} />
-            <label className="sl-field">
-              لو عليه ضمان، فاضل قد إيه؟
-              <input type="text" placeholder="مثال: 8 شهور" className="sl-in" value={f.warrantyRemaining} onChange={(e) => set({ warrantyRemaining: e.target.value })} />
-            </label>
+            {f.warranty === "yes" ? (
+              <label className="sl-field">
+                فاضل قد إيه على الضمان؟
+                <input type="text" placeholder="مثال: 8 شهور" className="sl-in" value={f.warrantyRemaining} onChange={(e) => set({ warrantyRemaining: e.target.value })} />
+              </label>
+            ) : null}
           </fieldset>
           <fieldset className="sl-sub" style={{ alignSelf: "start" }}>
             <legend style={subLegend}>
@@ -134,10 +136,12 @@ export function SectionCondition({ f, set, err }: SectionProps) {
             </legend>
             <Pills name="repaired" value={f.repaired} options={YES_NO_UNKNOWN} onPick={(v) => set({ repaired: v })} invalid={!!err.repaired} />
             <Msg k="repaired" err={err} />
-            <label className="sl-field">
-              لو اتصلّح، اتصلّح فيه إيه؟
-              <input type="text" placeholder="مثال: تغيير بلي الموتور" className="sl-in" value={f.repairedDetails} onChange={(e) => set({ repairedDetails: e.target.value })} />
-            </label>
+            {f.repaired === "yes" ? (
+              <label className="sl-field">
+                اتصلّح فيه إيه؟
+                <input type="text" placeholder="مثال: تغيير بلي الموتور" className="sl-in" value={f.repairedDetails} onChange={(e) => set({ repairedDetails: e.target.value })} />
+              </label>
+            ) : null}
           </fieldset>
         </div>
         <label className="sl-field">

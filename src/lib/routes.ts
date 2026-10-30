@@ -3,9 +3,10 @@
 
 export const routes = {
   home: "/",
-  how: "/#how",
-  warranty: "/#warranty",
-  faq: "/#faq",
+  how: "/how",
+  warranty: "/warranty",
+  faq: "/faq",
+  reviews: "/reviews",
   devices: "/devices",
   device: (id: string) => `/devices/${encodeURIComponent(id)}`,
   sell: "/sell",

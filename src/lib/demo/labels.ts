@@ -1,20 +1,23 @@
 import type { Condition, DeviceType, DeviceStatus, InspectionState } from "./types";
 
-/** Device types in form order (PHASE1_PROMPT.md §5). */
+/**
+ * Device types in form order. The client's priority groups come first:
+ * motors, rotary, cameras, loupes, light cure; then everything else.
+ */
 export const DEVICE_TYPES: { id: DeviceType; label: string }[] = [
-  { id: "unit", label: "يونيت أسنان" },
-  { id: "xray", label: "أشعة" },
-  { id: "autoclave", label: "أوتوكلاف" },
   { id: "surg", label: "موتور جراحة وزراعة" },
   { id: "endo", label: "إندو موتور" },
-  { id: "apex", label: "أبيكس لوكيتور" },
-  { id: "cure", label: "لايت كيور" },
+  { id: "micro", label: "ميكرو موتور" },
   { id: "rotary", label: "روتاري" },
   { id: "contra", label: "كونترا" },
-  { id: "micro", label: "ميكرو موتور" },
   { id: "iocam", label: "كاميرا إنترا أورال" },
   { id: "cam", label: "كاميرا" },
   { id: "loupe", label: "لوب تكبير" },
+  { id: "cure", label: "لايت كيور" },
+  { id: "unit", label: "يونيت أسنان" },
+  { id: "xray", label: "أشعة" },
+  { id: "autoclave", label: "أوتوكلاف" },
+  { id: "apex", label: "أبيكس لوكيتور" },
   { id: "other", label: "جهاز تاني" },
 ];
 

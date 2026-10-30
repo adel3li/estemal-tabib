@@ -11,7 +11,7 @@ const pill = { padding: "2px 10px", borderRadius: 999, background: "#F5F7F4", fo
 const tile = { padding: "12px 6px", borderRadius: 14, display: "flex", flexDirection: "column", alignItems: "center", gap: 6 } as const;
 const wRow = { padding: "12px 16px", display: "flex", alignItems: "center", gap: 12, borderTop: "1px solid #E5EBE8" } as const;
 
-export function PriceCard({ d }: { d: Device }) {
+export function PriceCard({ d, promo, onPromo }: { d: Device; promo: string; onPromo: (v: string) => void }) {
   const inspected = d.inspection === "inspected";
   const days = BUSINESS.trialDays;
   const unavailable = d.status === "reserved" || d.status === "sold";
@@ -123,13 +123,31 @@ export function PriceCard({ d }: { d: Device }) {
           </button>
         ) : (
           // Phase 1 (PHASE1_PROMPT §9): ordering happens on WhatsApp; orders are Phase 2.
-          <a href={waLink(orderMessage(d))} target="_blank" rel="noopener noreferrer" className="li-cta" style={{ minHeight: 56, borderRadius: 14, background: "#0D5C55", color: "#FFFFFF", fontWeight: 700, fontSize: 18, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+          // The discount code rides along in the message; the team checks it by hand.
+          <>
+          <label className="li-promo" style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 14, fontWeight: 600 }}>
+            عندك كود خصم؟
+            <input
+              type="text"
+              value={promo}
+              onChange={(e) => onPromo(e.target.value)}
+              placeholder="اكتب الكود هنا"
+              autoComplete="off"
+              autoCapitalize="characters"
+              spellCheck={false}
+              enterKeyHint="done"
+              style={{ minHeight: 48, padding: "0 14px", borderRadius: 12, border: "1px dashed #9FB2AB", background: "#F9FBFA", font: "inherit", fontSize: 16, fontWeight: 600, letterSpacing: 1, direction: "ltr", textAlign: "right" }}
+            />
+            <span style={{ fontSize: 13, fontWeight: 400, color: "#4A5A56" }}>الكود بيتبعت مع طلبك، وبنأكدلك الخصم على واتساب.</span>
+          </label>
+          <a href={waLink(orderMessage(d, promo))} target="_blank" rel="noopener noreferrer" className="li-cta" style={{ minHeight: 56, borderRadius: 14, background: "#0D5C55", color: "#FFFFFF", fontWeight: 700, fontSize: 18, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
             {inspected ? "اطلب الجهاز" : "اطلب الجهاز وابدأ الفحص"}
             <svg {...ic(20)} strokeWidth={2}><path d="M19 12H5" /><path d="M11 6l-6 6 6 6" /></svg>
           </a>
+          </>
         )}
         <div style={{ fontSize: 14, color: "#4A5A56", textAlign: "center" }}>
-          تقدر تحجز الجهاز بـ {fmt(BUSINESS.buyerReservationDepositEGP)} ج.م بس، وبتتخصم من سعره. <Link href={routes.termsBuyer} className="li-inline-link" style={{ fontWeight: 600 }}>شروط الشراء</Link>
+          تقدر تحجز الجهاز بـ {fmt(BUSINESS.buyerReservationDepositEGP)} ج.م بحد أدنى، وبتتخصم من سعره. <Link href={routes.termsBuyer} className="li-inline-link" style={{ fontWeight: 600 }}>شروط الشراء</Link>
         </div>
         <a href={waLink(askMessage(d))} target="_blank" rel="noopener noreferrer" className="li-ghost" style={{ minHeight: 48, borderRadius: 14, border: "1px solid #C9D4CF", color: "#12221F", fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
           <svg {...ic(20)}><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7L4 20z" /></svg>اسأل على واتساب

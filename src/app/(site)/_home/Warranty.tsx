@@ -3,7 +3,7 @@ import { BUSINESS } from "@/config/business";
 const DAYS = BUSINESS.trialDays;
 const [M1, M2] = BUSINESS.maintenanceMonthsOptions;
 
-export function WarrantyAndCategories() {
+export function Warranty() {
   return (
     <>
     <section id="warranty" style={{ background: "#0F2A26", color: "#FFFFFF", position: "relative", overflow: "hidden" }}>
@@ -12,7 +12,7 @@ export function WarrantyAndCategories() {
         <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "32px 48px" }}>
           <div style={{ flex: "1 1 460px", minWidth: 0, display: "flex", flexDirection: "column", gap: 10 }}>
             <span style={{ alignSelf: "flex-start", padding: "5px 12px", borderRadius: 999, background: "rgba(242, 163, 58, 0.14)", color: "#F2A33A", fontSize: 14, fontWeight: 700 }}>الضمان</span>
-            <h2 className="mn-h2 mn-h2-lg" style={{ margin: 0, fontWeight: 700, lineHeight: 1.35 }}>جهازك مضمون..<br />فتشتري وأنت متطمن.</h2>
+            <h1 className="mn-h2 mn-h2-lg" style={{ margin: 0, fontWeight: 700, lineHeight: 1.35 }}>جهازك مضمون..<br />فتشتري وأنت متطمن.</h1>
             <p className="mn-lead" style={{ margin: 0, color: "#C3D3CE", maxWidth: 560 }}>من أول ما الموقع يفحصه.. لحد المعاينة وفترة الصيانة.</p>
           </div>
           <div style={{ flex: "0 1 300px", minWidth: 0, margin: "0 auto" }}>

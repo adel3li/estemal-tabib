@@ -116,6 +116,42 @@ section[id] {
 .site-menu nav a { min-height: 48px; display: flex; align-items: center; padding: 0 4px; border-bottom: 1px solid #edf1ef; color: #12221f; font-weight: 600; font-size: 17px; }
 .site-menu-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
 .site-menu-scrim { position: fixed; inset: 0; top: 100%; height: 100dvh; background: rgba(18, 34, 31, 0.35); z-index: 1; }
+/* Page tabs under the header: one row, swipeable on small screens. */
+.site-tabs {
+  display: flex;
+  gap: 8px;
+  /* Full width so the row scrolls inside itself (the layout is a flex column). */
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 10px max(20px, env(safe-area-inset-right)) 10px max(20px, env(safe-area-inset-left));
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.site-tabs::-webkit-scrollbar { display: none; }
+.site-tab {
+  flex: none;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: 999px;
+  border: 1px solid #dce3df;
+  background: #ffffff;
+  color: #3c4c48;
+  font-size: 15px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.site-tab:hover { border-color: #0d5c55; color: #0d5c55; }
+.site-tab[aria-current="page"] { background: #0d5c55; border-color: #0d5c55; color: #ffffff; }
+.site-menu nav a[aria-current="page"] { color: #0d5c55; }
+@media (min-width: 1200px) {
+  .site-tabs { justify-content: center; flex-wrap: wrap; }
+}
 .site-mobile { display: none; }
 @media (max-width: 1023px) {
   .site-desktop { display: none !important; }

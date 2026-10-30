@@ -56,7 +56,7 @@ export function SellSuccess({ id, onAgain }: { id: string; onAgain: () => void }
         </ol>
 
         <div className="sl-box" style={{ width: "100%", boxSizing: "border-box", marginTop: 6, padding: 20, borderRadius: 18, background: "#FBEEDC", border: "1px solid #F0C88A", color: "#6B3A10", display: "flex", flexDirection: "column", gap: 10, textAlign: "right" }}>
-          <span style={{ fontWeight: 700, fontSize: 17, color: "#12221F" }}>ادفع رسوم الجدية: {BUSINESS.sellerSeriousnessFeeEGP} ج.م</span>
+          <span style={{ fontWeight: 700, fontSize: 17, color: "#12221F" }}>ادفع رسوم الجدية: {BUSINESS.sellerSeriousnessFeeEGP} ج.م بحد أدنى</span>
           <span style={{ fontSize: 15 }}>
             حوّل المبلغ بإنستاباي أو تحويل بنكي على: <b style={{ color: "#12221F" }}>{BUSINESS.feeTransferDetails}</b>
           </span>

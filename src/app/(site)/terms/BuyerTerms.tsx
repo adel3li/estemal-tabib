@@ -36,7 +36,7 @@ export function BuyerTerms() {
           <span style={{ fontSize: 13, fontWeight: 700, color: "#FFFFFF" }}>أرقام مهمة</span>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 10, paddingBottom: 8, borderBottom: "1px solid #2E5650" }}>
             <span style={{ fontSize: 14 }}>رسوم جدية الحجز (بتتخصم من الثمن)</span>
-            <span style={{ fontSize: 18, fontWeight: 700, color: "#F2A33A", whiteSpace: "nowrap", flex: "none" }}>{BUYER_DEPOSIT} جنيه</span>
+            <span style={{ fontSize: 18, fontWeight: 700, color: "#F2A33A", whiteSpace: "nowrap", flex: "none" }}>{BUYER_DEPOSIT} جنيه <span style={{ fontSize: 13, fontWeight: 600 }}>بحد أدنى</span></span>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 10, paddingBottom: 8, borderBottom: "1px solid #2E5650" }}>
             <span style={{ fontSize: 14 }}>تأخير التوصيل أكتر من</span>
@@ -65,7 +65,7 @@ export function BuyerTerms() {
             <strong>رسوم جدية الحجز:</strong>
             {" "}لتأكيد عملية الشراء وجدية الطلب، يتم سداد مبلغ{" "}
             <span className="tm-num">{BUYER_DEPOSIT} جنيه</span>
-            {" "}كرسوم جدية حجز، ويتم خصمها بالكامل من إجمالي ثمن المنتج عند إتمام الصفقة.
+            {" "}بحد أدنى كرسوم جدية حجز، ويتم خصمها بالكامل من إجمالي ثمن المنتج عند إتمام الصفقة.
           </p>
         </article>
         <article id="tm-b2" className="tm-art" style={{ borderRadius: 24, background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexDirection: "column", gap: 14 }}>

@@ -11,7 +11,7 @@ import { orderMessage } from "./helpers";
  * order button. Hidden while the price card's own buttons are on screen, and
  * once the page's end (footer) comes into view, so it never covers them.
  */
-export function OrderBar({ d }: { d: Device }) {
+export function OrderBar({ d, promo }: { d: Device; promo: string }) {
   const endRef = useRef<HTMLDivElement>(null);
   const [ctaVisible, setCtaVisible] = useState(false);
   const [atEnd, setAtEnd] = useState(false);
@@ -44,7 +44,7 @@ export function OrderBar({ d }: { d: Device }) {
         {unavailable ? (
           <span className="li-bar-btn is-off" role="status">{d.status === "sold" ? "اتباع" : "محجوز دلوقتي"}</span>
         ) : (
-          <a href={waLink(orderMessage(d))} target="_blank" rel="noopener noreferrer" className="li-bar-btn" tabIndex={hidden ? -1 : undefined}>
+          <a href={waLink(orderMessage(d, promo))} target="_blank" rel="noopener noreferrer" className="li-bar-btn" tabIndex={hidden ? -1 : undefined}>
             اطلب الجهاز
           </a>
         )}

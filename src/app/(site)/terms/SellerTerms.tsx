@@ -34,7 +34,7 @@ export function SellerTerms() {
           <span style={{ fontSize: 13, fontWeight: 700, color: "#FFFFFF" }}>أرقام مهمة</span>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 10, paddingBottom: 8, borderBottom: "1px solid #2E5650" }}>
             <span style={{ fontSize: 14 }}>رسوم جدية العرض</span>
-            <span style={{ fontSize: 18, fontWeight: 700, color: "#F2A33A", whiteSpace: "nowrap", flex: "none" }}>{SELLER_FEE} جنيه</span>
+            <span style={{ fontSize: 18, fontWeight: 700, color: "#F2A33A", whiteSpace: "nowrap", flex: "none" }}>{SELLER_FEE} جنيه <span style={{ fontSize: 13, fontWeight: 600 }}>بحد أدنى</span></span>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 10, paddingBottom: 8, borderBottom: "1px solid #2E5650" }}>
             <span style={{ fontSize: 14 }}>أقل مدة عرض</span>
@@ -73,7 +73,7 @@ export function SellerTerms() {
             <strong>رسوم جدية العرض:</strong>
             {" "}يتم سداد مبلغ{" "}
             <span className="tm-num">{SELLER_FEE} جنيه</span>
-            {" "}كرسوم جدية عند تقديم طلب عرض الجهاز أو الأداة.
+            {" "}بحد أدنى كرسوم جدية عند تقديم طلب عرض الجهاز أو الأداة.
           </p>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 }}>
             <div style={{ padding: "16px 18px", borderRadius: 16, background: "#E3F0ED", border: "1px solid #9CCBC2", color: "#0B4A44" }}>

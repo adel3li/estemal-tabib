@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useState } from "react";
 import { isPublic, useDemo } from "@/lib/demo/store";
 import { routes } from "@/lib/routes";
 import { BrowseArt } from "../art";
@@ -30,6 +31,8 @@ export function DeviceClient() {
   const { getDevice } = useDemo();
   const id = typeof params.id === "string" ? params.id : "";
   const d = getDevice(id);
+  // Discount code typed on the price card; both order buttons send it.
+  const [promo, setPromo] = useState("");
 
   if (!d || !isPublic(d)) return <NotFound />;
   const inspected = d.inspection === "inspected";
@@ -57,12 +60,12 @@ export function DeviceClient() {
           <DataGrid d={d} />
         </div>
         <aside className="li-aside" style={{ minWidth: 0, display: "flex", flexDirection: "column", gap: 16 }}>
-          <PriceCard d={d} />
+          <PriceCard d={d} promo={promo} onPromo={setPromo} />
         </aside>
       </section>
 
       {inspected ? <Report d={d} /> : <Steps />}
-      <OrderBar d={d} />
+      <OrderBar d={d} promo={promo} />
     </div>
   );
 }

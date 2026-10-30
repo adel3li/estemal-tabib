@@ -3,17 +3,14 @@
 import Link from "next/link";
 import { routes } from "@/lib/routes";
 import { BUSINESS } from "@/config/business";
-import { parseNum, typeLabel } from "@/lib/demo/labels";
+import { DEVICE_TYPES, parseNum } from "@/lib/demo/labels";
 import type { DeviceType } from "@/lib/demo/types";
 import { useState } from "react";
 
 const DAYS = BUSINESS.trialDays;
 
-/** The design's five quick-form options (Main.dc.html), mapped to store type ids. */
-const QUICK_TYPES: DeviceType[] = ["unit", "xray", "autoclave", "endo", "apex"];
-
 export function SellQuick() {
-  const [type, setType] = useState<DeviceType>("unit");
+  const [type, setType] = useState<DeviceType>(DEVICE_TYPES[0].id);
   const [price, setPrice] = useState("");
 
   const qs = new URLSearchParams({ type });
@@ -56,8 +53,8 @@ export function SellQuick() {
           <label style={{ display: "flex", flexDirection: "column", gap: 6, fontWeight: 600, fontSize: 14 }}>
             نوع الجهاز{" "}
             <select value={type} onChange={(e) => setType(e.target.value as DeviceType)} className="mn-field" style={{ minHeight: 46, padding: "0 12px", borderRadius: 10, border: "1px solid #C9D4CF", background: "#FFFFFF", font: "inherit", fontWeight: 400 }}>
-              {QUICK_TYPES.map((t) => (
-                <option key={t} value={t}>{typeLabel(t)}</option>
+              {DEVICE_TYPES.map((t) => (
+                <option key={t.id} value={t.id}>{t.label}</option>
               ))}
             </select>
           </label>

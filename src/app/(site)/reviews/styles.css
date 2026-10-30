@@ -1,0 +1,27 @@
+/* /reviews */
+.rv-head{background:#FFFFFF;border-bottom:1px solid #E5EBE8}
+.rv-score{display:flex;align-items:center;gap:14px;padding:16px 20px;border-radius:20px;background:#FBEEDC;border:1px solid #F0C88A}
+.rv-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:18px}
+.rv-card{padding:22px;border-radius:22px;background:#FFFFFF;border:1px solid #DCE3DF;box-shadow:0 4px 14px rgba(18,34,31,.04);display:flex;flex-direction:column;gap:12px}
+.rv-avatar{width:44px;height:44px;border-radius:999px;background:#E3F0ED;color:#0D5C55;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none}
+.rv-form{max-width:760px;width:100%;margin:0 auto;box-sizing:border-box;padding:28px;border-radius:24px;background:#FFFFFF;border:1px solid #DCE3DF;box-shadow:0 10px 30px rgba(18,34,31,.06);display:flex;flex-direction:column;gap:18px}
+.rv-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(240px,100%),1fr));gap:16px}
+.rv-field{display:flex;flex-direction:column;gap:6px;font-weight:600;font-size:14px;color:#24332F;min-width:0}
+.rv-in{min-height:48px;padding:10px 14px;border-radius:12px;border:1px solid #C9D4CF;background:#FFFFFF;font:inherit;font-size:16px;font-weight:400;color:#12221F;box-sizing:border-box;width:100%}
+textarea.rv-in{resize:vertical}
+.rv-in:focus{outline:3px solid rgba(13,92,85,.25);border-color:#0D5C55}
+.rv-pill{flex:1 1 0;min-height:48px;padding:0 14px;border-radius:999px;border:1px solid #C9D4CF;display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;font-weight:600;white-space:nowrap}
+.rv-pill.is-on{border-color:#0D5C55;background:#E3F0ED;color:#0D5C55}
+.rv-pill input{accent-color:#0D5C55;width:18px;height:18px;margin:0}
+.rv-rate{display:flex;gap:4px}
+.rv-star{width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:12px;color:#DCE3DF;cursor:pointer}
+.rv-star.is-on{color:#F2A33A}
+.rv-star input{position:absolute;opacity:0;width:1px;height:1px}
+.rv-star:focus-within{outline:3px solid #0D5C55;outline-offset:2px}
+.rv-send{min-height:54px;border-radius:14px;border:0;background:#0D5C55;color:#FFFFFF;font:inherit;font-weight:700;font-size:17px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.rv-send:hover{background:#08403B;color:#FFFFFF}
+.rv-send:disabled{background:#C9D4CF;color:#4A5A56;cursor:not-allowed}
+@media (max-width:767px){
+  .rv-form{padding:20px 16px;border-radius:20px}
+  .rv-score{width:100%;box-sizing:border-box}
+}

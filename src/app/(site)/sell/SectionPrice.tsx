@@ -1,15 +1,11 @@
 "use client";
 
 import { salePriceFromSellerNet, sellerNetFromSalePrice } from "@/config/business";
-import { fmt, parseNum } from "@/lib/demo/labels";
+import { parseNum } from "@/lib/demo/labels";
 import type { SellForm } from "./form";
 import { bad, CardHead, grid, Msg, radioStyle, Star, type SectionProps } from "./ui";
 
 export function SectionPrice({ f, set, err }: SectionProps) {
-  const saleN = parseNum(f.sale);
-  const netN = parseNum(f.net);
-  const fee = saleN && netN ? saleN - netN : 0;
-
   const onSale = (t: string) => {
     const x = parseNum(t);
     set({ sale: t, net: x ? String(sellerNetFromSalePrice(x)) : "" });
@@ -103,10 +99,6 @@ export function SectionPrice({ f, set, err }: SectionProps) {
             </label>
           </div>
           <Msg k="sale" err={err} />
-          <div style={{ padding: "12px 16px", borderRadius: 12, background: "#FFFFFF", border: "1px solid #E5EBE8", display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 8, fontSize: 15 }}>
-            <span style={{ color: "#3C4C48" }}>عمولة استعمال طبيب (15% من سعر البيع كحد أقصى)</span>
-            <span style={{ fontWeight: 700, fontSize: 17 }}>{fee ? `${fmt(fee)} ج.م` : "—"}</span>
-          </div>
         </div>
         <div style={{ padding: "14px 16px", borderRadius: 14, background: "#E3F0ED", color: "#0B4A44", display: "flex", gap: 10, alignItems: "flex-start", fontSize: 15 }}>
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none", marginTop: 3 }}>

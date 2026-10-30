@@ -72,7 +72,7 @@ export function FeeBox({ f, onSubmit }: { f: SectionProps["f"]; onSubmit: () => 
             </span>
             <span style={{ fontWeight: 700, fontSize: 20 }}>رسوم جدية العرض</span>
           </span>
-          <span className="sl-fee-amt">{fee} ج.م</span>
+          <span className="sl-fee-amt">{fee} ج.م <span style={{ fontSize: 14, fontWeight: 600 }}>بحد أدنى</span></span>
         </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 12 }}>
           <div style={{ padding: "16px 18px", borderRadius: 16, background: "#E3F0ED", border: "1px solid #9CCBC2", display: "flex", flexDirection: "column", gap: 8, fontSize: 14, color: "#0B4A44" }}>

@@ -22,8 +22,9 @@ export const COND_TILE: Record<Condition, { text: string; bg: string; lab: strin
   c: { text: "أقل من 60% · محتاج صيانة", bg: "#FBEEDC", lab: "#6B3A10", fg: "#8A4209" },
 };
 
-export function orderMessage(d: Device): string {
-  return `أهلاً، عايز أطلب الجهاز ده من «استعمال طبيب»:\n${d.title} — ${typeLabel(d.type)}\nكود الجهاز: ${d.id}`;
+export function orderMessage(d: Device, promo = ""): string {
+  const code = promo.trim();
+  return `أهلاً، عايز أطلب الجهاز ده من «استعمال طبيب»:\n${d.title} — ${typeLabel(d.type)}\nكود الجهاز: ${d.id}${code ? `\nكود الخصم: ${code}` : ""}`;
 }
 
 export function askMessage(d: Device): string {
