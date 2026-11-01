@@ -8,3 +8,10 @@
  * Supabase (it was switched off there too).
  */
 export const EMAIL_LOGIN_ENABLED = false;
+
+/**
+ * Device video (sell form, device page gallery, admin forms). OFF for now —
+ * the client asked to hide it and add it later (Nov 2026). The upload code and
+ * BUSINESS.videoSeconds (5–30 s) stay; set true to bring it all back.
+ */
+export const VIDEO_ENABLED = false;

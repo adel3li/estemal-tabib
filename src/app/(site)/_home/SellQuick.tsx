@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { VIDEO_ENABLED } from "@/config/features";
 import { routes } from "@/lib/routes";
 import { BUSINESS } from "@/config/business";
 import { DEVICE_TYPES, parseNum } from "@/lib/demo/labels";
@@ -70,7 +71,7 @@ export function SellQuick() {
                 <path d="M4 16v3a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-3" />
               </svg>
             </span>
-            {" "}ارفع صور وفيديو للجهاز وهو شغال
+            {" "}{VIDEO_ENABLED ? "ارفع صور وفيديو للجهاز وهو شغال" : "ارفع صور واضحة للجهاز من كل الزوايا"}
           </div>
           <Link href={sellHref} className="mn-amber" style={{ minHeight: 50, borderRadius: 12, background: "#F2A33A", color: "#12221F", fontWeight: 700, fontSize: 17, display: "flex", alignItems: "center", justifyContent: "center" }}>كمّل بيانات جهازك</Link>
         </form>

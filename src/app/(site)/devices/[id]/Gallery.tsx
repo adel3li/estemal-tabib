@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { VIDEO_ENABLED } from "@/config/features";
 import type { Device, DeviceType } from "@/lib/demo/types";
 import { defectInfo, svgProps } from "./helpers";
 
@@ -14,6 +15,11 @@ const TYPE_ART: Record<DeviceType, string> = {
 };
 
 function slidesFor(d: Device): Slide[] {
+  const all = allSlidesFor(d);
+  return VIDEO_ENABLED ? all : all.filter((s) => !s.video);
+}
+
+function allSlidesFor(d: Device): Slide[] {
   const { count } = defectInfo(d);
   if (d.inspection === "inspected") {
     if (d.type === "unit") {
@@ -90,7 +96,7 @@ export function Gallery({ d }: { d: Device }) {
         {!inspected ? (
           <span className="li-cap" style={{ position: "absolute", bottom: 16, right: 16, left: 16, padding: "10px 14px", borderRadius: 12, background: "rgba(255, 255, 255, 0.95)", color: "#24508F", fontSize: 14, fontWeight: 500, display: "flex", gap: 8, alignItems: "center" }}>
             <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" {...svgProps} strokeWidth={1.8} style={{ flex: "none" }}><circle cx="12" cy="12" r="9" /><path d="M12 8v5" /><path d="M12 16h.01" /></svg>
-            الصور والفيديو من البايع. فريقنا هيصوّر الجهاز ويفحصه بعد طلبك.
+            {VIDEO_ENABLED ? "الصور والفيديو من البايع." : "الصور من البايع."} فريقنا هيصوّر الجهاز ويفحصه بعد طلبك.
           </span>
         ) : s.defect ? (
           <span className="li-cap" style={{ position: "absolute", bottom: 16, right: 16, left: 16, padding: "10px 14px", borderRadius: 12, background: "#FDF6EC", border: "1px solid #F0C88A", color: "#6B3A10", fontSize: 14, fontWeight: 600, display: "flex", gap: 8, alignItems: "center" }}>

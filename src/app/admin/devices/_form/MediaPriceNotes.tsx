@@ -1,6 +1,7 @@
 "use client";
 
 import { BUSINESS } from "@/config/business";
+import { VIDEO_ENABLED } from "@/config/features";
 import { fmt, parseNum } from "@/lib/demo/labels";
 import { DropButton, Req, SectionHead } from "./bits";
 import type { FormState } from "./model";
@@ -27,7 +28,7 @@ export function MediaSection({
   return (
     <section className="ad-card" aria-labelledby="ad-s4">
       <SectionHead id="ad-s4" n="٤" bg="#EAF5DD" fg="#3F7A1F">
-        الصور والفيديو
+        {VIDEO_ENABLED ? "الصور والفيديو" : "الصور"}
       </SectionHead>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 }}>
         <DropButton
@@ -47,19 +48,21 @@ export function MediaSection({
             </svg>
           }
         />
-        <DropButton
-          accept="video/*"
-          iconBg="#12221F"
-          title="فيديو وهو شغال"
-          hint={`من ${BUSINESS.videoSeconds.min} لـ ${BUSINESS.videoSeconds.max} ثانية`}
-          status={video ? `اتختار: ${video}` : undefined}
-          onFiles={(files) => onVideo(files[0].name)}
-          icon={
-            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M8 5v14l11-7z" />
-            </svg>
-          }
-        />
+        {VIDEO_ENABLED ? (
+          <DropButton
+            accept="video/*"
+            iconBg="#12221F"
+            title="فيديو وهو شغال"
+            hint={`من ${BUSINESS.videoSeconds.min} لـ ${BUSINESS.videoSeconds.max} ثانية`}
+            status={video ? `اتختار: ${video}` : undefined}
+            onFiles={(files) => onVideo(files[0].name)}
+            icon={
+              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            }
+          />
+        ) : null}
       </div>
       {photos ? (
         <button type="button" className="ad-hint" onClick={() => onPhotos(0)} style={{ alignSelf: "flex-start", border: 0, background: "none", padding: 0, cursor: "pointer", textDecoration: "underline" }}>

@@ -2,6 +2,7 @@
 
 import { useRef, useState, type ReactNode } from "react";
 import { BUSINESS } from "@/config/business";
+import { VIDEO_ENABLED } from "@/config/features";
 import { fieldId, type Errors, type Media, type VideoPick } from "./form";
 import { CardHead, Msg, Star } from "./ui";
 
@@ -159,7 +160,7 @@ export function SectionMedia({ media, setMedia, err }: { media: Media; setMedia:
         iconFg="#3F7A1F"
         step="الخطوة ٤ من ٦"
         stepFg="#3F7A1F"
-        title="٤. الصور والفيديو"
+        title={VIDEO_ENABLED ? "٤. الصور والفيديو" : "٤. الصور"}
         icon={
           <>
             <path d="M4 8h3l2-3h6l2 3h3v11H4z" />
@@ -189,30 +190,32 @@ export function SectionMedia({ media, setMedia, err }: { media: Media; setMedia:
             {photoMsg ? <span className="sl-msg" style={{ color: "#8A4209" }}>{photoMsg}</span> : null}
             <Msg k="photos" err={err} />
           </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 6, minWidth: 0 }}>
-            <Tile
-              id={fieldId("video")}
-              art="sl-up-video"
-              title="فيديو الجهاز وهو شغال"
-              required
-              hint={`من ${vs.min} لـ ${vs.max} ثانية`}
-              status={vid ? `فيديو ${Math.round(vid.seconds)} ثانية ✓` : undefined}
-              cta={vid ? "غيّر الفيديو" : "اختار الفيديو"}
-              ctaIcon={UpArrow}
-              accept="video/*"
-              onFiles={pickVideo}
-              files={vid ? [{ name: vid.file.name, note: `${Math.round(vid.seconds)} ث` }] : []}
-              onRemove={() => setMedia({ ...media, video: null })}
-              invalid={!!err.video || !!videoMsg}
-            />
-            {videoMsg ? (
-              <span className="sl-msg" role="alert">
-                {videoMsg}
-              </span>
-            ) : (
-              <Msg k="video" err={err} />
-            )}
-          </div>
+          {VIDEO_ENABLED ? (
+            <div style={{ display: "flex", flexDirection: "column", gap: 6, minWidth: 0 }}>
+              <Tile
+                id={fieldId("video")}
+                art="sl-up-video"
+                title="فيديو الجهاز وهو شغال"
+                required
+                hint={`من ${vs.min} لـ ${vs.max} ثانية`}
+                status={vid ? `فيديو ${Math.round(vid.seconds)} ثانية ✓` : undefined}
+                cta={vid ? "غيّر الفيديو" : "اختار الفيديو"}
+                ctaIcon={UpArrow}
+                accept="video/*"
+                onFiles={pickVideo}
+                files={vid ? [{ name: vid.file.name, note: `${Math.round(vid.seconds)} ث` }] : []}
+                onRemove={() => setMedia({ ...media, video: null })}
+                invalid={!!err.video || !!videoMsg}
+              />
+              {videoMsg ? (
+                <span className="sl-msg" role="alert">
+                  {videoMsg}
+                </span>
+              ) : (
+                <Msg k="video" err={err} />
+              )}
+            </div>
+          ) : null}
           <Tile
             art="sl-up-extra"
             title="صور الملحقات والعيوب"

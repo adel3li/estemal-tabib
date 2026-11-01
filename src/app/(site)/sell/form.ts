@@ -1,5 +1,6 @@
 // Sell form state, validation and draft persistence (client-only helpers).
 import { BUSINESS } from "@/config/business";
+import { VIDEO_ENABLED } from "@/config/features";
 import { GOVERNORATES, parseNum } from "@/lib/demo/labels";
 import type { Condition, DeviceType, YesNoUnknown } from "@/lib/demo/types";
 
@@ -128,7 +129,7 @@ export function validate(f: SellForm, m: Media): Errors {
   const { min, max } = BUSINESS.photos;
   if (m.photos.length < min) e.photos = `محتاجين ${min} صور على الأقل`;
   else if (m.photos.length > max) e.photos = `أقصى عدد ${max} صور`;
-  if (!m.video) e.video = "ضيف فيديو للجهاز وهو شغال";
+  if (VIDEO_ENABLED && !m.video) e.video = "ضيف فيديو للجهاز وهو شغال";
   if (!f.keepLocation) e.keepLocation = "اختار الجهاز هيفضل فين لحد ما يتباع";
   if (!f.priceHelp && !parseNum(f.sale)) e.sale = "اكتب السعر، أو علّم «ساعدوني أحدد السعر»";
   if (!f.acks.own || !f.acks.acc || !f.acks.terms) e.acks = "لازم توافق على الإقرارات الثلاثة";

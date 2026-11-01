@@ -1,4 +1,5 @@
 // Visual maps from Admin-Submissions.dc.html keyed by the store's values.
+import { VIDEO_ENABLED } from "@/config/features";
 import { typeLabel } from "@/lib/demo/labels";
 import type { LogLine, Submission, SubmissionStatus } from "@/lib/demo/types";
 
@@ -34,7 +35,7 @@ export const PHOTO_REQS: [string, string][] = [
   ["plate", "صورة اللوحة والسيريال"],
   ["sides", "صور من كل الجهات"],
   ["close", "صور قريبة للعيوب"],
-  ["video", "فيديو وهو شغال"],
+  ...(VIDEO_ENABLED ? ([["video", "فيديو وهو شغال"]] as [string, string][]) : []),
 ];
 
 export const REJECT_REASONS = [

@@ -1,8 +1,9 @@
+import { VIDEO_ENABLED } from "@/config/features";
 const STEPS: { n: string; label: string; bg: string; fg: string }[] = [
   { n: "١", label: "بياناتك", bg: "#E3F0ED", fg: "#0D5C55" },
   { n: "٢", label: "بيانات الجهاز", bg: "#E6EDF7", fg: "#24508F" },
   { n: "٣", label: "الحالة والعيوب", bg: "#FBEEDC", fg: "#8A4209" },
-  { n: "٤", label: "الصور والفيديو", bg: "#EAF5DD", fg: "#3F7A1F" },
+  { n: "٤", label: VIDEO_ENABLED ? "الصور والفيديو" : "الصور", bg: "#EAF5DD", fg: "#3F7A1F" },
   { n: "٥", label: "السعر", bg: "#E3F0ED", fg: "#0D5C55" },
   { n: "٦", label: "الإقرارات", bg: "#E6EDF7", fg: "#24508F" },
 ];

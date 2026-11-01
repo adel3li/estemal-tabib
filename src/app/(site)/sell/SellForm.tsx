@@ -7,6 +7,7 @@ import { DEVICE_TYPES, parseNum } from "@/lib/demo/labels";
 import { useDemo } from "@/lib/demo/store";
 import type { Condition, DeviceType, YesNoUnknown } from "@/lib/demo/types";
 import { useAuth } from "@/lib/auth/AuthProvider";
+import { VIDEO_ENABLED } from "@/config/features";
 import { loginHref } from "@/lib/auth/next";
 import { routes } from "@/lib/routes";
 import { salePriceFromSellerNet, sellerNetFromSalePrice } from "@/config/business";
@@ -199,7 +200,7 @@ export function SellForm() {
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           {restoredDraft ? (
             <div role="status" style={{ padding: "12px 16px", borderRadius: 14, background: "#E3F0ED", border: "1px solid #9CCBC2", color: "#0B4A44", fontWeight: 600, fontSize: 15 }}>
-              رجّعنالك البيانات اللي كنت كتبتها. الصور والفيديو بس محتاج تضيفهم تاني.
+              رجّعنالك البيانات اللي كنت كتبتها. {VIDEO_ENABLED ? "الصور والفيديو بس محتاج تضيفهم تاني." : "الصور بس محتاج تضيفها تاني."}
             </div>
           ) : null}
           <form noValidate onSubmit={(e) => { e.preventDefault(); void submit(); }} style={{ minWidth: 0, display: "flex", flexDirection: "column", gap: 20 }}>

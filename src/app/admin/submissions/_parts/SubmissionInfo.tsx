@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { BUSINESS } from "@/config/business";
+import { VIDEO_ENABLED } from "@/config/features";
 import { CONDITIONS, fmt, typeLabel } from "@/lib/demo/labels";
 import type { Submission } from "@/lib/demo/types";
 import { routes } from "@/lib/routes";
@@ -127,9 +128,9 @@ export function SubmissionInfo({ p, onReopen }: { p: Submission; onReopen: () =>
 
       <div>
         <h3 style={{ margin: "0 0 8px", fontSize: 16, display: "flex", alignItems: "center", gap: 8 }}>
-          الصور والفيديو
+          {VIDEO_ENABLED ? "الصور والفيديو" : "الصور"}
           <span style={{ fontSize: 13, fontWeight: 400, color: "#4A5A56" }}>
-            {p.photos} صور · {p.hasVideo ? "فيه فيديو" : "مفيش فيديو"}
+            {p.photos} صور{VIDEO_ENABLED ? ` · ${p.hasVideo ? "فيه فيديو" : "مفيش فيديو"}` : ""}
           </span>
         </h3>
         <div className="sb-photos">
@@ -141,7 +142,7 @@ export function SubmissionInfo({ p, onReopen }: { p: Submission; onReopen: () =>
               <span style={{ position: "absolute", bottom: 4, right: 4, padding: "0 6px", borderRadius: 6, background: "rgba(18, 34, 31, 0.7)", color: "#FFFFFF" }} className="sb-num">{i + 1}</span>
             </span>
           ))}
-          {p.hasVideo ? (
+          {VIDEO_ENABLED && p.hasVideo ? (
             <span role="img" aria-label="فيديو الجهاز وهو شغال" style={{ aspectRatio: "4 / 3", borderRadius: 12, background: "#12221F", color: "#FFFFFF", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 2, fontSize: 12 }}>
               <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M8 5v14l11-7z" />
