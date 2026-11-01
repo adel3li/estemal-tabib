@@ -82,8 +82,8 @@ export function FeeBox({ f, onSubmit, sending = false }: { f: SectionProps["f"];
               </svg>
               بترجعلك كاملة لو:
             </span>
-            <span>• الجهاز اتباع عن طريق المنصة</span>
-            <span>• طلبت إلغاء العرض بعد 7 أيام على الأقل من غير ما حد يطلب يشتريه</span>
+            {/* Matches the seller terms (client draft, Nov 2026). */}
+            <span>• الجهاز اتباع عن طريق المنصة ومستحقاتك اتحولتلك</span>
           </div>
           <div style={{ padding: "16px 18px", borderRadius: 16, background: "#FBEEDC", border: "1px solid #F0C88A", display: "flex", flexDirection: "column", gap: 8, fontSize: 14, color: "#6B3A10" }}>
             <span style={{ fontWeight: 700, display: "flex", alignItems: "center", gap: 8 }}>
@@ -93,9 +93,8 @@ export function FeeBox({ f, onSubmit, sending = false }: { f: SectionProps["f"];
               </svg>
               مش بترجع لو:
             </span>
-            <span>• ما سلّمتش الجهاز للفحص أو الشحن خلال 3 أيام عمل من طلب الشراء</span>
-            <span>• الفحص أثبت إن الجهاز مش مطابق للوصف أو العيوب المذكورة</span>
-            <span>• رجعت في البيع بعد ما المشتري دفع</span>
+            <span>• ثبت إن فيه عيوب جوهرية ما اتذكرتش وده لغى البيعة أثناء الفحص أو تجربة المشتري</span>
+            <span>• ما ردّيتش على تواصلنا لمدة {BUSINESS.noReplyBusinessDays} أيام عمل</span>
           </div>
         </div>
         <div style={{ fontSize: 14, color: "#4A5A56", display: "flex", alignItems: "flex-start", gap: 8 }}>

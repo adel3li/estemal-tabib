@@ -17,7 +17,7 @@ export function Faq() {
             مين اللي بيفحص الأجهزة؟
             <svg className="mn-chev" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D5C55" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none" }}><path d="M6 9l6 6 6-6" /></svg>
           </summary>
-          <p style={{ margin: "10px 0 0", color: "#4A5A56" }}>فني معتمد متخصص في أجهزة الأسنان. اسم الفاحص وتاريخ الفحص مكتوبين في كل تقرير.</p>
+          <p style={{ margin: "10px 0 0", color: "#4A5A56" }}>فني معتمد متخصص في أجهزة الأسنان.</p>
         </details>
         <details className="mn-faq" style={{ padding: "18px 22px", borderRadius: 16, background: "#F5F7F4", border: "1px solid transparent" }}>
           <summary style={{ fontWeight: 600, fontSize: 18, display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>

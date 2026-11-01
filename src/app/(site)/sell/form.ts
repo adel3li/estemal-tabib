@@ -68,7 +68,7 @@ export const EMPTY_FORM: SellForm = {
 export const ACKS: { key: AckKey; label: string }[] = [
   { key: "own", label: "أقر إني المالك القانوني للجهاز أو معايا تفويض رسمي ببيعه، وإنه مش مرهون ولا عليه نزاع." },
   { key: "acc", label: "أقر إن كل البيانات والعيوب اللي كتبتها صحيحة، وإني هغلّف الجهاز تغليف آمن قبل تسليمه." },
-  { key: "terms", label: "موافق على شروط البيع، وعلى إن الجهاز يفضل معروض على المنصة 7 أيام على الأقل." },
+  { key: "terms", label: "موافق على شروط البيع والشراء." },
 ];
 
 /** Field keys in page order — the first one with an error gets focus. */

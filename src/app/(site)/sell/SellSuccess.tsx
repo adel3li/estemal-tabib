@@ -55,7 +55,7 @@ export function SellSuccess({ id, dbId, onAgain }: { id: string; dbId?: string; 
         <span style={{ padding: "4px 16px", borderRadius: 999, background: "#F5F7F4", border: "1px solid #DCE3DF", fontWeight: 700, fontSize: 15 }}>
           رقم الطلب: <span dir="ltr" data-testid="sell-id">{id}</span>
         </span>
-        <p style={{ margin: 0, color: "#4A5A56", fontSize: 17 }}>هنكلمك على واتساب خلال 24 ساعة نحدد ميعاد الفحص. الجهاز هيفضل معروض 7 أيام على الأقل.</p>
+        <p style={{ margin: 0, color: "#4A5A56", fontSize: 17 }}>هنكلمك على واتساب خلال 24 ساعة نحدد ميعاد الفحص.</p>
 
         <ol style={{ margin: "6px 0 0", padding: 0, listStyle: "none", width: "100%", display: "flex", flexDirection: "column", gap: 8, textAlign: "right" }}>
           {NEXT_STEPS.map((s, i) => (

@@ -15,18 +15,18 @@ import { ToothIcon } from "@/components/icons";
 import { AccountMenu, AccountPanel, MenuBadge } from "./AccountMenu";
 import { routes } from "@/lib/routes";
 
-const TABS = [
+// Client asked for a shorter menu (Nov 2026): «إزاي بنشتغل»، «آراء العملاء»،
+// «أسئلة شائعة» and «مين إحنا» are only in the footer now. Buy/sell stand out.
+const TABS: { href: string; label: string; tone?: "buy" | "sell" }[] = [
   { href: routes.home, label: "الرئيسية" },
-  { href: routes.devices, label: "اشتري جهاز" },
-  { href: routes.sell, label: "بيع جهازك" },
+  { href: routes.devices, label: "اشتري جهاز", tone: "buy" },
+  { href: routes.sell, label: "بيع جهازك", tone: "sell" },
   { href: routes.request, label: "اطلب جهاز" },
-  { href: routes.how, label: "إزاي بنشتغل" },
   { href: routes.warranty, label: "الضمان" },
-  { href: routes.reviews, label: "آراء العملاء" },
-  { href: routes.faq, label: "أسئلة شائعة" },
   { href: routes.terms, label: "الشروط" },
-  { href: routes.about, label: "مين إحنا" },
 ];
+
+const toneClass = (tone?: "buy" | "sell") => (tone ? ` site-tone-${tone}` : "");
 
 const isActive = (pathname: string, href: string) =>
   href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
@@ -125,7 +125,7 @@ export function SiteHeader() {
         <AccountPanel onNavigate={close} />
         <nav aria-label="القائمة الرئيسية">
           {TABS.map((n) => (
-            <Link key={n.href} href={n.href} onClick={close} aria-current={isActive(pathname, n.href) ? "page" : undefined}>
+            <Link key={n.href} href={n.href} onClick={close} className={toneClass(n.tone).trim() || undefined} aria-current={isActive(pathname, n.href) ? "page" : undefined}>
               {n.label}
             </Link>
           ))}
@@ -143,7 +143,7 @@ export function SiteHeader() {
     </header>
     <nav ref={tabsRef} className="site-tabs" aria-label="صفحات الموقع">
       {TABS.map((n) => (
-        <Link key={n.href} href={n.href} className="site-tab" aria-current={isActive(pathname, n.href) ? "page" : undefined}>
+        <Link key={n.href} href={n.href} className={`site-tab${toneClass(n.tone)}`} aria-current={isActive(pathname, n.href) ? "page" : undefined}>
           {n.label}
         </Link>
       ))}

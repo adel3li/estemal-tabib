@@ -86,3 +86,12 @@ Adel asked to test the whole site end to end before going further, so all 16 scr
 60. **«إزاي بنشتغل؟» cards:** the title sits beside the icon (number on the far side), description underneath. Other icon cards (about «اللي بنلتزم بيه», etc.) are unchanged — their colours wait for the brand identity (client, message 8).
 61. **About «ليه بدأنا»:** seller sentence rewritten from the client's idea: «واللي عايز يبيع، طالب أو دكتور، بيخاف يبعت جهازه من غير ما يضمن فلوسه، وكتير البيعة مبتكملش علشان المشتري بعيد عنه.»
 62. **Terms «للبايع» tab icon:** a hand receiving coins instead of the price tag.
+
+## Client feedback — WhatsApp batch 3 (2026-11-01)
+
+63. **Terms rewritten from the client's draft** «مسودة شروط وأحكام البيع والشراء». Seller tab: أحكام عامة · الإفصاح والملكية · رسوم جدية العرض · العمولة وتحويل المستحقات · خدمة إيداع الجهاز. Buyer tab: أحكام عامة · رسوم جدية الحجز · الدفع وحفظ الأموال · الفحص والاسترجاع والضمان · النقل والفك والتركيب. Wording kept from the draft (formal Arabic), typo fixed («عيب جوهري»), the AI-tool leftover line dropped. Shared blocks in `terms/parts.tsx`. «آخر تحديث: 1 نوفمبر 2026».
+64. **New business numbers:** `maxDeliveryDays: 14` («أقصى مدة لتوصيل الجهاز»، replaces «تأخير التوصيل أكتر من: أسبوع»), `noReplyBusinessDays: 3` (no reply to the platform → listing/booking cancelled and the fee kept — the clause the client highlighted).
+65. **Dropped because the draft doesn't have them (ask the client):** 7-day minimum listing (+ refund when cancelling after it), seller must hand over within 3 business days, seller backing out after the buyer paid, packaging duty. The sell form's fee box, its terms checkbox («موافق على شروط البيع والشراء.») and the success screen were aligned with the new terms. `minListingDays` / `sellerHandoverBusinessDays` stay in `business.ts`, unused.
+66. **Kept although not in the draft:** «خدمة إيداع الجهاز لدى المنصة» (the sell form offers it). **Conflict flagged:** the draft limits use to doctors/clinics/centres, but students can sign up — TODO in `terms/parts.tsx`.
+67. **Menu / tab row:** only الرئيسية · اشتري جهاز · بيع جهازك · اطلب جهاز · الضمان · الشروط. «إزاي بنشتغل»، «آراء العملاء»، «أسئلة شائعة»، «مين إحنا» are footer-only. «اشتري جهاز» (teal) and «بيع جهازك» (amber) are tinted in both.
+68. **FAQ** «مين اللي بيفحص الأجهزة؟» now ends at «فني معتمد متخصص في أجهزة الأسنان.»

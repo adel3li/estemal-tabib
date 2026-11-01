@@ -25,7 +25,7 @@ export function TermsHead({ tab, onTab }: { tab: TermsTab; onTab: (t: TermsTab) 
             <h1 className="tm-h1" style={{ margin: 0 }}>شروط البيع والشراء</h1>
             <p style={{ margin: 0, color: "#4A5A56", display: "flex", alignItems: "center", gap: 6 }}>
               <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="4" y="5" width="16" height="15" rx="2" /><path d="M8 3v4M16 3v4M4 10h16" /></svg>
-              آخر تحديث: [التاريخ]
+              آخر تحديث: 1 نوفمبر 2026
             </p>
           </div>
           <div role="tablist" aria-label="نوع الشروط" style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 6, padding: 6, borderRadius: 18, background: "#F5F7F4", border: "1px solid #DCE3DF", maxWidth: 460 }}>

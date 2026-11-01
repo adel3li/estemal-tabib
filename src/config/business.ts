@@ -6,8 +6,10 @@ export const BUSINESS = {
   sellerSeriousnessFeeEGP: 300, // paid after submitting a device (manual in Phase 1)
   buyerReservationDepositEGP: 500, // Phase 2 (deducted from price)
   trialDays: 3, // replacement/return + money held after delivery
-  minListingDays: 7, // a listing stays up at least this long (seller terms)
-  sellerHandoverBusinessDays: 3, // seller must hand the device over within this after a purchase
+  minListingDays: 7, // not in the client terms draft (Nov 2026) — unused, kept until the client confirms
+  sellerHandoverBusinessDays: 3, // not in the client terms draft (Nov 2026) — unused, kept until the client confirms
+  maxDeliveryDays: 14, // terms: longest delivery time from purchase confirmation (client draft, Nov 2026)
+  noReplyBusinessDays: 3, // terms: no reply to the platform for this long → listing/booking cancelled, fee kept
   maintenanceMonthsOptions: [3, 6] as const,
   deliveryDaysInspected: "2 – 5",
   deliveryDaysWithInspection: "[5 – 7]", // TODO(open question §12.7)

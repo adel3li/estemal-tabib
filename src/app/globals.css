@@ -149,6 +149,14 @@ section[id] {
 .site-tab:hover { border-color: #0d5c55; color: #0d5c55; }
 .site-tab[aria-current="page"] { background: #0d5c55; border-color: #0d5c55; color: #ffffff; }
 .site-menu nav a[aria-current="page"] { color: #0d5c55; }
+/* «اشتري جهاز» / «بيع جهازك» stand out in the tab row and the phone menu. */
+.site-tab.site-tone-buy { background: #e3f0ed; border-color: #9ccbc2; color: #0d5c55; }
+.site-tab.site-tone-sell { background: #fbeedc; border-color: #f0c88a; color: #8a4209; }
+.site-tab.site-tone-buy[aria-current="page"] { background: #0d5c55; border-color: #0d5c55; color: #ffffff; }
+.site-tab.site-tone-sell[aria-current="page"] { background: #f2a33a; border-color: #f2a33a; color: #12221f; }
+.site-menu nav a.site-tone-buy, .site-menu nav a.site-tone-sell { margin: 6px 0; padding: 0 14px; border-radius: 12px; border-bottom: 0; }
+.site-menu nav a.site-tone-buy { background: #e3f0ed; color: #0d5c55; }
+.site-menu nav a.site-tone-sell { background: #fbeedc; color: #8a4209; }
 @media (min-width: 1200px) {
   .site-tabs { justify-content: center; flex-wrap: wrap; }
 }
