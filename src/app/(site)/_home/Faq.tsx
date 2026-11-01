@@ -2,8 +2,8 @@ import Link from "next/link";
 import { routes } from "@/lib/routes";
 import { BUSINESS } from "@/config/business";
 
-const [M1, M2] = BUSINESS.maintenanceMonthsOptions;
 const SELLER_FEE = BUSINESS.sellerSeriousnessFeeEGP;
+const FEE_PCT = Math.round(BUSINESS.platformFeeMaxRate * 100);
 const BUYER_DEPOSIT = BUSINESS.buyerReservationDepositEGP;
 
 export function Faq() {
@@ -30,25 +30,21 @@ export function Faq() {
         </details>
         <details className="mn-faq" style={{ padding: "18px 22px", borderRadius: 16, background: "#F5F7F4", border: "1px solid transparent" }}>
           <summary style={{ fontWeight: 600, fontSize: 18, display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
-            ليه الصيانة {M1} شهور في أجهزة و{M2} في أجهزة تانية؟
-            <svg className="mn-chev" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D5C55" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none" }}><path d="M6 9l6 6 6-6" /></svg>
-          </summary>
-          <p style={{ margin: "10px 0 0", color: "#4A5A56" }}>المدة بتختلف حسب نوع الجهاز. [المعيار النهائي لتحديد المدة]</p>
-        </details>
-        <details className="mn-faq" style={{ padding: "18px 22px", borderRadius: 16, background: "#F5F7F4", border: "1px solid transparent" }}>
-          <summary style={{ fontWeight: 600, fontSize: 18, display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
             المنصة بتاخد كام؟
             <svg className="mn-chev" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D5C55" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none" }}><path d="M6 9l6 6 6-6" /></svg>
           </summary>
-          {/* TODO(open question §12.1) */}
-          <p style={{ margin: "10px 0 0", color: "#4A5A56" }}>[نموذج العمولة: نسبة من البايع / المشتري / الاتنين]</p>
+          {/* Client answer (WhatsApp, Nov 2026) — closes open question §12.1. */}
+          <p style={{ margin: "10px 0 0", color: "#4A5A56" }}>
+            نسبة المنصة بتختلف حسب الجهاز، وحالياً أقل من {FEE_PCT}% من سعر البيع النهائي. والنسبة دي بتغطي توصيل الجهاز لحد باب المشتري، والفحص، والصيانة طول فترة الضمان.
+          </p>
         </details>
         <details className="mn-faq" style={{ padding: "18px 22px", borderRadius: 16, background: "#F5F7F4", border: "1px solid transparent" }}>
           <summary style={{ fontWeight: 600, fontSize: 18, display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
             بتوصلوا لأنهي محافظات؟
             <svg className="mn-chev" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D5C55" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none" }}><path d="M6 9l6 6 6-6" /></svg>
           </summary>
-          <p style={{ margin: "10px 0 0", color: "#4A5A56" }}>[المحافظات المتاحة في البداية]</p>
+          {/* Client answer (Nov 2026) for open question §12.9. */}
+          <p style={{ margin: "10px 0 0", color: "#4A5A56" }}>بنسعى نكون في كل المحافظات.</p>
         </details>
         <details className="mn-faq" style={{ padding: "18px 22px", borderRadius: 16, background: "#F5F7F4", border: "1px solid transparent" }}>
           <summary style={{ fontWeight: 600, fontSize: 18, display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>

@@ -100,3 +100,10 @@
   .mn-slide{animation:none}
   .mn-car-dot span{transition:none}
 }
+
+/* «بثقة» underline drawn like a pen (DrawnUnderline.tsx). */
+.mn-pen path{stroke-dasharray:1;stroke-dashoffset:0}
+@media (prefers-reduced-motion: no-preference){
+  .mn-pen path{animation:mn-pen-draw .9s cubic-bezier(.65,0,.35,1) .3s both}
+}
+@keyframes mn-pen-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}

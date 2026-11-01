@@ -95,3 +95,9 @@ Adel asked to test the whole site end to end before going further, so all 16 scr
 66. **Kept although not in the draft:** «خدمة إيداع الجهاز لدى المنصة» (the sell form offers it). **Conflict flagged:** the draft limits use to doctors/clinics/centres, but students can sign up — TODO in `terms/parts.tsx`.
 67. **Menu / tab row:** only الرئيسية · اشتري جهاز · بيع جهازك · اطلب جهاز · الضمان · الشروط. «إزاي بنشتغل»، «آراء العملاء»، «أسئلة شائعة»، «مين إحنا» are footer-only. «اشتري جهاز» (teal) and «بيع جهازك» (amber) are tinted in both.
 68. **FAQ** «مين اللي بيفحص الأجهزة؟» now ends at «فني معتمد متخصص في أجهزة الأسنان.»
+
+## Client feedback — WhatsApp batch 4, last (2026-11-01)
+
+69. **FAQ:** «ليه الصيانة 3 شهور في أجهزة و6 في أجهزة تانية؟» removed. «المنصة بتاخد كام؟» answered from the client's message (closes open question §12.1): «نسبة المنصة بتختلف حسب الجهاز، وحالياً أقل من 15% من سعر البيع النهائي…» (15% = `BUSINESS.platformFeeMaxRate`). «بتوصلوا لأنهي محافظات؟» → «بنسعى نكون في كل المحافظات.» (client answer for §12.9).
+70. **Fewer header tabs** (message 17) was already done in batch 3 (#67).
+71. **Hero underline under «بثقة» draws itself like a pen** on page load (pure CSS, so no flash and it works before JS) and again whenever the tagline scrolls back into view (`DrawnUnderline.tsx` remounts the path). Shown without animation for reduced-motion users.
