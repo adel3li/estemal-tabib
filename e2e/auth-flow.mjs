@@ -173,7 +173,7 @@ try {
   check(`sell saved with a database code (${code})`, /^#\d{4,}$/.test(code));
   const { data: subRow } = await service.from("seller_submissions").select("id, fee_status, status, seller_id, brand, condition").eq("public_code", code).single();
   check("row in seller_submissions, owned by the user, pending/new", subRow?.seller_id === created.user.id && subRow.fee_status === "pending" && subRow.status === "new" && subRow.brand === "W&H");
-  check("draft cleared after submit", (await page.evaluate(() => localStorage.getItem("istimal-tabib-sell-draft"))) === null);
+  check("draft cleared after submit", (await page.evaluate(() => localStorage.getItem("istimal-tabib-sell-draft-v2") ?? localStorage.getItem("istimal-tabib-sell-draft"))) === null);
   await page.locator(".sl-done input").fill("IPN-778899");
   await page.getByRole("button", { name: "سجّل رقم التحويل" }).click();
   await page.waitForTimeout(1500);

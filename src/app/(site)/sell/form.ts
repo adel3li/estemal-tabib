@@ -137,12 +137,21 @@ export function validate(f: SellForm, m: Media): Errors {
 }
 
 // ── Draft (PHASE1_PROMPT §6) ────────────────────────────────────────────────
-const DRAFT_KEY = "istimal-tabib-sell-draft";
+// v2 (Nov 2026): «الجهاز هيفضل فين» lost its default. Drafts saved before that
+// carry the old default «يفضل معايا», so they're migrated without it.
+const DRAFT_KEY = "istimal-tabib-sell-draft-v2";
+const OLD_DRAFT_KEY = "istimal-tabib-sell-draft";
 
 export function loadDraft(): Partial<SellForm> | null {
   try {
     const raw = window.localStorage.getItem(DRAFT_KEY);
-    return raw ? (JSON.parse(raw) as Partial<SellForm>) : null;
+    if (raw) return JSON.parse(raw) as Partial<SellForm>;
+    const old = window.localStorage.getItem(OLD_DRAFT_KEY);
+    if (!old) return null;
+    window.localStorage.removeItem(OLD_DRAFT_KEY);
+    const { keepLocation: _dropped, ...rest } = JSON.parse(old) as Partial<SellForm>;
+    void _dropped;
+    return rest;
   } catch {
     return null;
   }
