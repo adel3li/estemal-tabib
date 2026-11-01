@@ -79,3 +79,10 @@ Adel asked to test the whole site end to end before going further, so all 16 scr
 56. **Seller payout line** ends at «…بعد 3 أيام من استلام المشتري.» («لو مفيش طلب استرجاع مقبول» removed).
 57. **Device video length 5–30 s** (`BUSINESS.videoSeconds`; the brief said 15–60). The client offered "remove the video or 5–30 s"; the video upload already works, so it stays with the new limits.
 58. **Device video hidden for now (client, 2026-11-01).** `VIDEO_ENABLED = false` in `src/config/features.ts` removes the video upload and its requirement from /sell, the video slides from device pages, the «فيديو» wording on home/sell, and the video bits in the admin device form and submission detail. The upload code and the 5–30 s limit stay for later. The seller terms still mention videos — to be rewritten with the client's terms draft (WhatsApp batch 3).
+
+## Client feedback — WhatsApp batch 2 (2026-11-01)
+
+59. **Transfer reference = digits only** (sell success screen and /account): Arabic-Indic digits are converted, anything else is dropped as you type, at least 6 digits (`src/lib/transfer.ts`). The success screen now explains how to pay in 4 steps («إزاي تحوّل؟»); the real InstaPay/bank details are still `BUSINESS.feeTransferDetails` — TODO(open question §12.2).
+60. **«إزاي بنشتغل؟» cards:** the title sits beside the icon (number on the far side), description underneath. Other icon cards (about «اللي بنلتزم بيه», etc.) are unchanged — their colours wait for the brand identity (client, message 8).
+61. **About «ليه بدأنا»:** seller sentence rewritten from the client's idea: «واللي عايز يبيع، طالب أو دكتور، بيخاف يبعت جهازه من غير ما يضمن فلوسه، وكتير البيعة مبتكملش علشان المشتري بعيد عنه.»
+62. **Terms «للبايع» tab icon:** a hand receiving coins instead of the price tag.

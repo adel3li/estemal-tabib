@@ -30,7 +30,14 @@ export function TermsHead({ tab, onTab }: { tab: TermsTab; onTab: (t: TermsTab) 
           </div>
           <div role="tablist" aria-label="نوع الشروط" style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 6, padding: 6, borderRadius: 18, background: "#F5F7F4", border: "1px solid #DCE3DF", maxWidth: 460 }}>
             <button type="button" role="tab" id="tm-tab-sell" aria-controls="tm-panel-sell" aria-selected={sell} onClick={() => onTab("sell")} className="tm-tab" style={{ minHeight: 52, padding: "0 18px", borderRadius: 13, border: 0, background: sell ? "#0D5C55" : "transparent", color: sell ? "#FFFFFF" : "#12221F", boxShadow: sell ? SH : "none", font: "inherit", fontSize: 17, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
-              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12V4h8l10 10-8 8z" /><circle cx="7.5" cy="8.5" r="1.5" /></svg>
+              {/* Hand receiving coins: the seller gets paid (client asked for a clearer seller icon). */}
+              <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17" />
+                <path d="M7 21l1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9" />
+                <path d="M2 16l6 6" />
+                <circle cx="16" cy="9" r="2.9" />
+                <circle cx="6" cy="5" r="3" />
+              </svg>
               للبايع
             </button>
             <button type="button" role="tab" id="tm-tab-buy" aria-controls="tm-panel-buy" aria-selected={!sell} onClick={() => onTab("buy")} className="tm-tab" style={{ minHeight: 52, padding: "0 18px", borderRadius: 13, border: 0, background: sell ? "transparent" : "#0D5C55", color: sell ? "#12221F" : "#FFFFFF", boxShadow: sell ? "none" : SH, font: "inherit", fontSize: 17, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>

@@ -6,6 +6,7 @@ import { BUSINESS } from "@/config/business";
 import { useDemo } from "@/lib/demo/store";
 import { routes } from "@/lib/routes";
 import { supabaseBrowser } from "@/lib/supabase/client";
+import { transferDigits, transferError } from "@/lib/transfer";
 
 const NEXT_STEPS = [
   "حوّل رسوم الجدية وسجّل رقم التحويل هنا.",
@@ -22,9 +23,10 @@ export function SellSuccess({ id, dbId, onAgain }: { id: string; dbId?: string; 
   const saved = sub?.feeReference ?? "";
 
   const saveRef = async () => {
-    const v = ref.trim();
-    if (v.length < 4) {
-      setMsg("اكتب رقم التحويل زي ما ظاهر في رسالة البنك أو إنستاباي");
+    const v = transferDigits(ref);
+    const bad = transferError(v);
+    if (bad) {
+      setMsg(bad);
       return;
     }
     if (dbId) {
@@ -66,18 +68,25 @@ export function SellSuccess({ id, dbId, onAgain }: { id: string; dbId?: string; 
 
         <div className="sl-box" style={{ width: "100%", boxSizing: "border-box", marginTop: 6, padding: 20, borderRadius: 18, background: "#FBEEDC", border: "1px solid #F0C88A", color: "#6B3A10", display: "flex", flexDirection: "column", gap: 10, textAlign: "right" }}>
           <span style={{ fontWeight: 700, fontSize: 17, color: "#12221F" }}>ادفع رسوم الجدية: {BUSINESS.sellerSeriousnessFeeEGP} ج.م بحد أدنى</span>
-          <span style={{ fontSize: 15 }}>
-            حوّل المبلغ بإنستاباي أو تحويل بنكي على: <b style={{ color: "#12221F" }}>{BUSINESS.feeTransferDetails}</b>
-          </span>
-          <span style={{ fontSize: 14 }}>اكتب رقم الطلب ({id}) في ملاحظة التحويل لو ينفع. الرسوم بترجعلك حسب شروط البيع.</span>
+          {/* TODO(open question §12.2): real InstaPay / bank details in BUSINESS.feeTransferDetails */}
+          <span style={{ fontWeight: 700, fontSize: 15, color: "#12221F" }}>إزاي تحوّل؟</span>
+          <ol style={{ margin: 0, paddingInlineStart: 22, fontSize: 15, display: "flex", flexDirection: "column", gap: 4 }}>
+            <li>افتح إنستاباي أو تطبيق البنك بتاعك.</li>
+            <li>
+              حوّل {BUSINESS.sellerSeriousnessFeeEGP} ج.م على: <b style={{ color: "#12221F" }}>{BUSINESS.feeTransferDetails}</b>
+            </li>
+            <li>لو ينفع، اكتب رقم الطلب (<bdi dir="ltr">{id}</bdi>) في ملاحظة التحويل.</li>
+            <li>بعد التحويل هيظهرلك رقم العملية في الأبلكيشن أو في رسالة البنك. اكتبه هنا تحت.</li>
+          </ol>
+          <span style={{ fontSize: 14 }}>الرسوم بترجعلك حسب شروط البيع.</span>
           {saved ? (
             <span role="status" style={{ padding: "10px 14px", borderRadius: 12, background: "#E3F0ED", border: "1px solid #9CCBC2", color: "#0B4A44", fontWeight: 600, fontSize: 15 }}>
               ✓ سجّلنا رقم التحويل <span dir="ltr">{saved}</span>. هنأكد الدفع ونبلغك على واتساب.
             </span>
           ) : null}
           <label className="sl-field" style={{ color: "#6B3A10" }}>
-            {saved ? "غلطت في الرقم؟ اكتبه تاني" : "رقم التحويل (Reference)"}
-            <input type="text" dir="ltr" style={{ textAlign: "right" }} className={msg ? "sl-in sl-bad" : "sl-in"} placeholder="مثال: 123456789" autoComplete="off" enterKeyHint="done" value={ref} onChange={(e) => setRef(e.target.value)} />
+            {saved ? "غلطت في الرقم؟ اكتبه تاني" : "رقم العملية (أرقام بس)"}
+            <input type="text" inputMode="numeric" pattern="[0-9]*" dir="ltr" style={{ textAlign: "right" }} className={msg ? "sl-in sl-bad" : "sl-in"} placeholder="مثال: 123456789" autoComplete="off" enterKeyHint="done" value={ref} onChange={(e) => { setRef(transferDigits(e.target.value)); if (msg) setMsg(""); }} aria-invalid={msg ? true : undefined} />
           </label>
           {msg ? (
             <span className="sl-msg" role="alert">

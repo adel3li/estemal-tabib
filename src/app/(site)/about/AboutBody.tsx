@@ -42,7 +42,7 @@ export function AboutBody() {
         <p style={{ margin: 0, color: "#3C4C48" }}>
           من الطلبة وحديثي التخرج، لحد الدكاترة اللي بيجهّزوا عيادة جديدة أو بيطوّروا عيادتهم، الكل بيخاف يشتري جهاز مستعمل: مفيش ضمان، وممكن يكون فيه عيوب مستخبية، وصعب تعرف حالته الفنية.
         </p>
-        <p style={{ margin: 0, color: "#3C4C48" }}>واللي عايز يبيع، طالب أو دكتور، بيتعب من الوسطاء والإعلانات اللي مش جادة وضياع الوقت.</p>
+        <p style={{ margin: 0, color: "#3C4C48" }}>واللي عايز يبيع، طالب أو دكتور، بيخاف يبعت جهازه من غير ما يضمن فلوسه، وكتير البيعة مبتكملش علشان المشتري بعيد عنه.</p>
       </div>
       <div className="ab-card" style={{ position: "relative", overflow: "hidden", borderRadius: 24, background: "#0F2A26", color: "#FFFFFF", display: "flex", flexDirection: "column", gap: 12 }}>
         <div aria-hidden="true" style={{ position: "absolute", top: -120, left: -100, width: 320, height: 320, borderRadius: 999, background: "radial-gradient(circle, rgba(242, 163, 58, 0.14) 0%, rgba(242, 163, 58, 0) 70%)" }} />

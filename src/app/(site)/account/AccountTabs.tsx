@@ -10,6 +10,7 @@ import type { Profile } from "@/lib/auth/AuthProvider";
 import { fmt, typeLabel } from "@/lib/demo/labels";
 import { routes } from "@/lib/routes";
 import { supabaseBrowser } from "@/lib/supabase/client";
+import { transferDigits, transferError } from "@/lib/transfer";
 import { dateAr, type MyFavorite, type MyRequest, type MySubmission } from "./data";
 
 export type TabId = "devices" | "requests" | "saved" | "profile" | "orders";
@@ -57,9 +58,10 @@ function FeeRef({ sub }: { sub: MySubmission }) {
   const [busy, setBusy] = useState(false);
   const id = `fee-${sub.id}`;
   const save = async () => {
-    const v = ref.trim();
-    if (v.length < 4) {
-      setMsg("اكتب رقم التحويل زي ما ظاهر في رسالة البنك أو إنستاباي");
+    const v = transferDigits(ref);
+    const bad = transferError(v);
+    if (bad) {
+      setMsg(bad);
       return;
     }
     setBusy(true);
@@ -84,7 +86,7 @@ function FeeRef({ sub }: { sub: MySubmission }) {
         حوّل {BUSINESS.sellerSeriousnessFeeEGP} ج.م بحد أدنى على {BUSINESS.feeTransferDetails} واكتب رقم التحويل
       </label>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-        <input id={id} type="text" dir="ltr" inputMode="text" autoComplete="off" enterKeyHint="done" placeholder="رقم التحويل" className="au-in" style={{ flex: "1 1 180px", textAlign: "right", minHeight: 48 }} value={ref} onChange={(e) => setRef(e.target.value)} aria-describedby={msg ? `${id}-msg` : undefined} />
+        <input id={id} type="text" dir="ltr" inputMode="numeric" pattern="[0-9]*" autoComplete="off" enterKeyHint="done" placeholder="رقم العملية (أرقام بس)" className="au-in" style={{ flex: "1 1 180px", textAlign: "right", minHeight: 48 }} value={ref} onChange={(e) => setRef(transferDigits(e.target.value))} aria-describedby={msg ? `${id}-msg` : undefined} />
         <button type="submit" className="au-btn au-primary" style={{ width: "auto", flex: "0 1 auto", minHeight: 48, fontSize: 15 }} disabled={busy}>
           {saved ? "حدّث الرقم" : "احفظ الرقم"}
         </button>
