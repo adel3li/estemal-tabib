@@ -103,7 +103,7 @@ export function FeeBox({ f, onSubmit, sending = false }: { f: SectionProps["f"];
             <circle cx="12" cy="12" r="9" />
             <path d="M12 7v5l3 2" />
           </svg>
-          ثمن الجهاز بيتحولك بعد {BUSINESS.trialDays} أيام من استلام المشتري، لو مفيش طلب استرجاع مقبول.
+          ثمن الجهاز بيتحولك بعد {BUSINESS.trialDays} أيام من استلام المشتري.
         </div>
         <div className="sl-box" style={{ padding: 18, borderRadius: 18, background: "#F5F7F4", display: "flex", flexWrap: "wrap", alignItems: "center", gap: "14px 20px" }}>
           <div style={{ flex: "1 1 240px", minWidth: 0, display: "flex", flexDirection: "column", gap: 8 }}>

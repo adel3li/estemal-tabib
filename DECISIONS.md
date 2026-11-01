@@ -70,3 +70,11 @@ Adel asked to test the whole site end to end before going further, so all 16 scr
 50. **Worker size after auth:** ~1.59 MiB gzipped (free limit 3 MiB).
 51. **Missing Supabase env vars don't take the site down:** the middleware lets public pages through and answers 503 on account pages; the browser auth state falls back to "signed out". (The first Vercel deploy of this branch returned 500 everywhere because the variables weren't set yet.)
 52. **Google-only sign-in until the domain + Resend are set (Adel, 2026-10-30).** `EMAIL_LOGIN_ENABLED = false` in `src/config/features.ts` hides the email form on `/login`, and the Email provider is switched off in Supabase (Authentication → Providers) so nobody can burn the 2-emails/hour built-in quota through the API. The email-code pages and `e2e/auth-flow.mjs` stay in the code; turn both switches back on when Resend is connected. Google OAuth client is in Google Cloud project «Estemal Tabib», published (External, scopes: email + profile); authorized domains `estemal-tabib.vercel.app` + the Supabase project domain.
+
+## Client feedback — Mohamed El-Shebshery, WhatsApp batch 1 (2026-11-01)
+
+53. **Tagline** is now «من طبيب أسنان / لطبيب أسنان… بثقة» on two lines (home hero, footer, the Arabic email template) — client wording, replaces the design's «من دكتور أسنان لدكتور أسنان…».
+54. **Phone footer:** the «المنصة» and «عن استعمال طبيب» link columns sit side by side below 768px.
+55. **/sell «الجهاز هيفضل فين لحد ما يتباع؟»** has no default any more; it's required and shows «اختار الجهاز هيفضل فين لحد ما يتباع» if left empty.
+56. **Seller payout line** ends at «…بعد 3 أيام من استلام المشتري.» («لو مفيش طلب استرجاع مقبول» removed).
+57. **Device video length 5–30 s** (`BUSINESS.videoSeconds`; the brief said 15–60). The client offered "remove the video or 5–30 s"; the video upload already works, so it stays with the new limits.

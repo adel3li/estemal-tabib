@@ -161,7 +161,7 @@ export function SellForm() {
       repairedBefore: f.repaired as YesNoUnknown,
       repairedDetails: f.repaired === "yes" ? f.repairedDetails.trim() : "",
       defects: f.defects.trim(),
-      keepLocation: f.keepLocation,
+      keepLocation: f.keepLocation || "with_seller",
       salePrice: sale,
       photos: media.photos.length,
       hasVideo: !!media.video,

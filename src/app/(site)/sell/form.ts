@@ -28,7 +28,7 @@ export type SellForm = {
   repaired: "" | YesNoUnknown;
   repairedDetails: string;
   defects: string;
-  keepLocation: "with_seller" | "send_to_platform";
+  keepLocation: "" | "with_seller" | "send_to_platform"; // no default: the seller must choose
   sale: string;
   net: string;
   priceHelp: boolean;
@@ -57,7 +57,7 @@ export const EMPTY_FORM: SellForm = {
   repaired: "",
   repairedDetails: "",
   defects: "",
-  keepLocation: "with_seller",
+  keepLocation: "",
   sale: "",
   net: "",
   priceHelp: false,
@@ -90,6 +90,7 @@ export const FIELD_ORDER = [
   "photos",
   "video",
   "extras",
+  "keepLocation",
   "sale",
   "acks",
 ] as const;
@@ -128,6 +129,7 @@ export function validate(f: SellForm, m: Media): Errors {
   if (m.photos.length < min) e.photos = `محتاجين ${min} صور على الأقل`;
   else if (m.photos.length > max) e.photos = `أقصى عدد ${max} صور`;
   if (!m.video) e.video = "ضيف فيديو للجهاز وهو شغال";
+  if (!f.keepLocation) e.keepLocation = "اختار الجهاز هيفضل فين لحد ما يتباع";
   if (!f.priceHelp && !parseNum(f.sale)) e.sale = "اكتب السعر، أو علّم «ساعدوني أحدد السعر»";
   if (!f.acks.own || !f.acks.acc || !f.acks.terms) e.acks = "لازم توافق على الإقرارات الثلاثة";
   return e;

@@ -19,7 +19,9 @@ export function Hero() {
             منصة متخصصة 100% في أجهزة الأسنان المستعملة
           </span>
           <h1 className="mn-h1" style={{ margin: 0, lineHeight: 1.25, fontWeight: 700, letterSpacing: -0.5 }}>
-            من دكتور أسنان لدكتور أسنان…{" "}
+            من طبيب أسنان
+            <br />
+            لطبيب أسنان…{" "}
             <span style={{ color: "#0D5C55", position: "relative", whiteSpace: "nowrap" }}>
               بثقة
               <svg aria-hidden="true" viewBox="0 0 120 12" preserveAspectRatio="none" style={{ position: "absolute", right: 0, left: 0, bottom: -6, width: "100%", height: 12 }}><path d="M3 8 Q60 1 117 7" stroke="#F2A33A" strokeWidth="4" fill="none" strokeLinecap="round" /></svg>

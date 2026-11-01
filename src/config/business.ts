@@ -12,7 +12,7 @@ export const BUSINESS = {
   deliveryDaysInspected: "2 – 5",
   deliveryDaysWithInspection: "[5 – 7]", // TODO(open question §12.7)
   photos: { min: 2, max: 10 },
-  videoSeconds: { min: 15, max: 60 },
+  videoSeconds: { min: 5, max: 30 }, // client asked for 5–30 s (brief said 15–60)
   codePrefixes: {
     device: "L-",
     submission: "#",

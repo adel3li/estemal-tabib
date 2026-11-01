@@ -2,7 +2,7 @@
 
 import { salePriceFromSellerNet, sellerNetFromSalePrice } from "@/config/business";
 import { parseNum } from "@/lib/demo/labels";
-import type { SellForm } from "./form";
+import { fieldId, type SellForm } from "./form";
 import { bad, CardHead, grid, Msg, radioStyle, Star, type SectionProps } from "./ui";
 
 export function SectionPrice({ f, set, err }: SectionProps) {
@@ -37,8 +37,8 @@ export function SectionPrice({ f, set, err }: SectionProps) {
             الجهاز هيفضل فين لحد ما يتباع؟<Star />
           </legend>
           <div style={grid(260, 12)}>
-            <label className="sl-opt">
-              <input type="radio" name="keep" checked={f.keepLocation === "with_seller"} onChange={() => keep("with_seller")} style={radioStyle(20, "3px 0 0")} required />
+            <label className={err.keepLocation ? "sl-opt sl-bad-box" : "sl-opt"}>
+              <input type="radio" name="keep" id={fieldId("keepLocation")} checked={f.keepLocation === "with_seller"} onChange={() => keep("with_seller")} style={radioStyle(20, "3px 0 0")} required aria-describedby={err.keepLocation ? `${fieldId("keepLocation")}-msg` : undefined} />
               <span style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                 <span style={{ display: "flex", alignItems: "center", gap: 8, fontWeight: 700 }}>
                   <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D5C55" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -51,7 +51,7 @@ export function SectionPrice({ f, set, err }: SectionProps) {
                 <span style={{ fontSize: 14, color: "#4A5A56" }}>الجهاز بيتفحص عندك لما حد يطلبه.</span>
               </span>
             </label>
-            <label className="sl-opt sl-opt-rec">
+            <label className={err.keepLocation ? "sl-opt sl-opt-rec sl-bad-box" : "sl-opt sl-opt-rec"}>
               <input type="radio" name="keep" checked={f.keepLocation === "send_to_platform"} onChange={() => keep("send_to_platform")} style={radioStyle(20, "3px 0 0")} />
               <span style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                 <span style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8 }}>
@@ -68,6 +68,7 @@ export function SectionPrice({ f, set, err }: SectionProps) {
               </span>
             </label>
           </div>
+          <Msg k="keepLocation" err={err} />
         </fieldset>
 
         <div className="sl-box" style={{ padding: 20, borderRadius: 18, background: "#F9FBFA", border: "1px solid #DCE3DF", display: "flex", flexDirection: "column", gap: 14 }}>

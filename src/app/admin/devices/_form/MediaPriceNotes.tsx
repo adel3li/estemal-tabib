@@ -51,7 +51,7 @@ export function MediaSection({
           accept="video/*"
           iconBg="#12221F"
           title="فيديو وهو شغال"
-          hint={`من ${BUSINESS.videoSeconds.min} ثانية لدقيقة`}
+          hint={`من ${BUSINESS.videoSeconds.min} لـ ${BUSINESS.videoSeconds.max} ثانية`}
           status={video ? `اتختار: ${video}` : undefined}
           onFiles={(files) => onVideo(files[0].name)}
           icon={

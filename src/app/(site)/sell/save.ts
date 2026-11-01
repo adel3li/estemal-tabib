@@ -33,7 +33,7 @@ export async function saveSubmission(f: SellForm, sellerId: string): Promise<Sav
     repaired_before: f.repaired || null,
     repaired_details: f.repaired === "yes" ? f.repairedDetails.trim() : null,
     defects: f.defects.trim(),
-    keep_location: f.keepLocation,
+    keep_location: f.keepLocation || "with_seller", // validated non-empty before saving
     price_help: f.priceHelp && !sale,
     sale_price: sale ? Math.round(sale) : null,
     seller_net: sale ? sellerNetFromSalePrice(sale) : null,

@@ -195,7 +195,7 @@ export function SectionMedia({ media, setMedia, err }: { media: Media; setMedia:
               art="sl-up-video"
               title="فيديو الجهاز وهو شغال"
               required
-              hint={`من ${vs.min} ثانية لدقيقة`}
+              hint={`من ${vs.min} لـ ${vs.max} ثانية`}
               status={vid ? `فيديو ${Math.round(vid.seconds)} ثانية ✓` : undefined}
               cta={vid ? "غيّر الفيديو" : "اختار الفيديو"}
               ctaIcon={UpArrow}

@@ -21,7 +21,7 @@ export function SiteFooter() {
           gap: 36,
         }}
       >
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "32px 48px", justifyContent: "space-between" }}>
+        <div className="ft-row" style={{ display: "flex", flexWrap: "wrap", gap: "32px 48px", justifyContent: "space-between" }}>
           <div style={{ flex: "2 1 280px", minWidth: 0, display: "flex", flexDirection: "column", gap: 12 }}>
             <Link href={routes.home} style={{ display: "flex", alignItems: "center", gap: 10, color: "#FFFFFF" }}>
               <span
@@ -40,20 +40,24 @@ export function SiteFooter() {
               </span>
               <span style={{ fontSize: 22, fontWeight: 700 }}>استعمال طبيب</span>
             </Link>
-            <span style={{ color: "#FFFFFF", fontWeight: 600 }}>من دكتور أسنان لدكتور أسنان… بثقة</span>
+            <span style={{ color: "#FFFFFF", fontWeight: 600 }}>
+              من طبيب أسنان
+              <br />
+              لطبيب أسنان… بثقة
+            </span>
             <span style={{ fontSize: 15, maxWidth: 360 }}>
               منصة متخصصة في أجهزة الأسنان المستعملة: فحص فني لكل جهاز، وفلوسك محفوظة، وضمان مكتوب.
             </span>
           </div>
 
-          <nav aria-label="المنصة" style={col}>
+          <nav aria-label="المنصة" className="ft-links" style={col}>
             <span style={{ color: "#FFFFFF", fontWeight: 700 }}>المنصة</span>
             <Link href={routes.devices} style={link}>كل الأجهزة</Link>
             <Link href={routes.request} style={link}>اطلب جهاز</Link>
             <Link href={routes.sell} style={link}>بيع جهازك</Link>
           </nav>
 
-          <nav aria-label="عن استعمال طبيب" style={col}>
+          <nav aria-label="عن استعمال طبيب" className="ft-links" style={col}>
             <span style={{ color: "#FFFFFF", fontWeight: 700 }}>عن استعمال طبيب</span>
             <Link href={routes.about} style={link}>مين إحنا</Link>
             <Link href={routes.how} style={link}>إزاي بنشتغل</Link>
