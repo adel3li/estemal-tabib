@@ -1,5 +1,6 @@
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { SiteFooter } from "@/components/site/SiteFooter";
+import { BottomNav } from "@/components/site/BottomNav";
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -18,6 +19,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       <SiteHeader />
       <div style={{ flex: "1 0 auto" }}>{children}</div>
       <SiteFooter />
+      <BottomNav />
     </div>
   );
 }

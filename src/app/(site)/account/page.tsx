@@ -54,6 +54,7 @@ export default async function AccountPage({ searchParams }: { searchParams: Prom
   return (
     <div className="au-root">
       <AccountTabs
+        key={tab}
         initialTab={tab}
         profile={profile}
         submissions={(subsRes.data ?? []) as MySubmission[]}

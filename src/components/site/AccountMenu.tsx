@@ -28,8 +28,10 @@ function useLoginHref() {
   return pathname.startsWith("/login") ? routes.login : loginHref(pathname);
 }
 
+// «حسابي» = your details, «أجهزتي» = your listed devices (they used to open the
+// same tab — client feedback, Nov 2026).
 const ITEMS = (isAdmin: boolean) => [
-  { href: routes.account, label: "حسابي" },
+  { href: routes.accountTab("profile"), label: "حسابي" },
   { href: routes.accountTab("devices"), label: "أجهزتي" },
   ...(isAdmin ? [{ href: routes.admin.root, label: "لوحة التحكم" }] : []),
 ];
@@ -115,7 +117,7 @@ export function AccountMenu() {
             </Link>
           ))}
           <button type="button" role="menuitem" className="acc-item acc-out" onClick={signOut}>
-            اخرج
+            تسجيل الخروج
           </button>
         </div>
       ) : null}
@@ -126,7 +128,6 @@ export function AccountMenu() {
 /** Account block at the top of the phone menu panel. */
 export function AccountPanel({ onNavigate }: { onNavigate: () => void }) {
   const { ready, userId, profile, email, isAdmin } = useAuth();
-  const signOut = useSignOut();
   const login = useLoginHref();
   if (!ready) return null;
 
@@ -158,18 +159,27 @@ export function AccountPanel({ onNavigate }: { onNavigate: () => void }) {
             {i.label}
           </Link>
         ))}
-        <button
-          type="button"
-          className="acc-chip acc-out"
-          onClick={() => {
-            onNavigate();
-            void signOut();
-          }}
-        >
-          اخرج
-        </button>
       </div>
     </div>
+  );
+}
+
+/** «تسجيل الخروج» at the very bottom of the phone menu panel. */
+export function SignOutRow({ onNavigate }: { onNavigate: () => void }) {
+  const { ready, userId } = useAuth();
+  const signOut = useSignOut();
+  if (!ready || !userId) return null;
+  return (
+    <button
+      type="button"
+      className="acc-signout"
+      onClick={() => {
+        onNavigate();
+        void signOut();
+      }}
+    >
+      تسجيل الخروج
+    </button>
   );
 }
 

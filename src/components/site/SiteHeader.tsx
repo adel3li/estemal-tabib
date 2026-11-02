@@ -12,7 +12,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { ToothIcon } from "@/components/icons";
-import { AccountMenu, AccountPanel, MenuBadge } from "./AccountMenu";
+import { AccountMenu, AccountPanel, MenuBadge, SignOutRow } from "./AccountMenu";
 import { routes } from "@/lib/routes";
 
 // Client asked for a shorter menu (Nov 2026): «إزاي بنشتغل»، «آراء العملاء»،
@@ -138,6 +138,7 @@ export function SiteHeader() {
             تابع طلبك
           </Link>
         </div>
+        <SignOutRow onNavigate={close} />
       </div>
       {open ? <div className="site-menu-scrim site-mobile" aria-hidden onClick={close} /> : null}
     </header>

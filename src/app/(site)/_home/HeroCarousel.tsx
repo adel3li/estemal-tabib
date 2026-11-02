@@ -84,7 +84,7 @@ export function HeroCarousel() {
         <Slide d={d} />
       </div>
       {n > 1 ? (
-        <div style={{ position: "relative", marginTop: 26, display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
+        <div className="mn-hc-nav" style={{ position: "relative", marginTop: 26, display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
           <button type="button" className="mn-car-btn" onClick={() => go(cur - 1)} aria-label="الجهاز اللي قبله">
             <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 6l6 6-6 6" /></svg>
           </button>
@@ -130,10 +130,10 @@ function Slide({ d }: { d: Device }) {
   const defects = d.declaredDefects.trim();
   return (
     <>
-      <div style={{ position: "relative", aspectRatio: "4 / 2.7", background: "#E7EDEA" }}>
+      <div className="mn-hc-img" style={{ position: "relative", aspectRatio: "4 / 2.7", background: "#E7EDEA" }}>
         <svg role="img" aria-label={`رسم توضيحي ل${d.title}`} viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" style={{ display: "block", width: "100%", height: "100%" }}><use href={artFor(d.type)} /></svg>
         {inspected ? (
-          <svg aria-hidden="true" viewBox="0 0 120 120" style={{ position: "absolute", bottom: 14, left: 14, width: 84, height: 84, filter: "drop-shadow(0 6px 14px rgba(18, 34, 31, 0.18))" }}><use href="#mn-seal" /></svg>
+          <svg className="mn-hc-seal" aria-hidden="true" viewBox="0 0 120 120" style={{ position: "absolute", bottom: 14, left: 14, width: 84, height: 84, filter: "drop-shadow(0 6px 14px rgba(18, 34, 31, 0.18))" }}><use href="#mn-seal" /></svg>
         ) : null}
         {inspected ? (
           <span style={{ position: "absolute", top: 14, right: 14, padding: "6px 12px", borderRadius: 999, background: "#0D5C55", color: "#FFFFFF", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6, boxShadow: "0 2px 8px rgba(18, 34, 31, 0.18)" }}>
@@ -150,12 +150,12 @@ function Slide({ d }: { d: Device }) {
           {inspected ? "صورة حقيقية للجهاز من فريق الفحص" : "صورة من البايع"}
         </span>
       </div>
-      <div style={{ padding: "22px 24px", display: "flex", flexDirection: "column", gap: 16 }}>
+      <div className="mn-hc-body" style={{ padding: "22px 24px", display: "flex", flexDirection: "column", gap: 16 }}>
         <div>
-          <div style={{ fontSize: 20, fontWeight: 700, overflowWrap: "anywhere" }}>{d.title} — {subtitle(d)}</div>
+          <div className="mn-hc-title" style={{ fontSize: 20, fontWeight: 700, overflowWrap: "anywhere" }}>{d.title} — {subtitle(d)}</div>
           <div style={{ fontSize: 14, color: "#4A5A56" }}>{typeLabel(d.type)}</div>
         </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        <div className="mn-hc-data" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
           <div style={{ fontSize: 14, fontWeight: 600, color: "#4A5A56", display: "flex", alignItems: "center", gap: 6 }}>
             <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D5C55" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="10" cy="8" r="4" /><path d="M3 20c.8-3.5 3.6-5.5 7-5.5" /><path d="M15 17l2 2 4-4" /></svg>
             بيانات الجهاز من البايع

@@ -3,6 +3,8 @@
 import "./_home/styles.css";
 import { MainArt } from "./_home/art";
 import { Hero } from "./_home/Hero";
+import { Categories } from "./_home/Categories";
+import { BrowseArt } from "./devices/art";
 import { Featured } from "./_home/Featured";
 import { SellQuick } from "./_home/SellQuick";
 
@@ -10,6 +12,8 @@ export default function HomePage() {
   return (
     <div className="mn-page">
       <MainArt />
+      <BrowseArt />
+      <Categories />
       <Hero />
       <Featured />
       <SellQuick />

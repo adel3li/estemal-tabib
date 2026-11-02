@@ -293,6 +293,8 @@ h1, h2, h3, h4 { font-weight: 700; }
 .acc-panel-links { display: flex; flex-wrap: wrap; gap: 8px; }
 .acc-chip { min-height: 44px; padding: 0 16px; border-radius: 999px; border: 1px solid #c9d4cf; background: #fff; color: #12221f; font: inherit; font-weight: 600; font-size: 15px; display: flex; align-items: center; cursor: pointer; }
 .acc-chip.acc-out { border-color: #e8b4b0; }
+.acc-signout { display: flex; align-items: center; justify-content: center; width: 100%; min-height: 48px; margin-top: 14px; border-radius: 12px; border: 1px solid #e8b4b0; background: #fff; color: #b3261e; font: inherit; font-weight: 700; font-size: 16px; cursor: pointer; }
+@media (min-width: 600px) { .acc-signout { display: none; } }
 .acc-badge { position: absolute; top: -6px; inset-inline-start: -6px; }
 .acc-badge .acc-avatar { font-size: 11px !important; }
 /* The menu panel has its own account block below 600px; the row one above. */
@@ -300,4 +302,18 @@ h1, h2, h3, h4 { font-weight: 700; }
 @media (min-width: 600px) {
   .acc-panel { display: none; }
   .acc-badge { display: none; }
+}
+
+/* Bottom navigation (BottomNav.tsx) — phones & tablets only. */
+.site-bnav { display: none; }
+@media (max-width: 1023px) {
+  .site-bnav { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); position: fixed; inset-inline: 0; bottom: 0; z-index: 50; background: rgba(255, 255, 255, 0.97); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); border-top: 1px solid #dce3df; box-shadow: 0 -6px 18px rgba(18, 34, 31, 0.06); padding: 4px max(4px, env(safe-area-inset-right)) calc(4px + env(safe-area-inset-bottom)) max(4px, env(safe-area-inset-left)); }
+  .site-bnav-item { min-height: 54px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; color: #4a5a56; font-size: 12px; font-weight: 600; line-height: 1.2; text-align: center; border-radius: 12px; }
+  .site-bnav-item[aria-current="page"] { color: #0d5c55; background: #e3f0ed; }
+  .site-bnav-sell { color: #8a4209; }
+  .site-bnav-sell[aria-current="page"] { color: #8a4209; background: #fbeedc; }
+  .site-bnav-item:focus-visible { outline: 3px solid #f2a33a; outline-offset: -3px; }
+  /* Room under the footer so the bar never covers it; demo pill sits above the bar. */
+  body:has(.site-bnav) .site-footer { padding-bottom: calc(66px + env(safe-area-inset-bottom)); }
+  body:has(.site-bnav) .demo-pill, body:has(.site-bnav) .demo-panel { bottom: calc(76px + env(safe-area-inset-bottom)); }
 }

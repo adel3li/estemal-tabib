@@ -102,3 +102,12 @@ Adel asked to test the whole site end to end before going further, so all 16 scr
 70. **Fewer header tabs** (message 17) was already done in batch 3 (#67).
 71. **Hero underline under «بثقة» draws itself like a pen** on page load (pure CSS, so no flash and it works before JS) and again whenever the tagline scrolls back into view (`DrawnUnderline.tsx` remounts the path). Shown without animation for reduced-motion users.
 72. **Sell draft v2:** drafts saved before #55 contained the old default «يفضل معايا», so the option still showed as chosen for anyone who had opened /sell before (the profile pre-fill alone saves a draft). Drafts now live under `istimal-tabib-sell-draft-v2`; an old draft is migrated once without `keepLocation` and deleted.
+
+## Client feedback — WhatsApp round 2, batch 1 (2026-11-02)
+
+73. **/devices filter:** «مدة الصيانة» → «مدة الضمان»; the «على كل الأجهزة: …» info box removed from the filter panel.
+74. **Home device card on phones** is under half the screen: shorter picture (2:1), no seller-data rows (they're on the device page), smaller seal.
+75. **Account menu:** «حسابي» opens «بياناتي», «أجهزتي» opens «أجهزتي المعروضة» (they both opened the devices tab). «اخرج» → «تسجيل الخروج», and on phones it's the last item of the menu panel. `/account` is keyed by `?tab` so links between tabs switch it.
+76. **Category picture tiles** («بتدوّر على إيه؟») are the first thing on the home page: 14 round tiles with the /devices drawings, linking to `/devices?cat=…`; two swipeable rows below 1024px.
+77. **Bottom navigation bar** below 1024px: الرئيسية · اشتري جهاز · بيع جهازك · اطلب جهاز · حسابي/دخول. Hidden on device pages (they have the «اطلب الجهاز» bar). The footer gets room underneath and the demo pill moves above it.
+78. Dev note: Turbopack's dev cache served an old `globals.css` once; `rm -rf .next/dev` fixed it. Verify CSS changes with `next build && next start` when in doubt.

@@ -107,3 +107,40 @@
   .mn-pen path{animation:mn-pen-draw .9s cubic-bezier(.65,0,.35,1) .3s both}
 }
 @keyframes mn-pen-draw{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}
+
+/* Phones: the hero device card takes under half the screen (client, Nov 2026):
+   shorter picture, no seller-data rows (they're on the device page). */
+@media (max-width:767px){
+  .mn-hc-img{aspect-ratio:2 / 1 !important}
+  .mn-hc-seal{width:56px !important;height:56px !important;bottom:10px !important;left:10px !important}
+  .mn-hc-data{display:none !important}
+  .mn-hc-body{padding:14px 16px !important;gap:10px !important}
+  .mn-hc-title{font-size:17px !important;line-height:1.45}
+  .mn-hc-nav{margin-top:14px !important}
+}
+
+/* Category picture tiles (Categories.tsx). Phones: two swipeable rows. */
+.mn-cats-wrap{max-width:1200px;margin:0 auto;box-sizing:border-box;padding:18px 20px 6px;display:flex;flex-direction:column;gap:12px}
+.mn-cats-head{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.mn-cats-h{margin:0;font-size:20px;font-weight:700}
+.mn-cats-all{font-weight:600;font-size:15px;min-height:44px;display:inline-flex;align-items:center}
+.mn-cats{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:12px}
+.mn-cat{display:flex;flex-direction:column;align-items:center;gap:8px;color:#12221F;text-align:center;border-radius:16px;padding:4px 2px}
+.mn-cat:hover{color:#0D5C55}
+.mn-cat:hover .mn-cat-pic{border-color:#0D5C55;transform:translateY(-2px)}
+.mn-cat:focus-visible{outline:3px solid #F2A33A;outline-offset:2px}
+.mn-cat-pic{width:84px;height:84px;border-radius:999px;overflow:hidden;background:#E7EDEA;border:2px solid #FFFFFF;box-shadow:0 4px 14px rgba(18,34,31,.10);transition:border-color .15s ease, transform .15s ease}
+.mn-cat-pic svg{display:block;width:100%;height:100%}
+.mn-cat-name{font-size:14px;font-weight:600;line-height:1.35}
+@media (max-width:1023px){
+  .mn-cats{grid-template-columns:none;grid-auto-flow:column;grid-template-rows:repeat(2,auto);grid-auto-columns:88px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:4px;margin-inline:-20px;padding-inline:20px;scroll-padding-inline:20px}
+  .mn-cats::-webkit-scrollbar{display:none}
+  .mn-cat-pic{width:72px;height:72px}
+  .mn-cat-name{font-size:13px}
+}
+@media (max-width:767px){
+  .mn-cats-wrap{padding:14px 16px 0}
+  .mn-cats{margin-inline:-16px;padding-inline:16px}
+  .mn-cats-h{font-size:18px}
+}
+@media (prefers-reduced-motion:reduce){.mn-cat-pic{transition:none}}

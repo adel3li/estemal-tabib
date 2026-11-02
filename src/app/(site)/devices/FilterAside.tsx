@@ -1,5 +1,4 @@
 import { useEffect, useRef, type ReactNode } from "react";
-import { BUSINESS } from "@/config/business";
 import type { DeviceType } from "@/lib/demo/types";
 import type { Filters } from "./filters";
 
@@ -100,7 +99,6 @@ type Props = {
 };
 
 export function FilterAside({ f, set, reset, open, onClose, count }: Props) {
-  const days = BUSINESS.trialDays;
   const closeRef = useRef<HTMLButtonElement>(null);
 
   // Sheet behaviour (only while open, which only happens < 1024px): Esc closes,
@@ -160,7 +158,7 @@ export function FilterAside({ f, set, reset, open, onClose, count }: Props) {
       <Group label="نوع الجهاز" icon={<svg {...ic}><rect x="4" y="4" width="7" height="7" rx="2" /><rect x="13" y="4" width="7" height="7" rx="2" /><rect x="4" y="13" width="7" height="7" rx="2" /><rect x="13" y="13" width="7" height="7" rx="2" /></svg>}>
         <ChipRow chips={CAT_CHIPS} value={f.cat} onPick={(cat) => set({ cat })} isCat />
       </Group>
-      <Group label="مدة الصيانة" icon={<svg {...ic}><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4 2.5-2.5z" /></svg>}>
+      <Group label="مدة الضمان" icon={<svg {...ic}><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4 2.5-2.5z" /></svg>}>
         <ChipRow chips={MAINT_CHIPS} value={f.maint} onPick={(maint) => set({ maint })} />
       </Group>
       <Group label="حالة المنتج" icon={<svg {...ic}><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z" /></svg>}>
@@ -179,12 +177,6 @@ export function FilterAside({ f, set, reset, open, onClose, count }: Props) {
         </div>
       </Group>
 
-      <div style={{ padding: 14, borderRadius: 16, background: "#E3F0ED", border: "1px solid #9CCBC2", fontSize: 14, color: "#0B4A44", display: "flex", gap: 10, alignItems: "flex-start" }}>
-        <span style={{ flex: "none", width: 32, height: 32, borderRadius: 10, background: "#0D5C55", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <svg {...ic} stroke="currentColor"><rect x="5" y="11" width="14" height="9" rx="2" /><path d="M8 11V8a4 4 0 0 1 8 0v3" /></svg>
-        </span>
-        <span>على كل الأجهزة: استبدال أو استرجاع {days} أيام، وضمان تشغيل {days} أيام، وفلوسك محفوظة لحد الاستلام.</span>
-      </div>
       </div>
 
       <div className="br-sheet-foot">
