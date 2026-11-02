@@ -8,13 +8,14 @@ import { routes } from "@/lib/routes";
 import { waLink } from "@/lib/whatsapp";
 import { BrowseArt } from "./art";
 import { DeviceCard } from "./DeviceCard";
+import { DevicesLoading } from "@/components/site/DevicesLoading";
 import { FilterAside } from "./FilterAside";
 import { applyFilters, EMPTY, parseFilters, serializeFilters, type Filters, type Sort } from "./filters";
 
 const svg = { fill: "none", stroke: "currentColor", strokeLinecap: "round", strokeLinejoin: "round" } as const;
 
 export function BrowseClient() {
-  const { state } = useDemo();
+  const { state, ready, devicesError } = useDemo();
   const router = useRouter();
   const sp = useSearchParams();
   const spKey = sp.toString();
@@ -131,7 +132,9 @@ export function BrowseClient() {
             </label>
           </div>
 
-          {n > 0 ? (
+          {!ready || devicesError ? (
+            <DevicesLoading failed={devicesError} cards={6} />
+          ) : n > 0 ? (
             <div className="br-grid">
               {items.map((d) => (
                 <DeviceCard key={d.id} d={d} />

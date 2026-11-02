@@ -3,6 +3,8 @@ import { BUSINESS } from "@/config/business";
 import type { Device } from "@/lib/demo/types";
 import { fmt, typeLabel } from "@/lib/demo/labels";
 import { routes } from "@/lib/routes";
+import { OldPrice } from "@/components/site/Price";
+import { SaveButton } from "@/components/site/SaveButton";
 import { waLink } from "@/lib/whatsapp";
 import { askMessage, brandModel, orderMessage, svgProps } from "./helpers";
 
@@ -41,6 +43,7 @@ export function PriceCard({ d, promo, onPromo }: { d: Device; promo: string; onP
       ) : null}
 
       <div style={{ display: "flex", flexDirection: "column", gap: 6, paddingBottom: 16, borderBottom: "1px solid #E5EBE8" }}>
+        <OldPrice d={d} style={{ fontSize: 15 }} />
         <span className="li-price" style={{ fontWeight: 700, lineHeight: 1.2 }}>
           {fmt(d.price)} <span style={{ fontSize: 18, fontWeight: 600, color: "#4A5A56" }}>ج.م</span>
         </span>
@@ -152,6 +155,7 @@ export function PriceCard({ d, promo, onPromo }: { d: Device; promo: string; onP
         <a href={waLink(askMessage(d))} target="_blank" rel="noopener noreferrer" className="li-ghost" style={{ minHeight: 48, borderRadius: 14, border: "1px solid #C9D4CF", color: "#12221F", fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
           <svg {...ic(20)}><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7L4 20z" /></svg>اسأل على واتساب
         </a>
+        <SaveButton deviceId={d.id} />
       </div>
     </div>
   );

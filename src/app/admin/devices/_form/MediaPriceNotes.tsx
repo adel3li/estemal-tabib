@@ -75,6 +75,8 @@ export function MediaSection({
 
 export function PriceSection({ f, set }: { f: FormState; set: (patch: Partial<FormState>) => void }) {
   const price = parseNum(f.price);
+  const oldPrice = parseNum(f.oldPrice);
+  const oldPriceBad = oldPrice > 0 && price > 0 && oldPrice <= price;
   const cost = parseNum(f.purchaseCost);
   const showMargin = f.src === "company" && price > 0;
   return (
@@ -97,6 +99,21 @@ export function PriceSection({ f, set }: { f: FormState; set: (patch: Partial<Fo
             placeholder="مثال: 45000"
             required
           />
+        </label>
+        <label className="ad-field">
+          <span>السعر قبل الخصم (اختياري)</span>
+          <input
+            type="text"
+            inputMode="numeric"
+            className="ad-in"
+            value={f.oldPrice}
+            onChange={(e) => set({ oldPrice: e.target.value })}
+            placeholder="لو كتبته، الجهاز يظهر في «فرصة متتفوتش»"
+            aria-describedby="ad-oldprice-hint"
+          />
+          <span id="ad-oldprice-hint" className="ad-hint" style={oldPriceBad ? { color: "#B3261E" } : undefined}>
+            {oldPriceBad ? "لازم يكون أكبر من سعر البيع، وإلا مش هيتحسب خصم." : oldPrice > price && price > 0 ? `خصم ${Math.round((1 - price / oldPrice) * 100)}% هيظهر على الجهاز.` : "بيظهر مشطوب جنب السعر."}
+          </span>
         </label>
         <label className="ad-field">
           مدة الصيانة المجانية

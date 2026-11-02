@@ -5,6 +5,8 @@
 import Link from "next/link";
 import { useState } from "react";
 import { routes } from "@/lib/routes";
+import { OldPrice } from "@/components/site/Price";
+import { SaveHeart } from "@/components/site/SaveButton";
 import { isListed, useDemo } from "@/lib/demo/store";
 import { fmt, typeLabel } from "@/lib/demo/labels";
 import type { Device } from "@/lib/demo/types";
@@ -79,9 +81,11 @@ export function Featured() {
   );
 }
 
-function DeviceCard({ d }: { d: Device }) {
+export function DeviceCard({ d }: { d: Device }) {
   const insp = d.inspection === "inspected";
   return (
+    <div className="card-wrap">
+    <SaveHeart deviceId={d.id} title={d.title} />
     <Link href={routes.device(d.id)} className="mn-card" style={{ display: "flex", flexDirection: "column", borderRadius: 20, border: "1px solid #DCE3DF", background: "#FFFFFF", overflow: "hidden", color: "#12221F", boxShadow: "0 4px 14px rgba(18, 34, 31, 0.04)" }}>
       <div className="mn-card-img" style={{ position: "relative", background: "#E7EDEA" }}>
         <svg role="img" aria-label={`رسم توضيحي ل${d.title}`} viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" style={{ display: "block", width: "100%", height: "100%" }}>
@@ -110,12 +114,16 @@ function DeviceCard({ d }: { d: Device }) {
           ضمان + صيانة {d.maintenanceMonths} شهور
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: 10, borderTop: "1px solid #E5EBE8", marginTop: "auto" }}>
-          <span className="mn-card-price" style={{ fontWeight: 700, fontSize: 18 }}>{fmt(d.price)} ج.م</span>
+          <span style={{ display: "flex", flexDirection: "column", gap: 2, minWidth: 0 }}>
+            <OldPrice d={d} />
+            <span className="mn-card-price" style={{ fontWeight: 700, fontSize: 18 }}>{fmt(d.price)} ج.م</span>
+          </span>
           <span className="mn-more" style={{ fontSize: 13, color: "#0D5C55", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
             التفاصيل<span aria-hidden="true">←</span>
           </span>
         </div>
       </div>
     </Link>
+    </div>
   );
 }

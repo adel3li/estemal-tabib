@@ -2,6 +2,8 @@ import Link from "next/link";
 import type { Device, DeviceType } from "@/lib/demo/types";
 import { CONDITIONS, fmt, typeLabel } from "@/lib/demo/labels";
 import { routes } from "@/lib/routes";
+import { OldPrice } from "@/components/site/Price";
+import { SaveHeart } from "@/components/site/SaveButton";
 
 /** Store type → Browse.dc.html symbol. Types without their own art borrow the closest one. */
 const IMG: Record<DeviceType, string> = {
@@ -26,6 +28,8 @@ const svg = { fill: "none", stroke: "currentColor", strokeLinecap: "round", stro
 export function DeviceCard({ d }: { d: Device }) {
   const inspected = d.inspection === "inspected";
   return (
+    <div className="card-wrap">
+    <SaveHeart deviceId={d.id} title={d.title} />
     <Link
       href={routes.device(d.id)}
       className="br-card"
@@ -60,12 +64,16 @@ export function DeviceCard({ d }: { d: Device }) {
           </span>
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, paddingTop: 12, borderTop: "1px solid #E5EBE8", marginTop: "auto" }}>
-          <span className="br-price" style={{ fontWeight: 700, fontSize: 22, lineHeight: 1.2, color: "#12221F" }}>
-            {fmt(d.price)} <span style={{ fontSize: 14, fontWeight: 600, color: "#4A5A56" }}>ج.م</span>
+          <span style={{ display: "flex", flexDirection: "column", gap: 2, minWidth: 0 }}>
+            <OldPrice d={d} />
+            <span className="br-price" style={{ fontWeight: 700, fontSize: 22, lineHeight: 1.2, color: "#12221F" }}>
+              {fmt(d.price)} <span style={{ fontSize: 14, fontWeight: 600, color: "#4A5A56" }}>ج.م</span>
+            </span>
           </span>
           <span className="br-more" style={{ padding: "6px 12px", borderRadius: 10, background: "#E3F0ED", fontSize: 13, color: "#0D5C55", fontWeight: 700, whiteSpace: "nowrap" }}>التفاصيل ←</span>
         </div>
       </div>
     </Link>
+    </div>
   );
 }

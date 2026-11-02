@@ -1,8 +1,12 @@
 "use client";
 
-// Demo data store shared by every page (public site + admin).
-// Persists to localStorage so what you do in the admin shows up on the site
-// in the same browser. Replaced by Supabase in Step 2 (PHASE1_PROMPT.md §7).
+// Data store shared by every page (public site + admin).
+// DEVICES come from Supabase (Step 4): loaded on start (RLS decides what each
+// user sees) and every device change an admin makes — add, edit, publish,
+// accept a submission, approve an inspection — is written back (see the sync
+// effect). FAVORITES are the signed-in user's rows in `favorites`.
+// Everything else (submissions, requests, inspections) is still demo data in
+// localStorage until Step 7.
 
 import {
   createContext,
@@ -15,7 +19,12 @@ import {
   type ReactNode,
 } from "react";
 import { sellerNetFromSalePrice } from "@/config/business";
-import { CORE_CHECKS, DEMO_VERSION, SEED } from "./seed";
+import { useAuth } from "@/lib/auth/AuthProvider";
+import { loginHref } from "@/lib/auth/next";
+import { fetchDevices, fetchFavorites, saveDevice, setFavorite } from "@/lib/devices/db";
+import { supabaseBrowser } from "@/lib/supabase/client";
+import { SUPABASE_URL } from "@/lib/supabase/env";
+import { CORE_CHECKS, DEMO_VERSION, SEED as DEMO_SEED } from "./seed";
 import type {
   DemoState,
   Device,
@@ -28,12 +37,15 @@ import type {
 
 const STORAGE_KEY = "istimal-tabib-demo";
 
+// Devices and favorites aren't demo data any more: start empty, fill from the database.
+const SEED: DemoState = { ...DEMO_SEED, devices: [], favorites: [] };
+
 function load(): DemoState | null {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw) as DemoState;
-    return parsed.version === DEMO_VERSION ? parsed : null;
+    return parsed.version === DEMO_VERSION ? { ...parsed, devices: [], favorites: [] } : null;
   } catch {
     return null;
   }
@@ -41,7 +53,8 @@ function load(): DemoState | null {
 
 function save(state: DemoState) {
   try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    // Devices/favorites live in the database — don't keep stale copies here.
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...state, devices: [], favorites: [] }));
   } catch {
     /* storage full / blocked — the demo still works in memory */
   }
@@ -63,8 +76,10 @@ type NewSubmission = Omit<Submission, "id" | "createdAt" | "status" | "log" | "f
 type NewRequest = Omit<DeviceRequest, "id" | "createdAt" | "status" | "notifiedAt"> & Partial<Pick<DeviceRequest, "id">>;
 
 export type DemoApi = {
-  /** false until localStorage has been read (first client render uses the seed). */
+  /** false until localStorage AND the devices from the database have been read. */
   ready: boolean;
+  /** Device load failed (offline / Supabase down). */
+  devicesError: boolean;
   state: DemoState;
   getDevice: (id: string) => Device | undefined;
   addDevice: (d: Omit<Device, "id" | "views" | "createdAt">) => string;
@@ -81,6 +96,7 @@ export type DemoApi = {
   /** «اعتمد ونشّر»: marks the inspection done, writes the report to the device,
    *  and publishes it for pre-publish inspections. Returns the device id. */
   approveInspection: (id: string) => string;
+  /** Save / unsave a device (signed-in users; others are sent to /login). */
   toggleFavorite: (deviceId: string) => void;
   /** Published devices that match a buyer request (type + budget + inspection pref). */
   matchesFor: (r: DeviceRequest) => Device[];
@@ -91,8 +107,15 @@ const DemoContext = createContext<DemoApi | null>(null);
 
 export function DemoProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<DemoState>(SEED);
-  const [ready, setReady] = useState(false);
+  const [storageReady, setStorageReady] = useState(false);
+  const [devicesReady, setDevicesReady] = useState(false);
+  const [devicesError, setDevicesError] = useState(false);
+  const ready = storageReady && devicesReady;
   const loaded = useRef(false);
+  const auth = useAuth();
+  // Last device list known to match the database (by public code) — the sync
+  // effect writes only what differs from it.
+  const synced = useRef<Map<string, Device>>(new Map());
   // Source of truth for actions: lets an action return the new id right away
   // and lets two actions in one click see each other's result.
   const ref = useRef<DemoState>(SEED);
@@ -102,17 +125,73 @@ export function DemoProvider({ children }: { children: ReactNode }) {
   }, []);
 
   // Hydrate from localStorage once, after the first (server-matching) render.
-  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     const stored = load();
     if (stored) {
-      ref.current = stored;
-      setState(stored);
+      ref.current = { ...stored, devices: ref.current.devices, favorites: ref.current.favorites };
+      setState(ref.current);
     }
     loaded.current = true;
-    setReady(true);
+    setStorageReady(true);
   }, []);
-  /* eslint-enable react-hooks/set-state-in-effect */
+
+  // Devices from the database; reloaded when the signed-in user changes
+  // (admins see drafts and private data).
+  const { ready: authReady, userId, isAdmin } = auth;
+  useEffect(() => {
+    if (!authReady) return;
+    if (!SUPABASE_URL) {
+      void Promise.resolve().then(() => setDevicesReady(true));
+      return;
+    }
+    let alive = true;
+    const sb = supabaseBrowser();
+    Promise.all([fetchDevices(sb), userId ? fetchFavorites(sb, userId) : Promise.resolve([] as string[])])
+      .then(([devices, favorites]) => {
+        if (!alive) return;
+        synced.current = new Map(devices.map((d) => [d.id, d]));
+        ref.current = { ...ref.current, devices, favorites };
+        setState(ref.current);
+        setDevicesError(false);
+        setDevicesReady(true);
+      })
+      .catch((e) => {
+        console.error("devices load failed", e);
+        if (alive) {
+          setDevicesError(true);
+          setDevicesReady(true);
+        }
+      });
+    return () => {
+      alive = false;
+    };
+  }, [authReady, userId, isAdmin]);
+
+  // Admin changes → database. Compares with the last synced copy, so every
+  // action (add/edit, accept submission, approve inspection) is covered.
+  useEffect(() => {
+    if (!isAdmin || !devicesReady) return;
+    const sb = supabaseBrowser();
+    for (const d of state.devices) {
+      const prev = synced.current.get(d.id);
+      if (prev && JSON.stringify(prev) === JSON.stringify(d)) continue;
+      synced.current.set(d.id, d); // optimistic: don't send the same change twice
+      saveDevice(sb, prev, d)
+        .then((dbId) => {
+          if (d.dbId === dbId) return;
+          const withId = { ...d, dbId };
+          synced.current.set(d.id, withId);
+          ref.current = { ...ref.current, devices: ref.current.devices.map((x) => (x.id === d.id ? { ...x, dbId } : x)) };
+          setState(ref.current);
+        })
+        .catch((e) => {
+          console.error("device save failed", d.id, e);
+          if (prev) synced.current.set(d.id, prev);
+          else synced.current.delete(d.id);
+          window.alert(`ما قدرناش نحفظ ${d.id} في قاعدة البيانات. جرّب تاني.`);
+        });
+    }
+  }, [state.devices, isAdmin, devicesReady]);
 
   // Save after every change. Uses ref.current (not this render's `state`): on
   // the first client commit the hydration effect above has already put the
@@ -128,8 +207,8 @@ export function DemoProvider({ children }: { children: ReactNode }) {
       if (e.key !== STORAGE_KEY) return;
       const fresh = load();
       if (fresh) {
-        ref.current = fresh;
-        setState(fresh);
+        ref.current = { ...fresh, devices: ref.current.devices, favorites: ref.current.favorites };
+        setState(ref.current);
       }
     };
     window.addEventListener("storage", onStorage);
@@ -349,13 +428,24 @@ export function DemoProvider({ children }: { children: ReactNode }) {
   }, [commit]);
 
   const toggleFavorite: DemoApi["toggleFavorite"] = useCallback((deviceId) => {
-    commit((s) => ({
-      ...s,
-      favorites: s.favorites.includes(deviceId)
-        ? s.favorites.filter((x) => x !== deviceId)
-        : [...s.favorites, deviceId],
-    }));
-  }, [commit]);
+    if (!userId) {
+      window.location.assign(loginHref(window.location.pathname + window.location.search));
+      return;
+    }
+    const d = ref.current.devices.find((x) => x.id === deviceId);
+    if (!d?.dbId) return;
+    const on = !ref.current.favorites.includes(deviceId);
+    const apply = (want: boolean) =>
+      commit((s) => ({
+        ...s,
+        favorites: want ? [...s.favorites.filter((x) => x !== deviceId), deviceId] : s.favorites.filter((x) => x !== deviceId),
+      }));
+    apply(on);
+    setFavorite(supabaseBrowser(), userId, d.dbId, on).catch((e) => {
+      console.error("favorite failed", e);
+      apply(!on);
+    });
+  }, [commit, userId]);
 
   const matchesFor: DemoApi["matchesFor"] = useCallback(
     (r) =>
@@ -376,13 +466,15 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     } catch {
       /* ignore */
     }
-    ref.current = SEED;
-    setState(SEED);
+    // Demo data only — devices and favorites stay (they're the database's).
+    ref.current = { ...SEED, devices: ref.current.devices, favorites: ref.current.favorites };
+    setState(ref.current);
   }, []);
 
   const api = useMemo<DemoApi>(
     () => ({
       ready,
+      devicesError,
       state,
       getDevice,
       addDevice,
@@ -399,7 +491,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
       matchesFor,
       reset,
     }),
-    [ready, state, getDevice, addDevice, updateDevice, addSubmission, updateSubmission, acceptSubmission, addRequest, updateRequest, addInspection, updateInspection, approveInspection, toggleFavorite, matchesFor, reset],
+    [ready, devicesError, state, getDevice, addDevice, updateDevice, addSubmission, updateSubmission, acceptSubmission, addRequest, updateRequest, addInspection, updateInspection, approveInspection, toggleFavorite, matchesFor, reset],
   );
 
   return <DemoContext.Provider value={api}>{children}</DemoContext.Provider>;

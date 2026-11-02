@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
+import { DevicesLoading } from "@/components/site/DevicesLoading";
 import { isPublic, useDemo } from "@/lib/demo/store";
 import { routes } from "@/lib/routes";
 import { BrowseArt } from "../art";
@@ -28,12 +29,18 @@ function NotFound() {
 
 export function DeviceClient() {
   const params = useParams<{ id: string }>();
-  const { getDevice } = useDemo();
+  const { getDevice, ready, devicesError } = useDemo();
   const id = typeof params.id === "string" ? params.id : "";
   const d = getDevice(id);
   // Discount code typed on the price card; both order buttons send it.
   const [promo, setPromo] = useState("");
 
+  if (!ready || (devicesError && !d))
+    return (
+      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "24px 20px 60px" }}>
+        <DevicesLoading failed={devicesError} cards={1} />
+      </div>
+    );
   if (!d || !isPublic(d)) return <NotFound />;
   const inspected = d.inspection === "inspected";
 

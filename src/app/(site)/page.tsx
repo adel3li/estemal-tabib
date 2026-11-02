@@ -6,6 +6,7 @@ import { Hero } from "./_home/Hero";
 import { Categories } from "./_home/Categories";
 import { BrowseArt } from "./devices/art";
 import { Featured } from "./_home/Featured";
+import { Rows } from "./_home/Rows";
 import { SellQuick } from "./_home/SellQuick";
 
 export default function HomePage() {
@@ -15,6 +16,7 @@ export default function HomePage() {
       <BrowseArt />
       <Categories />
       <Hero />
+      <Rows />
       <Featured />
       <SellQuick />
     </div>

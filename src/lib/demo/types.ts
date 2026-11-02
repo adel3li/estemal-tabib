@@ -43,6 +43,8 @@ export type InspectionReport = {
 };
 
 export type Device = {
+  /** Database uuid (devices.id); undefined until the device is saved. */
+  dbId?: string;
   id: string; // public code, also the URL segment: /devices/L-201
   title: string;
   type: DeviceType;
@@ -53,6 +55,8 @@ export type Device = {
   capacity?: string; // e.g. autoclave «[السعة] لتر»
   governorate: string;
   price: number; // EGP
+  /** «السعر قبل الخصم»: old price shown crossed out; devices with one are «فرصة متتفوتش». */
+  compareAtPrice?: number;
   condition: Condition;
   inspection: InspectionState;
   maintenanceMonths: 3 | 6;
