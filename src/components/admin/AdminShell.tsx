@@ -25,7 +25,7 @@ const NAV = [
   { href: routes.admin.submissions, label: "طلبات البيع الواردة", Icon: MailIcon, badge: "submissions" as const },
   { href: routes.admin.inspections, label: "الفحوصات", Icon: SearchIcon },
   { href: routes.admin.orders, label: "الطلبات والشحن", Icon: TruckIcon },
-  { href: routes.admin.payments, label: "المدفوعات المحفوظة", Icon: LockIcon },
+  { href: routes.admin.payments, label: "الجدول المالي", Icon: LockIcon },
   { href: routes.admin.requests, label: "طلبات «اطلب جهاز»", Icon: BellIcon },
 ];
 

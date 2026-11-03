@@ -45,7 +45,7 @@ async function makeUser(label, admin = false) {
   return { id: data.user.id, email, client };
 }
 
-const created = { users: [], devices: [] };
+const created = { users: [], devices: [], orders: [] };
 
 async function main() {
   // ── Fixtures ─────────────────────────────────────────────────────────────
@@ -187,9 +187,55 @@ async function main() {
   check("edits devices", !r.error && r.data.length === 1, r.error?.message);
   r = await admin.client.from("audit_log").insert({ actor_id: admin.id, entity: "device", entity_id: draft, action: "feature" });
   check("writes audit_log", !r.error, r.error?.message);
+
+  // ── Orders (control panel step 3) ────────────────────────────────────────
+  console.log("\norders, payments, archived «تم البيع»");
+  const sold = await service
+    .from("devices")
+    .insert([
+      { title: `${tag} sold fresh`, type: "apex", condition: "a", sale_price: 1000, status: "sold", archive_at: new Date(Date.now() + 86400e3).toISOString() },
+      { title: `${tag} sold archived`, type: "apex", condition: "a", sale_price: 1000, status: "sold", archive_at: new Date(Date.now() - 1000).toISOString() },
+    ])
+    .select("id, title");
+  if (sold.error) throw sold.error;
+  const fresh = sold.data.find((d) => d.title.endsWith("fresh")).id;
+  const archived = sold.data.find((d) => d.title.endsWith("archived")).id;
+  created.devices.push(fresh, archived);
+  r = await anon.from("devices").select("id").in("id", [fresh, archived]);
+  check("anon sees a sold device during the warranty window, not after (archived)", !r.error && r.data.length === 1 && r.data[0].id === fresh, JSON.stringify(r.data));
+  r = await anon.from("public_devices").select("id").in("id", [fresh, archived]);
+  check("public_devices hides archived too", !r.error && r.data.length === 1);
+  r = await admin.client.from("devices").select("id").in("id", [fresh, archived]);
+  check("admin still sees archived devices", !r.error && r.data.length === 2);
+
+  r = await admin.client.from("orders").insert({ device_id: pub, price: 1000, delivery_name: "x", delivery_phone: "01000000000" }).select("id").single();
+  check("admin enters an order without a buyer account", !r.error, r.error?.message);
+  if (r.data) created.orders.push(r.data.id);
+  r = await service.from("orders").insert({ device_id: pub, buyer_id: a.id, price: 1000, status: "inspection_report" }).select("id").single();
+  if (r.error) throw r.error;
+  const ord = r.data.id;
+  created.orders.push(ord);
+  r = await a.client.from("orders").select("id").eq("id", ord);
+  check("buyer reads own order", !r.error && r.data.length === 1);
+  r = await b.client.from("orders").select("id").eq("id", ord);
+  check("another user can't read it", denied(r));
+  r = await a.client.from("orders").update({ status: "trial" }).eq("id", ord).select();
+  check("buyer can't change the order", denied(r));
+  r = await a.client.from("payments").insert({ order_id: ord, kind: "balance", amount: 1, status: "confirmed" });
+  check("buyer can't record a payment", Boolean(r.error));
+  r = await b.client.rpc("buyer_report_decision", { p_order: ord, p_accept: true });
+  check("another user can't answer the report", Boolean(r.error));
+  r = await a.client.rpc("buyer_report_decision", { p_order: ord, p_accept: true });
+  check("buyer accepts the report → shipping", !r.error && r.data === "shipping", r.error?.message);
+  r = await a.client.rpc("buyer_report_decision", { p_order: ord, p_accept: false });
+  check("can't answer twice", Boolean(r.error));
+  r = await anon.rpc("buyer_report_decision", { p_order: ord, p_accept: true });
+  check("anon can't call buyer_report_decision", Boolean(r.error));
 }
 
 async function cleanup() {
+  if (created.orders.length) await service.from("payments").delete().in("order_id", created.orders);
+  if (created.orders.length) await service.from("orders").delete().in("id", created.orders);
   if (created.devices.length) await service.from("devices").delete().in("id", created.devices);
   if (created.devices.length) await service.from("audit_log").delete().in("entity_id", created.devices);
   for (const id of created.users) await service.auth.admin.deleteUser(id);

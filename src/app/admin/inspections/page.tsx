@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 import { isPublic, useDemo } from "@/lib/demo/store";
 import { typeLabel } from "@/lib/demo/labels";
-import { STEP_REPORT, nowLabel, useOrders } from "@/lib/demo/orders";
+import { STEP_REPORT, useOrders } from "@/lib/orders/orders";
 import type { Inspection } from "@/lib/demo/types";
 import { routes } from "@/lib/routes";
 import { InSprite } from "./art";
@@ -92,12 +92,7 @@ export default function InspectionsPage() {
     setDrafts((d) => without(d, selIt.id));
     setErr("");
     if (isBuyer(selIt) && selIt.orderId) {
-      ensureStep(selIt.orderId, STEP_REPORT, {
-        when: nowLabel(),
-        txt: "تقرير الفحص اتبعت للمشتري · مستنيين تأكيده",
-        who: "[اسم الموظف]",
-        col: "#F2A33A",
-      });
+      void ensureStep(selIt.orderId, STEP_REPORT, "تقرير الفحص اتبعت للمشتري · مستنيين تأكيده").catch((e) => console.error(e));
     }
     setToast({
       kind: "ok",

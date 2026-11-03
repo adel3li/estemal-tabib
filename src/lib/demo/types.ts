@@ -61,6 +61,8 @@ export type Device = {
   inspection: InspectionState;
   maintenanceMonths: 3 | 6;
   status: DeviceStatus;
+  /** «تم البيع» devices leave the site at this time (warranty window over). */
+  archiveAt?: string;
   featured: boolean;
   views: number;
   source: DeviceSource;

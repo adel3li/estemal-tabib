@@ -1,6 +1,6 @@
 import { BUSINESS } from "@/config/business";
 import { fmt } from "@/lib/demo/labels";
-import { heldOf, type Order } from "@/lib/demo/orders";
+import { heldOf, type Order } from "@/lib/orders/orders";
 import { isClosed } from "./model";
 
 export function Kpis({ orders }: { orders: Order[] }) {

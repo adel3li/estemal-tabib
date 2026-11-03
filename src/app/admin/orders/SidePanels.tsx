@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { BUSINESS } from "@/config/business";
 import { fmt } from "@/lib/demo/labels";
-import { heldOf, realPhone, type Order } from "@/lib/demo/orders";
+import { methodLabel, realPhone, type Order } from "@/lib/orders/orders";
 import { waLink } from "@/lib/whatsapp";
 import { netTxt } from "./model";
 
@@ -9,11 +9,10 @@ const WaIcon = () => (
   <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 20l1.3-3.9A8 8 0 1 1 8 19z" /><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8c-.9-.4-1.6-1.1-2-2l.8-1-1-2z" /></svg>
 );
 
-export function Contacts({ o }: { o: Order }) {
-  const phone = "[01xxxxxxxxx]"; // TODO(Step 2): real buyer/seller phones from profiles
+export function Contacts({ o, sellerPhone }: { o: Order; sellerPhone?: string }) {
   const people = [
-    { role: "المشتري", name: o.buyer, gov: o.bGov, initial: "م", bg: "#E6EDF7", fg: "#24508F" },
-    { role: "البايع", name: o.seller, gov: o.gov, initial: o.sellerCo ? "ط" : "ب", bg: "#E3F0ED", fg: "#0D5C55" },
+    { role: "المشتري", name: o.buyer, gov: o.bGov, phone: o.buyerPhone, extra: o.buyerAddress, initial: "م", bg: "#E6EDF7", fg: "#24508F" },
+    ...(o.sellerCo ? [] : [{ role: "البايع", name: o.seller || "—", gov: o.gov, phone: sellerPhone ?? "", extra: "", initial: "ب", bg: "#E3F0ED", fg: "#0D5C55" }]),
   ];
   return (
     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 }}>
@@ -26,9 +25,10 @@ export function Contacts({ o }: { o: Order }) {
               <span style={{ fontWeight: 700 }}>{c.name}</span>
             </span>
           </span>
-          <span style={{ fontSize: 14, color: "#3C4C48" }}>{c.gov} · <span dir="ltr">{phone}</span></span>
+          <span style={{ fontSize: 14, color: "#3C4C48" }}>{c.gov} · <span dir="ltr">{c.phone || "—"}</span></span>
+          {c.extra ? <span style={{ fontSize: 14, color: "#3C4C48" }}>{c.extra}</span> : null}
           <a
-            href={waLink(`أهلاً ${c.name}، معاك استعمال طبيب بخصوص طلب ${o.id} (${o.device}).`, realPhone(phone))}
+            href={waLink(`أهلاً ${c.name}، معاك استعمال طبيب بخصوص طلب ${o.id} (${o.device}).`, realPhone(c.phone))}
             target="_blank"
             rel="noopener noreferrer"
             className="or-wa"
@@ -45,25 +45,41 @@ export function Contacts({ o }: { o: Order }) {
 }
 
 export function MoneyBox({ o }: { o: Order }) {
-  const dep = o.paid === "dep";
   const t = BUSINESS.trialDays;
   return (
     <div style={{ padding: 16, borderRadius: 18, background: "#F5F7F4", display: "grid", gridTemplateColumns: "1fr auto", gap: "8px 12px", fontSize: 14 }}>
       <span style={{ color: "#4A5A56" }}>سعر البيع</span><span style={{ fontWeight: 700 }}>{fmt(o.amount)} ج.م</span>
-      <span style={{ color: "#4A5A56" }}>المدفوع ومحفوظ</span><span style={{ fontWeight: 700 }}>{fmt(heldOf(o))} ج.م</span>
-      {dep ? (
-        <>
-          <span style={{ color: "#8A4209" }}>الباقي على المشتري</span>
-          <span style={{ fontWeight: 700, color: "#8A4209" }}>{fmt(o.amount - BUSINESS.buyerReservationDepositEGP)} ج.م</span>
-        </>
-      ) : null}
+      <span style={{ color: "#4A5A56" }}>اتحصّل</span><span style={{ fontWeight: 700, color: "#3F7A1F" }}>{fmt(o.collected)} ج.م</span>
+      <span style={{ color: o.remaining ? "#8A4209" : "#4A5A56" }}>الباقي على المشتري</span>
+      <span style={{ fontWeight: 700, color: o.remaining ? "#8A4209" : undefined }}>{fmt(o.remaining)} ج.م</span>
+      <span style={{ color: "#4A5A56" }}>طريقة الدفع</span><span style={{ fontWeight: 600 }}>{methodLabel(o.payMethod)}</span>
       <span style={{ color: "#4A5A56" }}>صافي البايع<span className="ad-int">داخلي</span></span><span style={{ fontWeight: 700 }}>{netTxt(o)} ج.م</span>
+      {o.payments.length ? (
+        <ul style={{ gridColumn: "1 / -1", margin: 0, padding: 0, listStyle: "none", borderTop: "1px solid #DCE3DF", paddingTop: 8, display: "flex", flexDirection: "column", gap: 4, fontSize: 13 }}>
+          {o.payments.map((p, i) => (
+            <li key={i} style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
+              <span>{PAY_KIND[p.kind]} · {methodLabel(p.method)}{p.reference ? ` · ${p.reference}` : ""}</span>
+              <span style={{ fontWeight: 700, whiteSpace: "nowrap", color: p.kind === "refund" ? "#B3261E" : undefined }}>
+                {p.kind === "refund" ? "−" : ""}{fmt(p.amount)} ج.م
+              </span>
+            </li>
+          ))}
+        </ul>
+      ) : null}
       <span style={{ gridColumn: "1 / -1", fontSize: 12, color: "#4A5A56", borderTop: "1px solid #DCE3DF", paddingTop: 8 }}>
-        الفلوس محفوظة لحد الاستلام + {t} أيام تجربة، وبعدها تتحول للبايع. استبدال أو استرجاع خلال {t} أيام.
+        الفلوس محفوظة لحد الاستلام + {t} أيام ضمان، وبعدها تتحول للبايع. الضمان بيبدأ من وقت استلام المشتري الفعلي.
       </span>
     </div>
   );
 }
+
+const PAY_KIND: Record<Order["payments"][number]["kind"], string> = {
+  reservation_deposit: "عربون",
+  balance: "دفعة",
+  seller_fee: "رسوم جدية",
+  refund: "رجعت للمشتري",
+  seller_payout: "اتحولت للبايع",
+};
 
 export function ActivityLog({ o, onAdd }: { o: Order; onAdd: (txt: string) => void }) {
   const [note, setNote] = useState("");

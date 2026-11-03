@@ -116,10 +116,10 @@ const DemoContext = createContext<DemoApi | null>(null);
 export function DemoProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<DemoState>(SEED);
   const [storageReady, setStorageReady] = useState(false);
-  const [devicesReady, setDevicesReady] = useState(false);
+  // Which user the database data was loaded for («user:isAdmin») — ready only when it's the current one.
+  const [loadedFor, setLoadedFor] = useState<string | null>(null);
   const [devicesError, setDevicesError] = useState(false);
   const [submissionsError, setSubmissionsError] = useState(false);
-  const ready = storageReady && devicesReady;
   const loaded = useRef(false);
   const auth = useAuth();
   // Last device list known to match the database (by public code) — the sync
@@ -149,10 +149,13 @@ export function DemoProvider({ children }: { children: ReactNode }) {
   // Devices from the database; reloaded when the signed-in user changes
   // (admins see drafts and private data).
   const { ready: authReady, userId, isAdmin } = auth;
+  const loadKey = authReady ? `${userId ?? "anon"}:${isAdmin}` : null;
+  const devicesReady = loadKey !== null && loadedFor === loadKey;
+  const ready = storageReady && devicesReady;
   useEffect(() => {
-    if (!authReady) return;
+    if (!loadKey) return;
     if (!SUPABASE_URL) {
-      void Promise.resolve().then(() => setDevicesReady(true));
+      void Promise.resolve().then(() => setLoadedFor(loadKey));
       return;
     }
     let alive = true;
@@ -173,19 +176,19 @@ export function DemoProvider({ children }: { children: ReactNode }) {
         ref.current = { ...ref.current, devices, favorites, submissions };
         setState(ref.current);
         setDevicesError(false);
-        setDevicesReady(true);
+        setLoadedFor(loadKey);
       })
       .catch((e) => {
         console.error("devices load failed", e);
         if (alive) {
           setDevicesError(true);
-          setDevicesReady(true);
+          setLoadedFor(loadKey);
         }
       });
     return () => {
       alive = false;
     };
-  }, [authReady, userId, isAdmin]);
+  }, [loadKey, userId, isAdmin]);
 
   // Admin changes → database. Compares with the last synced copy, so every
   // action (add/edit, accept submission, approve inspection) is covered.
@@ -540,5 +543,6 @@ export function useDemo(): DemoApi {
 /** Devices a buyer can see in «كل الأجهزة». */
 export const isListed = (d: Device) => d.status === "published";
 /** Devices whose page is publicly reachable (§7 RLS: published / reserved / sold). */
-export const isPublic = (d: Device) => d.status === "published" || d.status === "reserved" || d.status === "sold";
+export const isPublic = (d: Device) =>
+  d.status === "published" || d.status === "reserved" || (d.status === "sold" && (!d.archiveAt || Date.parse(d.archiveAt) > Date.now()));
 

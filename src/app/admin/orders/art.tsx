@@ -1,4 +1,4 @@
-import type { OrderSym } from "@/lib/demo/orders";
+import type { OrderSym } from "@/lib/orders/orders";
 
 export type OrSym = `or-${OrderSym}`;
 

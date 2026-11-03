@@ -31,6 +31,7 @@ type DeviceRow = {
   maintenance_months: number;
   source: DeviceSource;
   status: DeviceStatus;
+  archive_at: string | null;
   featured: boolean;
   views: number;
   published_at: string | null;
@@ -62,7 +63,7 @@ type ReportRow = {
 };
 
 const DEVICE_COLUMNS =
-  "id, public_code, title, type, brand, model, details, origin, capacity, manufacture_year, governorate, accessories, condition, inspection_state, declared_defects, has_box, repaired_before, sale_price, compare_at_price, maintenance_months, source, status, featured, views, published_at, created_at";
+  "id, public_code, title, type, brand, model, details, origin, capacity, manufacture_year, governorate, accessories, condition, inspection_state, declared_defects, has_box, repaired_before, sale_price, compare_at_price, maintenance_months, source, status, archive_at, featured, views, published_at, created_at";
 
 /** «12 أكتوبر 2026» */
 const dateAr = (iso: string | null) =>
@@ -107,6 +108,7 @@ function deviceFrom(d: DeviceRow, p?: PrivateRow, r?: ReportRow): Device {
     inspection: d.inspection_state,
     maintenanceMonths: d.maintenance_months === 6 ? 6 : 3,
     status: d.status,
+    archiveAt: d.archive_at ?? undefined,
     featured: d.featured,
     views: d.views,
     source: d.source,
@@ -162,6 +164,7 @@ function rowFrom(d: Device) {
     maintenance_months: d.maintenanceMonths,
     source: d.source,
     status: d.status,
+    archive_at: d.status === "sold" ? (d.archiveAt ?? null) : null,
     featured: d.featured,
   };
 }

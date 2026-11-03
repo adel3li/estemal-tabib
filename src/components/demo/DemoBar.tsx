@@ -7,12 +7,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useDemo } from "@/lib/demo/store";
-import { useOrders } from "@/lib/demo/orders";
 import { routes } from "@/lib/routes";
 
 export function DemoBar() {
   const { reset } = useDemo();
-  const { reset: resetOrders } = useOrders();
   const pathname = usePathname() ?? "";
   const [open, setOpen] = useState(false);
   const inAdmin = pathname.startsWith("/admin");
@@ -33,7 +31,7 @@ export function DemoBar() {
           ×
         </button>
       </div>
-      <p>البيانات متخزنة في المتصفح ده بس. اللي بتعمله في لوحة التحكم بيظهر على الموقع عندك انت.</p>
+      <p>الأجهزة وطلبات البيع والطلبات والمدفوعات حقيقية. الفحوصات وطلبات «اطلب جهاز» لسه تجريبية ومتخزنة في المتصفح ده بس.</p>
       <div className="demo-actions">
         {inAdmin ? (
           <Link href={routes.home} onClick={() => setOpen(false)}>
@@ -47,14 +45,13 @@ export function DemoBar() {
         <button
           type="button"
           onClick={() => {
-            if (window.confirm("ترجّع كل البيانات التجريبية زي ما كانت في الأول؟")) {
+            if (window.confirm("ترجّع الفحوصات وطلبات «اطلب جهاز» التجريبية زي ما كانت؟ (البيانات الحقيقية مش هتتأثر)")) {
               reset();
-              resetOrders();
               setOpen(false);
             }
           }}
         >
-          رجّع البيانات
+          رجّع التجريبي
         </button>
       </div>
     </div>

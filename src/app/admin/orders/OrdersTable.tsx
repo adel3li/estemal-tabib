@@ -1,5 +1,5 @@
 import { fmt } from "@/lib/demo/labels";
-import type { Order } from "@/lib/demo/orders";
+import type { Order } from "@/lib/orders/orders";
 import { OrSymbol } from "./art";
 import { FILTERS, inFilter, payView, stepCol, stepView, type Filter } from "./model";
 

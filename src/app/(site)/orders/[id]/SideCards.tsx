@@ -1,6 +1,6 @@
 import { BUSINESS } from "@/config/business";
 import { fmt } from "@/lib/demo/labels";
-import type { Order } from "@/lib/demo/orders";
+import type { Order } from "@/lib/orders/orders";
 import { waLink } from "@/lib/whatsapp";
 import { HelpIcon, LockIcon, RefreshIcon, ShieldIcon, WaIcon, WrenchIcon } from "./art";
 

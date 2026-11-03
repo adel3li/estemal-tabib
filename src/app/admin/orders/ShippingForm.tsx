@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { STEP_SHIPPING, type Order } from "@/lib/demo/orders";
+import { STEP_SHIPPING, type Order } from "@/lib/orders/orders";
 
 type Ship = Pick<Order, "co" | "no" | "eta">;
 

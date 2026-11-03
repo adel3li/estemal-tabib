@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useState } from "react";
-import { STEP_SHIPPING, nowLabel, useOrders } from "@/lib/demo/orders";
+import { useAuth } from "@/lib/auth/AuthProvider";
+import { loginHref } from "@/lib/auth/next";
+import { useOrders } from "@/lib/orders/orders";
 import { isPublic, useDemo } from "@/lib/demo/store";
 import { routes } from "@/lib/routes";
 import { OtSprite } from "./art";
@@ -14,10 +16,31 @@ import "./styles.css";
 
 export default function OrderTrackerPage() {
   const { id } = useParams<{ id: string }>();
-  const { getOrder, ensureStep, cancelOrder } = useOrders();
+  const { getOrder, buyerDecision, ready } = useOrders();
+  const { ready: authReady, userId } = useAuth();
   const { getDevice } = useDemo();
   const [note, setNote] = useState("");
   const o = getOrder(id ?? "");
+
+  if (!authReady || (userId && !ready)) {
+    return (
+      <section role="status" style={{ maxWidth: 640, margin: "0 auto", padding: "72px 20px", textAlign: "center", color: "#4A5A56" }}>
+        بنحمّل طلبك…
+      </section>
+    );
+  }
+
+  if (!userId) {
+    return (
+      <section style={{ maxWidth: 640, margin: "0 auto", padding: "72px 20px", textAlign: "center", display: "flex", flexDirection: "column", gap: 14, alignItems: "center" }}>
+        <h1 style={{ margin: 0, fontSize: 28, fontWeight: 700 }}>سجّل دخول عشان تتابع طلبك</h1>
+        <p style={{ margin: 0, color: "#4A5A56" }}>ادخل بنفس الحساب اللي ربطنا بيه الطلب. لو مش لاقيه، كلمنا على واتساب.</p>
+        <Link href={loginHref(`/orders/${encodeURIComponent(id ?? "")}`)} className="ot-cta" style={{ minHeight: 46, padding: "0 20px", borderRadius: 12, background: "#0D5C55", color: "#FFFFFF", fontWeight: 700, display: "flex", alignItems: "center" }}>
+          سجّل دخول
+        </Link>
+      </section>
+    );
+  }
 
   if (!o) {
     return (
@@ -39,21 +62,19 @@ export default function OrderTrackerPage() {
         { txt: `كفاءة التشغيل: ${report.efficiency}`, ok: true },
         ...(report.defects.length ? [{ txt: report.defects.length === 1 ? "ملاحظة واحدة" : `${report.defects.length} ملاحظات`, ok: false }] : []),
       ]
-    : [
-        // Demo order #2043 has no linked listing: show the design's report summary.
-        { txt: "كفاءة التشغيل: ممتاز", ok: true },
-        { txt: "Bowie-Dick: ناجح", ok: true },
-        { txt: "ملاحظة واحدة", ok: false },
-      ];
+    : [];
 
-  const confirm = () => {
-    ensureStep(o.id, STEP_SHIPPING, { when: nowLabel(), txt: "المشتري أكّد تقرير الفحص · الطلب اتحرك لخطوة «الشحن»", who: "المشتري", col: "#0D5C55" });
-    setNote("تمام! أكّدت التقرير، وهنبدأ نجهّز الشحن لحد بابك.");
+  const decide = async (accept: boolean) => {
+    try {
+      await buyerDecision(o.id, accept);
+      setNote(accept ? "تمام! أكّدت التقرير، وهنبدأ نجهّز الشحن لحد بابك." : "الطلب اتلغى. فلوسك هترجعلك كاملة بنفس طريقة الدفع.");
+    } catch (e) {
+      console.error(e);
+      setNote("ما قدرناش نسجّل ردك دلوقتي. جرّب تاني أو كلمنا على واتساب.");
+    }
   };
-  const cancel = () => {
-    cancelOrder(o.id, { when: nowLabel(), txt: "المشتري رفض تقرير الفحص · الطلب اتلغى والفلوس هترجع كاملة", who: "المشتري", col: "#B3261E" });
-    setNote("الطلب اتلغى. فلوسك هترجعلك كاملة بنفس طريقة الدفع.");
-  };
+  const confirm = () => void decide(true);
+  const cancel = () => void decide(false);
 
   return (
     <section className="ot-wrap">

@@ -3,7 +3,7 @@
 import { useRef, useState } from "react";
 import { typeLabel } from "@/lib/demo/labels";
 import { useDemo } from "@/lib/demo/store";
-import { realPhone } from "@/lib/demo/orders";
+import { realPhone } from "@/lib/orders/orders";
 import { routes } from "@/lib/routes";
 import { waLink } from "@/lib/whatsapp";
 import { RqSprite } from "./art";
