@@ -199,7 +199,7 @@ export function SubmissionActions({ p, h }: { p: Submission; h: ActionHandlers }
               type="button"
               className="sb-act sb-ok"
               onClick={() => {
-                h.schedule(schedDate || "[التاريخ]", schedSlot, tech);
+                h.schedule(schedDate || new Date().toLocaleDateString("en-CA", { timeZone: "Africa/Cairo" }), schedSlot, tech);
                 setMode("");
               }}
             >

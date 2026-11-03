@@ -1,7 +1,7 @@
 import { typeLabel } from "@/lib/demo/labels";
 import type { CheckKey, Condition, Inspection } from "@/lib/demo/types";
 import { InSymbol, symFor } from "./art";
-import { CHECKS, DAYS, ST, condLabel, isBuyer, statusOf, typePill, type Form } from "./model";
+import { CHECKS, ST, condLabel, isBuyer, statusOf, typePill, type Form } from "./model";
 
 type Props = {
   it: Inspection;
@@ -51,7 +51,7 @@ export function ReportPanel({ it, form: f, err, onForm, onPhotos, onClose, onBac
 
       <div className="in-meta">
         <span style={{ color: "#4A5A56" }}>النوع</span><span style={{ fontWeight: 600 }}>{typeLabel(it.deviceType)}</span>
-        <span style={{ color: "#4A5A56" }}>الميعاد</span><span style={{ fontWeight: 600 }}>{DAYS[it.day][0]} {DAYS[it.day][1]} أكتوبر · {it.time}</span>
+        <span style={{ color: "#4A5A56" }}>الميعاد</span><span style={{ fontWeight: 600 }}>{it.dateLabel ?? "—"} · {it.time}</span>
         <span style={{ color: "#4A5A56" }}>المكان</span><span style={{ fontWeight: 600 }}>{it.governorate} — {it.location}</span>
         <span style={{ color: "#4A5A56" }}>الفني</span>
         <span style={{ fontWeight: 600, color: it.technician ? "#12221F" : "#B3261E" }}>{it.technician || "لسه محدش اتحدد"}</span>

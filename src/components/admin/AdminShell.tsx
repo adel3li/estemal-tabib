@@ -9,6 +9,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   BellIcon,
   GridIcon,
+  HomeIcon,
   LockIcon,
   MailIcon,
   PlusIcon,
@@ -17,9 +18,10 @@ import {
   TruckIcon,
 } from "@/components/icons";
 import { routes } from "@/lib/routes";
-import { useDemo } from "@/lib/demo/store";
+import { useAdminAlerts } from "@/lib/admin/alerts";
 
 const NAV = [
+  { href: routes.admin.root, label: "الرئيسية", Icon: HomeIcon, badge: "alerts" as const, match: (p: string) => p === routes.admin.root },
   { href: routes.admin.devices, label: "الأجهزة المعروضة", Icon: GridIcon, match: (p: string) => p === routes.admin.devices || (p.startsWith("/admin/devices/") && p.endsWith("/edit")) },
   { href: routes.admin.newDevice, label: "إضافة جهاز", Icon: PlusIcon, match: (p: string) => p === routes.admin.newDevice },
   { href: routes.admin.submissions, label: "طلبات البيع الواردة", Icon: MailIcon, badge: "submissions" as const },
@@ -34,8 +36,8 @@ const isActive = (pathname: string, n: (typeof NAV)[number]) =>
 
 export function AdminShell({ children }: { children: ReactNode }) {
   const pathname = usePathname() ?? "";
-  const { state } = useDemo();
-  const newSubs = state.submissions.filter((s) => s.status === "new").length;
+  const { newSubs: subs, alerts } = useAdminAlerts();
+  const newSubs = subs.length;
   const [open, setOpen] = useState(false);
   const menuBtn = useRef<HTMLButtonElement>(null);
   const current = NAV.find((n) => isActive(pathname, n));
@@ -120,7 +122,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
             >
               <Icon />
               {label}
-              {badge === "submissions" && newSubs > 0 ? (
+              {(badge === "submissions" && newSubs > 0) || (badge === "alerts" && alerts.length > 0) ? (
                 <span
                   style={{
                     marginRight: "auto",
@@ -132,7 +134,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
                     fontWeight: 700,
                   }}
                 >
-                  {newSubs}
+                  {badge === "alerts" ? alerts.length : newSubs}
                 </span>
               ) : null}
             </Link>

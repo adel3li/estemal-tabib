@@ -9,7 +9,7 @@ import { BUSINESS } from "@/config/business";
 import { fmt } from "@/lib/demo/labels";
 import { useDemo } from "@/lib/demo/store";
 import type { Device } from "@/lib/demo/types";
-import { ORDER_STEPS, STEP_RELEASED, STEP_SHIPPING, STEP_TRIAL, methodLabel, useOrders, type NewOrder, type Order } from "@/lib/orders/orders";
+import { ORDER_STEPS, STEP_INSPECTION, STEP_RELEASED, STEP_SHIPPING, STEP_TRIAL, methodLabel, useOrders, type NewOrder, type Order } from "@/lib/orders/orders";
 import { supabaseBrowser } from "@/lib/supabase/client";
 import { OrSprite } from "./art";
 import { Kpis } from "./Kpis";
@@ -29,7 +29,7 @@ export default function OrdersPageRoute() {
 
 function OrdersPage() {
   const api = useOrders();
-  const { ready: storeReady, state, updateDevice, updateSubmission } = useDemo();
+  const { ready: storeReady, state, updateDevice, updateSubmission, addInspection } = useDemo();
   // ?open=#2001 (links from the financial table).
   const [sel, setSel] = useState<string | null>(useSearchParams().get("open"));
   const [filter, setFilter] = useState<Filter>("all");
@@ -148,8 +148,27 @@ function OrdersPage() {
         updateDevice(dev.id, { status: "sold", archiveAt: new Date(Date.now() + BUSINESS.trialDays * 86_400_000).toISOString() });
       }
       if (next >= STEP_RELEASED) await release(so);
+      // «يُفحص عند الطلب»: the inspection at HQ goes on the inspections list.
+      let extra = "";
+      if (next === STEP_INSPECTION && !state.inspections.some((i) => i.orderId === so.id)) {
+        const inspId = addInspection({
+          kind: "after_order",
+          orderId: so.id,
+          orderDbId: so.dbId,
+          deviceId: dev?.id,
+          submissionId: dev?.submissionId,
+          title: so.device,
+          deviceType: dev?.type ?? "other",
+          governorate: dev?.governorate ?? so.gov,
+          location: "مقر الفحص",
+          technician: "",
+          time: "الصبح (10 – 1)",
+          scheduledAt: new Date(Date.now() + 2 * 86_400_000).toISOString(),
+        });
+        extra = ` اتعمل فحص ${inspId} في «الفحوصات» — حدد الفني والميعاد، وبلّغ البايع يشحن الجهاز للمقر.`;
+      }
       setErr("");
-      setToast({ kind: "ok", txt: `${so.id}: ${txt}.` });
+      setToast({ kind: "ok", txt: `${so.id}: ${txt}.${extra}` });
     });
   };
 

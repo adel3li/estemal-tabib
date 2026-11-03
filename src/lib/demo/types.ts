@@ -146,8 +146,11 @@ export type Submission = {
 };
 
 export type DeviceRequest = {
+  /** device_requests.id (database uuid). */
+  dbId?: string;
   id: string; // «R-118»
   createdAt: string; // «27 أكتوبر»
+  createdAtIso?: string;
   fullName: string;
   phone: string;
   governorate: string;
@@ -159,24 +162,33 @@ export type DeviceRequest = {
   inspectionPref: "any" | "inspected_only";
   notes: string;
   status: "new" | "notified" | "closed";
-  notifiedAt?: string;
+  notifiedAt?: string; // display
+  notifiedAtIso?: string;
 };
 
 export type CheckKey = "run" | "look" | "parts" | "maint";
 export type CheckValue = { v: "" | "pass" | "note"; n: string };
 
 export type Inspection = {
+  /** inspections.id (database uuid); undefined until saved. */
+  dbId?: string;
   id: string; // «F-297»
+  /** When (ISO). `day` is derived from it for the week list. */
+  scheduledAt?: string;
+  /** «الثلاثاء 4 نوفمبر» */
+  dateLabel?: string;
+  submissionId?: string; // «#1024» — the sell request it came from
   deviceId?: string; // linked listing, if it exists
   title: string;
   deviceType: DeviceType;
   governorate: string;
   location: string; // «عند البايع · مدينة نصر» | «مقر الفحص»
   technician: string; // "" = needs a technician
-  day: number; // 0..6 within the demo week (24–30 أكتوبر), 3 = today
+  day: number; // 0..6 in the week list (today = 3, earlier → 0, later → 6)
   time: string;
   kind: "pre_publish" | "after_order";
   orderId?: string;
+  orderDbId?: string;
   status: "scheduled" | "needs_review" | "done";
   form: {
     checks: Record<CheckKey, CheckValue>;

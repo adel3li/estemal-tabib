@@ -21,11 +21,12 @@ function without<T>(rec: Record<string, T>, key: string): Record<string, T> {
 }
 
 export default function InspectionsPage() {
-  const { state, updateInspection, approveInspection, getDevice } = useDemo();
+  const { ready, state, updateInspection, approveInspection, getDevice } = useDemo();
   const { ensureStep } = useOrders();
   const items = state.inspections;
 
-  const [sel, setSel] = useState<string | null>("F-297");
+  const [sel, setSel] = useState<string | null>(null);
+  const [now] = useState(() => Date.now());
   const [tab, setTab] = useState<Tab>("all");
   const [day, setDay] = useState(-1);
   const [q, setQ] = useState("");
@@ -119,7 +120,7 @@ export default function InspectionsPage() {
         <div>
           <div style={{ fontSize: 14, color: "#4A5A56" }}>لوحة التحكم › الفحوصات</div>
           <h1 className="in-h1" style={{ margin: 0, lineHeight: 1.3, fontWeight: 700 }}>الفحوصات</h1>
-          <div style={{ color: "#4A5A56" }}>مواعيد الفني المعتمد وتقارير الفحص، قبل النشر أو بعد طلب مشتري.</div>
+          <div style={{ color: "#4A5A56" }}>مواعيد الفحص في المقر وتقارير الفني المعتمد، قبل النشر أو بعد طلب مشتري.</div>
         </div>
         <label className="in-search">
           <span style={{ position: "absolute", width: 1, height: 1, overflow: "hidden" }}>دوّر في الفحوصات</span>
@@ -143,6 +144,10 @@ export default function InspectionsPage() {
         </div>
       ) : null}
 
+      {!ready ? (
+        <div className="ad-card" role="status" style={{ minHeight: 160, alignItems: "center", justifyContent: "center", color: "#4A5A56" }}>بنحمّل الفحوصات…</div>
+      ) : (
+      <>
       <Kpis items={items} tab={tab} onPick={(t) => { setTab(t); setDay(-1); }} />
 
       <div style={{ display: "flex", flexWrap: "wrap", gap: 24, alignItems: "flex-start" }}>
@@ -153,6 +158,7 @@ export default function InspectionsPage() {
           tab={tab}
           day={day}
           sel={sel}
+          now={now}
           onTab={setTab}
           onDay={setDay}
           onOpen={openReport}
@@ -193,6 +199,8 @@ export default function InspectionsPage() {
           </div>
         </aside>
       </div>
+      </>
+      )}
     </>
   );
 }

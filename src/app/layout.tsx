@@ -8,7 +8,6 @@ import "@fontsource/ibm-plex-sans-arabic/600.css";
 import "@fontsource/ibm-plex-sans-arabic/700.css";
 import "./globals.css";
 import { DemoProvider } from "@/lib/demo/store";
-import { DemoBar } from "@/components/demo/DemoBar";
 import { AuthProvider } from "@/lib/auth/AuthProvider";
 
 export const metadata: Metadata = {
@@ -40,7 +39,6 @@ export default function RootLayout({
         <AuthProvider>
           <DemoProvider>
             {children}
-            <DemoBar />
           </DemoProvider>
         </AuthProvider>
       </body>

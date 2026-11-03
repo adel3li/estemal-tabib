@@ -2,12 +2,14 @@
 
 // Ported from design-reference/Admin-Submissions.dc.html
 import Link from "next/link";
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useRef, useState, type ReactNode } from "react";
 import { useAuth } from "@/lib/auth/AuthProvider";
 import { fmt } from "@/lib/demo/labels";
 import { useDemo } from "@/lib/demo/store";
 import type { Submission } from "@/lib/demo/types";
 import { routes } from "@/lib/routes";
+import { scheduledIso } from "@/lib/inspections/db";
 import { recordSellerFee } from "@/lib/submissions/db";
 import { supabaseBrowser } from "@/lib/supabase/client";
 import { Toast, type ToastTone } from "../devices/_ui/Toast";
@@ -20,12 +22,22 @@ import { SubmissionInfo } from "./_parts/SubmissionInfo";
 import { SubmissionList } from "./_parts/SubmissionList";
 import "./styles.css";
 
-export default function AdminSubmissionsPage() {
+export default function AdminSubmissionsRoute() {
+  return (
+    <Suspense>
+      <AdminSubmissionsPage />
+    </Suspense>
+  );
+}
+
+function AdminSubmissionsPage() {
   const { ready, submissionsError, state, updateSubmission, acceptSubmission, addInspection, updateDevice, setSellerTrust } = useDemo();
   const { userId } = useAuth();
-  const [tab, setTab] = useState<Tab>("new");
+  // ?open=#1024 (links from the dashboard home) picks that request and its tab.
+  const openId = useSearchParams().get("open");
+  const [pickedTab, setTab] = useState<Tab | null>(null);
   const [q, setQ] = useState("");
-  const [sel, setSel] = useState<string | null>(null);
+  const [sel, setSel] = useState<string | null>(openId);
   const [toast, setToast] = useState<{ body: ReactNode; tone: ToastTone } | null>(null);
   const [busy, setBusy] = useState(false);
   // Clock for the 24-hour review and no-reply deadlines (refreshed every minute).
@@ -47,6 +59,8 @@ export default function AdminSubmissionsPage() {
   };
 
   const subs = state.submissions;
+  const opened = openId ? subs.find((x) => x.id === openId) : undefined;
+  const tab: Tab = pickedTab ?? (opened ? (opened.sellerTrust === "suspicious" ? "spam" : opened.status) : "new");
   const needle = q.trim().toLowerCase();
   const counts = Object.fromEntries(TABS.map(([t]) => [t, subs.filter((x) => inTab(x, t) && matches(x, needle)).length])) as Record<Tab, number>;
   const items = subs.filter((x) => inTab(x, tab) && matches(x, needle));
@@ -84,16 +98,14 @@ export default function AdminSubmissionsPage() {
       ok(`اتبعت للبايع طلب ${what} — الطلب بقى «محتاج متابعة».`);
     },
     schedule: (date: string, slot: string, tech: string) => {
-      // Demo week is 24–30 October (day 0..6); dates outside it land on the last day.
-      const dayOfMonth = Number(date.slice(8, 10));
-      const day = date.startsWith("2026-10-") && dayOfMonth >= 24 && dayOfMonth <= 30 ? dayOfMonth - 24 : 6;
       const inspId = addInspection({
+        scheduledAt: scheduledIso(date, slot),
+        submissionId: s.id,
         title: s.details,
         deviceType: s.deviceType,
         governorate: s.governorate,
         location: HQ, // always at headquarters (ADMIN_SPEC §4)
         technician: tech,
-        day,
         time: slot,
         kind: "pre_publish",
         deviceId: s.deviceId,

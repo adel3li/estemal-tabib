@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useRef, useState } from "react";
 import { typeLabel } from "@/lib/demo/labels";
 import { useDemo } from "@/lib/demo/store";
 import { realPhone } from "@/lib/orders/orders";
@@ -9,14 +10,27 @@ import { waLink } from "@/lib/whatsapp";
 import { RqSprite } from "./art";
 import { RequestDetail } from "./RequestDetail";
 import { RequestList } from "./RequestList";
-import { TABS, TODAY, waMessage, type ReqStatus } from "./model";
+import { whenAr } from "@/lib/submissions/db";
+import { TABS, waMessage, type ReqStatus } from "./model";
 import "./styles.css";
 
-export default function RequestsPage() {
-  const { state, matchesFor, updateRequest } = useDemo();
-  const [tab, setTab] = useState<ReqStatus>("new");
+export default function RequestsRoute() {
+  return (
+    <Suspense>
+      <RequestsPage />
+    </Suspense>
+  );
+}
+
+function RequestsPage() {
+  const { ready, state, matchesFor, updateRequest } = useDemo();
+  // ?open=R-118 (links from the dashboard home) picks that request and its tab.
+  const openId = useSearchParams().get("open");
+  const [pickedTab, setTab] = useState<ReqStatus | null>(null);
   const [q, setQ] = useState("");
-  const [sel, setSel] = useState("R-118");
+  const [pickedSel, setSel] = useState<string | null>(openId);
+  const opened = openId ? state.requests.find((r) => r.id === openId) : undefined;
+  const tab: ReqStatus = pickedTab ?? opened?.status ?? "new";
   const [toast, setToast] = useState("");
   const asideRef = useRef<HTMLElement>(null);
 
@@ -36,6 +50,8 @@ export default function RequestsPage() {
   const shown = state.requests.filter(
     (r) => r.status === tab && (!query || `${typeLabel(r.deviceType)} ${r.governorate} ${r.id}`.includes(query)),
   );
+  // Nothing picked yet → the first request in the tab.
+  const sel = pickedSel ?? shown[0]?.id ?? "";
   const cur = state.requests.find((r) => r.id === sel && r.status === tab) ?? null;
   const m = cur ? matchesFor(cur) : [];
 
@@ -43,7 +59,8 @@ export default function RequestsPage() {
     if (!cur) return;
     const msg = waMessage(cur, m, (id) => window.location.origin + routes.device(id));
     window.open(waLink(msg, realPhone(cur.phone)), "_blank", "noopener,noreferrer");
-    updateRequest(cur.id, { status: "notified", notifiedAt: TODAY });
+    const iso = new Date().toISOString();
+    updateRequest(cur.id, { status: "notified", notifiedAtIso: iso, notifiedAt: whenAr(iso).split("،")[0] });
     setToast(`اتبعت لـ${cur.fullName} على واتساب — الطلب #${cur.id} اتنقل لـ«اتبلّغ».`);
     setTab("notified");
   };
@@ -89,7 +106,7 @@ export default function RequestsPage() {
                 role="tab"
                 className="rq-tab"
                 aria-selected={on}
-                onClick={() => { setTab(key); setSel(""); }}
+                onClick={() => { setTab(key); setSel(null); }}
                 style={{ border: `1px solid ${on ? "#0D5C55" : "#C9D4CF"}`, background: on ? "#0D5C55" : "#FFFFFF", color: on ? "#FFFFFF" : "#12221F" }}
               >
                 {label}
@@ -107,6 +124,9 @@ export default function RequestsPage() {
         </label>
       </div>
 
+      {!ready ? (
+        <div className="ad-card" role="status" style={{ minHeight: 160, alignItems: "center", justifyContent: "center", color: "#4A5A56" }}>بنحمّل الطلبات…</div>
+      ) : (
       <div style={{ display: "flex", flexWrap: "wrap", gap: 20, alignItems: "flex-start" }}>
         <RequestList reqs={shown} sel={sel} query={query} matchesFor={matchesFor} onPick={pick} />
         <aside ref={asideRef} aria-label="تفاصيل الطلب" className="rq-aside">
@@ -120,6 +140,7 @@ export default function RequestsPage() {
           )}
         </aside>
       </div>
+      )}
     </>
   );
 }

@@ -88,6 +88,14 @@ export const BellIcon = ({ size = 20, ...p }: P) => (
   </svg>
 );
 
+export const HomeIcon = ({ size = 20, ...p }: P) => (
+  <svg {...base(size, p)}>
+    <path d="M3 11l9-7 9 7" />
+    <path d="M5 10v10h14V10" />
+    <path d="M10 20v-5h4v5" />
+  </svg>
+);
+
 export const CheckIcon = ({ size = 16, ...p }: P) => (
   <svg {...base(size, { strokeWidth: 2.2, ...p })}>
     <path d="M5 12.5l4.5 4.5L19 7.5" />

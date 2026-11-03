@@ -30,6 +30,7 @@ export const ORDER_STEPS = [
 ] as const;
 
 export const STEP_FUNDS = 1;
+export const STEP_INSPECTION = 2;
 export const STEP_REPORT = 3;
 export const STEP_SHIPPING = 4;
 export const STEP_DELIVERY = 5;

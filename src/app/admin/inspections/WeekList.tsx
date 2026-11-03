@@ -1,7 +1,8 @@
 import { typeLabel } from "@/lib/demo/labels";
 import type { Inspection } from "@/lib/demo/types";
 import { InSymbol, symFor } from "./art";
-import { DAYS, ST, TABS, TECHS, TODAY, inTab, statusOf, typePill, type Tab } from "./model";
+import { weekDays } from "@/lib/inspections/db";
+import { ST, TABS, TECHS, TODAY, inTab, statusOf, typePill, type Tab } from "./model";
 
 type Props = {
   items: Inspection[];
@@ -9,6 +10,7 @@ type Props = {
   rows: Inspection[];
   tab: Tab;
   day: number;
+  now: number;
   sel: string | null;
   onTab: (t: Tab) => void;
   onDay: (d: number) => void;
@@ -22,7 +24,8 @@ const CalIcon = () => (
   </svg>
 );
 
-export function WeekList({ items, base, rows, tab, day, sel, onTab, onDay, onOpen, onAssign }: Props) {
+export function WeekList({ items, base, rows, tab, day, sel, onTab, onDay, onOpen, onAssign, now }: Props) {
+  const DAYS = weekDays(now);
   return (
     <section className="ad-card in-list" aria-labelledby="in-list-h" style={{ flex: "999 1 560px", minWidth: 0 }}>
       <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 10 }}>
@@ -30,7 +33,7 @@ export function WeekList({ items, base, rows, tab, day, sel, onTab, onDay, onOpe
           <span className="ad-n" style={{ background: "#E3F0ED", color: "#0D5C55" }}><CalIcon /></span>
           جدول الأسبوع
         </h2>
-        <span className="ad-hint">٢٤ – ٣٠ أكتوبر · النهارده الثلاثاء ٢٧</span>
+        <span className="ad-hint">من {DAYS[0][0]} {DAYS[0][1]} لحد {DAYS[6][0]} {DAYS[6][1]} · اللي قبل كده في أول يوم، واللي بعده في آخر يوم</span>
       </div>
 
       <div role="group" aria-label="اختار يوم" className="in-days">
@@ -120,7 +123,7 @@ export function WeekList({ items, base, rows, tab, day, sel, onTab, onDay, onOpe
               </button>
               <div className="in-when">
                 <span style={{ fontWeight: 700 }}>{it.time}</span>
-                <span style={{ fontSize: 13, color: "#4A5A56" }}>{DAYS[it.day][0]} {DAYS[it.day][1]}</span>
+                <span style={{ fontSize: 13, color: "#4A5A56" }}>{it.dateLabel ?? `${DAYS[it.day][0]} ${DAYS[it.day][1]}`}</span>
               </div>
               <label className="in-tech">
                 اسم الفني
