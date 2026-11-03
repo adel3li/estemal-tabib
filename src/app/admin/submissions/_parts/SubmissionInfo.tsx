@@ -6,16 +6,27 @@ import { VIDEO_ENABLED } from "@/config/features";
 import { CONDITIONS, fmt, typeLabel } from "@/lib/demo/labels";
 import type { Submission } from "@/lib/demo/types";
 import { routes } from "@/lib/routes";
+import { reviewHoursLeft } from "@/lib/submissions/time";
 import { waLink } from "@/lib/whatsapp";
 import { artFor } from "../art";
 import { DOT, FEE, ST, THUMB_TF } from "./meta";
 
+type InfoProps = {
+  p: Submission;
+  now: number;
+  onReopen: () => void;
+  /** «كلّمه على واتساب» clicked — the first one starts the no-reply count. */
+  onContact: () => void;
+  onTrust: (t: Submission["sellerTrust"]) => void;
+};
+
 /** Read-only part of the detail panel: header, banners, seller/device blocks, media, reason, log. */
-export function SubmissionInfo({ p, onReopen }: { p: Submission; onReopen: () => void }) {
+export function SubmissionInfo({ p, now, onReopen, onContact, onTrust }: InfoProps) {
   const st = ST[p.status];
   const fee = FEE[p.feeStatus];
   const cond = CONDITIONS[p.condition].label;
-  const open = p.status === "new" || p.status === "follow_up";
+  const hoursLeft = p.status === "new" && p.createdAtIso ? reviewHoursLeft(p.createdAtIso, now) : null;
+  const feeTxt = p.feeAmount ? `رسوم الجدية ${fmt(p.feeAmount)} ج.م` : "رسوم الجدية";
   const img = artFor(p.deviceType);
   const wa = waLink(`أهلاً ${p.fullName}، بخصوص طلب بيع ${p.details} (${p.id}) على استعمال طبيب.`, p.phone);
   return (
@@ -44,7 +55,7 @@ export function SubmissionInfo({ p, onReopen }: { p: Submission; onReopen: () =>
         <div className="sb-price">
           <div style={{ fontSize: 13, color: "#4A5A56" }}>السعر المطلوب</div>
           <div style={{ fontSize: 28, fontWeight: 700, lineHeight: 1.2 }}>
-            {fmt(p.salePrice)} <span style={{ fontSize: 14, fontWeight: 400, color: "#4A5A56" }}>ج.م</span>
+            {p.salePrice ? fmt(p.salePrice) : "—"} <span style={{ fontSize: 14, fontWeight: 400, color: "#4A5A56" }}>ج.م</span>
           </div>
           <div style={{ fontSize: 13, color: "#8A4209" }}>
             صافي البايع: {fmt(p.sellerNet)} ج.م<span className="ad-int">داخلي</span>
@@ -52,22 +63,29 @@ export function SubmissionInfo({ p, onReopen }: { p: Submission; onReopen: () =>
         </div>
       </div>
 
-      {p.feeStatus === "pending" && open ? (
-        <div style={{ padding: "12px 16px", borderRadius: 14, background: "#FBEEDC", border: "1px solid #F0C88A", color: "#6B3A10", fontSize: 14, display: "flex", gap: 10, alignItems: "flex-start" }}>
-          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none", marginTop: 2 }}>
-            <path d="M12 3l9 16H3z" />
-            <path d="M12 10v4M12 17h.01" />
-          </svg>
-          <span>
-            <b>رسوم الجدية ({BUSINESS.sellerSeriousnessFeeEGP} ج.م) لسه متدفعتش.</b> فكّر البايع يدفعها قبل ما نحدد ميعاد فحص. الرسوم بتترد حسب الشروط.
-          </span>
+      {p.sellerTrust === "suspicious" ? (
+        <div role="note" style={{ padding: "12px 16px", borderRadius: 14, background: "#FBE9E7", border: "1px solid #E9B3AE", color: "#7A1A14", fontSize: 14 }}>
+          <b>الحساب ده متعلّم «مشبوه».</b> طلباته بتيجي هنا في «مشبوه» بعيد عن الطلبات العادية — راجعه بهدوء قبل أي خطوة.
+        </div>
+      ) : null}
+
+      {hoursLeft !== null ? (
+        <div style={{ padding: "12px 16px", borderRadius: 14, fontSize: 14, ...(hoursLeft > 0 ? { background: "#E6EDF7", border: "1px solid #B7C8E4", color: "#1B3D6E" } : { background: "#FBE9E7", border: "1px solid #E9B3AE", color: "#7A1A14" }) }}>
+          {hoursLeft > 0 ? (
+            <>
+              <b>راجعه خلال {hoursLeft} ساعة.</b> بنوعد البايع نرد عليه خلال {BUSINESS.sellReviewHours} ساعة — أهم حاجة: السعر منطقي للسوق؟
+            </>
+          ) : (
+            <b>عدّى {BUSINESS.sellReviewHours} ساعة من غير مراجعة — رد على البايع النهارده.</b>
+          )}
         </div>
       ) : null}
 
       {p.status === "accepted" ? (
         <div style={{ padding: "14px 16px", borderRadius: 14, background: "#EAF5DD", border: "1px solid #B9DB9A", color: "#2C5A13", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
           <span>
-            <b>اتقبل الطلب واتعمل له إعلان مسودة{p.deviceId ? ` (${p.deviceId})` : ""}.</b> كمّل بيانات الإعلان وانشره من «إضافة جهاز».
+            <b>اتقبل الطلب واتعمل له إعلان مسودة{p.deviceId ? ` (${p.deviceId})` : ""}.</b>{" "}
+            {p.feeStatus === "pending" ? "كمّل بيانات الإعلان — هيتنشر أول ما رسوم الجدية توصل." : "كمّل أو راجع بيانات الإعلان."}
           </span>
           <Link href={p.deviceId ? routes.admin.editDevice(p.deviceId) : routes.admin.newDevice} className="sb-act sb-ok" style={{ color: "#FFFFFF" }}>
             كمّل الإعلان
@@ -88,7 +106,7 @@ export function SubmissionInfo({ p, onReopen }: { p: Submission; onReopen: () =>
       <div>
         <h3 style={{ margin: "0 0 8px", fontSize: 16, display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
           البايع
-          <a href={wa} target="_blank" rel="noopener noreferrer" className="sb-walink" style={{ fontSize: 13, fontWeight: 600, color: "#156B35" }}>
+          <a href={wa} target="_blank" rel="noopener noreferrer" className="sb-walink" onClick={onContact} style={{ fontSize: 13, fontWeight: 600, color: "#156B35" }}>
             كلّمه على واتساب ↗
           </a>
         </h3>
@@ -97,9 +115,32 @@ export function SubmissionInfo({ p, onReopen }: { p: Submission; onReopen: () =>
           <div className="sb-kv"><span>الموبايل</span><span dir="ltr" style={{ textAlign: "right" }}>{p.phone}</span></div>
           <div className="sb-kv"><span>المحافظة</span><span>{p.governorate}</span></div>
           <div className="sb-kv">
-            <span>رسوم الجدية {BUSINESS.sellerSeriousnessFeeEGP} ج.م</span>
-            <span style={{ color: fee.fg }}>{fee.txt}</span>
+            <span>{feeTxt}</span>
+            <span style={{ color: fee.fg }}>{p.status === "accepted" || p.feeStatus !== "pending" ? fee.txt : "بتتطلب بعد القبول"}</span>
           </div>
+        </div>
+        <div style={{ marginTop: 8, display: "flex", flexWrap: "wrap", alignItems: "center", gap: 8, fontSize: 13 }}>
+          <span style={{ color: "#4A5A56" }}>تقييم الحساب:</span>
+          {p.sellerTrust === "suspicious" ? (
+            <button type="button" className="sb-act" onClick={() => onTrust(null)}>
+              شيل «مشبوه»
+            </button>
+          ) : (
+            <>
+              {p.sellerTrust === "serious" ? (
+                <span className="sb-pill" style={{ background: "#EAF5DD", color: "#3F7A1F" }}>
+                  جاد ✓
+                </span>
+              ) : (
+                <button type="button" className="sb-act" onClick={() => onTrust("serious")}>
+                  علّمه «جاد»
+                </button>
+              )}
+              <button type="button" className="sb-act sb-no" onClick={() => onTrust("suspicious")}>
+                علّمه «مشبوه»
+              </button>
+            </>
+          )}
         </div>
       </div>
 
@@ -111,7 +152,7 @@ export function SubmissionInfo({ p, onReopen }: { p: Submission; onReopen: () =>
           <div className="sb-kv"><span>حالة المنتج</span><span>{cond}</span></div>
           <div className="sb-kv">
             <span>مكان الجهاز للفحص</span>
-            <span>{p.keepLocation === "with_seller" ? "يفضل معايا (الفني يروح له)" : "أبعته يتفحص (في مقر الفحص)"}</span>
+            <span>{p.keepLocation === "with_seller" ? "يفضل معايا (يشحنه للمقر لما حد يطلبه)" : "أبعته يتفحص (في مقر الفحص)"}</span>
           </div>
         </div>
         <div className="sb-kv" style={{ marginTop: 10 }}>
@@ -151,7 +192,11 @@ export function SubmissionInfo({ p, onReopen }: { p: Submission; onReopen: () =>
             </span>
           ) : null}
         </div>
-        {p.photos < BUSINESS.photos.min ? (
+        {p.photos === 0 && p.dbId ? (
+          <div className="ad-hint" style={{ marginTop: 6, color: "#8A4209" }}>
+            رفع الصور من صفحة «اعرض جهازك» لسه مش شغال — اطلب الصور من البايع على واتساب (الإعلان محتاج {BUSINESS.photos.min} صور على الأقل).
+          </div>
+        ) : p.photos < BUSINESS.photos.min ? (
           <div className="ad-hint" style={{ marginTop: 6, color: "#8A4209" }}>
             أقل من الحد المطلوب للإعلان ({BUSINESS.photos.min} صور على الأقل، والأفضل صور من كل الجهات).
           </div>
@@ -169,10 +214,16 @@ export function SubmissionInfo({ p, onReopen }: { p: Submission; onReopen: () =>
         <div style={{ marginTop: 4 }}>{p.saleReason || "—"}</div>
       </div>
 
+      {p.priceHelp ? (
+        <div className="ad-hint" style={{ color: "#8A4209" }}>
+          البايع اختار «ساعدوني أحدد السعر» — اقترح عليه سعر مناسب للسوق.
+        </div>
+      ) : null}
+
       <div>
         <h3 style={{ margin: "0 0 8px", fontSize: 16 }}>سجل الطلب</h3>
         <ol style={{ margin: 0, padding: 0, listStyle: "none", display: "flex", flexDirection: "column", gap: 0 }}>
-          {p.log.map((lg, i) => (
+          {(p.dbId ? [{ text: "الطلب وصل من صفحة «اعرض جهازك»", at: p.createdAt, tone: "info" as const }, ...p.log] : p.log).map((lg, i) => (
             <li key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start", padding: "6px 0" }}>
               <span style={{ width: 10, height: 10, borderRadius: 999, background: DOT[lg.tone ?? "info"], marginTop: 8, flex: "none" }} />
               <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.5 }}>

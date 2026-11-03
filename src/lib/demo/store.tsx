@@ -5,8 +5,9 @@
 // user sees) and every device change an admin makes — add, edit, publish,
 // accept a submission, approve an inspection — is written back (see the sync
 // effect). FAVORITES are the signed-in user's rows in `favorites`.
-// Everything else (submissions, requests, inspections) is still demo data in
-// localStorage until Step 7.
+// SUBMISSIONS (sell requests) come from Supabase for admins (control panel
+// step 2) and admin changes are written back the same way.
+// Everything else (requests, inspections) is still demo data in localStorage.
 
 import {
   createContext,
@@ -18,12 +19,13 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { sellerNetFromSalePrice } from "@/config/business";
 import { useAuth } from "@/lib/auth/AuthProvider";
 import { loginHref } from "@/lib/auth/next";
 import { fetchDevices, fetchFavorites, saveDevice, setFavorite } from "@/lib/devices/db";
+import { fetchSubmissions, saveSubmission, setTrust as setTrustDb, workflowRow } from "@/lib/submissions/db";
 import { supabaseBrowser } from "@/lib/supabase/client";
 import { SUPABASE_URL } from "@/lib/supabase/env";
+import { whenAr } from "@/lib/submissions/db";
 import { CORE_CHECKS, DEMO_VERSION, SEED as DEMO_SEED } from "./seed";
 import type {
   DemoState,
@@ -37,15 +39,16 @@ import type {
 
 const STORAGE_KEY = "istimal-tabib-demo";
 
-// Devices and favorites aren't demo data any more: start empty, fill from the database.
-const SEED: DemoState = { ...DEMO_SEED, devices: [], favorites: [] };
+// Devices, favorites and submissions aren't demo data any more: start empty, fill from the database.
+const DB_EMPTY = { devices: [], favorites: [], submissions: [] };
+const SEED: DemoState = { ...DEMO_SEED, ...DB_EMPTY };
 
 function load(): DemoState | null {
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
     const parsed = JSON.parse(raw) as DemoState;
-    return parsed.version === DEMO_VERSION ? { ...parsed, devices: [], favorites: [] } : null;
+    return parsed.version === DEMO_VERSION ? { ...parsed, ...DB_EMPTY } : null;
   } catch {
     return null;
   }
@@ -53,8 +56,8 @@ function load(): DemoState | null {
 
 function save(state: DemoState) {
   try {
-    // Devices/favorites live in the database — don't keep stale copies here.
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...state, devices: [], favorites: [] }));
+    // Devices/favorites/submissions live in the database — don't keep stale copies here.
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...state, ...DB_EMPTY }));
   } catch {
     /* storage full / blocked — the demo still works in memory */
   }
@@ -68,10 +71,12 @@ function nextCode(existing: string[], prefix: string, start: number): string {
   return `${prefix}${Math.max(start - 1, ...nums) + 1}`;
 }
 
-const today = () => "النهارده";
+/** A log line stamped now (display text + ISO for the database). */
+const stamp = (log: Omit<LogLine, "at">): LogLine => {
+  const iso = new Date().toISOString();
+  return { ...log, iso, at: whenAr(iso) };
+};
 
-type NewSubmission = Omit<Submission, "id" | "createdAt" | "status" | "log" | "feeStatus" | "sellerNet" | "feeReference"> &
-  Partial<Pick<Submission, "feeReference" | "id">>;
 // `id`: the public code the database gave the row, so the demo admin shows the same number.
 type NewRequest = Omit<DeviceRequest, "id" | "createdAt" | "status" | "notifiedAt"> & Partial<Pick<DeviceRequest, "id">>;
 
@@ -84,10 +89,13 @@ export type DemoApi = {
   getDevice: (id: string) => Device | undefined;
   addDevice: (d: Omit<Device, "id" | "views" | "createdAt">) => string;
   updateDevice: (id: string, patch: Partial<Device>) => void;
-  addSubmission: (s: NewSubmission) => string;
+  /** Sell requests failed to load (admins). */
+  submissionsError: boolean;
   updateSubmission: (id: string, patch: Partial<Submission>, log?: Omit<LogLine, "at">) => void;
   /** Accept a sell request → creates a draft device from it. Returns the device id. */
   acceptSubmission: (id: string) => string;
+  /** Flag a seller account جاد / مشبوه (null = no flag). Applies to all their requests. */
+  setSellerTrust: (sellerId: string, trust: Submission["sellerTrust"]) => Promise<void>;
   addRequest: (r: NewRequest) => string;
   updateRequest: (id: string, patch: Partial<DeviceRequest>) => void;
   /** Schedule a new inspection (e.g. from «حدد ميعاد فحص»). Returns its id. */
@@ -110,12 +118,15 @@ export function DemoProvider({ children }: { children: ReactNode }) {
   const [storageReady, setStorageReady] = useState(false);
   const [devicesReady, setDevicesReady] = useState(false);
   const [devicesError, setDevicesError] = useState(false);
+  const [submissionsError, setSubmissionsError] = useState(false);
   const ready = storageReady && devicesReady;
   const loaded = useRef(false);
   const auth = useAuth();
   // Last device list known to match the database (by public code) — the sync
   // effect writes only what differs from it.
   const synced = useRef<Map<string, Device>>(new Map());
+  // Same for submissions: the last row (JSON) written for each, by public code.
+  const syncedSubs = useRef<Map<string, string>>(new Map());
   // Source of truth for actions: lets an action return the new id right away
   // and lets two actions in one click see each other's result.
   const ref = useRef<DemoState>(SEED);
@@ -128,7 +139,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const stored = load();
     if (stored) {
-      ref.current = { ...stored, devices: ref.current.devices, favorites: ref.current.favorites };
+      ref.current = { ...stored, devices: ref.current.devices, favorites: ref.current.favorites, submissions: ref.current.submissions };
       setState(ref.current);
     }
     loaded.current = true;
@@ -146,11 +157,20 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     }
     let alive = true;
     const sb = supabaseBrowser();
-    Promise.all([fetchDevices(sb), userId ? fetchFavorites(sb, userId) : Promise.resolve([] as string[])])
-      .then(([devices, favorites]) => {
+    const subs = isAdmin
+      ? fetchSubmissions(sb).catch((e) => {
+          console.error("submissions load failed", e);
+          if (alive) setSubmissionsError(true);
+          return [] as Submission[];
+        })
+      : Promise.resolve([] as Submission[]);
+    Promise.all([fetchDevices(sb), userId ? fetchFavorites(sb, userId) : Promise.resolve([] as string[]), subs])
+      .then(([devices, favorites, submissions]) => {
         if (!alive) return;
         synced.current = new Map(devices.map((d) => [d.id, d]));
-        ref.current = { ...ref.current, devices, favorites };
+        const dbIds = new Map(devices.map((d) => [d.id, d.dbId]));
+        syncedSubs.current = new Map(submissions.map((x) => [x.id, JSON.stringify(workflowRow(x, x.deviceId ? dbIds.get(x.deviceId) : undefined))]));
+        ref.current = { ...ref.current, devices, favorites, submissions };
         setState(ref.current);
         setDevicesError(false);
         setDevicesReady(true);
@@ -172,7 +192,10 @@ export function DemoProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!isAdmin || !devicesReady) return;
     const sb = supabaseBrowser();
-    for (const d of state.devices) {
+    for (const raw of state.devices) {
+      // Link to the sell request's database row (the admin picks it by code).
+      const subDbId = raw.submissionId ? ref.current.submissions.find((x) => x.id === raw.submissionId)?.dbId : undefined;
+      const d = raw.submissionDbId === subDbId ? raw : { ...raw, submissionDbId: subDbId };
       const prev = synced.current.get(d.id);
       if (prev && JSON.stringify(prev) === JSON.stringify(d)) continue;
       synced.current.set(d.id, d); // optimistic: don't send the same change twice
@@ -193,6 +216,29 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     }
   }, [state.devices, isAdmin, devicesReady]);
 
+  // Admin changes to sell requests → database. Re-runs when devices change
+  // too: a just-accepted request gets its device_id once the draft is saved.
+  useEffect(() => {
+    if (!isAdmin || !devicesReady) return;
+    const sb = supabaseBrowser();
+    for (const x of state.submissions) {
+      if (!x.dbId) continue;
+      const deviceDbId = x.deviceId ? state.devices.find((d) => d.id === x.deviceId)?.dbId : undefined;
+      if (x.deviceId && !deviceDbId) continue; // wait for the draft device's id
+      const row = workflowRow(x, deviceDbId);
+      const json = JSON.stringify(row);
+      const prev = syncedSubs.current.get(x.id);
+      if (prev === json) continue;
+      syncedSubs.current.set(x.id, json);
+      saveSubmission(sb, x.dbId, row).catch((e) => {
+        console.error("submission save failed", x.id, e);
+        if (prev === undefined) syncedSubs.current.delete(x.id);
+        else syncedSubs.current.set(x.id, prev);
+        window.alert(`ما قدرناش نحفظ طلب ${x.id} في قاعدة البيانات. جرّب تاني.`);
+      });
+    }
+  }, [state.submissions, state.devices, isAdmin, devicesReady]);
+
   // Save after every change. Uses ref.current (not this render's `state`): on
   // the first client commit the hydration effect above has already put the
   // stored data in ref.current while `state` is still the seed — saving
@@ -207,7 +253,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
       if (e.key !== STORAGE_KEY) return;
       const fresh = load();
       if (fresh) {
-        ref.current = { ...fresh, devices: ref.current.devices, favorites: ref.current.favorites };
+        ref.current = { ...fresh, devices: ref.current.devices, favorites: ref.current.favorites, submissions: ref.current.submissions };
         setState(ref.current);
       }
     };
@@ -231,30 +277,11 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     commit((s) => ({ ...s, devices: s.devices.map((d) => (d.id === id ? { ...d, ...patch } : d)) }));
   }, [commit]);
 
-  const addSubmission: DemoApi["addSubmission"] = useCallback((input) => {
-    let id = "";
-    commit((s) => {
-      id = input.id ?? nextCode(s.submissions.map((x) => x.id), "#", 1025);
-      const sub: Submission = {
-        ...input,
-        id,
-        createdAt: `${today()} ${new Date().toLocaleTimeString("ar-EG", { hour: "numeric", minute: "2-digit" })}`,
-        status: "new",
-        feeStatus: "pending",
-        feeReference: input.feeReference ?? "",
-        sellerNet: sellerNetFromSalePrice(input.salePrice),
-        log: [{ text: "الطلب وصل من صفحة «اعرض جهازك»", at: today(), tone: "info" }],
-      };
-      return { ...s, submissions: [sub, ...s.submissions] };
-    });
-    return id;
-  }, [commit]);
-
   const updateSubmission: DemoApi["updateSubmission"] = useCallback((id, patch, log) => {
     commit((s) => ({
       ...s,
       submissions: s.submissions.map((x) =>
-        x.id === id ? { ...x, ...patch, log: log ? [...x.log, { ...log, at: today() }] : x.log } : x,
+        x.id === id ? { ...x, ...patch, log: log ? [...x.log, stamp(log)] : x.log } : x,
       ),
     }));
   }, [commit]);
@@ -295,6 +322,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
         saleReason: x.saleReason,
         locationNow: x.keepLocation === "send_to_platform" ? "مقر الفحص" : "عند البايع",
         submissionId: x.id,
+        submissionDbId: x.dbId,
       };
       return {
         ...s,
@@ -305,13 +333,18 @@ export function DemoProvider({ children }: { children: ReactNode }) {
                 ...y,
                 status: "accepted",
                 deviceId,
-                log: [...y.log, { text: `اتقبل واتحول لإعلان مسودة (${deviceId})`, at: today(), tone: "ok" }],
+                log: [...y.log, stamp({ text: `اتقبل واتحول لإعلان مسودة (${deviceId})`, tone: "ok" })],
               }
             : y,
         ),
       };
     });
     return deviceId;
+  }, [commit]);
+
+  const setSellerTrust: DemoApi["setSellerTrust"] = useCallback(async (sellerId, trust) => {
+    await setTrustDb(supabaseBrowser(), sellerId, trust ?? null);
+    commit((s) => ({ ...s, submissions: s.submissions.map((x) => (x.sellerId === sellerId ? { ...x, sellerTrust: trust ?? null } : x)) }));
   }, [commit]);
 
   const addRequest: DemoApi["addRequest"] = useCallback((input) => {
@@ -466,8 +499,8 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     } catch {
       /* ignore */
     }
-    // Demo data only — devices and favorites stay (they're the database's).
-    ref.current = { ...SEED, devices: ref.current.devices, favorites: ref.current.favorites };
+    // Demo data only — devices, favorites and submissions stay (they're the database's).
+    ref.current = { ...SEED, devices: ref.current.devices, favorites: ref.current.favorites, submissions: ref.current.submissions };
     setState(ref.current);
   }, []);
 
@@ -475,13 +508,14 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     () => ({
       ready,
       devicesError,
+      submissionsError,
       state,
       getDevice,
       addDevice,
       updateDevice,
-      addSubmission,
       updateSubmission,
       acceptSubmission,
+      setSellerTrust,
       addRequest,
       updateRequest,
       addInspection,
@@ -491,7 +525,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
       matchesFor,
       reset,
     }),
-    [ready, devicesError, state, getDevice, addDevice, updateDevice, addSubmission, updateSubmission, acceptSubmission, addRequest, updateRequest, addInspection, updateInspection, approveInspection, toggleFavorite, matchesFor, reset],
+    [ready, devicesError, submissionsError, state, getDevice, addDevice, updateDevice, updateSubmission, acceptSubmission, setSellerTrust, addRequest, updateRequest, addInspection, updateInspection, approveInspection, toggleFavorite, matchesFor, reset],
   );
 
   return <DemoContext.Provider value={api}>{children}</DemoContext.Provider>;

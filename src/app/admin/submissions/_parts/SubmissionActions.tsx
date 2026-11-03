@@ -1,13 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import { BUSINESS } from "@/config/business";
+import { fmt, parseNum } from "@/lib/demo/labels";
 import type { Submission } from "@/lib/demo/types";
 import { PHOTO_REQS, REJECT_REASONS, SLOTS, TECHS } from "./meta";
 
-type Mode = "" | "photos" | "sched" | "reject";
+type Mode = "" | "accept" | "photos" | "sched" | "reject";
+const MIN_FEE = BUSINESS.sellerSeriousnessFeeEGP;
 
 export type ActionHandlers = {
-  accept: () => void;
+  /** Accept with the seriousness fee set for this device (ADMIN_SPEC §2). */
+  accept: (feeAmount: number) => void;
   requestPhotos: (what: string) => void;
   schedule: (date: string, slot: string, tech: string) => void;
   reject: (reason: string, note: string) => void;
@@ -30,6 +34,10 @@ function Chip({ on, label, onClick, col = "#0D5C55" }: { on: boolean; label: str
 /** The «قبول / اطلب صور / حدد ميعاد / رفض» block with its sub-flows (Admin-Submissions.dc.html script). */
 export function SubmissionActions({ p, h }: { p: Submission; h: ActionHandlers }) {
   const [mode, setMode] = useState<Mode>("");
+  const [fee, setFee] = useState(String(p.feeAmount ?? MIN_FEE));
+  const [feeTried, setFeeTried] = useState(false);
+  const feeNum = parseNum(fee);
+  const feeBad = !feeNum || feeNum < MIN_FEE;
   const [photoReq, setPhotoReq] = useState<string[]>(["plate"]);
   const [schedDate, setSchedDate] = useState("");
   const [schedSlot, setSchedSlot] = useState(SLOTS[0]);
@@ -46,7 +54,7 @@ export function SubmissionActions({ p, h }: { p: Submission; h: ActionHandlers }
     <div style={{ paddingTop: 16, borderTop: "1px solid #DCE3DF", display: "flex", flexDirection: "column", gap: 14 }}>
       {!mode ? (
         <div className="sb-mainacts">
-          <button type="button" className="sb-act sb-ok" onClick={h.accept}>
+          <button type="button" className="sb-act sb-ok" onClick={() => setMode("accept")}>
             <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
               <path d="M5 12l4 4 10-10" />
             </svg>
@@ -83,6 +91,51 @@ export function SubmissionActions({ p, h }: { p: Submission; h: ActionHandlers }
         </div>
       ) : null}
 
+      {mode === "accept" ? (
+        <div style={{ padding: 16, borderRadius: 16, background: "#EAF5DD", border: "1px solid #B9DB9A", display: "flex", flexDirection: "column", gap: 12 }}>
+          <div style={{ fontWeight: 700, color: "#2C5A13" }}>قبول الطلب — رسوم الجدية للجهاز ده</div>
+          <div style={{ fontSize: 14, color: "#2C5A13" }}>
+            هيتعمل إعلان مسودة من الطلب. حدد رسوم الجدية حسب نوع الجهاز وقيمته ({fmt(MIN_FEE)} ج.م على الأقل)، وبعدين اطلبها من البايع على واتساب. الإعلان بيتنشر أول ما الرسوم توصل.
+          </div>
+          <label className="ad-field" style={{ maxWidth: 260 }}>
+            رسوم الجدية (ج.م)
+            <input
+              type="text"
+              inputMode="numeric"
+              className="ad-in"
+              value={fee}
+              onChange={(e) => setFee(e.target.value)}
+              aria-invalid={feeTried && feeBad}
+              enterKeyHint="done"
+            />
+          </label>
+          {feeTried && feeBad ? (
+            <div role="alert" style={{ fontSize: 13, color: "#B3261E", fontWeight: 600 }}>
+              الرسوم لازم تكون {fmt(MIN_FEE)} ج.م أو أكتر.
+            </div>
+          ) : null}
+          <div className="sb-subacts">
+            <button
+              type="button"
+              className="sb-act sb-ok"
+              onClick={() => {
+                if (feeBad) {
+                  setFeeTried(true);
+                  return;
+                }
+                h.accept(Math.round(feeNum));
+                setMode("");
+              }}
+            >
+              أكّد القبول
+            </button>
+            <button type="button" className="sb-act" onClick={cancel}>
+              إلغاء
+            </button>
+          </div>
+        </div>
+      ) : null}
+
       {mode === "photos" ? (
         <div style={{ padding: 16, borderRadius: 16, background: "#F5F7F4", display: "flex", flexDirection: "column", gap: 12 }}>
           <div style={{ fontWeight: 700 }}>محتاجين إيه من البايع؟</div>
@@ -113,10 +166,10 @@ export function SubmissionActions({ p, h }: { p: Submission; h: ActionHandlers }
 
       {mode === "sched" ? (
         <div style={{ padding: 16, borderRadius: 16, background: "#E3F0ED", border: "1px solid #9CCBC2", display: "flex", flexDirection: "column", gap: 12 }}>
-          <div style={{ fontWeight: 700 }}>ميعاد الفحص مع فني معتمد</div>
+          <div style={{ fontWeight: 700 }}>ميعاد الفحص في المقر</div>
           <div style={{ fontSize: 14, color: "#0B4A44" }}>
             {p.keepLocation === "with_seller"
-              ? `البايع اختار «يفضل معايا»: الفني المعتمد هيروح يعاين الجهاز عنده في ${p.governorate}.`
+              ? "البايع اختار «يفضل معايا»: الفحص في المقر بس. حدد ميعاد لو اتفقت معاه يبعت الجهاز المقر قبل النشر — غير كده هيشحنه للمقر على حسابه أول ما مشتري يطلبه."
               : "البايع اختار «أبعته يتفحص»: البايع هيبعت الجهاز لمقر الفحص في الميعاد ده."}
           </div>
           <div className="ad-grid">

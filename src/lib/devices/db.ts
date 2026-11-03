@@ -43,6 +43,8 @@ type PrivateRow = {
   sale_reason: string | null;
   internal_notes: string | null;
   location_now: string | null;
+  submission_id: string | null;
+  submission?: { public_code: string } | null;
 };
 type ChecklistItem = { key?: string; label: string; group?: string; ok: boolean; note?: string | null };
 type ReportRow = {
@@ -119,6 +121,8 @@ function deviceFrom(d: DeviceRow, p?: PrivateRow, r?: ReportRow): Device {
     saleReason: p?.sale_reason ?? undefined,
     internalNotes: p?.internal_notes ?? undefined,
     locationNow: p?.location_now ?? undefined,
+    submissionDbId: p?.submission_id ?? undefined,
+    submissionId: p?.submission?.public_code ?? undefined,
   };
 }
 
@@ -127,7 +131,7 @@ export async function fetchDevices(sb: SupabaseClient): Promise<Device[]> {
   const [dv, rp, pv] = await Promise.all([
     sb.from("devices").select(DEVICE_COLUMNS).order("created_at", { ascending: false }),
     sb.from("device_reports").select("device_id, report_code, technician_name, inspected_at, checklist, overall_efficiency, appearance, serial_no, replaced_parts, condition, defects"),
-    sb.from("device_private").select("device_id, purchase_cost, seller_net, sale_reason, internal_notes, location_now"),
+    sb.from("device_private").select("device_id, purchase_cost, seller_net, sale_reason, internal_notes, location_now, submission_id, submission:seller_submissions(public_code)"),
   ]);
   if (dv.error) throw dv.error;
   const reports = new Map((rp.data as ReportRow[] | null ?? []).map((r) => [r.device_id, r]));
@@ -169,6 +173,7 @@ const privateFrom = (d: Device, deviceId: string) => ({
   sale_reason: d.saleReason ?? null,
   internal_notes: d.internalNotes ?? null,
   location_now: d.locationNow ?? null,
+  submission_id: d.submissionDbId ?? null,
 });
 
 const reportRowFrom = (r: InspectionReport, deviceId: string, condition: Condition) => ({

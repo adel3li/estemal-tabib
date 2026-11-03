@@ -77,15 +77,31 @@ export type Device = {
   internalNotes?: string;
   locationNow?: string;
   submissionId?: string;
+  /** seller_submissions.id behind `submissionId` (set when loaded from the database). */
+  submissionDbId?: string;
 };
 
-export type LogLine = { text: string; at: string; tone?: "info" | "ok" | "warn" | "bad" };
+export type LogLine = {
+  text: string;
+  at: string; // display, e.g. «3 نوفمبر، 4:10 م»
+  /** When it happened (stored in the database). */
+  iso?: string;
+  tone?: "info" | "ok" | "warn" | "bad";
+};
 
 export type SubmissionStatus = "new" | "follow_up" | "accepted" | "rejected";
 
 export type Submission = {
+  /** seller_submissions.id (database uuid). */
+  dbId?: string;
   id: string; // «#1024»
   createdAt: string; // display, e.g. «النهارده 10:40 ص»
+  createdAtIso?: string;
+  sellerId?: string;
+  /** Seller account flag (profiles.trust): suspicious → «مشبوه» tab. */
+  sellerTrust?: "serious" | "suspicious" | null;
+  /** «ساعدوني أحدد السعر» */
+  priceHelp?: boolean;
   fullName: string;
   phone: string;
   governorate: string;
@@ -115,6 +131,12 @@ export type Submission = {
   accessoryPhotos: number;
   feeStatus: "pending" | "paid" | "refunded" | "forfeited";
   feeReference: string;
+  /** Fee set for this device after acceptance (ADMIN_SPEC §2). */
+  feeAmount?: number;
+  feeRequestedAt?: string; // ISO
+  /** Our FIRST message to the seller — the 3-working-day no-reply rule counts from it. */
+  firstContactAt?: string; // ISO
+  sellerRepliedAt?: string; // ISO
   status: SubmissionStatus;
   rejectReason?: string;
   deviceId?: string; // set when accepted → draft device
