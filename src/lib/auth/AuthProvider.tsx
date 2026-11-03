@@ -17,7 +17,10 @@ type AuthApi = {
   userId: string | null;
   email: string | null;
   profile: Profile | null;
+  /** Super Admin (role = admin). */
   isAdmin: boolean;
+  /** Admin or the marketing & follow-up team (role = marketing). */
+  isTeam: boolean;
   refresh: () => Promise<void>;
   signOut: () => Promise<void>;
 };
@@ -80,7 +83,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const api = useMemo<AuthApi>(
-    () => ({ ready, userId, email, profile, isAdmin: profile?.role === "admin", refresh, signOut }),
+    () => ({ ready, userId, email, profile, isAdmin: profile?.role === "admin", isTeam: profile?.role === "admin" || profile?.role === "marketing", refresh, signOut }),
     [ready, userId, email, profile, refresh, signOut],
   );
   return <AuthContext.Provider value={api}>{children}</AuthContext.Provider>;

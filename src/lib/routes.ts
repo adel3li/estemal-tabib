@@ -32,5 +32,7 @@ export const routes = {
     orders: "/admin/orders",
     payments: "/admin/payments",
     requests: "/admin/requests",
+    demand: "/admin/demand",
+    team: "/admin/team",
   },
 } as const;

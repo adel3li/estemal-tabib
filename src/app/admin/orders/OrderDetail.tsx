@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { isPublic } from "@/lib/demo/store";
-import { STEP_DELIVERY, STEP_RELEASED, STEP_TRIAL, type Order, type PayMethod } from "@/lib/orders/orders";
+import { STEP_DELIVERY, STEP_RELEASED, STEP_SHIPPING, STEP_TRIAL, type Order, type PayMethod } from "@/lib/orders/orders";
 import { whenAr } from "@/lib/submissions/db";
 import { MoneyActions } from "./MoneyActions";
 import type { Device } from "@/lib/demo/types";
@@ -16,6 +16,8 @@ type Props = {
   device?: Device;
   sellerPhone?: string;
   busy: boolean;
+  /** false = the marketing team: no money, and only the shipping → receipt moves. */
+  money: boolean;
   now: number;
   err: string;
   onAdvance: () => void;
@@ -30,11 +32,11 @@ type Props = {
   onNote: (txt: string) => void;
 };
 
-export function OrderDetail({ o, device, sellerPhone, busy, now, err, onAdvance, onPay, onLocation, onCancelOrder, onReturn, onClose, onBack, onShip, onError, onNote }: Props) {
+export function OrderDetail({ o, device, sellerPhone, busy, money, now, err, onAdvance, onPay, onLocation, onCancelOrder, onReturn, onClose, onBack, onShip, onError, onNote }: Props) {
   const [payTxt, payBg, payFg] = payView(o);
   const [insp, inspBg, inspFg] = inspView(o);
   const active = o.status === "active";
-  const open = active && o.step < STEP_RELEASED;
+  const open = active && o.step < STEP_RELEASED && (money || o.step === STEP_SHIPPING || o.step === STEP_DELIVERY);
   return (
     <section className="ad-card or-det" aria-labelledby="or-det-h" style={{ borderColor: "#9CCBC2" }}>
       <button type="button" className="or-back" onClick={onBack}>
@@ -52,7 +54,7 @@ export function OrderDetail({ o, device, sellerPhone, busy, now, err, onAdvance,
             {device && isPublic(device) ? <Link href={routes.device(device.id)} style={{ color: "inherit" }}>{o.device}</Link> : o.device}
           </h2>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 4 }}>
-            <span className="or-pill" style={{ background: payBg, color: payFg }}>{payTxt}</span>
+            {money ? <span className="or-pill" style={{ background: payBg, color: payFg }}>{payTxt}</span> : null}
             <span className="or-pill" style={{ background: inspBg, color: inspFg }}>{insp}</span>
             <span className="or-pill" style={{ background: "#F5F7F4", color: "#3C4C48" }}>صيانة مجانية {o.maint} شهور</span>
           </div>
@@ -95,8 +97,8 @@ export function OrderDetail({ o, device, sellerPhone, busy, now, err, onAdvance,
           <Contacts o={o} sellerPhone={sellerPhone} />
         </div>
         <div style={{ flex: "1 1 300px", minWidth: 0, display: "flex", flexDirection: "column", gap: 14 }}>
-          <MoneyBox o={o} />
-          <MoneyActions key={`${o.id}-${o.remaining}-${o.status}`} o={o} busy={busy} onPay={onPay} onLocation={onLocation} onCancel={onCancelOrder} onReturn={onReturn} />
+          {money ? <MoneyBox o={o} /> : null}
+          <MoneyActions key={`${o.id}-${o.remaining}-${o.status}`} o={o} money={money} busy={busy} onPay={onPay} onLocation={onLocation} onCancel={onCancelOrder} onReturn={onReturn} />
           <ActivityLog o={o} onAdd={onNote} />
         </div>
       </div>

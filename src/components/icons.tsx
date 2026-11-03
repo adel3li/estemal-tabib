@@ -96,6 +96,24 @@ export const HomeIcon = ({ size = 20, ...p }: P) => (
   </svg>
 );
 
+export const ChartIcon = ({ size = 20, ...p }: P) => (
+  <svg {...base(size, p)}>
+    <path d="M4 20V10" />
+    <path d="M10 20V4" />
+    <path d="M16 20v-7" />
+    <path d="M22 20H2" />
+  </svg>
+);
+
+export const UsersIcon = ({ size = 20, ...p }: P) => (
+  <svg {...base(size, p)}>
+    <circle cx="9" cy="8" r="3.5" />
+    <path d="M2.5 20a6.5 6.5 0 0 1 13 0" />
+    <path d="M16 4.5a3.5 3.5 0 0 1 0 7" />
+    <path d="M18 14a5.5 5.5 0 0 1 3.5 6" />
+  </svg>
+);
+
 export const CheckIcon = ({ size = 16, ...p }: P) => (
   <svg {...base(size, { strokeWidth: 2.2, ...p })}>
     <path d="M5 12.5l4.5 4.5L19 7.5" />

@@ -126,8 +126,8 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     setState(ref.current);
   }, []);
 
-  const { ready: authReady, userId, isAdmin } = auth;
-  const loadKey = authReady ? `${userId ?? "anon"}:${isAdmin}` : null;
+  const { ready: authReady, userId, isAdmin, isTeam } = auth;
+  const loadKey = authReady ? `${userId ?? "anon"}:${isAdmin}:${isTeam}` : null;
   const ready = loadKey !== null && loadedFor === loadKey;
   const devicesReady = ready;
 
@@ -152,7 +152,8 @@ export function DemoProvider({ children }: { children: ReactNode }) {
       fetchDevices(sb),
       userId ? fetchFavorites(sb, userId) : Promise.resolve([] as string[]),
       adminOnly(() => fetchSubmissions(sb)),
-      adminOnly(() => fetchRequests(sb)),
+      // The marketing team sees «اطلب جهاز» requests too (ADMIN_SPEC §1).
+      isTeam ? fetchRequests(sb).catch((e) => { console.error(e); if (alive) setSubmissionsError(true); return []; }) : Promise.resolve([]),
       adminOnly(() => fetchInspections(sb)),
     ])
       .then(([devices, favorites, submissions, requests, inspections]) => {
@@ -183,7 +184,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     return () => {
       alive = false;
     };
-  }, [loadKey, userId, isAdmin]);
+  }, [loadKey, userId, isAdmin, isTeam]);
 
   // Admin changes → database. Compares with the last synced copy, so every
   // action (add/edit, accept submission, approve inspection) is covered.
@@ -237,9 +238,9 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     }
   }, [state.submissions, state.devices, isAdmin, devicesReady]);
 
-  // «اطلب جهاز» status changes → database.
+  // «اطلب جهاز» status changes → database (admin or marketing).
   useEffect(() => {
-    if (!isAdmin || !devicesReady) return;
+    if (!isTeam || !devicesReady) return;
     const sb = supabaseBrowser();
     for (const r of state.requests) {
       if (!r.dbId) continue;
@@ -255,7 +256,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
         window.alert(`ما قدرناش نحفظ طلب ${r.id} في قاعدة البيانات. جرّب تاني.`);
       });
     }
-  }, [state.requests, isAdmin, devicesReady]);
+  }, [state.requests, isTeam, devicesReady]);
 
   // Inspections → database (new ones are inserted). Waits for linked rows'
   // ids (a draft device created in the same click).

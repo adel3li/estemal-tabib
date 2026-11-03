@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   BellIcon,
+  ChartIcon,
   GridIcon,
   HomeIcon,
   LockIcon,
@@ -16,9 +17,11 @@ import {
   SearchIcon,
   ToothIcon,
   TruckIcon,
+  UsersIcon,
 } from "@/components/icons";
 import { routes } from "@/lib/routes";
 import { useAdminAlerts } from "@/lib/admin/alerts";
+import { useAuth } from "@/lib/auth/AuthProvider";
 
 const NAV = [
   { href: routes.admin.root, label: "الرئيسية", Icon: HomeIcon, badge: "alerts" as const, match: (p: string) => p === routes.admin.root },
@@ -28,8 +31,12 @@ const NAV = [
   { href: routes.admin.inspections, label: "الفحوصات", Icon: SearchIcon },
   { href: routes.admin.orders, label: "الطلبات والشحن", Icon: TruckIcon },
   { href: routes.admin.payments, label: "الجدول المالي", Icon: LockIcon },
-  { href: routes.admin.requests, label: "طلبات «اطلب جهاز»", Icon: BellIcon },
+  { href: routes.admin.requests, label: "طلبات «اطلب جهاز»", Icon: BellIcon, team: true },
+  { href: routes.admin.demand, label: "الطلب على الأجهزة", Icon: ChartIcon, team: true },
+  { href: routes.admin.team, label: "الفريق", Icon: UsersIcon },
 ];
+/** What the marketing team sees (docs/ADMIN_SPEC.md §1; middleware enforces it). */
+const TEAM_HREFS: string[] = [routes.admin.root, routes.admin.orders, routes.admin.requests, routes.admin.demand];
 
 const isActive = (pathname: string, n: (typeof NAV)[number]) =>
   n.match ? n.match(pathname) : pathname === n.href || pathname.startsWith(n.href + "/");
@@ -37,10 +44,12 @@ const isActive = (pathname: string, n: (typeof NAV)[number]) =>
 export function AdminShell({ children }: { children: ReactNode }) {
   const pathname = usePathname() ?? "";
   const { newSubs: subs, alerts } = useAdminAlerts();
+  const { profile, isAdmin } = useAuth();
+  const nav = isAdmin ? NAV : NAV.filter((n) => TEAM_HREFS.includes(n.href));
   const newSubs = subs.length;
   const [open, setOpen] = useState(false);
   const menuBtn = useRef<HTMLButtonElement>(null);
-  const current = NAV.find((n) => isActive(pathname, n));
+  const current = nav.find((n) => isActive(pathname, n));
 
   // eslint-disable-next-line react-hooks/set-state-in-effect -- close drawer on route change
   useEffect(() => setOpen(false), [pathname]);
@@ -110,7 +119,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
         </div>
         <div style={{ height: 1, background: "#2E5650", margin: "8px 0" }} />
 
-        {NAV.map((n) => {
+        {nav.map((n) => {
           const active = isActive(pathname, n);
           const { href, label, Icon, badge } = n;
           return (
@@ -142,10 +151,10 @@ export function AdminShell({ children }: { children: ReactNode }) {
         })}
 
         <div className="adm-user">
-          <span className="adm-avatar">أ</span>
-          <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.4 }}>
-            <span style={{ color: "#FFFFFF", fontWeight: 600 }}>[اسم الموظف]</span>
-            <span>أدمن</span>
+          <span className="adm-avatar">{(profile?.full_name || profile?.email || "؟").trim().charAt(0)}</span>
+          <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.4, minWidth: 0 }}>
+            <span style={{ color: "#FFFFFF", fontWeight: 600, overflowWrap: "anywhere" }}>{profile?.full_name || profile?.email || ""}</span>
+            <span>{isAdmin ? "المدير الأساسي" : "فريق التسويق والمتابعة"}</span>
           </span>
         </div>
       </aside>

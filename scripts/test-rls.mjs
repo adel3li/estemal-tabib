@@ -30,11 +30,12 @@ function check(name, ok, detail = "") {
 const denied = (r) => Boolean(r.error) || (Array.isArray(r.data) && r.data.length === 0) || r.data === null;
 
 async function makeUser(label, admin = false) {
+  // admin: true → "admin", or a role name ("marketing").
   const email = `${tag}-${label}@example.com`;
   const { data, error } = await service.auth.admin.createUser({ email, email_confirm: true });
   if (error) throw error;
   if (admin) {
-    const up = await service.from("profiles").update({ role: "admin" }).eq("id", data.user.id);
+    const up = await service.from("profiles").update({ role: admin === true ? "admin" : admin }).eq("id", data.user.id);
     if (up.error) throw up.error;
   }
   const link = await service.auth.admin.generateLink({ type: "magiclink", email });
@@ -231,6 +232,53 @@ async function main() {
   check("can't answer twice", Boolean(r.error));
   r = await anon.rpc("buyer_report_decision", { p_order: ord, p_accept: true });
   check("anon can't call buyer_report_decision", Boolean(r.error));
+
+  // ── Marketing & follow-up team (control panel step 5) ────────────────────
+  console.log("\nmarketing team");
+  const mk = await makeUser("marketing", "marketing");
+  created.users.push(mk.id);
+  r = await mk.client.from("profiles").select("id, phone").in("id", [a.id, b.id]);
+  check("reads customers' profiles (phones)", !r.error && r.data.length === 2, r.error?.message);
+  r = await mk.client.from("orders").select("id").eq("id", ord);
+  check("reads orders", !r.error && r.data.length === 1);
+  r = await mk.client.from("device_requests").select("id").eq("id", reqId);
+  check("reads «اطلب جهاز» requests", !r.error && r.data.length === 1);
+  r = await mk.client.from("device_requests").update({ status: "closed" }).eq("id", reqId).select();
+  check("updates a request status", !r.error && r.data.length === 1, r.error?.message);
+  for (const t of ["payments", "device_private", "seller_submissions", "inspections", "audit_log"]) {
+    r = await mk.client.from(t).select("*").limit(5);
+    check(`can't read ${t}`, denied(r), JSON.stringify(r.data)?.slice(0, 120));
+  }
+  r = await mk.client.from("orders").update({ tracking_no: "TRK-1", shipping_company: "x" }).eq("id", ord).select();
+  check("updates shipping data on an order", !r.error && r.data.length === 1, r.error?.message);
+  r = await mk.client.from("orders").update({ status: "delivered" }).eq("id", ord).select();
+  check("moves shipping → delivered", !r.error && r.data[0]?.status === "delivered", r.error?.message);
+  r = await mk.client.from("orders").update({ status: "trial", delivered_at: new Date().toISOString(), trial_ends_at: new Date(Date.now() + 3 * 86400e3).toISOString() }).eq("id", ord).select();
+  check("moves delivered → trial (receipt)", !r.error && r.data[0]?.status === "trial", r.error?.message);
+  const dv = await service.from("devices").select("status, archive_at").eq("id", pub).single();
+  check("trigger: the listing became «تم البيع» with archive date", dv.data.status === "sold" && !!dv.data.archive_at, JSON.stringify(dv.data));
+  r = await mk.client.from("orders").update({ status: "released_to_seller" }).eq("id", ord).select();
+  check("can't release money to the seller", Boolean(r.error));
+  r = await mk.client.from("orders").update({ price: 1 }).eq("id", ord).select();
+  check("can't change the price", Boolean(r.error));
+  r = await mk.client.from("orders").insert({ device_id: pub, price: 1 });
+  check("can't create an order", Boolean(r.error));
+  r = await mk.client.from("devices").update({ featured: true }).eq("id", pub).select();
+  check("can't edit a device", denied(r));
+  r = await mk.client.from("profiles").update({ role: "admin" }).eq("id", mk.id);
+  check("can't make self admin", Boolean(r.error));
+  r = await mk.client.rpc("set_team_role", { p_email: a.email, p_role: "marketing" });
+  check("can't manage the team", Boolean(r.error));
+  r = await mk.client.rpc("demand_stats");
+  check("reads demand stats", !r.error && Array.isArray(r.data), r.error?.message);
+  r = await a.client.rpc("demand_stats");
+  check("a normal user can't read demand stats", Boolean(r.error));
+  r = await anon.rpc("count_device_view", { p_code: "L-does-not-exist" });
+  check("anon can count a view", !r.error, r.error?.message);
+  r = await admin.client.rpc("set_team_role", { p_email: b.email, p_role: "marketing" });
+  check("admin adds a team member by email", !r.error, r.error?.message);
+  r = await admin.client.rpc("set_team_role", { p_email: admin.email, p_role: "user" });
+  check("admin can't demote self", Boolean(r.error));
 }
 
 async function cleanup() {

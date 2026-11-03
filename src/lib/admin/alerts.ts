@@ -6,10 +6,11 @@
 import { useState } from "react";
 import { BUSINESS } from "@/config/business";
 import { fmt, typeLabel } from "@/lib/demo/labels";
+import { useAuth } from "@/lib/auth/AuthProvider";
 import { useDemo } from "@/lib/demo/store";
 import type { Device, DeviceRequest, Submission } from "@/lib/demo/types";
 import { isPastDay } from "@/lib/inspections/db";
-import { STEP_REPORT, STEP_SHIPPING, STEP_TRIAL, useOrders, type Order } from "@/lib/orders/orders";
+import { STEP_DELIVERY, STEP_REPORT, STEP_SHIPPING, STEP_TRIAL, useOrders, type Order } from "@/lib/orders/orders";
 import { routes } from "@/lib/routes";
 import { noReplyDeadline, reviewHoursLeft } from "@/lib/submissions/time";
 
@@ -26,6 +27,8 @@ export function useAdminAlerts() {
   const orders = useOrders();
   const [now] = useState(() => Date.now());
   const { state, matchesFor } = demo;
+  // The marketing team doesn't see money (ADMIN_SPEC §1): no payment-based items.
+  const { isAdmin } = useAuth();
 
   // (1) New sell requests, oldest first (24-hour review).
   const newSubs: Submission[] = state.submissions
@@ -36,11 +39,13 @@ export function useAdminAlerts() {
   const orderTodo = orders.orders
     .filter((o) => o.status === "active")
     .map((o): { o: Order; why: string; tone: Tone } | null => {
-      if (o.collected === 0) return { o, why: "مستني الدفع / العربون", tone: "warn" };
-      if (o.step === STEP_TRIAL && o.trialEndsAt && Date.parse(o.trialEndsAt) <= now) return { o, why: "الضمان خلص — حوّل للبايع", tone: "ok" };
+      if (isAdmin && o.collected === 0) return { o, why: "مستني الدفع / العربون", tone: "warn" };
+      if (isAdmin && o.step === STEP_TRIAL && o.trialEndsAt && Date.parse(o.trialEndsAt) <= now) return { o, why: "الضمان خلص — حوّل للبايع", tone: "ok" };
       if (o.step === STEP_SHIPPING && o.eta && Date.parse(`${o.eta}T23:59:59`) < now) return { o, why: "ميعاد التسليم عدّى", tone: "bad" };
+      if (o.step === STEP_SHIPPING) return { o, why: o.no ? "في الشحن — تابع التسليم" : "اكتب بيانات الشحن", tone: "info" };
+      if (o.step === STEP_DELIVERY) return { o, why: "أكّد استلام المشتري", tone: "warn" };
       if (o.step === STEP_REPORT) return { o, why: "مستني رد المشتري على تقرير الفحص", tone: "info" };
-      if (o.step < STEP_SHIPPING) return { o, why: "جهّز الفحص / الشحن", tone: "info" };
+      if (isAdmin && o.step < STEP_SHIPPING) return { o, why: "جهّز الفحص / الشحن", tone: "info" };
       return null;
     })
     .filter((x): x is { o: Order; why: string; tone: Tone } => x !== null);
@@ -85,5 +90,5 @@ export function useAdminAlerts() {
   const order: Record<Tone, number> = { bad: 0, warn: 1, ok: 2, info: 3 };
   alerts.sort((a, b) => order[a.tone] - order[b.tone]);
 
-  return { ready: demo.ready && orders.ready, now, newSubs, orderTodo, matches, alerts, orders: orders.orders };
+  return { ready: demo.ready && orders.ready, isAdmin, now, newSubs, orderTodo, matches, alerts, orders: orders.orders };
 }

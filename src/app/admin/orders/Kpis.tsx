@@ -3,12 +3,17 @@ import { fmt } from "@/lib/demo/labels";
 import { heldOf, type Order } from "@/lib/orders/orders";
 import { isClosed } from "./model";
 
-export function Kpis({ orders }: { orders: Order[] }) {
+/** `money` false (marketing team): no money figures. */
+export function Kpis({ orders, money = true }: { orders: Order[]; money?: boolean }) {
   const open = orders.filter((o) => !isClosed(o));
   const held = open.reduce((a, o) => a + heldOf(o), 0);
   const kpis = [
-    { label: "طلبات مفتوحة", val: String(open.length), sub: `${open.filter((o) => o.paid === "dep").length} منهم بعربون ${BUSINESS.buyerReservationDepositEGP}`, dot: "#0D5C55" },
-    { label: "فلوس محفوظة", val: `${fmt(held)} ج.م`, sub: `متتحولش غير بعد الاستلام + ${BUSINESS.trialDays} أيام`, dot: "#3F7A1F" },
+    money
+      ? { label: "طلبات مفتوحة", val: String(open.length), sub: `${open.filter((o) => o.paid === "dep").length} منهم لسه عليهم فلوس`, dot: "#0D5C55" }
+      : { label: "طلبات مفتوحة", val: String(open.length), sub: "لسه مخلصتش", dot: "#0D5C55" },
+    money
+      ? { label: "فلوس محفوظة", val: `${fmt(held)} ج.م`, sub: `متتحولش غير بعد الاستلام + ${BUSINESS.trialDays} أيام`, dot: "#3F7A1F" }
+      : { label: "مستني تأكيد استلام", val: String(open.filter((o) => o.step === 5).length), sub: "المندوب وصل للمشتري", dot: "#3F7A1F" },
     { label: "في الشحن", val: String(open.filter((o) => o.step === 4 || o.step === 5).length), sub: "شحن أو مستني تأكيد استلام", dot: "#24508F" },
     { label: "في فترة التجربة", val: String(open.filter((o) => o.step === 6).length), sub: "بعدها الفلوس تتحول للبايع", dot: "#F2A33A" },
   ];

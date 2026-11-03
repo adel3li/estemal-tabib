@@ -12,7 +12,7 @@ const WaIcon = () => (
 export function Contacts({ o, sellerPhone }: { o: Order; sellerPhone?: string }) {
   const people = [
     { role: "المشتري", name: o.buyer, gov: o.bGov, phone: o.buyerPhone, extra: o.buyerAddress, initial: "م", bg: "#E6EDF7", fg: "#24508F" },
-    ...(o.sellerCo ? [] : [{ role: "البايع", name: o.seller || "—", gov: o.gov, phone: sellerPhone ?? "", extra: "", initial: "ب", bg: "#E3F0ED", fg: "#0D5C55" }]),
+    ...(o.sellerCo || !o.seller ? [] : [{ role: "البايع", name: o.seller || "—", gov: o.gov, phone: sellerPhone ?? "", extra: "", initial: "ب", bg: "#E3F0ED", fg: "#0D5C55" }]),
   ];
   return (
     <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 12 }}>

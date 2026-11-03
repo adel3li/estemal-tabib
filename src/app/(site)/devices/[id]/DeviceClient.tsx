@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DevicesLoading } from "@/components/site/DevicesLoading";
 import { isPublic, useDemo } from "@/lib/demo/store";
 import { routes } from "@/lib/routes";
+import { supabaseBrowser } from "@/lib/supabase/client";
+import { SUPABASE_URL } from "@/lib/supabase/env";
 import { BrowseArt } from "../art";
 import { DeviceArt } from "./art";
 import { DataGrid } from "./DataGrid";
@@ -34,6 +36,20 @@ export function DeviceClient() {
   const d = getDevice(id);
   // Discount code typed on the price card; both order buttons send it.
   const [promo, setPromo] = useState("");
+  const code = d && isPublic(d) ? d.id : null;
+
+  // «الأكثر مشاهدة» (ADMIN_SPEC open point B): count one view per device per browser session.
+  useEffect(() => {
+    if (!code || !SUPABASE_URL) return;
+    const key = `seen:${code}`;
+    try {
+      if (window.sessionStorage.getItem(key)) return;
+      window.sessionStorage.setItem(key, "1");
+    } catch {
+      /* storage blocked — count it anyway */
+    }
+    supabaseBrowser().rpc("count_device_view", { p_code: code }).then(({ error }) => { if (error) console.error("view count failed", error.message); });
+  }, [code]);
 
   if (!ready || (devicesError && !d))
     return (

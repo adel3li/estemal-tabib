@@ -7,6 +7,8 @@ import { LOCATIONS, PAY_METHODS, STEP_TRIAL, type Order, type PayMethod } from "
 
 type Props = {
   o: Order;
+  /** false = marketing team: only «where the device is». */
+  money: boolean;
   busy: boolean;
   onPay: (amount: number, method: PayMethod, reference: string) => void;
   onLocation: (loc: string) => void;
@@ -18,7 +20,7 @@ type Props = {
  * Payments in, where the device is, cancel / return (ADMIN_SPEC §5, §9).
  * Not in the design files — styled like the other order panels.
  */
-export function MoneyActions({ o, busy, onPay, onLocation, onCancel, onReturn }: Props) {
+export function MoneyActions({ o, money, busy, onPay, onLocation, onCancel, onReturn }: Props) {
   const [amount, setAmount] = useState(String(o.remaining || ""));
   const [method, setMethod] = useState<PayMethod>(o.payMethod ?? "instapay");
   const [ref, setRef] = useState("");
@@ -34,7 +36,7 @@ export function MoneyActions({ o, busy, onPay, onLocation, onCancel, onReturn }:
 
   return (
     <div className="or-box" style={{ padding: 18, borderRadius: 18, border: "1px solid #DCE3DF", display: "flex", flexDirection: "column", gap: 14 }}>
-      <h3 style={{ margin: 0, fontSize: 16, fontWeight: 700 }}>الفلوس ومكان الجهاز</h3>
+      <h3 style={{ margin: 0, fontSize: 16, fontWeight: 700 }}>{money ? "الفلوس ومكان الجهاز" : "مكان الجهاز"}</h3>
       <label className="ad-field" style={{ maxWidth: 320 }}>
         الجهاز فين دلوقتي؟
         <select className="ad-in" value={o.location} onChange={(e) => onLocation(e.target.value)} disabled={!active || busy}>
@@ -45,7 +47,7 @@ export function MoneyActions({ o, busy, onPay, onLocation, onCancel, onReturn }:
         </select>
       </label>
 
-      {active && o.remaining > 0 ? (
+      {money && active && o.remaining > 0 ? (
         <>
           <div style={{ fontWeight: 600 }}>سجّل دفعة من المشتري · الباقي {fmt(o.remaining)} ج.م</div>
           <div className="ad-grid" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(160px, 1fr))" }}>
@@ -77,7 +79,7 @@ export function MoneyActions({ o, busy, onPay, onLocation, onCancel, onReturn }:
         </>
       ) : null}
 
-      {active && !mode ? (
+      {money && active && !mode ? (
         <div className="or-acts">
           {o.step < STEP_TRIAL ? (
             <button type="button" className="ad-btn ad-sec" style={{ color: "#B3261E" }} onClick={() => setMode("cancel")}>

@@ -58,7 +58,7 @@ function Item({ href, title, sub, pill }: { href: string; title: string; sub: st
 const Empty = ({ children }: { children: React.ReactNode }) => <div className="hm-empty">{children}</div>;
 
 export default function AdminHome() {
-  const { ready, now, newSubs, orderTodo, matches, alerts, orders } = useAdminAlerts();
+  const { ready, isAdmin, now, newSubs, orderTodo, matches, alerts, orders } = useAdminAlerts();
   const active = useMemo(() => orders.filter((o) => o.status === "active" && o.step < STEP_RELEASED), [orders]);
   const held = active.reduce((a, o) => a + o.collected, 0);
   const due = active.reduce((a, o) => a + o.remaining, 0);
@@ -72,7 +72,11 @@ export default function AdminHome() {
       <div>
         <div style={{ fontSize: 14, color: "#4A5A56" }}>لوحة التحكم › الرئيسية · {today}</div>
         <h1 className="hm-h1" style={{ margin: 0, lineHeight: 1.3, fontWeight: 700 }}>الرئيسية</h1>
-        <div style={{ color: "#4A5A56" }}>المطلوب منك النهارده بالترتيب: طلبات البيع الجديدة، بعدين الطلبات، بعدين مطابقات «اطلب جهاز».</div>
+        <div style={{ color: "#4A5A56" }}>
+          {isAdmin
+            ? "المطلوب منك النهارده بالترتيب: طلبات البيع الجديدة، بعدين الطلبات، بعدين مطابقات «اطلب جهاز»."
+            : "المطلوب منك النهارده: متابعة شحن وتسليم الطلبات، وتبليغ عملاء «اطلب جهاز» بالأجهزة المناسبة."}
+        </div>
       </div>
 
       {!ready ? (
@@ -80,10 +84,14 @@ export default function AdminHome() {
       ) : (
         <>
           <div className="hm-kpis">
-            <Link href={routes.admin.submissions} className="hm-kpi"><span>طلبات بيع جديدة</span><b>{newSubs.length}</b></Link>
+            {isAdmin ? <Link href={routes.admin.submissions} className="hm-kpi"><span>طلبات بيع جديدة</span><b>{newSubs.length}</b></Link> : null}
             <Link href={routes.admin.orders} className="hm-kpi"><span>طلبات شراء مفتوحة</span><b>{active.length}</b></Link>
             <Link href={routes.admin.requests} className="hm-kpi"><span>مطابقات «اطلب جهاز»</span><b>{matches.length}</b></Link>
-            <Link href={routes.admin.payments} className="hm-kpi"><span>محفوظ · باقي على المشترين</span><b>{fmt(held)} · {fmt(due)} <small>ج.م</small></b></Link>
+            {isAdmin ? (
+              <Link href={routes.admin.payments} className="hm-kpi"><span>محفوظ · باقي على المشترين</span><b>{fmt(held)} · {fmt(due)} <small>ج.م</small></b></Link>
+            ) : (
+              <Link href={routes.admin.demand} className="hm-kpi"><span>الطلب على الأجهزة</span><b style={{ fontSize: 18 }}>الأكثر مشاهدة وحفظاً ←</b></Link>
+            )}
           </div>
 
           <section className="ad-card" aria-labelledby="hm-al" style={{ gap: 10 }}>
@@ -115,6 +123,7 @@ export default function AdminHome() {
           </section>
 
           <div className="hm-queue">
+            {isAdmin ? (
             <Section n="١" title="طلبات البيع الجديدة" count={newSubs.length} href={routes.admin.submissions} all="كل طلبات البيع">
               {newSubs.slice(0, 6).map((s) => {
                 const h = s.createdAtIso ? reviewHoursLeft(s.createdAtIso, now) : BUSINESS.sellReviewHours;
@@ -130,6 +139,7 @@ export default function AdminHome() {
               })}
               {newSubs.length === 0 ? <Empty>مفيش طلبات بيع جديدة.</Empty> : null}
             </Section>
+            ) : null}
 
             <Section n="٢" title="طلبات الشراء والتأكيدات" count={orderTodo.length} href={routes.admin.orders} all="كل الطلبات">
               {orderTodo.slice(0, 6).map(({ o, why, tone }) => (
@@ -158,14 +168,14 @@ export default function AdminHome() {
                 <span className="ad-n" style={{ background: "#E6EDF7", color: "#24508F" }}>
                   <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 6h16" /><path d="M4 12h16" /><path d="M4 18h10" /></svg>
                 </span>
-                الفلوس وحالة الطلبات المفتوحة
+                {isAdmin ? "الفلوس وحالة الطلبات المفتوحة" : "حالة الطلبات المفتوحة"}
               </h2>
-              <Link href={routes.admin.payments} className="hm-all">الجدول المالي ←</Link>
+              {isAdmin ? <Link href={routes.admin.payments} className="hm-all">الجدول المالي ←</Link> : null}
             </div>
             {active.length ? (
-              <div className="hm-tbl" role="table" aria-label="الطلبات المفتوحة">
+              <div className={`hm-tbl${isAdmin ? "" : " hm-nomoney"}`} role="table" aria-label="الطلبات المفتوحة">
                 <div className="hm-tr hm-th" role="row">
-                  {["الطلب", "الدفع", "الباقي", "المواعيد", "الفحص", "الخطوة"].map((h) => <span key={h} role="columnheader">{h}</span>)}
+                  {(isAdmin ? ["الطلب", "الدفع", "الباقي", "المواعيد", "الفحص", "الخطوة"] : ["الطلب", "المشتري", "المواعيد", "الفحص", "الخطوة"]).map((h) => <span key={h} role="columnheader">{h}</span>)}
                 </div>
                 {active.map((o) => {
                   const [t, bg, fg] = MONEY[moneyStatus(o, now)];
@@ -175,8 +185,14 @@ export default function AdminHome() {
                         <b>{o.id}</b>
                         <span className="hm-sub" style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{o.device}</span>
                       </span>
-                      <span role="cell" data-l="الدفع"><span className="hm-pill" style={{ background: bg, color: fg }}>{t}</span> <span className="hm-sub">{methodLabel(o.payMethod)}</span></span>
-                      <span role="cell" data-l="الباقي" style={{ fontWeight: 700, color: o.remaining ? "#8A4209" : "#3F7A1F" }}>{o.remaining ? `${fmt(o.remaining)} ج.م` : "مفيش"}</span>
+                      {isAdmin ? (
+                        <>
+                          <span role="cell" data-l="الدفع"><span className="hm-pill" style={{ background: bg, color: fg }}>{t}</span> <span className="hm-sub">{methodLabel(o.payMethod)}</span></span>
+                          <span role="cell" data-l="الباقي" style={{ fontWeight: 700, color: o.remaining ? "#8A4209" : "#3F7A1F" }}>{o.remaining ? `${fmt(o.remaining)} ج.م` : "مفيش"}</span>
+                        </>
+                      ) : (
+                        <span role="cell" data-l="المشتري">{o.buyer} · <span dir="ltr">{o.buyerPhone}</span></span>
+                      )}
                       <span role="cell" data-l="المواعيد">{timeline(o)}</span>
                       <span role="cell" data-l="الفحص">{INSPECTION_LABEL[o.insp]}</span>
                       <span role="cell" data-l="الخطوة">{ORDER_STEPS[Math.min(o.step, 6)]}</span>

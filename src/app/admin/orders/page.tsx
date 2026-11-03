@@ -7,6 +7,7 @@ import { useSearchParams } from "next/navigation";
 import { Suspense, useMemo, useRef, useState } from "react";
 import { BUSINESS } from "@/config/business";
 import { fmt } from "@/lib/demo/labels";
+import { useAuth } from "@/lib/auth/AuthProvider";
 import { useDemo } from "@/lib/demo/store";
 import type { Device } from "@/lib/demo/types";
 import { ORDER_STEPS, STEP_INSPECTION, STEP_RELEASED, STEP_SHIPPING, STEP_TRIAL, methodLabel, useOrders, type NewOrder, type Order } from "@/lib/orders/orders";
@@ -29,6 +30,8 @@ export default function OrdersPageRoute() {
 
 function OrdersPage() {
   const api = useOrders();
+  // The marketing team: tracking only — no money, no new orders (ADMIN_SPEC §1).
+  const { isAdmin } = useAuth();
   const { ready: storeReady, state, updateDevice, updateSubmission, addInspection } = useDemo();
   // ?open=#2001 (links from the financial table).
   const [sel, setSel] = useState<string | null>(useSearchParams().get("open"));
@@ -48,9 +51,9 @@ function OrdersPage() {
         const dev = state.devices.find((d) => d.dbId === o.deviceDbId);
         const co = dev?.source === "company";
         const sub = dev?.submissionId ? state.submissions.find((s) => s.id === dev.submissionId) : undefined;
-        return { ...o, sellerCo: co, seller: co ? "استعمال طبيب" : (sub?.fullName ?? "[البايع]"), sellerNet: dev?.sellerNet };
+        return { ...o, sellerCo: co, seller: co ? "استعمال طبيب" : (sub?.fullName ?? (isAdmin ? "[البايع]" : "")), sellerNet: dev?.sellerNet };
       }),
-    [api.orders, state.devices, state.submissions],
+    [api.orders, state.devices, state.submissions, isAdmin],
   );
   const deviceOf = (o: Order) => state.devices.find((d) => d.dbId === o.deviceDbId);
   const sellerPhoneOf = (o: Order) => {
@@ -143,14 +146,15 @@ function OrdersPage() {
         return txt;
       });
       const dev = deviceOf(so);
-      // Received → «تم البيع» on the site for the warranty window, then archived.
-      if (next === STEP_TRIAL && dev) {
+      // Received → «تم البيع» on the site for the warranty window, then archived
+      // (a database trigger does it too — this keeps the admin's copy in step).
+      if (isAdmin && next === STEP_TRIAL && dev) {
         updateDevice(dev.id, { status: "sold", archiveAt: new Date(Date.now() + BUSINESS.trialDays * 86_400_000).toISOString() });
       }
-      if (next >= STEP_RELEASED) await release(so);
+      if (isAdmin && next >= STEP_RELEASED) await release(so);
       // «يُفحص عند الطلب»: the inspection at HQ goes on the inspections list.
       let extra = "";
-      if (next === STEP_INSPECTION && !state.inspections.some((i) => i.orderId === so.id)) {
+      if (isAdmin && next === STEP_INSPECTION && !state.inspections.some((i) => i.orderId === so.id)) {
         const inspId = addInspection({
           kind: "after_order",
           orderId: so.id,
@@ -204,9 +208,11 @@ function OrdersPage() {
             <span style={{ position: "absolute", width: 1, height: 1, overflow: "hidden" }}>دوّر في الطلبات</span>
             <input type="search" className="ad-in" value={q} onChange={(e) => setQ(e.target.value)} placeholder="دوّر برقم الطلب، الجهاز أو المشتري" />
           </label>
-          <button type="button" className="ad-btn ad-pri" onClick={() => { setCreating(true); setSel(null); scrollToEl(detRef.current); }}>
-            + طلب جديد
-          </button>
+          {isAdmin ? (
+            <button type="button" className="ad-btn ad-pri" onClick={() => { setCreating(true); setSel(null); scrollToEl(detRef.current); }}>
+              + طلب جديد
+            </button>
+          ) : null}
         </div>
       </div>
 
@@ -224,11 +230,11 @@ function OrdersPage() {
         <div className="ad-card" role="alert" style={{ minHeight: 160, alignItems: "center", justifyContent: "center", color: "#7A1A14" }}>ما قدرناش نحمّل الطلبات. حدّث الصفحة.</div>
       ) : (
         <>
-          <Kpis orders={orders} />
-          <OrdersTable orders={orders} base={base} rows={rows} filter={filter} sel={sel} onFilter={setFilter} onOpen={openOrder} />
+          <Kpis orders={orders} money={isAdmin} />
+          <OrdersTable money={isAdmin} orders={orders} base={base} rows={rows} filter={filter} sel={sel} onFilter={setFilter} onOpen={openOrder} />
 
           <div ref={detRef} className="or-det-anchor">
-            {creating ? (
+            {creating && isAdmin ? (
               <NewOrderForm devices={orderable} busy={busy} findAccount={findAccount} onCreate={(n, d) => void create(n, d)} onCancel={() => setCreating(false)} />
             ) : so ? (
               <OrderDetail
@@ -236,6 +242,7 @@ function OrdersPage() {
                 device={deviceOf(so)}
                 sellerPhone={sellerPhoneOf(so)}
                 busy={busy}
+                money={isAdmin}
                 now={now}
                 err={err}
                 onAdvance={advance}
