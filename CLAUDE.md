@@ -5,6 +5,7 @@
 - Build order and checkpoints: `PHASE1_PROMPT.md` §10. Stop and report after each step.
 - UI source of truth: `design-reference/*.dc.html` (markup, copy, scripts) + `design-reference/Demo.html` (opens in a browser). Apply the overrides in §2.1 on top.
 - Business numbers live only in `src/config/business.ts`.
+- **Control panel requirements: `docs/ADMIN_SPEC.md`** (client answers, Nov 2026) — newer than the brief; it wins where they differ.
 - Log every choice the brief didn't make in `DECISIONS.md`.
 - Open questions (§12) are **not** yours to decide: leave a `TODO(open question §12.N)`.
 
