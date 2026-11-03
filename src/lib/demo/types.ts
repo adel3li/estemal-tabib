@@ -63,7 +63,9 @@ export type Device = {
   status: DeviceStatus;
   /** «تم البيع» devices leave the site at this time (warranty window over). */
   archiveAt?: string;
+  /** Shown as «مميز» only until this time (at most 7 days, ADMIN_SPEC §3). */
   featured: boolean;
+  featuredUntil?: string;
   views: number;
   source: DeviceSource;
   createdAt: string; // display date, e.g. «12 أكتوبر 2026»
@@ -148,6 +150,8 @@ export type Submission = {
 export type DeviceRequest = {
   /** device_requests.id (database uuid). */
   dbId?: string;
+  /** The account that sent it (profiles.id). */
+  userId?: string;
   id: string; // «R-118»
   createdAt: string; // «27 أكتوبر»
   createdAtIso?: string;

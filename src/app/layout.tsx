@@ -9,6 +9,7 @@ import "@fontsource/ibm-plex-sans-arabic/700.css";
 import "./globals.css";
 import { DemoProvider } from "@/lib/demo/store";
 import { AuthProvider } from "@/lib/auth/AuthProvider";
+import { SettingsProvider } from "@/lib/settings";
 
 export const metadata: Metadata = {
   title: { default: "استعمال طبيب", template: "%s — استعمال طبيب" },
@@ -37,9 +38,11 @@ export default function RootLayout({
     <html lang="ar" dir="rtl">
       <body>
         <AuthProvider>
-          <DemoProvider>
-            {children}
-          </DemoProvider>
+          <SettingsProvider>
+            <DemoProvider>
+              {children}
+            </DemoProvider>
+          </SettingsProvider>
         </AuthProvider>
       </body>
     </html>

@@ -5,6 +5,7 @@ import { BUSINESS } from "@/config/business";
 import { fmt, parseNum } from "@/lib/demo/labels";
 import type { Submission } from "@/lib/demo/types";
 import { whenAr } from "@/lib/submissions/db";
+import { useSettings } from "@/lib/settings";
 import { waLink } from "@/lib/whatsapp";
 import { FEE, FEE_METHODS } from "./meta";
 
@@ -27,6 +28,7 @@ export type FeeHandlers = {
  * Not in the design file — styled like its other inline panels.
  */
 export function FeePanel({ p, h }: { p: Submission; h: FeeHandlers }) {
+  const { transfer } = useSettings();
   const [amount, setAmount] = useState(String(p.feeAmount ?? MIN_FEE));
   const [ref, setRef] = useState(p.feeReference);
   const [method, setMethod] = useState(FEE_METHODS[0][0]);
@@ -39,7 +41,7 @@ export function FeePanel({ p, h }: { p: Submission; h: FeeHandlers }) {
 
   const msg =
     `أهلاً ${p.fullName}، طلب بيع ${p.details} (${p.id}) اتقبل على «استعمال طبيب». ` +
-    `رسوم الجدية للجهاز ده ${fmt(n || MIN_FEE)} ج.م، وتقدر تحوّلها InstaPay أو فودافون كاش على: ${BUSINESS.feeTransferDetails}. ` +
+    `رسوم الجدية للجهاز ده ${fmt(n || MIN_FEE)} ج.م، وتقدر تحوّلها InstaPay أو فودافون كاش على: ${transfer}. ` +
     `ابعتلنا رقم التحويل بعد ما تحوّل (أو اكتبه من صفحة حسابك)، والإعلان هيتنشر أول ما الرسوم توصل. الرسوم بترجعلك كاملة لما الجهاز يتباع.`;
 
   return (

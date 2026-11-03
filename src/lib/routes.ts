@@ -34,5 +34,8 @@ export const routes = {
     requests: "/admin/requests",
     demand: "/admin/demand",
     team: "/admin/team",
+    customers: "/admin/customers",
+    profit: "/admin/profit",
+    settings: "/admin/settings",
   },
 } as const;

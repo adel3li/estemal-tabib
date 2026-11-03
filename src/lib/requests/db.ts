@@ -9,6 +9,7 @@ import { whenAr } from "@/lib/submissions/db";
 type Row = {
   id: string;
   public_code: string;
+  user_id: string;
   full_name: string | null;
   phone: string | null;
   governorate: string | null;
@@ -25,13 +26,14 @@ type Row = {
 };
 
 const COLUMNS =
-  "id, public_code, full_name, phone, governorate, device_type, brand_pref, budget_min, budget_max, needed_by, inspection_pref, notes, status, notified_at, created_at";
+  "id, public_code, user_id, full_name, phone, governorate, device_type, brand_pref, budget_min, budget_max, needed_by, inspection_pref, notes, status, notified_at, created_at";
 
 const day = (iso: string) => whenAr(iso).split("،")[0];
 
 export function requestFromRow(r: Row): DeviceRequest {
   return {
     dbId: r.id,
+    userId: r.user_id,
     id: r.public_code,
     createdAt: day(r.created_at),
     createdAtIso: r.created_at,

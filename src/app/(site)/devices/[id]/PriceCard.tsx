@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { BUSINESS } from "@/config/business";
 import type { Device } from "@/lib/demo/types";
@@ -5,7 +7,7 @@ import { fmt, typeLabel } from "@/lib/demo/labels";
 import { routes } from "@/lib/routes";
 import { OldPrice } from "@/components/site/Price";
 import { SaveButton } from "@/components/site/SaveButton";
-import { waLink } from "@/lib/whatsapp";
+import { useSettings } from "@/lib/settings";
 import { askMessage, brandModel, orderMessage, svgProps } from "./helpers";
 
 const ic = (w = 22) => ({ "aria-hidden": true, width: w, height: w, viewBox: "0 0 24 24", ...svgProps, strokeWidth: 1.8 }) as const;
@@ -14,6 +16,7 @@ const tile = { padding: "12px 6px", borderRadius: 14, display: "flex", flexDirec
 const wRow = { padding: "12px 16px", display: "flex", alignItems: "center", gap: 12, borderTop: "1px solid #E5EBE8" } as const;
 
 export function PriceCard({ d, promo, onPromo }: { d: Device; promo: string; onPromo: (v: string) => void }) {
+  const { wa } = useSettings();
   const inspected = d.inspection === "inspected";
   const days = BUSINESS.trialDays;
   const unavailable = d.status === "reserved" || d.status === "sold";
@@ -143,7 +146,7 @@ export function PriceCard({ d, promo, onPromo }: { d: Device; promo: string; onP
             />
             <span style={{ fontSize: 13, fontWeight: 400, color: "#4A5A56" }}>الكود بيتبعت مع طلبك، وبنأكدلك الخصم على واتساب.</span>
           </label>
-          <a href={waLink(orderMessage(d, promo))} target="_blank" rel="noopener noreferrer" className="li-cta" style={{ minHeight: 56, borderRadius: 14, background: "#0D5C55", color: "#FFFFFF", fontWeight: 700, fontSize: 18, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+          <a href={wa(orderMessage(d, promo))} target="_blank" rel="noopener noreferrer" className="li-cta" style={{ minHeight: 56, borderRadius: 14, background: "#0D5C55", color: "#FFFFFF", fontWeight: 700, fontSize: 18, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
             {inspected ? "اطلب الجهاز" : "اطلب الجهاز وابدأ الفحص"}
             <svg {...ic(20)} strokeWidth={2}><path d="M19 12H5" /><path d="M11 6l-6 6 6 6" /></svg>
           </a>
@@ -152,7 +155,7 @@ export function PriceCard({ d, promo, onPromo }: { d: Device; promo: string; onP
         <div style={{ fontSize: 14, color: "#4A5A56", textAlign: "center" }}>
           تقدر تحجز الجهاز بـ {fmt(BUSINESS.buyerReservationDepositEGP)} ج.م بحد أدنى، وبتتخصم من سعره. <Link href={routes.termsBuyer} className="li-inline-link" style={{ fontWeight: 600 }}>شروط الشراء</Link>
         </div>
-        <a href={waLink(askMessage(d))} target="_blank" rel="noopener noreferrer" className="li-ghost" style={{ minHeight: 48, borderRadius: 14, border: "1px solid #C9D4CF", color: "#12221F", fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+        <a href={wa(askMessage(d))} target="_blank" rel="noopener noreferrer" className="li-ghost" style={{ minHeight: 48, borderRadius: 14, border: "1px solid #C9D4CF", color: "#12221F", fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
           <svg {...ic(20)}><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7L4 20z" /></svg>اسأل على واتساب
         </a>
         <SaveButton deviceId={d.id} />

@@ -1,10 +1,13 @@
+"use client";
+
 import { BUSINESS } from "@/config/business";
 import { fmt } from "@/lib/demo/labels";
 import type { Order } from "@/lib/orders/orders";
-import { waLink } from "@/lib/whatsapp";
+import { useSettings } from "@/lib/settings";
 import { HelpIcon, LockIcon, RefreshIcon, ShieldIcon, WaIcon, WrenchIcon } from "./art";
 
 export function SideCards({ o }: { o: Order }) {
+  const { wa } = useSettings();
   const cancelled = o.status !== "active";
   const t = BUSINESS.trialDays;
   const rows = [
@@ -47,7 +50,7 @@ export function SideCards({ o }: { o: Order }) {
       <div id="help" style={{ padding: 22, borderRadius: 24, background: "#FFFFFF", border: "1px solid #DCE3DF", display: "flex", flexDirection: "column", gap: 12, scrollMarginTop: 88 }}>
         <div style={{ fontWeight: 700, display: "flex", alignItems: "center", gap: 8 }}><HelpIcon />محتاج مساعدة؟</div>
         <a
-          href={waLink(`أهلاً، محتاج مساعدة في طلب رقم ${o.id} (${o.device}).`)}
+          href={wa(`أهلاً، محتاج مساعدة في طلب رقم ${o.id} (${o.device}).`)}
           target="_blank"
           rel="noopener noreferrer"
           className="ot-amber"

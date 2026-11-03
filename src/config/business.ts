@@ -5,6 +5,7 @@ export const BUSINESS = {
   platformFeeMaxRate: 0.15, // seller net = round(salePrice * 0.85)
   sellerSeriousnessFeeEGP: 300, // MINIMUM seller fee; the admin sets it per device after accepting (ADMIN_SPEC §2)
   requestBudgetSlack: 0.2, // «اطلب جهاز» matches up to 20% above the buyer's max budget (ADMIN_SPEC open point C)
+  featuredMaxDays: 7, // «مميز» switches itself off after this (ADMIN_SPEC §3)
   sellReviewHours: 24, // we review a sell request within this many hours (ADMIN_SPEC §2)
   buyerReservationDepositEGP: 500, // Phase 2 (deducted from price)
   trialDays: 3, // replacement/return + money held after delivery

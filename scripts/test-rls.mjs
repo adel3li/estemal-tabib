@@ -279,6 +279,34 @@ async function main() {
   check("admin adds a team member by email", !r.error, r.error?.message);
   r = await admin.client.rpc("set_team_role", { p_email: admin.email, p_role: "user" });
   check("admin can't demote self", Boolean(r.error));
+
+  // ── Settings, customer notes, expenses (control panel step 6) ────────────
+  console.log("\nsettings, customer notes, device expenses");
+  r = await anon.from("site_settings").select("whatsapp").eq("id", 1);
+  check("anon reads the public settings", !r.error && r.data.length === 1, r.error?.message);
+  r = await a.client.from("site_settings").update({ whatsapp: "01000000000" }).eq("id", 1).select();
+  check("a user can't change settings", denied(r));
+  r = await mk.client.from("site_settings").update({ whatsapp: "01000000000" }).eq("id", 1).select();
+  check("marketing can't change settings", denied(r));
+  const before = (await service.from("site_settings").select("whatsapp").eq("id", 1).single()).data.whatsapp;
+  r = await admin.client.from("site_settings").update({ whatsapp: before }).eq("id", 1).select();
+  check("admin changes settings", !r.error && r.data.length === 1, r.error?.message);
+  r = await mk.client.from("customer_notes").insert({ customer_id: a.id, body: "اتكلمنا على واتساب" }).select().single();
+  check("marketing writes a customer note", !r.error && r.data.author_id === mk.id, r.error?.message);
+  r = await mk.client.from("customer_notes").insert({ customer_id: a.id, body: "x", author_id: admin.id });
+  check("can't write a note as someone else", Boolean(r.error));
+  r = await a.client.from("customer_notes").select("id").eq("customer_id", a.id);
+  check("the customer can't read notes about them", denied(r));
+  r = await admin.client.from("customer_notes").select("id").eq("customer_id", a.id);
+  check("admin reads notes", !r.error && r.data.length === 1);
+  r = await admin.client.from("device_expenses").insert({ device_id: pub, kind: "shipping", amount: 150 }).select().single();
+  check("admin records an expense", !r.error, r.error?.message);
+  r = await mk.client.from("device_expenses").select("id").eq("device_id", pub);
+  check("marketing can't read expenses", denied(r));
+  r = await mk.client.from("device_expenses").insert({ device_id: pub, kind: "other", amount: 1 });
+  check("marketing can't add expenses", Boolean(r.error));
+  r = await anon.from("device_expenses").select("id").limit(1);
+  check("anon can't read expenses", denied(r));
 }
 
 async function cleanup() {

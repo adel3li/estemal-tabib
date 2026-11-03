@@ -33,6 +33,7 @@ type DeviceRow = {
   status: DeviceStatus;
   archive_at: string | null;
   featured: boolean;
+  featured_until: string | null;
   views: number;
   published_at: string | null;
   created_at: string;
@@ -63,7 +64,7 @@ type ReportRow = {
 };
 
 const DEVICE_COLUMNS =
-  "id, public_code, title, type, brand, model, details, origin, capacity, manufacture_year, governorate, accessories, condition, inspection_state, declared_defects, has_box, repaired_before, sale_price, compare_at_price, maintenance_months, source, status, archive_at, featured, views, published_at, created_at";
+  "id, public_code, title, type, brand, model, details, origin, capacity, manufacture_year, governorate, accessories, condition, inspection_state, declared_defects, has_box, repaired_before, sale_price, compare_at_price, maintenance_months, source, status, archive_at, featured, featured_until, views, published_at, created_at";
 
 /** «12 أكتوبر 2026» */
 const dateAr = (iso: string | null) =>
@@ -109,7 +110,9 @@ function deviceFrom(d: DeviceRow, p?: PrivateRow, r?: ReportRow): Device {
     maintenanceMonths: d.maintenance_months === 6 ? 6 : 3,
     status: d.status,
     archiveAt: d.archive_at ?? undefined,
-    featured: d.featured,
+    // «مميز» ends by itself after BUSINESS.featuredMaxDays.
+    featured: d.featured && (!d.featured_until || Date.parse(d.featured_until) > Date.now()),
+    featuredUntil: d.featured && d.featured_until ? d.featured_until : undefined,
     views: d.views,
     source: d.source,
     createdAt: dateAr(d.published_at ?? d.created_at),
@@ -166,6 +169,7 @@ function rowFrom(d: Device) {
     status: d.status,
     archive_at: d.status === "sold" ? (d.archiveAt ?? null) : null,
     featured: d.featured,
+    featured_until: d.featured ? (d.featuredUntil ?? null) : null,
   };
 }
 

@@ -9,6 +9,8 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
   BellIcon,
   ChartIcon,
+  CoinsIcon,
+  GearIcon,
   GridIcon,
   HomeIcon,
   LockIcon,
@@ -32,11 +34,14 @@ const NAV = [
   { href: routes.admin.orders, label: "الطلبات والشحن", Icon: TruckIcon },
   { href: routes.admin.payments, label: "الجدول المالي", Icon: LockIcon },
   { href: routes.admin.requests, label: "طلبات «اطلب جهاز»", Icon: BellIcon, team: true },
+  { href: routes.admin.customers, label: "العملاء", Icon: UsersIcon, team: true },
   { href: routes.admin.demand, label: "الطلب على الأجهزة", Icon: ChartIcon, team: true },
+  { href: routes.admin.profit, label: "الأرباح", Icon: CoinsIcon },
   { href: routes.admin.team, label: "الفريق", Icon: UsersIcon },
+  { href: routes.admin.settings, label: "الإعدادات", Icon: GearIcon },
 ];
 /** What the marketing team sees (docs/ADMIN_SPEC.md §1; middleware enforces it). */
-const TEAM_HREFS: string[] = [routes.admin.root, routes.admin.orders, routes.admin.requests, routes.admin.demand];
+const TEAM_HREFS: string[] = [routes.admin.root, routes.admin.orders, routes.admin.requests, routes.admin.customers, routes.admin.demand];
 
 const isActive = (pathname: string, n: (typeof NAV)[number]) =>
   n.match ? n.match(pathname) : pathname === n.href || pathname.startsWith(n.href + "/");

@@ -10,6 +10,7 @@ import { BUSINESS } from "@/config/business";
 import { INSPECTION_LABEL, fmt } from "@/lib/demo/labels";
 import { useDemo } from "@/lib/demo/store";
 import { methodLabel, useOrders, type Order } from "@/lib/orders/orders";
+import { downloadCsv, fileDate } from "@/lib/export";
 import { routes } from "@/lib/routes";
 import { whenAr } from "@/lib/submissions/db";
 import { PmIcon, PmSprite } from "./art";
@@ -51,10 +52,26 @@ export default function PaymentsPage() {
   return (
     <>
       <PmSprite />
+      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-end", gap: 12 }}>
       <div>
         <div style={{ fontSize: 14, color: "#4A5A56" }}>لوحة التحكم › الجدول المالي</div>
         <h1 className="pm-h1" style={{ margin: 0, lineHeight: 1.3, fontWeight: 700 }}>الجدول المالي</h1>
         <div style={{ color: "#4A5A56" }}>اتدفع كام وفاضل كام في كل طلب. فلوس المشتري بتفضل محفوظة لحد الاستلام + {BUSINESS.trialDays} أيام ضمان، وبعدها بتتحوّل للبايع.</div>
+      </div>
+        <button
+          type="button"
+          className="ad-btn ad-sec"
+          disabled={!rows.length}
+          onClick={() =>
+            downloadCsv(
+              `الجدول-المالي-${fileDate()}`,
+              ["الطلب", "التاريخ", "الجهاز", "المشتري", "الموبايل", "السعر", "طريقة الدفع", "اتدفع", "الباقي", "صافي البايع", "الحالة", "الفحص", "استلم", "الضمان لحد"],
+              rows.map(({ o, st }) => [o.id, o.date, o.device, o.buyer, o.buyerPhone, o.amount, methodLabel(o.payMethod), o.collected, o.remaining, o.sellerCo ? "" : netOf(o), ST[st][0], INSPECTION_LABEL[o.insp], o.deliveredAt ? day(o.deliveredAt) : "", o.trialEndsAt ? day(o.trialEndsAt) : ""]),
+            )
+          }
+        >
+          نزّل Excel (CSV)
+        </button>
       </div>
 
       {!api.ready || !storeReady ? (

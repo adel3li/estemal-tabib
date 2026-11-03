@@ -9,6 +9,7 @@ import { BUSINESS } from "@/config/business";
 import type { Profile } from "@/lib/auth/AuthProvider";
 import { fmt, typeLabel } from "@/lib/demo/labels";
 import { routes } from "@/lib/routes";
+import { useSettings } from "@/lib/settings";
 import { supabaseBrowser } from "@/lib/supabase/client";
 import { transferDigits, transferError } from "@/lib/transfer";
 import { dateAr, type MyFavorite, type MyRequest, type MySubmission } from "./data";
@@ -52,6 +53,7 @@ function Empty({ title, text, href, cta }: { title: string; text: string; href: 
 }
 
 function FeeRef({ sub }: { sub: MySubmission }) {
+  const { transfer } = useSettings();
   const [ref, setRef] = useState(sub.fee_reference ?? "");
   const [saved, setSaved] = useState(sub.fee_reference ?? "");
   const [msg, setMsg] = useState("");
@@ -82,10 +84,10 @@ function FeeRef({ sub }: { sub: MySubmission }) {
       }}
       style={{ width: "100%", display: "flex", flexDirection: "column", gap: 8, paddingTop: 10, borderTop: "1px solid #EDF1EF" }}
     >
-      {/* TODO(open question §12.2): real InstaPay / Vodafone Cash details (BUSINESS.feeTransferDetails). */}
+      {/* Transfer details come from «الإعدادات» in the dashboard. */}
       <span className="au-field">طلبك اتقبل! ادفع رسوم الجدية: {fmt(sub.fee_amount ?? BUSINESS.sellerSeriousnessFeeEGP)} ج.م</span>
       <ol className="au-small" style={{ margin: 0, paddingInlineStart: 20, display: "flex", flexDirection: "column", gap: 2 }}>
-        <li>حوّل المبلغ بإنستاباي أو فودافون كاش على: <b>{BUSINESS.feeTransferDetails}</b></li>
+        <li>حوّل المبلغ بإنستاباي أو فودافون كاش على: <b>{transfer}</b></li>
         <li>لو ينفع، اكتب رقم الطلب (<bdi dir="ltr">{sub.public_code}</bdi>) في ملاحظة التحويل.</li>
         <li>اكتب رقم العملية اللي ظهرلك هنا تحت. إعلانك بيتنشر أول ما نأكد الدفع.</li>
       </ol>

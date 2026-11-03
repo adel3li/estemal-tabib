@@ -4,7 +4,7 @@
 // reviews come in, and the form sends a review to the team on WhatsApp; the team
 // publishes it after checking it's from a real order.
 import { useState } from "react";
-import { waLink } from "@/lib/whatsapp";
+import { useSettings } from "@/lib/settings";
 
 type Role = "buyer" | "seller";
 
@@ -29,6 +29,7 @@ function Stars({ n, size = 18 }: { n: number; size?: number }) {
 }
 
 export function ReviewsBody() {
+  const { wa } = useSettings();
   const [name, setName] = useState("");
   const [role, setRole] = useState<Role>("buyer");
   const [rating, setRating] = useState(0);
@@ -118,7 +119,7 @@ export function ReviewsBody() {
             <textarea className="rv-in" rows={4} value={text} onChange={(e) => setText(e.target.value)} placeholder="الجهاز وصل زي التقرير؟ التعامل كان عامل إزاي؟" />
           </label>
           {ready ? (
-            <a href={waLink(message)} target="_blank" rel="noopener noreferrer" className="rv-send">ابعت رأيك على واتساب</a>
+            <a href={wa(message)} target="_blank" rel="noopener noreferrer" className="rv-send">ابعت رأيك على واتساب</a>
           ) : (
             <button type="button" disabled className="rv-send">اختار التقييم واكتب رأيك</button>
           )}

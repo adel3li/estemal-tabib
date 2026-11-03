@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useRef, useState } from "react";
 import { isListed, useDemo } from "@/lib/demo/store";
 import { routes } from "@/lib/routes";
-import { waLink } from "@/lib/whatsapp";
+import { useSettings } from "@/lib/settings";
 import { BrowseArt } from "./art";
 import { DeviceCard } from "./DeviceCard";
 import { DevicesLoading } from "@/components/site/DevicesLoading";
@@ -15,6 +15,7 @@ import { applyFilters, EMPTY, parseFilters, serializeFilters, type Filters, type
 const svg = { fill: "none", stroke: "currentColor", strokeLinecap: "round", strokeLinejoin: "round" } as const;
 
 export function BrowseClient() {
+  const { wa } = useSettings();
   const { state, ready, devicesError } = useDemo();
   const router = useRouter();
   const sp = useSearchParams();
@@ -164,7 +165,7 @@ export function BrowseClient() {
             <div className="br-cta-actions" style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
               <Link href={routes.request} className="br-cta-dark" style={{ minHeight: 48, padding: "0 22px", borderRadius: 12, background: "#F2A33A", color: "#12221F", fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center" }}>اطلب جهاز</Link>
               <a
-                href={waLink("أهلاً، بدوّر على جهاز أسنان مستعمل ومش لاقيه في «كل الأجهزة». ممكن تساعدوني؟")}
+                href={wa("أهلاً، بدوّر على جهاز أسنان مستعمل ومش لاقيه في «كل الأجهزة». ممكن تساعدوني؟")}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="br-ghost-dark"
