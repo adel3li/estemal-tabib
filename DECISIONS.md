@@ -122,3 +122,9 @@ Adel asked to test the whole site end to end before going further, so all 16 scr
 84. **Favourites:** heart on every card (top-left of the picture) and «احفظ الجهاز» on the device page; saved in `favorites`, listed in «حسابي ← المحفوظات». Signed-out → `/login?next=<page>`. «رجّع البيانات» (demo bar) no longer touches devices or favourites.
 85. **Home rows** (client, «more products, more kinds of sections»): «فرصة متتفوتش» (devices with an old price, biggest discount first, highlighted), «وصل جديد», «تم الفحص», «أقل من 10,000 ج.م» — swipeable, «شوف الكل» to the matching /devices filter; empty rows are hidden. Order: categories → hero → rows → «أجهزة متاحة دلوقتي» → quick sell.
 86. **Not done, by choice:** new logo/colours (after launch, per Adel); inspection location rule unchanged until Adel meets Mohamed.
+
+## Control panel build, step 1 — live wording matches the client's answers (2026-11-03)
+
+87. **Sell flow wording** (docs/ADMIN_SPEC.md §2, §4): nothing to pay at submission; the fee is set per device after review and asked for after acceptance; the listing is published when it arrives. «يفضل معايا» now says the seller ships the device to our HQ (at their cost) once someone orders it. The success screen has no payment box; «حسابي» shows the fee box only after acceptance, with the amount the team set (`seller_submissions.fee_amount`), and «بنراجع طلبك» before that.
+88. **Terms:** students allowed («أطباء الأسنان وطلبة طب الأسنان والعيادات والمراكز الطبية»); «يُفحص عند الطلب» = shipped to and inspected at HQ; new seller clauses «الفحص والشحن للمقر» and «إعادة الجهاز للبائع»; buyer payment methods (InstaPay, Vodafone Cash, cash on delivery); warranty starts at actual receipt; new «مصاريف شحن الإرجاع».
+89. **DB:** `seller_submissions.fee_amount / fee_requested_at / first_contact_at / seller_replied_at`, `profiles.trust` ('serious' | 'suspicious', team-only — added to the profiles guard). Sellers can't set the new submission fields (guard).

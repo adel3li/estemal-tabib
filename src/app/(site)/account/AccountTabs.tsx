@@ -22,7 +22,7 @@ const SUB_ST: Record<MySubmission["status"], [string, string, string]> = {
   rejected: ["اترفض", "#FBE9E7", "#B3261E"],
 };
 const FEE_ST: Record<MySubmission["fee_status"], [string, string, string]> = {
-  pending: ["رسوم الجدية لسه ما اتدفعتش", "#FBEEDC", "#8A4209"],
+  pending: ["رسوم الجدية لسه ما اتدفعتش", "#FBEEDC", "#8A4209"], // shown only once the fee was asked for
   paid: ["رسوم الجدية اتدفعت ✓", "#EAF5DD", "#3F7A1F"],
   refunded: ["رسوم الجدية اترجعت", "#E6EDF7", "#24508F"],
   forfeited: ["رسوم الجدية اتخصمت", "#FBE9E7", "#B3261E"],
@@ -82,8 +82,15 @@ function FeeRef({ sub }: { sub: MySubmission }) {
       }}
       style={{ width: "100%", display: "flex", flexDirection: "column", gap: 8, paddingTop: 10, borderTop: "1px solid #EDF1EF" }}
     >
+      {/* TODO(open question §12.2): real InstaPay / Vodafone Cash details (BUSINESS.feeTransferDetails). */}
+      <span className="au-field">طلبك اتقبل! ادفع رسوم الجدية: {fmt(sub.fee_amount ?? BUSINESS.sellerSeriousnessFeeEGP)} ج.م</span>
+      <ol className="au-small" style={{ margin: 0, paddingInlineStart: 20, display: "flex", flexDirection: "column", gap: 2 }}>
+        <li>حوّل المبلغ بإنستاباي أو فودافون كاش على: <b>{BUSINESS.feeTransferDetails}</b></li>
+        <li>لو ينفع، اكتب رقم الطلب (<bdi dir="ltr">{sub.public_code}</bdi>) في ملاحظة التحويل.</li>
+        <li>اكتب رقم العملية اللي ظهرلك هنا تحت. إعلانك بيتنشر أول ما نأكد الدفع.</li>
+      </ol>
       <label htmlFor={id} className="au-field">
-        حوّل {BUSINESS.sellerSeriousnessFeeEGP} ج.م بحد أدنى على {BUSINESS.feeTransferDetails} واكتب رقم التحويل
+        رقم العملية
       </label>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
         <input id={id} type="text" dir="ltr" inputMode="numeric" pattern="[0-9]*" autoComplete="off" enterKeyHint="done" placeholder="رقم العملية (أرقام بس)" className="au-in" style={{ flex: "1 1 180px", textAlign: "right", minHeight: 48 }} value={ref} onChange={(e) => setRef(transferDigits(e.target.value))} aria-describedby={msg ? `${id}-msg` : undefined} />
@@ -209,9 +216,15 @@ export function AccountTabs({
                   </div>
                   <div className="au-pills">
                     <Pill s={SUB_ST[s.status]} />
-                    <Pill s={FEE_ST[s.fee_status]} />
+                    {s.fee_status !== "pending" || (s.status === "accepted" && s.fee_amount) ? <Pill s={FEE_ST[s.fee_status]} /> : null}
                   </div>
-                  {s.fee_status === "pending" && s.status !== "rejected" ? <FeeRef sub={s} /> : null}
+                  {/* The fee is asked for only after acceptance (docs/ADMIN_SPEC.md §2). */}
+                  {s.status === "accepted" && s.fee_amount && s.fee_status === "pending" ? <FeeRef sub={s} /> : null}
+                  {s.status === "new" || s.status === "follow_up" ? (
+                    <span className="au-small" style={{ width: "100%" }}>
+                      بنراجع طلبك (خلال 24 ساعة). لو اتقبل هنبلغك بقيمة رسوم الجدية وإزاي تدفعها.
+                    </span>
+                  ) : null}
                 </li>
               ))}
             </ul>

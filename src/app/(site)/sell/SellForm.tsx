@@ -60,7 +60,6 @@ export function SellForm() {
   const [media, setMedia] = useState<Media>(EMPTY_MEDIA);
   const [tried, setTried] = useState(false);
   const [doneId, setDoneId] = useState<string | null>(null);
-  const [dbId, setDbId] = useState<string | undefined>();
   const [sending, setSending] = useState(false);
   const [sendErr, setSendErr] = useState("");
   const [restoredDraft, setRestoredDraft] = useState(false);
@@ -170,7 +169,6 @@ export function SellForm() {
       feeReference: "",
     });
     clearDraft();
-    setDbId(res.id);
     setDoneId(id);
     window.scrollTo({ top: 0 });
   };
@@ -183,7 +181,7 @@ export function SellForm() {
     window.scrollTo({ top: 0 });
   };
 
-  if (doneId) return <SellSuccess id={doneId} dbId={dbId} onAgain={again} />;
+  if (doneId) return <SellSuccess id={doneId} onAgain={again} />;
 
   const errCount = Object.keys(err).length;
 

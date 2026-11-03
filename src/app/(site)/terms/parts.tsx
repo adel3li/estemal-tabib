@@ -105,9 +105,9 @@ export function GeneralClauses() {
       <Clause title="طبيعة المنصة">
         «استعمال طبيب» منصة وساطة وفحص تقني متخصصة في أجهزة ومعدات الأسنان المستعملة، وتعمل كطرف ثالث محايد يضمن سلامة المعاملة المالية والفنية بين الأطراف.
       </Clause>
-      {/* TODO(client): the draft limits use to doctors, clinics and medical centres, but the site also lets students sign up (account type «طالب»). Confirm with the client. */}
+      {/* Students confirmed by the client (docs/ADMIN_SPEC.md §7). */}
       <Clause title="أهلية الاستخدام">
-        المنصة مخصصة للأطباء والعيادات والمراكز الطبية المعتمدة. يُقر المستخدم بصحة بياناته وصفته الطبية عند التسجيل أو طلب أي خدمة.
+        المنصة مخصصة لأطباء الأسنان وطلبة طب الأسنان والعيادات والمراكز الطبية. يُقر المستخدم بصحة بياناته وصفته عند التسجيل أو طلب أي خدمة.
       </Clause>
     </>
   );
