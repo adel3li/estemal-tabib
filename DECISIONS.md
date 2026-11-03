@@ -181,3 +181,4 @@ Adel asked to test the whole site end to end before going further, so all 16 scr
 125. **Export:** «نزّل Excel (CSV)» on the financial table, profit and customers — UTF-8 CSV with a BOM so Excel shows Arabic; opens in Excel / Google Sheets. (No .xlsx library — keeps the Worker small.)
 126. **«مميز» lasts 7 days** (§3, `BUSINESS.featuredMaxDays`): `devices.featured_until` is set when an admin features a listing; after it the listing simply isn't shown as featured (no job needed). The admin list shows «مميز لحد …». Listings already featured got +7 days from the migration.
 127. The marketing team also sees «العملاء». «الأرباح», «الإعدادات», «الفريق» are Super Admin only (middleware + RLS).
+128. **View counts reset to 0** (Adel, 2026-11-03): the demo listings carried made-up numbers from the design; «الأكثر مشاهدة» now counts real visits only. The demo seed files insert 0 views from now on.

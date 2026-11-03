@@ -20,7 +20,7 @@ insert into public.devices (
 select v.code, v.title, v.type::public.device_type, '[الماركة]', '[الموديل]', '[البلد]', v.capacity,
        v.gov, v.acc, v.defects, v.cond::public.device_condition,
        v.insp::public.inspection_state, v.maint, v.status::public.device_status, v.featured,
-       v.views, v.source::public.device_source, v.box, v.repaired::public.yes_no_unknown, v.price,
+       0, v.source::public.device_source, v.box, v.repaired::public.yes_no_unknown, v.price,
        case when v.status in ('published', 'reserved', 'sold') then v.created::timestamptz end,
        v.created::timestamptz
 from (values
