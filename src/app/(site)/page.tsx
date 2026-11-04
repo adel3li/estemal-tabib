@@ -16,9 +16,9 @@ export default function HomePage() {
     <div className="mn-page hm-page">
       <MainArt />
       <BrowseArt />
-      {/* Category tiles first (client, §76), then hero, devices, quick sell box (§ header tabs: how-it-works lives on /how). */}
-      <Categories />
+      {/* Hero first, then the category tiles (Adel, Nov 2026 — replaces §76), rows, devices, quick sell box. How-it-works lives on /how. */}
       <Hero />
+      <Categories />
       <Rows />
       <Featured />
       <SellBuy />

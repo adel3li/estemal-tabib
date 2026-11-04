@@ -128,7 +128,6 @@
 
 @media (max-width:1199px){
   .hm-cats{grid-template-columns:repeat(5,minmax(0,1fr))}
-  .hm-cats li:nth-child(n+11){display:none}
 }
 @media (max-width:1023px){
   .hm-wrap{padding:0 20px}
@@ -142,7 +141,6 @@
   /* Tiles: two swipeable rows. */
   .hm-cats{grid-template-columns:none;grid-auto-flow:column;grid-template-rows:repeat(2,auto);grid-auto-columns:132px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin-inline:-20px;padding:0 20px 6px;scroll-padding-inline:20px}
   .hm-cats::-webkit-scrollbar{display:none}
-  .hm-cats li:nth-child(n+11){display:block}
   .hm-grid4{grid-template-columns:repeat(2,minmax(0,1fr))}
   .hm-ledger{grid-template-columns:minmax(0,1fr);border-top:0;border-inline-start:1px solid #1D5466;margin-top:36px}
   .hm-ledger li{padding:0 0 24px;padding-inline-start:24px}
@@ -313,3 +311,24 @@
   .hm-page .mn-row{grid-auto-columns:46%;gap:12px}
   .hm-page .mn-row-deal{padding:14px 12px}
 }
+
+/* Category tiles: two rows, then «اعرض كل الأقسام». */
+.hm-cats-2rows li:nth-child(n+15){display:none}
+.hm-cats-more{display:flex;justify-content:center;margin-top:16px}
+.hm-cats-more .hm-btn{height:46px;font-size:15px}
+.hm-cats-more-mid{display:none}
+@media (max-width:1199px){
+  .hm-cats-2rows li:nth-child(n+11){display:none}
+  .hm-cats-more-mid{display:flex}
+}
+/* Tablets/phones: tiles already swipe in two rows, so all of them show and no button. */
+@media (max-width:1023px){
+  .hm-cats-2rows li:nth-child(n+11){display:block}
+  .hm-cats-more,.hm-cats-more-mid{display:none}
+}
+/* Card links on white inside the dark hero. */
+.hm-cert .hm-tlink{color:var(--hm-ink);border-color:currentColor}
+.hm-cert .hm-tlink:hover{color:var(--hm-brand)}
+/* Tiles now sit right under the hero. */
+.hm-cats-wrap{padding-top:40px}
+@media (max-width:767px){.hm-cats-wrap{padding-top:24px}}

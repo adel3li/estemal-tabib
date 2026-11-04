@@ -5,6 +5,7 @@
 // top of the home page (§76). Art: the /devices symbols (BrowseArt) and
 // #mn-tools from the home art for «جهاز تاني».
 import Link from "next/link";
+import { useState } from "react";
 import { artKey } from "@/lib/demo/labels";
 import { useDeviceTypes } from "@/lib/categories";
 import { isListed, useDemo } from "@/lib/demo/store";
@@ -23,6 +24,9 @@ export function Categories() {
   const { state } = useDemo();
   const types = useDeviceTypes();
   const listed = state.devices.filter(isListed);
+  // Two rows of tiles, then «اعرض كل الأقسام» (Adel, Nov 2026). Rows are 7 tiles
+  // wide from 1200px and 5 below; phones/tablets swipe two rows instead.
+  const [all, setAll] = useState(false);
 
   return (
     <section className="hm-wrap hm-cats-wrap" aria-labelledby="hm-cats-h">
@@ -30,7 +34,7 @@ export function Categories() {
         <h2 id="hm-cats-h" className="hm-cats-h">بتدوّر على إيه؟</h2>
         <Link href={routes.devices} className="hm-tlink">كل الأجهزة <span aria-hidden="true">←</span></Link>
       </div>
-      <ul className="hm-cats">
+      <ul id="hm-cats-list" className={all ? "hm-cats" : "hm-cats hm-cats-2rows"}>
         {types.map((t) => (
           <li key={t.id}>
             <Link href={`${routes.devices}?cat=${t.id}`} className="hm-cat">
@@ -45,6 +49,13 @@ export function Categories() {
           </li>
         ))}
       </ul>
+      {types.length > 10 ? (
+        <div className={types.length > 14 ? "hm-cats-more" : "hm-cats-more hm-cats-more-mid"}>
+          <button type="button" className="hm-btn hm-btn-line" aria-expanded={all} aria-controls="hm-cats-list" onClick={() => setAll((v) => !v)}>
+            {all ? "اعرض أقل" : `اعرض كل الأقسام (${types.length})`}
+          </button>
+        </div>
+      ) : null}
     </section>
   );
 }
