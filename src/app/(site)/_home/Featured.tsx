@@ -1,7 +1,7 @@
 "use client";
 
-// «أجهزة متاحة دلوقتي» — Main.dc.html #listings. Chip logic ported from the
-// design's <script>; items come from the demo store (listed, featured first).
+// «أحدث الأجهزة» — v2 card style. Filter logic from Main.dc.html #listings;
+// items come from the demo store (listed, featured first).
 import Link from "next/link";
 import { useState } from "react";
 import { routes } from "@/lib/routes";
@@ -21,7 +21,7 @@ const FILTERS: [string, (d: Device) => boolean][] = [
   ["إندو وجراحة", (d) => ["endo", "apex", "cure", "surg"].includes(d.type)],
 ];
 
-const countText = (n: number) => (n === 1 ? "جهاز واحد" : n === 2 ? "جهازين" : `${n} أجهزة`);
+const ph = (x: string) => !x || x.startsWith("[");
 
 export function Featured() {
   const { state } = useDemo();
@@ -32,48 +32,31 @@ export function Featured() {
   const shown = ordered.filter(FILTERS[cur][1]).slice(0, SHOW);
 
   return (
-    <section id="listings" style={{ background: "#FFFFFF", borderTop: "1px solid #E5EBEA", borderBottom: "1px solid #E5EBEA" }}>
-      <div className="mn-sec" style={{ maxWidth: 1200, margin: "0 auto", display: "flex", flexDirection: "column", gap: 24 }}>
-        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-end", gap: 12 }}>
-          <h2 className="mn-h2" style={{ margin: 0, fontWeight: 700 }}>أجهزة متاحة دلوقتي</h2>
-          <Link href={routes.devices} className="mn-link44" style={{ fontWeight: 600 }}>شوف كل الأجهزة ←</Link>
-        </div>
-        <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 12 }}>
-          <div className="mn-chips" style={{ display: "flex", gap: 10 }} role="group" aria-label="تصفية الأجهزة">
-            {FILTERS.map(([label], k) => {
-              const on = k === cur;
-              return (
-                <button
-                  key={label}
-                  type="button"
-                  className="mn-chip"
-                  onClick={() => setCur(k)}
-                  aria-pressed={on}
-                  style={{
-                    minHeight: 44,
-                    padding: "8px 18px",
-                    borderRadius: 999,
-                    border: `1px solid ${on ? "#0A7E99" : "#C9D4D3"}`,
-                    background: on ? "#0A7E99" : "#FFFFFF",
-                    color: on ? "#FFFFFF" : "#122022",
-                    font: "inherit",
-                    fontWeight: on ? 600 : 400,
-                    cursor: "pointer",
-                    flex: "none",
-                  }}
-                >
-                  {label}
-                </button>
-              );
-            })}
+    <section id="listings" className="hm-sec">
+      <div className="hm-wrap">
+        <div className="hm-sec-head">
+          <div>
+            <div className="hm-eyebrow">متاح دلوقتي</div>
+            <h2 className="hm-h2">أحدث الأجهزة</h2>
           </div>
-          <span aria-live="polite" style={{ fontSize: 14, color: "#4A595A" }}>{countText(shown.length)}</span>
+          <Link href={routes.devices} className="hm-tlink">كل الأجهزة <span aria-hidden="true">←</span></Link>
         </div>
-        <div className="mn-cards" style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(min(250px, 100%), 1fr))", gap: 20 }}>
-          {shown.map((d) => (
-            <DeviceCard key={d.id} d={d} />
+        <div className="hm-tabs" role="group" aria-label="تصفية الأجهزة">
+          {FILTERS.map(([label], k) => (
+            <button key={label} type="button" aria-pressed={k === cur} onClick={() => setCur(k)}>
+              {label}
+            </button>
           ))}
         </div>
+        {shown.length ? (
+          <div className="hm-grid4" aria-live="polite">
+            {shown.map((d) => (
+              <DeviceCard key={d.id} d={d} />
+            ))}
+          </div>
+        ) : (
+          <p className="hm-empty" aria-live="polite">مفيش أجهزة في القسم ده دلوقتي.</p>
+        )}
       </div>
     </section>
   );
@@ -81,40 +64,24 @@ export function Featured() {
 
 function DeviceCard({ d }: { d: Device }) {
   const insp = d.inspection === "inspected";
+  const spec = [ph(d.year) ? "" : d.year, d.governorate].filter(Boolean).join(" · ");
   return (
-    <Link href={routes.device(d.id)} className="mn-card" style={{ display: "flex", flexDirection: "column", borderRadius: 20, border: "1px solid #DCE3E1", background: "#FFFFFF", overflow: "hidden", color: "#122022", boxShadow: "0 4px 14px rgba(15,42,51, 0.04)" }}>
-      <div className="mn-card-img" style={{ position: "relative", background: "#E7EDEC" }}>
-        <svg role="img" aria-label={`رسم توضيحي ل${d.title}`} viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" style={{ display: "block", width: "100%", height: "100%" }}>
+    <Link href={routes.device(d.id)} className="hm-card">
+      <span className="hm-ph hm-card-ph">
+        <svg role="img" aria-label={`رسم توضيحي ل${d.title}`} viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
           <use href={artFor(d.type)} />
         </svg>
-        {insp ? (
-          <span style={{ position: "absolute", top: 12, right: 12, padding: "4px 10px", borderRadius: 999, background: "#0A7E99", color: "#FFFFFF", fontSize: 12, fontWeight: 600, display: "flex", alignItems: "center", gap: 4, boxShadow: "0 2px 8px rgba(15,42,51, 0.15)" }}>
-            <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
-            تم الفحص
-          </span>
-        ) : (
-          <>
-            <span style={{ position: "absolute", top: 12, right: 12, padding: "4px 10px", borderRadius: 999, background: "#FFFFFF", color: "#24508F", fontSize: 12, fontWeight: 700, display: "flex", alignItems: "center", gap: 4, boxShadow: "0 2px 8px rgba(15,42,51, 0.15)" }}>
-              <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="6" /><path d="M20 20l-4.5-4.5" /></svg>
-              يُفحص عند الطلب
-            </span>
-            <span className="mn-card-tag" style={{ position: "absolute", bottom: 10, right: 10, padding: "3px 9px", borderRadius: 999, background: "rgba(15,42,51, 0.68)", color: "#FFFFFF", fontSize: 12, fontWeight: 600 }}>صورة من البايع</span>
-          </>
-        )}
+        <span className="hm-code hm-num">{d.id}</span>
+      </span>
+      <h3 className="hm-card-title">{d.title}</h3>
+      <div className="hm-spec">{spec || typeLabel(d.type)} · صيانة {d.maintenanceMonths} شهور</div>
+      <div className="hm-price">
+        <span className="hm-num">{fmt(d.price)}</span> <small>ج.م</small>
       </div>
-      <div className="mn-card-body" style={{ padding: "16px 18px 18px", display: "flex", flexDirection: "column", gap: 6, flex: 1 }}>
-        <div className="mn-card-title" style={{ fontWeight: 700, fontSize: 17, overflowWrap: "anywhere" }}>{d.title}</div>
-        <div style={{ fontSize: 13, color: "#4A595A" }}>{typeLabel(d.type)}</div>
-        <div className="mn-card-pill" style={{ alignSelf: "flex-start", padding: "2px 10px", borderRadius: 999, background: "#E2F4F8", fontSize: 12, color: "#0A7E99", fontWeight: 600, display: "flex", alignItems: "center", gap: 4 }}>
-          <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" /></svg>
-          ضمان + صيانة {d.maintenanceMonths} شهور
-        </div>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: 10, borderTop: "1px solid #E5EBEA", marginTop: "auto" }}>
-          <span className="mn-card-price" style={{ fontWeight: 700, fontSize: 18 }}>{fmt(d.price)} ج.م</span>
-          <span className="mn-more" style={{ fontSize: 13, color: "#0A7E99", fontWeight: 600, display: "flex", alignItems: "center", gap: 6 }}>
-            التفاصيل<span aria-hidden="true">←</span>
-          </span>
-        </div>
+      <div className={insp ? "hm-status hm-ok" : "hm-status hm-ord"}>
+        <span className="hm-d" aria-hidden="true" />
+        {insp ? "تم الفحص" : "يُفحص عند الطلب"}
+        <em>{insp ? "فيه تقرير" : "قبل الشحن"}</em>
       </div>
     </Link>
   );
