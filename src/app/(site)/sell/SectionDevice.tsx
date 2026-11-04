@@ -1,10 +1,11 @@
 "use client";
 
-import { DEVICE_TYPES } from "@/lib/demo/labels";
+import { useDeviceTypes } from "@/lib/categories";
 import type { DeviceType } from "@/lib/demo/types";
 import { bad, CardHead, grid, Msg, Star, type SectionProps } from "./ui";
 
 export function SectionDevice({ f, set, err }: SectionProps) {
+  const DEVICE_TYPES = useDeviceTypes();
   return (
     <fieldset id="sl-s2" className="sl-card">
       <CardHead

@@ -1,4 +1,5 @@
 // Form model for «إضافة جهاز / تعديل» (Admin.dc.html) + mapping to/from the demo store.
+import { categoryFields } from "@/lib/demo/labels";
 import { BUSINESS, sellerNetFromSalePrice, type MaintenanceMonths } from "@/config/business";
 import { CONDITIONS, parseNum } from "@/lib/demo/labels";
 import { CORE_CHECKS } from "@/lib/demo/seed";
@@ -44,10 +45,13 @@ export type FormState = {
   notes: string;
   hasBox?: boolean;
   repairedBefore?: YesNoUnknown;
+  /** The category's own detail fields (see «الأنواع»), by field key. */
+  specs: Record<string, string>;
 };
 
 export const emptyForm = (): FormState => ({
   src: "company",
+  specs: {},
   submissionId: "",
   sellerNet: "",
   netTouched: false,
@@ -88,6 +92,7 @@ export function formFromDevice(d: Device): FormState {
     locationNow: d.locationNow ?? "مقر الفحص",
     title: d.title,
     type: d.type,
+    specs: { ...(d.specs ?? {}) },
     brand: real(d.brand),
     model: real(d.model),
     year: real(d.year),
@@ -172,6 +177,8 @@ export function deviceFields(f: FormState, base?: Device): Omit<Device, "id" | "
   return {
     title: f.title.trim(),
     type: f.type,
+    // Only the fields of the chosen category, and only filled ones.
+    specs: Object.fromEntries(categoryFields(f.type).map((x) => [x.key, (f.specs[x.key] ?? "").trim()]).filter(([, v]) => v)),
     brand: f.brand.trim() || "[الماركة]",
     model: f.model.trim() || "[الموديل]",
     year: f.year.trim() || "[السنة]",

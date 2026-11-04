@@ -1,8 +1,10 @@
+import { artKey } from "@/lib/demo/labels";
 import type { DeviceType } from "@/lib/demo/types";
 
 export type InSym = "in-unit" | "in-box" | "in-xray" | "in-small" | "in-cam";
 
-export function symFor(t: DeviceType): InSym {
+export function symFor(type: DeviceType): InSym {
+  const t = artKey(type);
   if (t === "unit") return "in-unit";
   if (t === "autoclave") return "in-box";
   if (t === "xray") return "in-xray";

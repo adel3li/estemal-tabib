@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { categoryFields } from "@/lib/demo/labels";
 import type { Device } from "@/lib/demo/types";
 import { brandModel, COND_TILE, defectInfo, REPAIRED, svgProps } from "./helpers";
 
@@ -46,6 +47,12 @@ export function DataGrid({ d }: { d: Device }) {
             <Cell label="اتصلّح قبل كده؟" value={REPAIRED[d.repairedBefore ?? "unknown"]} />
           </>
         )}
+        {/* The category's own details (set in «الأنواع» in the dashboard). */}
+        {categoryFields(d.type)
+          .filter((x) => d.specs?.[x.key])
+          .map((x) => (
+            <Cell key={x.key} label={x.label} value={`${d.specs?.[x.key]}${x.unit ? ` ${x.unit}` : ""}`} />
+          ))}
       </div>
       {d.accessories ? (
         <div style={{ fontSize: 14, color: "#3C4C48" }}>

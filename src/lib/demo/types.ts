@@ -1,7 +1,8 @@
 // Demo data model. Mirrors PHASE1_PROMPT.md §7 closely enough that the
 // Supabase version can replace the store without changing pages much.
 
-export type DeviceType =
+/** The 14 built-in device types (each has a drawing in the design). */
+export type BuiltinType =
   | "unit"
   | "xray"
   | "autoclave"
@@ -16,6 +17,8 @@ export type DeviceType =
   | "cam"
   | "loupe"
   | "other";
+/** A device category id (table device_categories): the built-ins + any the admin adds. */
+export type DeviceType = string;
 
 /** a = ممتازة 81–100% · b = جيدة 60–80% · c = أقل من 60% */
 export type Condition = "a" | "b" | "c";
@@ -55,6 +58,8 @@ export type Device = {
   capacity?: string; // e.g. autoclave «[السعة] لتر»
   governorate: string;
   price: number; // EGP
+  /** Values of the category's own detail fields, by field key (devices.specs). */
+  specs?: Record<string, string>;
   /** «السعر قبل الخصم»: old price shown crossed out; devices with one are «فرصة متتفوتش». */
   compareAtPrice?: number;
   condition: Condition;

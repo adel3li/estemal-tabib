@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { DEVICE_TYPES, parseNum } from "@/lib/demo/labels";
+import { parseNum } from "@/lib/demo/labels";
 import type { DeviceType } from "@/lib/demo/types";
 import { useAuth } from "@/lib/auth/AuthProvider";
 import { VIDEO_ENABLED } from "@/config/features";
@@ -38,7 +38,7 @@ const EMPTY_MEDIA: Media = { photos: [], video: null, extras: [] };
 function fromQuery(q: URLSearchParams): Partial<Form> {
   const out: Partial<Form> = {};
   const type = q.get("type");
-  if (type && DEVICE_TYPES.some((t) => t.id === type)) out.deviceType = type as DeviceType;
+  if (type && /^[a-z0-9_]{2,40}$/.test(type)) out.deviceType = type as DeviceType;
   const details = q.get("details");
   if (details) out.details = details.slice(0, 200);
   const price = parseNum(q.get("price") ?? "");

@@ -1,3 +1,5 @@
+import { useDeviceTypes } from "@/lib/categories";
+import { categoryFields } from "@/lib/demo/labels";
 import { useEffect, useRef, type ReactNode } from "react";
 import type { DeviceType } from "@/lib/demo/types";
 import type { Filters } from "./filters";
@@ -5,22 +7,13 @@ import type { Filters } from "./filters";
 type Chip<T extends string> = { id: T; label: string };
 
 /** Chip order and colors exactly as Browse.dc.html (ids = store DeviceType ids). */
-const CAT_CHIPS: Chip<DeviceType | "all">[] = [
-  { id: "all", label: "الكل" },
-  { id: "cam", label: "كاميرا" },
-  { id: "rotary", label: "روتاري" },
-  { id: "micro", label: "ميكرو موتور" },
-  { id: "loupe", label: "لوب تكبير" },
-  { id: "cure", label: "لايت كيور" },
-  { id: "unit", label: "يونيت أسنان" },
-  { id: "xray", label: "أشعة" },
-  { id: "autoclave", label: "أوتوكلاف" },
-  { id: "surg", label: "موتور جراحة وزراعة" },
-  { id: "apex", label: "أبيكس لوكيتور" },
-  { id: "contra", label: "كونترا" },
-  { id: "iocam", label: "كاميرا إنترا أورال" },
-  { id: "other", label: "جهاز تاني" },
-];
+// Category chips: Browse.dc.html's order for the built-ins (the client's
+// priority groups first), then any category added from the dashboard.
+const DESIGN_ORDER = ["cam", "rotary", "micro", "loupe", "cure", "unit", "xray", "autoclave", "surg", "apex", "contra", "iocam"];
+function catChips(types: { id: DeviceType; label: string }[]): Chip<DeviceType | "all">[] {
+  const rank = (id: string) => (id === "other" ? 9999 : DESIGN_ORDER.includes(id) ? DESIGN_ORDER.indexOf(id) : 500 + types.findIndex((t) => t.id === id));
+  return [{ id: "all", label: "الكل" }, ...[...types].sort((x, y) => rank(x.id) - rank(y.id))];
+}
 const TOP = ["cam", "rotary", "micro", "loupe", "cure"];
 
 const ST_CHIPS: Chip<Filters["st"]>[] = [
@@ -99,6 +92,7 @@ type Props = {
 };
 
 export function FilterAside({ f, set, reset, open, onClose, count }: Props) {
+  const CAT_CHIPS = catChips(useDeviceTypes());
   const closeRef = useRef<HTMLButtonElement>(null);
 
   // Sheet behaviour (only while open, which only happens < 1024px): Esc closes,
@@ -156,8 +150,22 @@ export function FilterAside({ f, set, reset, open, onClose, count }: Props) {
         <ChipRow chips={ST_CHIPS} value={f.st} onPick={(st) => set({ st })} />
       </Group>
       <Group label="نوع الجهاز" icon={<svg {...ic}><rect x="4" y="4" width="7" height="7" rx="2" /><rect x="13" y="4" width="7" height="7" rx="2" /><rect x="4" y="13" width="7" height="7" rx="2" /><rect x="13" y="13" width="7" height="7" rx="2" /></svg>}>
-        <ChipRow chips={CAT_CHIPS} value={f.cat} onPick={(cat) => set({ cat })} isCat />
+        <ChipRow chips={CAT_CHIPS} value={f.cat} onPick={(cat) => set({ cat, spec: {} })} isCat />
       </Group>
+      {/* The chosen category's own «اختيار» details as filters (set in «الأنواع»). */}
+      {f.cat !== "all"
+        ? categoryFields(f.cat)
+            .filter((x) => x.kind === "select" && (x.options ?? []).length)
+            .map((x) => (
+              <Group key={x.key} label={x.label} icon={<svg {...ic}><path d="M4 6h16" /><path d="M7 12h10" /><path d="M10 18h4" /></svg>}>
+                <ChipRow
+                  chips={[{ id: "", label: "الكل" }, ...(x.options ?? []).map((o) => ({ id: o, label: o }))]}
+                  value={f.spec[x.key] ?? ""}
+                  onPick={(v) => set({ spec: { ...f.spec, [x.key]: v } })}
+                />
+              </Group>
+            ))
+        : null}
       <Group label="مدة الضمان" icon={<svg {...ic}><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4 2.5-2.5z" /></svg>}>
         <ChipRow chips={MAINT_CHIPS} value={f.maint} onPick={(maint) => set({ maint })} />
       </Group>

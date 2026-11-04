@@ -8,6 +8,7 @@
 // The `Order` shape is the one the admin pages and the buyer tracker were
 // built on (design files), plus the money fields.
 
+import { artKey } from "@/lib/demo/labels";
 import { useCallback, useEffect, useMemo, useSyncExternalStore } from "react";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { BUSINESS, type MaintenanceMonths } from "@/config/business";
@@ -175,7 +176,7 @@ function fromRow(r: Row): Order {
     createdIso: r.created_at,
     device: d?.title ?? "—",
     cat: d ? typeLabel(d.type) : "",
-    sym: (d && SYM[d.type]) || "small",
+    sym: (d && SYM[artKey(d.type)]) || "small",
     gov: d?.governorate ?? "",
     deviceId: d?.public_code,
     deviceDbId: r.device_id,

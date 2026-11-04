@@ -6,7 +6,8 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { useAuth } from "@/lib/auth/AuthProvider";
 import { loginHref } from "@/lib/auth/next";
 import { supabaseBrowser } from "@/lib/supabase/client";
-import { DEVICE_TYPES, GOVERNORATES, parseNum } from "@/lib/demo/labels";
+import { GOVERNORATES, parseNum } from "@/lib/demo/labels";
+import { useDeviceTypes } from "@/lib/categories";
 import type { DeviceRequest, DeviceType } from "@/lib/demo/types";
 import { routes } from "@/lib/routes";
 import { isEgyptMobile, normalizePhone } from "../sell/form";
@@ -133,6 +134,7 @@ function CardHead({ n, title, step, stepFg, bg, fg, children }: { n: number; tit
 const grid = (min: number) => ({ display: "grid", gridTemplateColumns: `repeat(auto-fit, minmax(min(${min}px, 100%), 1fr))`, gap: 16 });
 
 export function RequestForm() {
+  const DEVICE_TYPES = useDeviceTypes();
   const q = useSearchParams();
   const router = useRouter();
   const auth = useAuth();
@@ -151,7 +153,7 @@ export function RequestForm() {
     restored.current = true;
     const draft = loadDraft() ?? {};
     const t = q.get("type");
-    const fromQ = t && DEVICE_TYPES.some((x) => x.id === t) ? { deviceType: t as DeviceType } : {};
+    const fromQ = t && /^[a-z0-9_]{2,40}$/.test(t) ? { deviceType: t as DeviceType } : {};
     setF({ ...EMPTY, ...draft, ...fromQ });
   }, [q]);
 

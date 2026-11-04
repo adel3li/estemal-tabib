@@ -336,6 +336,26 @@ async function main() {
   check("a user can't edit reviews", denied(r));
   r = await a.client.from("reviews").delete().eq("id", created.reviews[0]).select("id");
   check("a user can't delete reviews", denied(r));
+
+  // ── Device categories ────────────────────────────────────────────────────
+  console.log("\ndevice categories");
+  r = await anon.from("device_categories").select("id").eq("id", "unit");
+  check("anon reads categories", !r.error && r.data.length === 1);
+  const catId = `t_${Date.now().toString(36)}`;
+  r = await a.client.from("device_categories").insert({ id: catId, label: "نوع تجربة" });
+  check("a user can't add a category", Boolean(r.error));
+  r = await mk.client.from("device_categories").insert({ id: catId, label: "نوع تجربة" });
+  check("marketing can't add a category", Boolean(r.error));
+  r = await admin.client.from("device_categories").insert({ id: catId, label: "نوع تجربة", fields: [{ key: "f1", label: "الذاكرة", kind: "select", options: ["128 GB", "256 GB"] }] }).select("id").single();
+  check("admin adds a category with fields", !r.error, r.error?.message);
+  r = await a.client.from("device_categories").update({ label: "x" }).eq("id", catId).select();
+  check("a user can't rename a category", denied(r));
+  r = await admin.client.from("devices").update({ type: "no_such_type" }).eq("id", draft).select();
+  check("a device can't use an unknown category", Boolean(r.error));
+  r = await admin.client.from("devices").update({ type: catId, specs: { f1: "256 GB" } }).eq("id", draft).select("type, specs").single();
+  check("a device takes the new category + its details", !r.error && r.data.type === catId && r.data.specs.f1 === "256 GB", r.error?.message);
+  await service.from("devices").update({ type: "apex", specs: {} }).eq("id", draft);
+  await service.from("device_categories").delete().eq("id", catId);
 }
 
 async function cleanup() {

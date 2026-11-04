@@ -4,13 +4,15 @@ import Link from "next/link";
 import { VIDEO_ENABLED } from "@/config/features";
 import { routes } from "@/lib/routes";
 import { BUSINESS } from "@/config/business";
-import { DEVICE_TYPES, parseNum } from "@/lib/demo/labels";
+import { parseNum } from "@/lib/demo/labels";
+import { useDeviceTypes } from "@/lib/categories";
 import type { DeviceType } from "@/lib/demo/types";
 import { useState } from "react";
 
 const DAYS = BUSINESS.trialDays;
 
 export function SellQuick() {
+  const DEVICE_TYPES = useDeviceTypes();
   const [type, setType] = useState<DeviceType>(DEVICE_TYPES[0].id);
   const [price, setPrice] = useState("");
 

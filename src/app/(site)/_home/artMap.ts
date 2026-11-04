@@ -1,7 +1,8 @@
-import type { DeviceType } from "@/lib/demo/types";
+import { artKey } from "@/lib/demo/labels";
+import type { BuiltinType, DeviceType } from "@/lib/demo/types";
 
 /** Which of the home page's illustrations (art.tsx) to use for a device type. */
-export const ART: Partial<Record<DeviceType, string>> = {
+export const ART: Partial<Record<BuiltinType, string>> = {
   unit: "#mn-unit",
   autoclave: "#mn-autoclave",
   xray: "#mn-xray",
@@ -14,4 +15,4 @@ export const ART: Partial<Record<DeviceType, string>> = {
   micro: "#mn-endo",
 };
 
-export const artFor = (t: DeviceType) => ART[t] ?? "#mn-tools";
+export const artFor = (t: DeviceType) => ART[artKey(t)] ?? "#mn-tools";

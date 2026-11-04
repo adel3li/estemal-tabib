@@ -1,12 +1,13 @@
+import { artKey } from "@/lib/demo/labels";
 import Link from "next/link";
-import type { Device, DeviceType } from "@/lib/demo/types";
+import type { BuiltinType, Device } from "@/lib/demo/types";
 import { CONDITIONS, fmt, typeLabel } from "@/lib/demo/labels";
 import { routes } from "@/lib/routes";
 import { OldPrice } from "@/components/site/Price";
 import { SaveHeart } from "@/components/site/SaveButton";
 
 /** Store type → Browse.dc.html symbol. Types without their own art borrow the closest one. */
-const IMG: Record<DeviceType, string> = {
+const IMG: Record<BuiltinType, string> = {
   unit: "#br-unit",
   xray: "#br-xray",
   autoclave: "#br-autoclave",
@@ -37,7 +38,7 @@ export function DeviceCard({ d }: { d: Device }) {
     >
       <div className="br-img" style={{ position: "relative", aspectRatio: "4 / 3", background: "#E7EDEA", overflow: "hidden" }}>
         <svg role="img" aria-label={d.title} viewBox="0 0 400 300" style={{ display: "block", width: "100%", height: "100%" }}>
-          <use href={IMG[d.type]} />
+          <use href={IMG[artKey(d.type)]} />
         </svg>
         {inspected ? (
           <span style={{ position: "absolute", top: 12, right: 12, padding: "4px 11px", borderRadius: 999, background: "#0D5C55", color: "#FFFFFF", fontSize: 12, fontWeight: 700, display: "flex", alignItems: "center", gap: 5, boxShadow: "0 2px 8px rgba(18, 34, 31, 0.18)" }}>

@@ -30,6 +30,7 @@ const NAV = [
   { href: routes.admin.root, label: "الرئيسية", Icon: HomeIcon, badge: "alerts" as const, match: (p: string) => p === routes.admin.root },
   { href: routes.admin.devices, label: "الأجهزة المعروضة", Icon: GridIcon, match: (p: string) => p === routes.admin.devices || (p.startsWith("/admin/devices/") && p.endsWith("/edit")) },
   { href: routes.admin.newDevice, label: "إضافة جهاز", Icon: PlusIcon, match: (p: string) => p === routes.admin.newDevice },
+  { href: routes.admin.categories, label: "الأنواع", Icon: GridIcon },
   { href: routes.admin.submissions, label: "طلبات البيع الواردة", Icon: MailIcon, badge: "submissions" as const },
   { href: routes.admin.inspections, label: "الفحوصات", Icon: SearchIcon },
   { href: routes.admin.orders, label: "الطلبات والشحن", Icon: TruckIcon },

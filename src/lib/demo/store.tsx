@@ -21,6 +21,7 @@ import {
 import { BUSINESS } from "@/config/business";
 import { useAuth } from "@/lib/auth/AuthProvider";
 import { loginHref } from "@/lib/auth/next";
+import { loadCategories } from "@/lib/categories";
 import { fetchDevices, fetchFavorites, saveDevice, setFavorite } from "@/lib/devices/db";
 import { dateLabelOf, dayIndex, fetchInspections, inspectionRow, saveInspection } from "@/lib/inspections/db";
 import { fetchRequests, requestRow, saveRequest } from "@/lib/requests/db";
@@ -150,13 +151,15 @@ export function DemoProvider({ children }: { children: ReactNode }) {
         : Promise.resolve([] as T[]);
     Promise.all([
       fetchDevices(sb),
+      // Categories first-class with the devices, so labels / forms are right when «ready».
+      loadCategories(sb).catch((e) => console.error("categories load failed", e)),
       userId ? fetchFavorites(sb, userId) : Promise.resolve([] as string[]),
       adminOnly(() => fetchSubmissions(sb)),
       // The marketing team sees «اطلب جهاز» requests too (ADMIN_SPEC §1).
       isTeam ? fetchRequests(sb).catch((e) => { console.error(e); if (alive) setSubmissionsError(true); return []; }) : Promise.resolve([]),
       adminOnly(() => fetchInspections(sb)),
     ])
-      .then(([devices, favorites, submissions, requests, inspections]) => {
+      .then(([devices, , favorites, submissions, requests, inspections]) => {
         if (!alive) return;
         synced.current = new Map(devices.map((d) => [d.id, d]));
         const devIds = new Map(devices.map((d) => [d.id, d.dbId]));
