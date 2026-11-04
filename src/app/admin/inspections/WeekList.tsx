@@ -1,7 +1,7 @@
 import { typeLabel } from "@/lib/demo/labels";
 import type { Inspection } from "@/lib/demo/types";
 import { InSymbol, symFor } from "./art";
-import { weekDays } from "@/lib/inspections/db";
+import { daysFromToday, monthOf, weekDays } from "@/lib/inspections/db";
 import { ST, TABS, TECHS, TODAY, inTab, statusOf, typePill, type Tab } from "./model";
 
 type Props = {
@@ -26,6 +26,9 @@ const CalIcon = () => (
 
 export function WeekList({ items, base, rows, tab, day, sel, onTab, onDay, onOpen, onAssign, now }: Props) {
   const DAYS = weekDays(now);
+  // Inspections outside the 7 days shown (they sit on the first / last day of the list).
+  const early = items.filter((it) => it.status !== "done" && it.scheduledAt && daysFromToday(it.scheduledAt, now) < -3).length;
+  const later = items.filter((it) => it.scheduledAt && daysFromToday(it.scheduledAt, now) > 3).length;
   return (
     <section className="ad-card in-list" aria-labelledby="in-list-h" style={{ flex: "999 1 560px", minWidth: 0 }}>
       <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 10 }}>
@@ -33,7 +36,13 @@ export function WeekList({ items, base, rows, tab, day, sel, onTab, onDay, onOpe
           <span className="ad-n" style={{ background: "#E3F0ED", color: "#0D5C55" }}><CalIcon /></span>
           جدول الأسبوع
         </h2>
-        <span className="ad-hint">من {DAYS[0][0]} {DAYS[0][1]} لحد {DAYS[6][0]} {DAYS[6][1]} · اللي قبل كده في أول يوم، واللي بعده في آخر يوم</span>
+        <span className="ad-hint">{DAYS[0][1]} – {DAYS[6][1]} {monthOf(now)}</span>
+      </div>
+      {/* Client asked (4 Nov) what this means: say it plainly. */}
+      <div className="ad-hint" style={{ marginTop: -4 }}>
+        الرقم تحت كل يوم = عدد الفحوصات اللي ميعادها اليوم ده. دوس على يوم عشان تشوف فحوصاته بس، ودوس تاني عشان ترجع للكل.
+        {early ? ` فيه ${early} فحص ميعاده عدّى قبل ${DAYS[0][0]} ومتعملش — ظاهر في «متأخر».` : ""}
+        {later ? ` وفيه ${later} فحص ميعاده بعد ${DAYS[6][0]} — ظاهر في «الكل».` : ""}
       </div>
 
       <div role="group" aria-label="اختار يوم" className="in-days">
@@ -65,7 +74,7 @@ export function WeekList({ items, base, rows, tab, day, sel, onTab, onDay, onOpe
                   color: on ? "#FFFFFF" : "#4A5A56",
                 }}
               >
-                {n ? `${n} فحص` : "—"}
+                {n ? `${n} فحص` : "مفيش"}
               </span>
             </button>
           );

@@ -47,6 +47,9 @@ function cairoDayStart(t: number): number {
   return noon - hour * 3_600_000;
 }
 
+/** Whole Cairo days from today (negative = past). */
+export const daysFromToday = (iso: string, now = Date.now()) => Math.round((cairoDayStart(Date.parse(iso)) - cairoDayStart(now)) / DAY);
+
 /** Index in the week list: today = 3, clamped to 0..6. */
 export function dayIndex(iso: string | undefined, now = Date.now()): number {
   if (!iso) return 3;
@@ -62,10 +65,13 @@ export function weekDays(now = Date.now()): [string, string][] {
   return Array.from({ length: 7 }, (_, i) => {
     const t = cairoDayStart(now) + (i - 3) * DAY + 12 * 3_600_000;
     const wd = new Date(t).toLocaleDateString("ar-EG", { weekday: "long", timeZone: "Africa/Cairo" });
-    const dm = new Date(t).toLocaleDateString("ar-EG", { day: "numeric", timeZone: "Africa/Cairo" });
+    const dm = new Date(t).toLocaleDateString("ar-EG-u-nu-latn", { day: "numeric", timeZone: "Africa/Cairo" });
     return [wd, dm];
   });
 }
+
+/** «نوفمبر» for the week shown. */
+export const monthOf = (now = Date.now()) => new Date(now).toLocaleDateString("ar-EG", { month: "long", timeZone: "Africa/Cairo" });
 
 export const dateLabelOf = (iso: string) =>
   new Date(iso).toLocaleDateString("ar-EG-u-nu-latn", { weekday: "long", day: "numeric", month: "long", timeZone: "Africa/Cairo" });
