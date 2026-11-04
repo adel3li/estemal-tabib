@@ -104,3 +104,9 @@
   .br-reqbar{padding:18px}
   .br-reqbar b{font-size:17px}
 }
+/* Inspection legend under the title (restored from the old browse head). */
+.br-legend{display:flex;flex-wrap:wrap;gap:8px 24px;margin:8px 0 4px}
+.br-legend .hm-status{margin:0;padding:0;border:0}
+.br-legend .hm-status em{margin-inline-start:6px}
+p.br-count{margin:6px 0 0}
+@media (max-width:767px){.br-legend .hm-status em{display:inline}}

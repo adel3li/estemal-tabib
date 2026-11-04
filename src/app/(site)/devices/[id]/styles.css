@@ -61,7 +61,8 @@
 .li-promo span{font-size:13px;font-weight:400;color:var(--hm-muted)}
 .li-deposit{font-size:13.5px;color:var(--hm-muted);text-align:center;margin-top:2px}
 .li-deposit a{font-weight:600}
-.li-promise{list-style:none;padding:0;margin:24px 0 0;border-top:1px solid var(--hm-line)}
+.li-promise-h{margin:24px 0 0;font-weight:700;font-size:15px}
+.li-promise{list-style:none;padding:0;margin:8px 0 0;border-top:1px solid var(--hm-line)}
 .li-promise li{display:grid;grid-template-columns:26px 1fr;gap:10px;padding:14px 0;border-bottom:1px solid var(--hm-line);font-size:14.5px}
 .li-promise li b{display:block;font-size:15px;font-weight:600}
 .li-promise li span{color:var(--hm-muted);font-size:13.5px}
@@ -152,3 +153,4 @@
   .li-bar-btn{font-size:15px}
 }
 @media (prefers-reduced-motion:reduce){ .li-bar{transition:none} }
+.li-report-top .li-insp{width:110px;height:auto;flex:none}.li-report-top{display:flex;align-items:center;gap:16px}

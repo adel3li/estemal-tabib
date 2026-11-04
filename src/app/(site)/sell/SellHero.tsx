@@ -13,10 +13,15 @@ const STEPS = ["بياناتك", "بيانات الجهاز", "الحالة وا
 
 export function SellHead() {
   return (
-    <div className="hm-wrap sl-head">
-      <div className="hm-eyebrow">بيع جهازك</div>
-      <h1 className="sl-h1">اعرض جهازك للبيع</h1>
-      <p className="sl-lead">كل ما كانت البيانات أدق، كل ما الجهاز اتباع أسرع. بعد ما تبعت الطلب هنكلمك خلال 24 ساعة نحدد ميعاد الفحص.</p>
+    <div className="hm-wrap sl-head v2-head-art">
+      <div>
+        <div className="hm-eyebrow">بيع جهازك</div>
+        <h1 className="sl-h1">اعرض جهازك للبيع</h1>
+        <p className="sl-lead">كل ما كانت البيانات أدق، كل ما الجهاز اتباع أسرع. بعد ما تبعت الطلب هنكلمك خلال 24 ساعة نحدد ميعاد الفحص.</p>
+      </div>
+      <svg role="img" aria-label="رسم توضيحي لكرسي أسنان مع تقرير فحص وسعر" viewBox="0 0 520 380" className="v2-head-pic">
+        <use href="#sl-hero" />
+      </svg>
     </div>
   );
 }

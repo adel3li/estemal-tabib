@@ -90,3 +90,8 @@ select.rq-in{-webkit-appearance:none;appearance:none;padding-left:40px;cursor:po
   .rq-done-actions>*{justify-content:center}
   .rq-match{flex-direction:column;align-items:flex-start;gap:4px}
 }
+/* Head illustration (restored from the old hero). */
+.v2-head-art{display:flex;align-items:center;justify-content:space-between;gap:24px 40px}
+.v2-head-art > div{flex:1 1 auto;min-width:0}
+.v2-head-pic{flex:none;display:block;width:260px;height:auto}
+@media (max-width:767px){.v2-head-art{flex-wrap:wrap}.v2-head-pic{width:100%;max-width:300px;margin-inline:auto}}

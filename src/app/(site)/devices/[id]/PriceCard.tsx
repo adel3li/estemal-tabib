@@ -10,7 +10,6 @@ import { waLink } from "@/lib/whatsapp";
 import { askMessage, brandModel, orderMessage, svgProps } from "./helpers";
 
 const ic = (w = 18) => ({ "aria-hidden": true, width: w, height: w, viewBox: "0 0 24 24", ...svgProps, strokeWidth: 1.9 }) as const;
-const ph = (x: string) => !x || x.startsWith("[");
 
 function PromiseRow({ icon, title, text }: { icon: ReactNode; title: ReactNode; text: ReactNode }) {
   return (
@@ -32,11 +31,13 @@ export function PriceCard({ d, promo, onPromo }: { d: Device; promo: string; onP
     <div className="li-buy">
       <div className="hm-eyebrow">{typeLabel(d.type)} · <span className="hm-num">{d.id}</span></div>
       <h1 className="li-h1">{d.title} — {subtitle}</h1>
-      <div className="li-sub">
-        {!ph(d.year) || inspected ? <span>سنة الصنع {d.year}</span> : null}
-        {inspected ? <span>بلد المنشأ {d.origin}</span> : null}
-        <span>{d.governorate}</span>
-      </div>
+      {/* No location on the device page (client feedback); year/origin only once inspected. */}
+      {inspected ? (
+        <div className="li-sub">
+          <span>سنة الصنع {d.year}</span>
+          <span>بلد المنشأ {d.origin}</span>
+        </div>
+      ) : null}
 
       {unavailable ? (
         <div role="status" className={d.status === "sold" ? "li-flag" : "li-flag li-flag-warn"}>
@@ -64,8 +65,8 @@ export function PriceCard({ d, promo, onPromo }: { d: Device; promo: string; onP
             <svg {...ic(20)}><circle cx="11" cy="11" r="6" /><path d="M20 20l-4.5-4.5" /></svg>
           </span>
           <div>
-            <b>يُفحص عند الطلب</b>
-            <span>الفحص بيتم خلال {days} أيام عمل من طلبك، وتقرير الفحص بيوصلك قبل الشحن. لو مطلعش مطابق، فلوسك بترجعلك كاملة.</span>
+            <b>لو الجهاز مطلعش مطابق في الفحص، فلوسك بترجعلك كاملة.</b>
+            <span>الفحص بيتم خلال {days} أيام عمل من طلبك، وتقرير الفحص بيوصلك قبل الشحن.</span>
           </div>
         </div>
       )}
@@ -100,18 +101,19 @@ export function PriceCard({ d, promo, onPromo }: { d: Device; promo: string; onP
         )}
         <a href={waLink(askMessage(d))} target="_blank" rel="noopener noreferrer" className="hm-btn hm-btn-line li-btn-full">
           <svg {...ic(20)} strokeWidth={1.8}><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7L4 20z" /></svg>
-          اسأل عن الجهاز على واتساب
+          اسأل على واتساب
         </a>
         <div className="li-deposit">
           تقدر تحجز الجهاز بـ <span className="hm-num">{fmt(BUSINESS.buyerReservationDepositEGP)}</span> ج.م بحد أدنى، وبتتخصم من سعره. <Link href={routes.termsBuyer}>شروط الشراء</Link>
         </div>
       </div>
 
+      <div className="li-promise-h">الضمان على الجهاز ده</div>
       <ul className="li-promise">
         <PromiseRow
           icon={<svg {...ic()}><rect x="5" y="11" width="14" height="9" rx="2" /><path d="M8 11V8a4 4 0 0 1 8 0v3" /></svg>}
           title="فلوسك محفوظة معانا"
-          text={`البايع مش بياخدها غير بعد ${days} أيام من استلامك`}
+          text={`فلوسك محفوظة عندنا ${days} أيام من يوم ما تستلم الجهاز، والبايع مش بياخدها غير بعدها.`}
         />
         <PromiseRow
           icon={<svg {...ic()}><path d="M3 12a9 9 0 1 0 3-6.7L3 8" /><path d="M3 3v5h5" /></svg>}
@@ -125,11 +127,11 @@ export function PriceCard({ d, promo, onPromo }: { d: Device; promo: string; onP
         />
         <PromiseRow
           icon={<svg {...ic()}><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7" /><circle cx="7" cy="18" r="2" /><circle cx="17" cy="18" r="2" /></svg>}
-          title="التوصيل لحد بابك"
+          title="مدة التوصيل المتوقعة"
           text={
             inspected
-              ? `خلال ${BUSINESS.deliveryDaysInspected} أيام عمل`
-              : `${BUSINESS.deliveryDaysWithInspection} أيام عمل شاملة الفحص · ${BUSINESS.deliveryDaysInspected} لو الجهاز تم فحصه`
+              ? `لحد بابك · ${BUSINESS.deliveryDaysInspected} أيام عمل`
+              : `شاملة الفحص ${BUSINESS.deliveryDaysWithInspection} أيام عمل · لو الجهاز تم فحصه ${BUSINESS.deliveryDaysInspected} أيام عمل`
           }
         />
       </ul>

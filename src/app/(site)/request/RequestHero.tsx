@@ -14,10 +14,15 @@ const STEPS = ["الجهاز اللي محتاجه", "الميزانية وال�
 
 export function RequestHead() {
   return (
-    <div className="rq-head-page">
-      <div className="hm-eyebrow">اطلب جهاز</div>
-      <h1 className="rq-h1">مش لاقي الجهاز اللي محتاجه؟</h1>
-      <p className="rq-lead">قولنا محتاج إيه وميزانيتك كام، وهنبلغك على واتساب أول ما يتعرض جهاز مناسب. الطلب مجاني ومش بيلزمك بالشراء.</p>
+    <div className="rq-head-page v2-head-art">
+      <div>
+        <div className="hm-eyebrow">مش لاقي الجهاز اللي محتاجه؟</div>
+        <h1 className="rq-h1">اطلب جهاز</h1>
+        <p className="rq-lead">قولنا محتاج إيه وميزانيتك كام، وهنبلغك على واتساب أول ما يتعرض جهاز مناسب. الطلب مجاني ومش بيلزمك بالشراء.</p>
+      </div>
+      <svg role="img" aria-label="رسم توضيحي لموبايل بيوصله تنبيه بجهاز مناسب" viewBox="0 0 520 380" className="v2-head-pic">
+        <use href="#rq-hero" />
+      </svg>
     </div>
   );
 }

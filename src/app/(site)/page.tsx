@@ -8,7 +8,6 @@ import { Hero } from "./_home/Hero";
 import { Categories } from "./_home/Categories";
 import { BrowseArt } from "./devices/art";
 import { Featured } from "./_home/Featured";
-import { MoneyFlow } from "./_home/MoneyFlow";
 import { SellBuy } from "./_home/SellBuy";
 
 export default function HomePage() {
@@ -16,10 +15,10 @@ export default function HomePage() {
     <div className="mn-page hm-page">
       <MainArt />
       <BrowseArt />
-      <Hero />
+      {/* Category tiles first (client, §76), then hero, devices, quick sell box (§ header tabs: how-it-works lives on /how). */}
       <Categories />
+      <Hero />
       <Featured />
-      <MoneyFlow />
       <SellBuy />
     </div>
   );

@@ -1,8 +1,8 @@
 "use client";
 
 // Picture tiles for each device type (client request, Nov 2026 — like the
-// category icons in big shopping apps), in the v2 card style: they overlap the
-// bottom of the hero on desktop. Art: the /devices symbols (BrowseArt) and
+// category icons in big shopping apps), in the v2 card style, at the
+// top of the home page (§76). Art: the /devices symbols (BrowseArt) and
 // #mn-tools from the home art for «جهاز تاني».
 import Link from "next/link";
 import { DEVICE_TYPES } from "@/lib/demo/labels";
@@ -23,7 +23,11 @@ export function Categories() {
   const listed = state.devices.filter(isListed);
 
   return (
-    <section className="hm-wrap hm-cats-wrap" aria-label="أقسام الأجهزة">
+    <section className="hm-wrap hm-cats-wrap" aria-labelledby="hm-cats-h">
+      <div className="hm-cats-head">
+        <h2 id="hm-cats-h" className="hm-cats-h">بتدوّر على إيه؟</h2>
+        <Link href={routes.devices} className="hm-tlink">كل الأجهزة <span aria-hidden="true">←</span></Link>
+      </div>
       <ul className="hm-cats">
         {DEVICE_TYPES.map((t) => (
           <li key={t.id}>

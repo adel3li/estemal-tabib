@@ -12,6 +12,8 @@ import { artFor } from "./artMap";
 
 const SHOW = 4;
 
+const countText = (n: number) => (n === 1 ? "جهاز واحد" : n === 2 ? "جهازين" : `${n} أجهزة`);
+
 const FILTERS: [string, (d: Device) => boolean][] = [
   ["الكل", () => true],
   ["تم الفحص فقط", (d) => d.inspection === "inspected"],
@@ -20,8 +22,6 @@ const FILTERS: [string, (d: Device) => boolean][] = [
   ["تعقيم", (d) => d.type === "autoclave"],
   ["إندو وجراحة", (d) => ["endo", "apex", "cure", "surg"].includes(d.type)],
 ];
-
-const ph = (x: string) => !x || x.startsWith("[");
 
 export function Featured() {
   const { state } = useDemo();
@@ -37,7 +37,7 @@ export function Featured() {
         <div className="hm-sec-head">
           <div>
             <div className="hm-eyebrow">متاح دلوقتي</div>
-            <h2 className="hm-h2">أحدث الأجهزة</h2>
+            <h2 className="hm-h2">أجهزة متاحة دلوقتي</h2>
           </div>
           <Link href={routes.devices} className="hm-tlink">كل الأجهزة <span aria-hidden="true">←</span></Link>
         </div>
@@ -48,14 +48,15 @@ export function Featured() {
             </button>
           ))}
         </div>
+        <div className="hm-count" aria-live="polite">{countText(shown.length)}</div>
         {shown.length ? (
-          <div className="hm-grid4" aria-live="polite">
+          <div className="hm-grid4">
             {shown.map((d) => (
               <DeviceCard key={d.id} d={d} />
             ))}
           </div>
         ) : (
-          <p className="hm-empty" aria-live="polite">مفيش أجهزة في القسم ده دلوقتي.</p>
+          <p className="hm-empty">مفيش أجهزة في القسم ده دلوقتي.</p>
         )}
       </div>
     </section>
@@ -64,7 +65,6 @@ export function Featured() {
 
 function DeviceCard({ d }: { d: Device }) {
   const insp = d.inspection === "inspected";
-  const spec = [ph(d.year) ? "" : d.year, d.governorate].filter(Boolean).join(" · ");
   return (
     <Link href={routes.device(d.id)} className="hm-card">
       <span className="hm-ph hm-card-ph">
@@ -72,9 +72,12 @@ function DeviceCard({ d }: { d: Device }) {
           <use href={artFor(d.type)} />
         </svg>
         <span className="hm-code hm-num">{d.id}</span>
+        {insp ? null : <span className="hm-photo-tag">صورة من البايع</span>}
       </span>
       <h3 className="hm-card-title">{d.title}</h3>
-      <div className="hm-spec">{spec || typeLabel(d.type)} · صيانة {d.maintenanceMonths} شهور</div>
+      {/* No year or location on cards (client feedback). */}
+      <div className="hm-spec">{typeLabel(d.type)}</div>
+      <div className="hm-pill">ضمان + صيانة {d.maintenanceMonths} شهور</div>
       <div className="hm-price">
         <span className="hm-num">{fmt(d.price)}</span> <small>ج.م</small>
       </div>

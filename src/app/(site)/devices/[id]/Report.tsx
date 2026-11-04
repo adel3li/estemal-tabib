@@ -11,6 +11,7 @@ export function Report({ d }: { d: Device }) {
   return (
     <section id="report" className="li-report">
       <div className="li-report-top">
+        <svg role="img" aria-label="رسم توضيحي لتقرير الفحص" viewBox="0 0 200 150" className="li-insp"><use href="#li-insp" /></svg>
         <div>
           <h2 className="li-h2">تقرير الفحص</h2>
           <span>

@@ -99,11 +99,14 @@ export function BrowseClient() {
         </nav>
         <div className="br-head">
           <div>
-            <div className="hm-eyebrow">كل الأجهزة</div>
-            <h1 className="br-title">أجهزة أسنان مستعملة</h1>
-            <div className="br-count" aria-live="polite">
-              {countLabel} · كل جهاز معاه تقرير فحص أو بيتفحص قبل الشحن
+            <div className="hm-eyebrow">أجهزة أسنان مستعملة</div>
+            <h1 className="br-title">كل الأجهزة</h1>
+            <p className="br-count">كل جهاز عليه علامة بتقولك اتفحص ولا هيتفحص عند الطلب، والضمان مكتوب عليه.</p>
+            <div className="br-legend">
+              <span className="hm-status hm-ok"><span className="hm-d" aria-hidden="true" />تم الفحص<em>التقرير متاح دلوقتي</em></span>
+              <span className="hm-status hm-ord"><span className="hm-d" aria-hidden="true" />يُفحص عند الطلب<em>بنفحصه قبل الشحن</em></span>
             </div>
+            <div className="br-count" aria-live="polite">{countLabel}</div>
           </div>
           <label className="br-sort">
             <span className="br-sort-label">ترتيب حسب</span>

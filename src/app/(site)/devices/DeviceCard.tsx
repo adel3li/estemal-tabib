@@ -22,11 +22,10 @@ const IMG: Record<DeviceType, string> = {
   other: "#br-unit",
 };
 
-const ph = (x: string) => !x || x.startsWith("[");
-
 export function DeviceCard({ d }: { d: Device }) {
   const inspected = d.inspection === "inspected";
-  const spec = [ph(d.year) ? "" : d.year, d.governorate].filter(Boolean).join(" · ") || typeLabel(d.type);
+  // No year or location on cards (client feedback).
+  const spec = typeLabel(d.type);
   return (
     <Link href={routes.device(d.id)} className="hm-card br-card">
       <span className="hm-ph hm-card-ph">

@@ -136,3 +136,8 @@ select.sl-in{-webkit-appearance:none;appearance:none;padding-left:40px;cursor:po
   .sl-done-actions>*{justify-content:center}
   .sl-ref-btn{align-self:stretch !important;justify-content:center}
 }
+/* Head illustration (restored from the old hero). */
+.v2-head-art{display:flex;align-items:center;justify-content:space-between;gap:24px 40px}
+.v2-head-art > div{flex:1 1 auto;min-width:0}
+.v2-head-pic{flex:none;display:block;width:260px;height:auto}
+@media (max-width:767px){.v2-head-art{flex-wrap:wrap}.v2-head-pic{width:100%;max-width:300px;margin-inline:auto}}
