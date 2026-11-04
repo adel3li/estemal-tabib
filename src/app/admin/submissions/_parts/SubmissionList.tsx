@@ -61,7 +61,7 @@ export const SubmissionList = forwardRef<HTMLElement, Props>(function Submission
           <circle cx="11" cy="11" r="6" />
           <path d="M20 20l-4.5-4.5" />
         </svg>
-        <input type="search" className="ad-in" value={q} onChange={(e) => onQ(e.target.value)} placeholder="رقم الطلب، الجهاز، أو المحافظة" style={{ paddingRight: 38 }} />
+        <input type="search" className="ad-in" value={q} onChange={(e) => onQ(e.target.value)} placeholder="رقم الطلب، الجهاز، المحافظة، أو اسم/موبايل البايع" style={{ paddingRight: 38 }} />
       </label>
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         {items.map((x) => {

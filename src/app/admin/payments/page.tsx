@@ -12,6 +12,7 @@ import { useDemo } from "@/lib/demo/store";
 import { methodLabel, useOrders, type Order } from "@/lib/orders/orders";
 import { downloadCsv, fileDate } from "@/lib/export";
 import { routes } from "@/lib/routes";
+import { matchesSearch } from "@/lib/search";
 import { whenAr } from "@/lib/submissions/db";
 import { PmIcon, PmSprite } from "./art";
 import { Reservations, SellerFees } from "./FeesDeposits";
@@ -40,13 +41,14 @@ export default function PaymentsPage() {
     () =>
       api.orders.map((raw) => {
         const dev = state.devices.find((d) => d.dbId === raw.deviceDbId);
-        const o: Order = { ...raw, sellerNet: dev?.sellerNet, sellerCo: dev?.source === "company" };
-        return { o, st: moneyStatus(o, now) };
+        const sub = dev?.submissionId ? state.submissions.find((s) => s.id === dev.submissionId) : undefined;
+        const o: Order = { ...raw, sellerNet: dev?.sellerNet, sellerCo: dev?.source === "company", seller: sub?.fullName ?? "" };
+        return { o, st: moneyStatus(o, now), sellerPhone: sub?.phone ?? "" };
       }),
-    [api.orders, state.devices, now],
+    [api.orders, state.devices, state.submissions, now],
   );
-  const query = q.trim().replace("#", "");
-  const list = rows.filter(({ o, st }) => (tab === "all" || st === tab) && (!query || `${o.id} ${o.device} ${o.buyer} ${o.buyerPhone}`.includes(query)));
+  const query = q.trim();
+  const list = rows.filter(({ o, st, sellerPhone }) => (tab === "all" || st === tab) && matchesSearch(query, [o.id, o.deviceId, o.device, o.buyer, o.seller], [o.buyerPhone, sellerPhone]));
   const count = (t: Tab) => (t === "all" ? rows.length : rows.filter((r) => r.st === t).length);
 
   return (
@@ -87,7 +89,7 @@ export default function PaymentsPage() {
                 <label className="pm-search">
                   <span style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }}>ابحث في الطلبات</span>
                   <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4A5A56" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ position: "absolute", right: 12, top: 14 }}><circle cx="11" cy="11" r="6" /><path d="M20 20l-4.5-4.5" /></svg>
-                  <input type="search" className="ad-in" value={q} onChange={(e) => setQ(e.target.value)} placeholder="رقم الطلب، الجهاز، أو المشتري" style={{ paddingRight: 38 }} />
+                  <input type="search" className="ad-in" value={q} onChange={(e) => setQ(e.target.value)} placeholder="رقم الطلب (#2001)، الجهاز (L-215)، أو اسم/موبايل المشتري أو البايع" style={{ paddingRight: 38 }} />
                 </label>
               </div>
               <div role="tablist" aria-label="فلترة حسب الحالة" className="pm-tabs">

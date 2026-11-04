@@ -1,6 +1,7 @@
 // Visual maps from Admin-Submissions.dc.html keyed by the store's values.
 import { VIDEO_ENABLED } from "@/config/features";
 import { typeLabel } from "@/lib/demo/labels";
+import { matchesSearch } from "@/lib/search";
 import type { LogLine, Submission, SubmissionStatus } from "@/lib/demo/types";
 
 export const ST: Record<SubmissionStatus, { l: string; bg: string; fg: string }> = {
@@ -78,4 +79,4 @@ export const THUMB_TF = [
 ];
 
 export const matches = (s: Submission, q: string) =>
-  !q || `${s.id} ${s.details} ${typeLabel(s.deviceType)} ${s.governorate}`.toLowerCase().indexOf(q) >= 0;
+  matchesSearch(q, [s.id, s.details, typeLabel(s.deviceType), s.governorate, s.fullName, s.deviceId], [s.phone]);

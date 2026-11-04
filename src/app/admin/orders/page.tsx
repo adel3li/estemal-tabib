@@ -11,6 +11,7 @@ import { useAuth } from "@/lib/auth/AuthProvider";
 import { useDemo } from "@/lib/demo/store";
 import type { Device } from "@/lib/demo/types";
 import { ORDER_STEPS, STEP_INSPECTION, STEP_RELEASED, STEP_SHIPPING, STEP_TRIAL, methodLabel, useOrders, type NewOrder, type Order } from "@/lib/orders/orders";
+import { matchesSearch } from "@/lib/search";
 import { supabaseBrowser } from "@/lib/supabase/client";
 import { OrSprite } from "./art";
 import { Kpis } from "./Kpis";
@@ -33,9 +34,13 @@ function OrdersPage() {
   // The marketing team: tracking only — no money, no new orders (ADMIN_SPEC §1).
   const { isAdmin } = useAuth();
   const { ready: storeReady, state, updateDevice, updateSubmission, addInspection } = useDemo();
-  // ?open=#2001 (links from the financial table).
-  const [sel, setSel] = useState<string | null>(useSearchParams().get("open"));
-  const [filter, setFilter] = useState<Filter>("all");
+  // ?open=#2001 (links from the financial table), ?filter=inspect|deliver (home boxes).
+  const params = useSearchParams();
+  const [sel, setSel] = useState<string | null>(params.get("open"));
+  const [filter, setFilter] = useState<Filter>(() => {
+    const f = params.get("filter");
+    return f === "inspect" || f === "deliver" ? f : "all";
+  });
   const [q, setQ] = useState("");
   const [toast, setToast] = useState<Toast | null>(null);
   const [err, setErr] = useState("");
@@ -75,7 +80,7 @@ function OrdersPage() {
   const backToList = () => scrollToEl(document.getElementById(`or-row-${(sel ?? "").replace("#", "")}`) ?? document.getElementById("or-tbl-h"));
 
   const query = q.trim();
-  const base = orders.filter((o) => !query || `${o.id} ${o.device} ${o.cat} ${o.buyer} ${o.buyerPhone}`.includes(query));
+  const base = orders.filter((o) => matchesSearch(query, [o.id, o.deviceId, o.device, o.cat, o.buyer, o.seller], [o.buyerPhone, sellerPhoneOf(o)]));
   const rows = base.filter((o) => inFilter(o, filter));
   const so = orders.find((o) => o.id === sel) ?? null;
 
@@ -206,7 +211,7 @@ function OrdersPage() {
         <div className="or-acts">
           <label className="or-search">
             <span style={{ position: "absolute", width: 1, height: 1, overflow: "hidden" }}>دوّر في الطلبات</span>
-            <input type="search" className="ad-in" value={q} onChange={(e) => setQ(e.target.value)} placeholder="دوّر برقم الطلب، الجهاز أو المشتري" />
+            <input type="search" className="ad-in" value={q} onChange={(e) => setQ(e.target.value)} placeholder="رقم الطلب، الجهاز (L-215)، أو اسم/موبايل المشتري أو البايع" />
           </label>
           {isAdmin ? (
             <button type="button" className="ad-btn ad-pri" onClick={() => { setCreating(true); setSel(null); scrollToEl(detRef.current); }}>

@@ -58,7 +58,7 @@ function Item({ href, title, sub, pill }: { href: string; title: string; sub: st
 const Empty = ({ children }: { children: React.ReactNode }) => <div className="hm-empty">{children}</div>;
 
 export default function AdminHome() {
-  const { ready, isAdmin, now, newSubs, orderTodo, matches, alerts, orders } = useAdminAlerts();
+  const { ready, isAdmin, now, openSubs, toInspect, toDeliver, orderTodo, matches, alerts, orders } = useAdminAlerts();
   const active = useMemo(() => orders.filter((o) => o.status === "active" && o.step < STEP_RELEASED), [orders]);
   const held = active.reduce((a, o) => a + o.collected, 0);
   const due = active.reduce((a, o) => a + o.remaining, 0);
@@ -74,7 +74,7 @@ export default function AdminHome() {
         <h1 className="hm-h1" style={{ margin: 0, lineHeight: 1.3, fontWeight: 700 }}>الرئيسية</h1>
         <div style={{ color: "#4A5A56" }}>
           {isAdmin
-            ? "المطلوب منك النهارده بالترتيب: طلبات البيع الجديدة، بعدين الطلبات، بعدين مطابقات «اطلب جهاز»."
+            ? "المطلوب منك النهارده بالترتيب: طلبات البيع المفتوحة، بعدين الطلبات، بعدين مطابقات «اطلب جهاز»."
             : "المطلوب منك النهارده: متابعة شحن وتسليم الطلبات، وتبليغ عملاء «اطلب جهاز» بالأجهزة المناسبة."}
         </div>
       </div>
@@ -84,8 +84,18 @@ export default function AdminHome() {
       ) : (
         <>
           <div className="hm-kpis">
-            {isAdmin ? <Link href={routes.admin.submissions} className="hm-kpi"><span>طلبات بيع جديدة</span><b>{newSubs.length}</b></Link> : null}
+            {isAdmin ? (
+              <Link href={routes.admin.submissions} className="hm-kpi">
+                <span>طلبات بيع مفتوحة</span>
+                <b>{openSubs.length}</b>
+                <span className="hm-sub">
+                  {openSubs.filter((s) => s.status === "new").length} جديد · {openSubs.filter((s) => s.status === "follow_up").length} محتاج متابعة
+                </span>
+              </Link>
+            ) : null}
             <Link href={routes.admin.orders} className="hm-kpi"><span>طلبات شراء مفتوحة</span><b>{active.length}</b></Link>
+            <Link href={isAdmin ? routes.admin.inspections : `${routes.admin.orders}?filter=inspect`} className="hm-kpi"><span>مطلوب فحصه</span><b>{toInspect}</b></Link>
+            <Link href={`${routes.admin.orders}?filter=deliver`} className="hm-kpi"><span>مطلوب تسليمه</span><b>{toDeliver}</b></Link>
             <Link href={routes.admin.requests} className="hm-kpi"><span>مطابقات «اطلب جهاز»</span><b>{matches.length}</b></Link>
             {isAdmin ? (
               <Link href={routes.admin.payments} className="hm-kpi"><span>محفوظ · باقي على المشترين</span><b>{fmt(held)} · {fmt(due)} <small>ج.م</small></b></Link>
@@ -124,8 +134,8 @@ export default function AdminHome() {
 
           <div className="hm-queue">
             {isAdmin ? (
-            <Section n="١" title="طلبات البيع الجديدة" count={newSubs.length} href={routes.admin.submissions} all="كل طلبات البيع">
-              {newSubs.slice(0, 6).map((s) => {
+            <Section n="١" title="طلبات البيع المفتوحة" count={openSubs.length} href={routes.admin.submissions} all="كل طلبات البيع">
+              {openSubs.slice(0, 6).map((s) => {
                 const h = s.createdAtIso ? reviewHoursLeft(s.createdAtIso, now) : BUSINESS.sellReviewHours;
                 return (
                   <Item
@@ -133,11 +143,11 @@ export default function AdminHome() {
                     href={open(routes.admin.submissions, s.id)}
                     title={`${s.id} · ${s.details}`}
                     sub={`${s.fullName} · ${s.governorate} · ${s.salePrice ? `${fmt(s.salePrice)} ج.م` : "محتاج مساعدة في السعر"}`}
-                    pill={h > 0 ? [`باقي ${h} ساعة`, h <= 6 ? "warn" : "info"] : ["عدّى 24 ساعة", "bad"]}
+                    pill={s.status === "follow_up" ? ["محتاج متابعة", "warn"] : h > 0 ? [`باقي ${h} ساعة`, h <= 6 ? "warn" : "info"] : ["عدّى 24 ساعة", "bad"]}
                   />
                 );
               })}
-              {newSubs.length === 0 ? <Empty>مفيش طلبات بيع جديدة.</Empty> : null}
+              {openSubs.length === 0 ? <Empty>مفيش طلبات بيع مفتوحة.</Empty> : null}
             </Section>
             ) : null}
 

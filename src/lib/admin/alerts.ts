@@ -10,7 +10,7 @@ import { useAuth } from "@/lib/auth/AuthProvider";
 import { useDemo } from "@/lib/demo/store";
 import type { Device, DeviceRequest, Submission } from "@/lib/demo/types";
 import { isPastDay } from "@/lib/inspections/db";
-import { STEP_DELIVERY, STEP_REPORT, STEP_SHIPPING, STEP_TRIAL, useOrders, type Order } from "@/lib/orders/orders";
+import { STEP_DELIVERY, STEP_INSPECTION, STEP_REPORT, STEP_SHIPPING, STEP_TRIAL, useOrders, type Order } from "@/lib/orders/orders";
 import { routes } from "@/lib/routes";
 import { noReplyDeadline, reviewHoursLeft } from "@/lib/submissions/time";
 
@@ -34,6 +34,21 @@ export function useAdminAlerts() {
   const newSubs: Submission[] = state.submissions
     .filter((s) => s.status === "new" && s.sellerTrust !== "suspicious")
     .sort((a, b) => (a.createdAtIso ?? "").localeCompare(b.createdAtIso ?? ""));
+
+  // Everything still open — «جديد» + «محتاج متابعة» (a follow-up request must
+  // stay visible from the home page too).
+  const openSubs: Submission[] = state.submissions
+    .filter((s) => (s.status === "new" || s.status === "follow_up") && s.sellerTrust !== "suspicious")
+    .sort((a, b) => (a.status === b.status ? (a.createdAtIso ?? "").localeCompare(b.createdAtIso ?? "") : a.status === "new" ? -1 : 1));
+
+  // «مطلوب فحصه» / «مطلوب تسليمه» (client, 4 Nov): inspections not done yet
+  // (the marketing team doesn't see inspections — orders at the inspection
+  // steps instead), and orders being shipped or waiting for the buyer's receipt.
+  const activeOrders = orders.orders.filter((o) => o.status === "active");
+  const toInspect = isAdmin
+    ? state.inspections.filter((i) => i.status !== "done").length
+    : activeOrders.filter((o) => o.step === STEP_INSPECTION || o.step === STEP_REPORT).length;
+  const toDeliver = activeOrders.filter((o) => o.step === STEP_SHIPPING || o.step === STEP_DELIVERY).length;
 
   // (2) Orders that need the team.
   const orderTodo = orders.orders
@@ -90,5 +105,5 @@ export function useAdminAlerts() {
   const order: Record<Tone, number> = { bad: 0, warn: 1, ok: 2, info: 3 };
   alerts.sort((a, b) => order[a.tone] - order[b.tone]);
 
-  return { ready: demo.ready && orders.ready, isAdmin, now, newSubs, orderTodo, matches, alerts, orders: orders.orders };
+  return { ready: demo.ready && orders.ready, isAdmin, now, newSubs, openSubs, toInspect, toDeliver, orderTodo, matches, alerts, orders: orders.orders };
 }

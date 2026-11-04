@@ -48,7 +48,7 @@ const isActive = (pathname: string, n: (typeof NAV)[number]) =>
 
 export function AdminShell({ children }: { children: ReactNode }) {
   const pathname = usePathname() ?? "";
-  const { newSubs: subs, alerts } = useAdminAlerts();
+  const { openSubs: subs, alerts } = useAdminAlerts();
   const { profile, isAdmin } = useAuth();
   const nav = isAdmin ? NAV : NAV.filter((n) => TEAM_HREFS.includes(n.href));
   const newSubs = subs.length;

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { BUSINESS } from "@/config/business";
 import { GOVERNORATES, fmt, parseNum } from "@/lib/demo/labels";
 import type { Device } from "@/lib/demo/types";
+import { matchesSearch } from "@/lib/search";
 import { PAY_METHODS, type NewOrder, type PayMethod } from "@/lib/orders/orders";
 
 type Props = {
@@ -22,6 +23,8 @@ type Props = {
  */
 export function NewOrderForm({ devices, busy, findAccount, onCreate, onCancel }: Props) {
   const [deviceId, setDeviceId] = useState("");
+  // Device picker: type the code (L-215) or part of the name (client, 4 Nov).
+  const [find, setFind] = useState("");
   const [price, setPrice] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -33,6 +36,7 @@ export function NewOrderForm({ devices, busy, findAccount, onCreate, onCancel }:
   const [ref, setRef] = useState("");
   const [err, setErr] = useState("");
   const d = devices.find((x) => x.id === deviceId);
+  const matches = devices.filter((x) => matchesSearch(find, [x.id, x.title, x.brand, x.model], []));
 
   const pick = (id: string) => {
     setDeviceId(id);
@@ -92,17 +96,43 @@ export function NewOrderForm({ devices, busy, findAccount, onCreate, onCancel }:
       <h2 id="or-new-h" className="ad-h" style={{ fontWeight: 700 }}>طلب جديد</h2>
       <div className="ad-hint">سجّل الطلب اللي جالك على واتساب. الجهاز هيبقى «محجوز» على الموقع لحد ما الطلب يخلص أو يتلغى.</div>
       <div className="ad-grid">
-        <label className="ad-field">
-          الجهاز
-          <select className="ad-in" value={deviceId} onChange={(e) => pick(e.target.value)}>
-            <option value="">اختار جهاز منشور…</option>
-            {devices.map((x) => (
-              <option key={x.id} value={x.id}>
-                {x.id} · {x.title} · {fmt(x.price)} ج.م
-              </option>
-            ))}
-          </select>
-        </label>
+        <div className="ad-field" style={{ gridColumn: "1 / -1" }}>
+          <label htmlFor="or-new-find">الجهاز</label>
+          {d ? (
+            <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 10, padding: "10px 14px", borderRadius: 12, border: "1px solid #9CCBC2", background: "#F1F8F6" }}>
+              <b style={{ flex: "1 1 200px", overflowWrap: "anywhere" }}>{d.id} · {d.title} · {fmt(d.price)} ج.م</b>
+              <button type="button" className="ad-btn ad-sec" onClick={() => { setDeviceId(""); setFind(""); }}>غيّر الجهاز</button>
+            </div>
+          ) : (
+            <>
+              <input
+                id="or-new-find"
+                type="search"
+                className="ad-in"
+                value={find}
+                onChange={(e) => setFind(e.target.value)}
+                placeholder="اكتب رقم الجهاز (L-215) أو جزء من اسمه"
+                autoComplete="off"
+                aria-describedby="or-new-find-n"
+              />
+              <div id="or-new-find-n" className="ad-hint">{matches.length ? `${matches.length} جهاز منشور` : "مفيش جهاز منشور بالبحث ده."}</div>
+              <div role="listbox" aria-label="الأجهزة" style={{ display: "flex", flexDirection: "column", gap: 6, maxHeight: 260, overflowY: "auto" }}>
+                {matches.slice(0, 20).map((x) => (
+                  <button
+                    key={x.id}
+                    type="button"
+                    role="option"
+                    aria-selected={false}
+                    onClick={() => pick(x.id)}
+                    style={{ textAlign: "right", font: "inherit", padding: "10px 14px", borderRadius: 12, border: "1px solid #DCE3DF", background: "#FFFFFF", cursor: "pointer", minHeight: 44 }}
+                  >
+                    <b>{x.id}</b> · {x.title} <span className="ad-hint">· {fmt(x.price)} ج.م · {x.governorate}</span>
+                  </button>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
         <label className="ad-field">
           سعر البيع (ج.م)
           <input type="text" inputMode="numeric" className="ad-in" value={price} onChange={(e) => setPrice(e.target.value)} />

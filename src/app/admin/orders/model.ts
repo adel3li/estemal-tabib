@@ -2,18 +2,23 @@ import { sellerNetFromSalePrice } from "@/config/business";
 import { INSPECTION_LABEL, fmt } from "@/lib/demo/labels";
 import { AR_DIGITS, ORDER_STEPS, STEP_RELEASED, type Order } from "@/lib/orders/orders";
 
-export type Filter = "all" | "closed" | number;
+/** "inspect" / "deliver": from the home boxes «مطلوب فحصه» / «مطلوب تسليمه». */
+export type Filter = "all" | "closed" | "inspect" | "deliver" | number;
 
 export const isClosed = (o: Order) => o.step >= STEP_RELEASED || o.status !== "active";
 
 export function inFilter(o: Order, f: Filter): boolean {
   if (f === "all") return true;
   if (f === "closed") return isClosed(o);
+  if (f === "inspect") return o.status === "active" && (o.step === 2 || o.step === 3);
+  if (f === "deliver") return o.status === "active" && (o.step === 4 || o.step === 5);
   return o.status === "active" && o.step === f;
 }
 
 export const FILTERS: [Filter, string][] = [
   ["all", "الكل"],
+  ["inspect", "مطلوب فحصه"],
+  ["deliver", "مطلوب تسليمه"],
   ...ORDER_STEPS.map((n, i): [Filter, string] => [i, `${AR_DIGITS[i]} · ${n}`]),
   ["closed", "اتقفل"],
 ];

@@ -182,3 +182,10 @@ Adel asked to test the whole site end to end before going further, so all 16 scr
 126. **«مميز» lasts 7 days** (§3, `BUSINESS.featuredMaxDays`): `devices.featured_until` is set when an admin features a listing; after it the listing simply isn't shown as featured (no job needed). The admin list shows «مميز لحد …». Listings already featured got +7 days from the migration.
 127. The marketing team also sees «العملاء». «الأرباح», «الإعدادات», «الفريق» are Super Admin only (middleware + RLS).
 128. **View counts reset to 0** (Adel, 2026-11-03): the demo listings carried made-up numbers from the design; «الأكثر مشاهدة» now counts real visits only. The demo seed files insert 0 views from now on.
+
+## Client review of the dashboard (WhatsApp, 4 Nov 2026) — batch 1
+
+129. **Home boxes:** «طلبات بيع مفتوحة» now counts «جديد» + «محتاج متابعة» (Mohamed's #1035 was in follow-up and invisible from the home page); the queue lists both, follow-ups with their pill. The menu badge counts the same. New boxes **«مطلوب فحصه»** (inspections not done; for the marketing team: orders at the inspection steps) and **«مطلوب تسليمه»** (orders in «الشحن» or «الاستلام»), linking to the inspections page / the orders page filtered (`?filter=inspect|deliver`, also new chips there).
+130. **Search boxes say what they search** and accept phone numbers typed any way (`src/lib/search.ts`): orders and the financial table also find the **seller** (name / phone) and the device code; sell requests find the seller's name / phone; customers by phone.
+131. **«+ طلب جديد»:** the device dropdown became a search — type the code (L-215) or part of the name, pick from the matches, «غيّر الجهاز» to change.
+132. **Customer page → «أجهزته المعروضة»:** every listing made from that person's sell requests, with price, seller net, inspection, governorate, views and status (admins; links to the listing editor).

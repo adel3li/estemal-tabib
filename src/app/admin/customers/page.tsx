@@ -9,11 +9,12 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { useAuth } from "@/lib/auth/AuthProvider";
-import { typeLabel } from "@/lib/demo/labels";
+import { INSPECTION_LABEL, STATUS_LABEL, fmt, typeLabel } from "@/lib/demo/labels";
 import { useDemo } from "@/lib/demo/store";
 import { downloadCsv, fileDate } from "@/lib/export";
 import { ORDER_STEPS, realPhone, useOrders } from "@/lib/orders/orders";
 import { routes } from "@/lib/routes";
+import { matchesSearch } from "@/lib/search";
 import { useSettings } from "@/lib/settings";
 import { whenAr } from "@/lib/submissions/db";
 import { supabaseBrowser } from "@/lib/supabase/client";
@@ -81,13 +82,17 @@ function CustomersPage() {
   const historyOf = useCallback(
     (c: Customer) => {
       const ph = digits(c.phone);
+      const subs = state.submissions.filter((s) => s.sellerId === c.id);
+      const subIds = new Set(subs.map((s) => s.id));
       return {
-        subs: state.submissions.filter((s) => s.sellerId === c.id),
+        subs,
+        // The listings made from their sell requests (client, 4 Nov: open a seller → see everything they offer).
+        devs: state.devices.filter((d) => d.submissionId && subIds.has(d.submissionId)),
         reqs: state.requests.filter((r) => r.userId === c.id),
         ords: orders.orders.filter((o) => o.buyerId === c.id || (!!ph && digits(o.buyerPhone) === ph)),
       };
     },
-    [state.submissions, state.requests, orders.orders],
+    [state.submissions, state.requests, state.devices, orders.orders],
   );
 
   const needle = q.trim().toLowerCase();
@@ -96,7 +101,7 @@ function CustomersPage() {
       (list ?? []).filter(
         (c) =>
           (filter === "all" || c.trust === filter) &&
-          (!needle || `${c.full_name ?? ""} ${c.email ?? ""} ${c.phone ?? ""} ${c.governorate ?? ""}`.toLowerCase().includes(needle)),
+          matchesSearch(needle, [c.full_name, c.email, c.governorate], [c.phone]),
       ),
     [list, filter, needle],
   );
@@ -128,10 +133,10 @@ function CustomersPage() {
   const exportCsv = () =>
     downloadCsv(
       `العملاء-${fileDate()}`,
-      ["الاسم", "الموبايل", "الإيميل", "المحافظة", "نوع الحساب", "التقييم", "طلبات بيع", "طلبات شراء", "اطلب جهاز", "اتسجل"],
+      ["الاسم", "الموبايل", "الإيميل", "المحافظة", "نوع الحساب", "التقييم", "أجهزة معروضة", "طلبات بيع", "طلبات شراء", "اطلب جهاز", "اتسجل"],
       shown.map((c) => {
         const x = historyOf(c);
-        return [c.full_name, c.phone, c.email, c.governorate, c.account_type ? ACCOUNT[c.account_type] : "", c.trust === "suspicious" ? "مشبوه" : c.trust === "serious" ? "جاد" : "", x.subs.length, x.ords.length, x.reqs.length, day(c.created_at)];
+        return [c.full_name, c.phone, c.email, c.governorate, c.account_type ? ACCOUNT[c.account_type] : "", c.trust === "suspicious" ? "مشبوه" : c.trust === "serious" ? "جاد" : "", x.devs.length, x.subs.length, x.ords.length, x.reqs.length, day(c.created_at)];
       }),
     );
 
@@ -167,7 +172,7 @@ function CustomersPage() {
                     <span style={{ minWidth: 0, display: "flex", flexDirection: "column", lineHeight: 1.45 }}>
                       <b style={{ overflowWrap: "anywhere" }}>{c.full_name || c.email || "—"}</b>
                       <span className="hm-sub"><span dir="ltr">{c.phone || "—"}</span> · {c.governorate || "—"}{c.account_type ? ` · ${ACCOUNT[c.account_type]}` : ""}</span>
-                      <span className="hm-sub">{[x.subs.length && `${x.subs.length} بيع`, x.ords.length && `${x.ords.length} شراء`, x.reqs.length && `${x.reqs.length} اطلب جهاز`].filter(Boolean).join(" · ") || "لسه مفيش طلبات"}</span>
+                      <span className="hm-sub">{[x.devs.length && `${x.devs.length} جهاز معروض`, x.subs.length && `${x.subs.length} بيع`, x.ords.length && `${x.ords.length} شراء`, x.reqs.length && `${x.reqs.length} اطلب جهاز`].filter(Boolean).join(" · ") || "لسه مفيش طلبات"}</span>
                     </span>
                     {c.trust ? <span className="hm-pill" style={c.trust === "suspicious" ? { background: "#FBE9E7", color: "#B3261E" } : { background: "#EAF5DD", color: "#3F7A1F" }}>{c.trust === "suspicious" ? "مشبوه" : "جاد"}</span> : null}
                   </button>
@@ -201,6 +206,26 @@ function CustomersPage() {
                     </>
                   ) : null}
                 </div>
+
+                {isAdmin ? (
+                  <div>
+                    <h3 style={{ margin: "0 0 6px", fontSize: 16 }}>أجهزته المعروضة ({h.devs.length})</h3>
+                    <div className="hm-items">
+                      {h.devs.map((d) => (
+                        <Link key={d.id} href={routes.admin.editDevice(d.id)} className="hm-item">
+                          <span style={{ minWidth: 0, display: "flex", flexDirection: "column", lineHeight: 1.45 }}>
+                            <b style={{ overflowWrap: "anywhere" }}>{d.id} · {d.title}</b>
+                            <span className="hm-sub">
+                              {typeLabel(d.type)} · {fmt(d.price)} ج.م{d.sellerNet ? ` · صافي البايع ${fmt(d.sellerNet)} ج.م` : ""} · {INSPECTION_LABEL[d.inspection]} · {d.governorate || "—"} · {d.views} مشاهدة
+                            </span>
+                          </span>
+                          <span className="hm-pill" style={{ background: "#F5F7F4", color: "#3C4C48" }}>{STATUS_LABEL[d.status]}</span>
+                        </Link>
+                      ))}
+                      {!h.devs.length ? <div className="hm-empty">لسه مفيش إعلانات من طلباته.</div> : null}
+                    </div>
+                  </div>
+                ) : null}
 
                 {isAdmin ? (
                   <div>
