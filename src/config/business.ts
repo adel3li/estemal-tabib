@@ -25,9 +25,10 @@ export const BUSINESS = {
     request: "R-",
     order: "#",
   },
-  // TODO(open question §12.2): real contact + transfer details
+  // WhatsApp: the project's number (Adel, Nov 2026). «الإعدادات» in the dashboard overrides it.
+  // TODO(open question §12.2): real email, social and transfer details
   contact: {
-    whatsapp: "[رقم الواتساب]",
+    whatsapp: "01034564437",
     email: "[البريد الإلكتروني]",
     social: "[حسابات السوشيال ميديا]",
   },

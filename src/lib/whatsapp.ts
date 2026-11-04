@@ -2,8 +2,8 @@ import { BUSINESS } from "@/config/business";
 
 /**
  * wa.me link with a prefilled Arabic message.
- * TODO(open question §12.2): the real number. While it's a placeholder the
- * link opens WhatsApp's "choose a chat" screen with the message filled in.
+ * Default number: BUSINESS.contact.whatsapp (or «الإعدادات» via useSettings().wa).
+ * With a placeholder the link opens WhatsApp's "choose a chat" screen.
  */
 export function waLink(message: string, phone?: string): string {
   const raw = (phone ?? BUSINESS.contact.whatsapp)

@@ -14,6 +14,7 @@ import { useEffect, useRef, useState } from "react";
 import { AccountMenu, AccountPanel, MenuBadge, SignOutRow } from "./AccountMenu";
 import { routes } from "@/lib/routes";
 import { BUSINESS } from "@/config/business";
+import { useSettings } from "@/lib/settings";
 
 const [M1, M2] = BUSINESS.maintenanceMonthsOptions;
 
@@ -35,6 +36,7 @@ const isActive = (pathname: string, href: string) =>
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const { whatsapp } = useSettings();
   const pathname = usePathname();
   const panelRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -79,7 +81,7 @@ export function SiteHeader() {
           <li>فلوسك محفوظة <b>{BUSINESS.trialDays}</b> أيام بعد الاستلام</li>
           <li>صيانة مجانية <b>{M1}</b> أو <b>{M2}</b> شهور</li>
         </ul>
-        <span>واتساب {BUSINESS.contact.whatsapp}</span>
+        <span>واتساب <bdi dir="ltr">{whatsapp}</bdi></span>
       </div>
     </div>
     <header className="site-header">
