@@ -8,7 +8,7 @@ import { routes } from "@/lib/routes";
 import { supabaseBrowser } from "@/lib/supabase/client";
 import { transferDigits, transferError } from "@/lib/transfer";
 
-const NEXT_STEPS = [
+export const NEXT_STEPS = [
   "حوّل رسوم الجدية وسجّل رقم التحويل هنا.",
   "هنكلمك على واتساب خلال 24 ساعة نراجع البيانات ونحدد ميعاد الفحص.",
   "الفني المعتمد يفحص الجهاز، وبعدها نعرضه على المنصة.",
@@ -43,7 +43,7 @@ export function SellSuccess({ id, dbId, onAgain }: { id: string; dbId?: string; 
 
   return (
     <section className="sl-done">
-      <div className="sl-done-card" style={{ borderRadius: 28, background: "#FFFFFF", border: "1px solid #DCE3E1", boxShadow: "0 10px 30px rgba(15,42,51, 0.06)", display: "flex", flexDirection: "column", alignItems: "center", gap: 14, textAlign: "center" }}>
+      <div className="sl-done-card" style={{ borderRadius: 12, background: "#FFFFFF", border: "1px solid #CCD8DC", display: "flex", flexDirection: "column", alignItems: "center", gap: 14, textAlign: "center" }}>
         <span style={{ width: 96, height: 96, borderRadius: 999, background: "#E2F4F8", display: "flex", alignItems: "center", justifyContent: "center" }}>
           <span style={{ width: 68, height: 68, borderRadius: 999, background: "#0A7E99", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <svg aria-hidden="true" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
@@ -52,7 +52,7 @@ export function SellSuccess({ id, dbId, onAgain }: { id: string; dbId?: string; 
           </span>
         </span>
         <h1 style={{ margin: 0, fontWeight: 700, fontSize: 28 }}>استلمنا بيانات جهازك</h1>
-        <span style={{ padding: "4px 16px", borderRadius: 999, background: "#F3F6F7", border: "1px solid #DCE3E1", fontWeight: 700, fontSize: 15 }}>
+        <span style={{ padding: "4px 16px", borderRadius: 999, background: "#F3F6F7", border: "1px solid #CCD8DC", fontWeight: 700, fontSize: 15 }}>
           رقم الطلب: <span dir="ltr" data-testid="sell-id">{id}</span>
         </span>
         <p style={{ margin: 0, color: "#4A595A", fontSize: 17 }}>هنكلمك على واتساب خلال 24 ساعة نحدد ميعاد الفحص.</p>
@@ -66,7 +66,7 @@ export function SellSuccess({ id, dbId, onAgain }: { id: string; dbId?: string; 
           ))}
         </ol>
 
-        <div className="sl-box" style={{ width: "100%", boxSizing: "border-box", marginTop: 6, padding: 20, borderRadius: 18, background: "#FEEEDB", border: "1px solid #F8C788", color: "#6B3A10", display: "flex", flexDirection: "column", gap: 10, textAlign: "right" }}>
+        <div className="sl-box" style={{ width: "100%", boxSizing: "border-box", marginTop: 6, padding: 20, borderRadius: 12, background: "#FEEEDB", border: "1px solid #F8C788", color: "#6B3A10", display: "flex", flexDirection: "column", gap: 10, textAlign: "right" }}>
           <span style={{ fontWeight: 700, fontSize: 17, color: "#122022" }}>ادفع رسوم الجدية: {BUSINESS.sellerSeriousnessFeeEGP} ج.م بحد أدنى</span>
           {/* TODO(open question §12.2): real InstaPay / bank details in BUSINESS.feeTransferDetails */}
           <span style={{ fontWeight: 700, fontSize: 15, color: "#122022" }}>إزاي تحوّل؟</span>

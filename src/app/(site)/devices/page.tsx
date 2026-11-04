@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
+import "../_home/v2.css";
 import "./styles.css";
 import { BrowseClient } from "./BrowseClient";
 

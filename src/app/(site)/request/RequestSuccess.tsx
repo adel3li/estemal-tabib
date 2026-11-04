@@ -12,7 +12,7 @@ export function RequestSuccess({ id, onAgain }: { id: string; onAgain: () => voi
 
   return (
     <section className="rq-done">
-      <div className="rq-done-card" style={{ borderRadius: 28, background: "#FFFFFF", border: "1px solid #DCE3E1", boxShadow: "0 10px 30px rgba(15,42,51, 0.06)", display: "flex", flexDirection: "column", alignItems: "center", gap: 14, textAlign: "center" }}>
+      <div className="rq-done-card" style={{ borderRadius: 12, background: "#FFFFFF", border: "1px solid #CCD8DC", display: "flex", flexDirection: "column", alignItems: "center", gap: 14, textAlign: "center" }}>
         <span style={{ width: 96, height: 96, borderRadius: 999, background: "#E2F4F8", display: "flex", alignItems: "center", justifyContent: "center" }}>
           <span style={{ width: 68, height: 68, borderRadius: 999, background: "#0A7E99", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <svg aria-hidden="true" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
@@ -21,13 +21,13 @@ export function RequestSuccess({ id, onAgain }: { id: string; onAgain: () => voi
           </span>
         </span>
         <h1 style={{ margin: 0, fontWeight: 700, fontSize: 28 }}>وصلنا طلبك</h1>
-        <span style={{ padding: "4px 16px", borderRadius: 999, background: "#F3F6F7", border: "1px solid #DCE3E1", fontWeight: 700, fontSize: 15 }}>
+        <span style={{ padding: "4px 16px", borderRadius: 999, background: "#F3F6F7", border: "1px solid #CCD8DC", fontWeight: 700, fontSize: 15 }}>
           رقم الطلب: <span dir="ltr" data-testid="request-id">{id}</span>
         </span>
         <p style={{ margin: 0, color: "#4A595A", fontSize: 17 }}>أول ما يتعرض جهاز مناسب لمواصفاتك وميزانيتك، هنبعتلك على واتساب.</p>
 
         {req ? (
-          <div style={{ width: "100%", boxSizing: "border-box", marginTop: 6, padding: 18, borderRadius: 18, background: "#F3F6F7", display: "flex", flexDirection: "column", gap: 10, textAlign: "right" }}>
+          <div style={{ width: "100%", boxSizing: "border-box", marginTop: 6, padding: 18, borderRadius: 12, background: "#F3F6F7", display: "flex", flexDirection: "column", gap: 10, textAlign: "right" }}>
             <span style={{ fontWeight: 700, fontSize: 16 }} data-testid="match-count">
               {matches.length
                 ? `فيه ${matches.length === 1 ? "جهاز واحد معروض" : `${matches.length} أجهزة معروضة`} دلوقتي ممكن ${matches.length === 1 ? "يناسبك" : "تناسبك"}:`

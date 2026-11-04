@@ -39,7 +39,7 @@ export function OrderBar({ d, promo }: { d: Device; promo: string }) {
       <div ref={endRef} aria-hidden="true" style={{ height: 1 }} />
       <div className={hidden ? "li-bar is-hidden" : "li-bar"} aria-hidden={hidden ? true : undefined}>
         <span className="li-bar-price">
-          {fmt(d.price)} <span style={{ fontSize: 14, fontWeight: 600, color: "#4A595A" }}>ج.م</span>
+          {fmt(d.price)} <span style={{ fontSize: 14, fontWeight: 600, color: "#5A6F76" }}>ج.م</span>
         </span>
         {unavailable ? (
           <span className="li-bar-btn is-off" role="status">{d.status === "sold" ? "اتباع" : "محجوز دلوقتي"}</span>

@@ -81,7 +81,7 @@ export function SectionContact({ f, set, err }: SectionProps) {
           </label>
         </div>
         {!hasLoc ? (
-          <div style={{ padding: "14px 16px", borderRadius: 16, border: "1.5px dashed #9ED8E6", background: "#F9FBFB", display: "flex", flexWrap: "wrap", alignItems: "center", gap: 12 }}>
+          <div style={{ padding: "14px 16px", borderRadius: 10, border: "1.5px dashed #9ED8E6", background: "#F9FBFB", display: "flex", flexWrap: "wrap", alignItems: "center", gap: 12 }}>
             <button type="button" onClick={locate} disabled={geo === "busy"} className="sl-loc" style={{ minHeight: 46, padding: "0 18px", borderRadius: 12, border: "1.5px solid #0A7E99", background: "#FFFFFF", color: "#0A7E99", font: "inherit", fontWeight: 700, display: "flex", alignItems: "center", gap: 8, cursor: geo === "busy" ? "progress" : "pointer" }}>
               <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z" />
@@ -96,7 +96,7 @@ export function SectionContact({ f, set, err }: SectionProps) {
             ) : null}
           </div>
         ) : (
-          <div style={{ padding: "12px 16px", borderRadius: 16, background: "#E2F4F8", border: "1px solid #9ED8E6", color: "#075468", display: "flex", flexWrap: "wrap", alignItems: "center", gap: 12, fontSize: 15 }}>
+          <div style={{ padding: "12px 16px", borderRadius: 10, background: "#E2F4F8", border: "1px solid #9ED8E6", color: "#075468", display: "flex", flexWrap: "wrap", alignItems: "center", gap: 12, fontSize: 15 }}>
             <span style={{ display: "flex", alignItems: "center", gap: 8, fontWeight: 700 }}>
               <span style={{ width: 30, height: 30, borderRadius: 999, background: "#0A7E99", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">

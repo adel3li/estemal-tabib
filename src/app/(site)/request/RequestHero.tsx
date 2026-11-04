@@ -1,35 +1,87 @@
-const STEPS = [
-  { n: "١", label: "الجهاز اللي محتاجه", bg: "#E2F4F8", fg: "#0A7E99" },
-  { n: "٢", label: "الميزانية والتوقيت", bg: "#FEEEDB", fg: "#8A4A05" },
-  { n: "٣", label: "بياناتك", bg: "#E6EDF7", fg: "#24508F" },
-];
+"use client";
 
-export function RequestHero() {
+// /request page head, step rail and side notes — v2 direction
+// (design-explorations/v2/src/request.html, brand theme). The form stays one
+// page; the rail links to each section and marks the one in view.
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { typeLabel } from "@/lib/demo/labels";
+import { isListed, useDemo } from "@/lib/demo/store";
+import type { DeviceType } from "@/lib/demo/types";
+import { routes } from "@/lib/routes";
+
+const STEPS = ["الجهاز اللي محتاجه", "الميزانية والتوقيت", "بياناتك"];
+
+export function RequestHead() {
   return (
-    <div className="rq-hero" style={{ background: "#FFFFFF", border: "1px solid #DCE3E1", boxShadow: "0 10px 30px rgba(15,42,51, 0.06)", display: "flex", flexWrap: "wrap", alignItems: "center" }}>
-      <div style={{ flex: "999 1 380px", minWidth: 0, display: "flex", flexDirection: "column", gap: 18 }}>
-        <div>
-          <h1 className="rq-h1">اطلب جهاز</h1>
-          <p className="rq-lead">قولنا محتاج إيه وميزانيتك كام، وهنبلغك على واتساب أول ما يتعرض جهاز مناسب. الطلب مجاني ومش بيلزمك بالشراء.</p>
-        </div>
-        <nav aria-label="خطوات النموذج">
-          <ol className="rq-steps">
-            {STEPS.map((s, i) => (
-              <li key={s.n}>
-                <a href={`#rq-s${i + 1}`} className="rq-step">
-                  <span style={{ width: 28, height: 28, borderRadius: 9, background: s.bg, color: s.fg, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>{s.n}</span>
-                  {s.label}
-                </a>
-              </li>
-            ))}
-          </ol>
-        </nav>
-      </div>
-      <div className="rq-hero-art" style={{ flex: "1 1 300px", minWidth: 0, maxWidth: 440, margin: "0 auto" }}>
-        <svg role="img" aria-label="رسم توضيحي لموبايل بيوصله تنبيه بجهاز مناسب" viewBox="0 0 520 380" style={{ display: "block", width: "100%", height: "auto" }}>
-          <use href="#rq-hero" />
-        </svg>
-      </div>
+    <div className="rq-head-page">
+      <div className="hm-eyebrow">اطلب جهاز</div>
+      <h1 className="rq-h1">مش لاقي الجهاز اللي محتاجه؟</h1>
+      <p className="rq-lead">قولنا محتاج إيه وميزانيتك كام، وهنبلغك على واتساب أول ما يتعرض جهاز مناسب. الطلب مجاني ومش بيلزمك بالشراء.</p>
     </div>
+  );
+}
+
+export function RequestSteps() {
+  const [on, setOn] = useState(0);
+
+  useEffect(() => {
+    const els = STEPS.map((_, i) => document.getElementById(`rq-s${i + 1}`)).filter((x): x is HTMLElement => !!x);
+    if (!els.length || !("IntersectionObserver" in window)) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        const hit = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+        if (hit) setOn(els.indexOf(hit.target as HTMLElement));
+      },
+      { rootMargin: "-90px 0px -55% 0px" },
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <nav aria-label="خطوات النموذج" className="rq-rail">
+      <ol className="rq-steps">
+        {STEPS.map((label, i) => (
+          <li key={label}>
+            <a href={`#rq-s${i + 1}`} className={i < on ? "rq-step rq-step-done" : i === on ? "rq-step rq-step-on" : "rq-step"} aria-current={i === on ? "step" : undefined}>
+              <span className="rq-step-n hm-num" aria-hidden="true">{i < on ? "✓" : i + 1}</span>
+              {label}
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  );
+}
+
+export function RequestAside({ type }: { type: DeviceType }) {
+  const { state } = useDemo();
+  const n = state.devices.filter((d) => isListed(d) && d.type === type).length;
+
+  return (
+    <aside className="rq-side" aria-label="معلومات عن الطلب">
+      <div className="rq-box-side">
+        <h2>بيحصل إيه بعد كده؟</h2>
+        <ol>
+          <li>بندور لك على الجهاز عند البياعين.</li>
+          <li>هنبلغك على واتساب أول ما يتعرض جهاز مناسب.</li>
+          <li>الطلب مجاني ومش بيلزمك بالشراء.</li>
+        </ol>
+      </div>
+      <div className="rq-box-side rq-box-tint" aria-live="polite">
+        <h2>متاح دلوقتي</h2>
+        <p>
+          {n ? (
+            <>
+              <span className="hm-num">{n}</span> {typeLabel(type)} معروض ·{" "}
+              <Link href={`${routes.devices}?cat=${type}`} className="hm-tlink">شوفهم</Link>
+            </>
+          ) : (
+            <>مفيش {typeLabel(type)} معروض دلوقتي، ابعت الطلب وهنبلغك.</>
+          )}
+        </p>
+      </div>
+    </aside>
   );
 }

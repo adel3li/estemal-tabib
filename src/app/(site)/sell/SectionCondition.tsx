@@ -83,7 +83,7 @@ export function SectionCondition({ f, set, err }: SectionProps) {
           <span style={{ fontSize: 13, color: "#4A595A" }}>تقديرك المبدئي، والفحص هو اللي بيحدد الحالة النهائية.</span>
         </fieldset>
 
-        <div className="sl-box" style={{ padding: 20, borderRadius: 18, border: "2px solid #0A7E99", background: "#F2F8F8", display: "flex", flexDirection: "column", gap: 12 }}>
+        <div className="sl-box" style={{ padding: 20, borderRadius: 12, border: "2px solid #0A7E99", background: "#F2F8F8", display: "flex", flexDirection: "column", gap: 12 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <span style={{ width: 40, height: 40, borderRadius: 12, background: "#0A7E99", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>
               <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -149,7 +149,7 @@ export function SectionCondition({ f, set, err }: SectionProps) {
           <textarea rows={4} placeholder="لو مفيش عيوب اكتب: لا يوجد" {...bad("defects", err)} value={f.defects} onChange={(e) => set({ defects: e.target.value })} required />
           <Msg k="defects" err={err} />
         </label>
-        <div style={{ padding: "14px 16px", borderRadius: 14, background: "#FEEEDB", border: "1px solid #F8C788", color: "#6B3A10", fontSize: 14, display: "flex", gap: 10, alignItems: "flex-start" }}>
+        <div style={{ padding: "14px 16px", borderRadius: 10, background: "#FEEEDB", border: "1px solid #F8C788", color: "#6B3A10", fontSize: 14, display: "flex", gap: 10, alignItems: "flex-start" }}>
           <span style={{ width: 24, height: 24, borderRadius: 999, background: "#F5921C", color: "#122022", fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>!</span>
           <span>لو الفحص أثبت إن الجهاز مش مطابق للوصف أو فيه عيب مش مذكور، رسوم الجدية بتتصادر.</span>
         </div>

@@ -177,6 +177,31 @@ section[id] {
   .site-amber { padding: 10px 14px; }
 }
 
+/* ── v2 header (explore/logo-colors): petrol trust strip, search, flat tab rail ── */
+.site-util { background: #06394b; color: #c5dbe2; font-size: 13px; }
+.site-util-row { max-width: 1200px; margin: 0 auto; padding: 0 20px; height: 38px; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.site-util ul { display: flex; margin: 0; padding: 0; list-style: none; }
+.site-util li { padding-inline: 18px; border-inline-start: 1px solid #1d5466; }
+.site-util li:first-child { padding-inline-start: 0; border: 0; }
+.site-util b { color: #ffffff; font-weight: 600; }
+.site-header { border-bottom-color: #dfe7ea; }
+.site-header-row { gap: 24px; }
+.site-search { flex: 1; max-width: 520px; display: flex; align-items: center; gap: 10px; height: 46px; box-sizing: border-box; border: 1px solid #ccd8dc; border-radius: 10px; background: #ffffff; padding-inline: 14px 6px; color: #8b9ca2; }
+.site-search:focus-within { border-color: #0a7e99; box-shadow: 0 0 0 3px rgba(10,126,153,.15); }
+.site-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; font: inherit; font-size: 15px; color: #0f2a33; }
+.site-search button { height: 34px; padding: 0 16px; border: 0; border-radius: 8px; background: #0a7e99; color: #ffffff; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+.site-search button:hover { background: #076278; }
+.site-btn { border-radius: 10px; }
+.site-cta:hover, .site-amber:hover { transform: none; box-shadow: none; }
+.site-tabs { max-width: none; background: #ffffff; border-bottom: 1px solid #dfe7ea; gap: 30px; padding-block: 0; padding-inline: max(20px, calc((100% - 1200px) / 2 + 20px)); }
+.site-tab, .site-tab.site-tone-buy, .site-tab.site-tone-sell { min-height: 50px; padding: 0; border: 0; border-radius: 0; background: none; color: #2b4650; font-weight: 500; font-size: 15px; }
+.site-tab:hover { color: #0a7e99; }
+.site-tab.site-tone-buy { color: #0a7e99; font-weight: 600; }
+.site-tab.site-tone-sell { color: #c46a0a; font-weight: 600; }
+.site-tab[aria-current="page"], .site-tab.site-tone-buy[aria-current="page"], .site-tab.site-tone-sell[aria-current="page"] { background: none; color: #0f2a33; font-weight: 600; box-shadow: inset 0 -3px 0 #0cc0dc; }
+@media (min-width: 1200px) { .site-tabs { justify-content: flex-start; } }
+@media (max-width: 1023px) { .site-tabs { gap: 24px; } }
+
 /* Admin shared (ad-*) — identical in every Admin-*.dc.html */
 .ad-card{padding:24px;border-radius:22px;background:#FFFFFF;border:1px solid #DCE3DF;box-shadow:0 10px 30px rgba(18,34,31,.05);display:flex;flex-direction:column;gap:16px}
 .ad-h{margin:0;font-size:19px;display:flex;align-items:center;gap:10px}

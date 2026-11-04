@@ -13,6 +13,9 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { AccountMenu, AccountPanel, MenuBadge, SignOutRow } from "./AccountMenu";
 import { routes } from "@/lib/routes";
+import { BUSINESS } from "@/config/business";
+
+const [M1, M2] = BUSINESS.maintenanceMonthsOptions;
 
 // Client asked for a shorter menu (Nov 2026): «إزاي بنشتغل»، «آراء العملاء»،
 // «أسئلة شائعة» and «مين إحنا» are only in the footer now. Buy/sell stand out.
@@ -68,6 +71,17 @@ export function SiteHeader() {
 
   return (
     <>
+    {/* v2: trust strip above the header (desktop only) */}
+    <div className="site-util site-desktop">
+      <div className="site-util-row">
+        <ul>
+          <li><b>فحص فني</b> لكل جهاز قبل ما يوصلك</li>
+          <li>فلوسك محفوظة <b>{BUSINESS.trialDays}</b> أيام بعد الاستلام</li>
+          <li>صيانة مجانية <b>{M1}</b> أو <b>{M2}</b> شهور</li>
+        </ul>
+        <span>واتساب {BUSINESS.contact.whatsapp}</span>
+      </div>
+    </div>
     <header className="site-header">
       <div className="site-header-row">
         <Link href={routes.home} aria-label="استعمال طبيب — الرئيسية" className="site-logo" onClick={close}>
@@ -75,6 +89,12 @@ export function SiteHeader() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/brand/logo.png" alt="استعمال طبيب" style={{ height: 52, width: "auto", display: "block" }} />
         </Link>
+
+        <form action={routes.devices} method="get" role="search" className="site-search site-desktop">
+          <svg aria-hidden width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5" /></svg>
+          <input type="search" name="q" placeholder="ابحث بنوع الجهاز، الماركة أو الموديل…" aria-label="ابحث عن جهاز" enterKeyHint="search" />
+          <button type="submit">بحث</button>
+        </form>
 
         <div className="site-actions">
           <Link href={routes.demoOrder} className="site-btn site-ghost site-desktop">

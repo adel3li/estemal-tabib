@@ -1,7 +1,7 @@
 /* Home page, v2 direction — from design-explorations/v2/v2.css (brand theme).
    Colors: petrol #06394B, logo cyan #0CC0DC, deep cyan #0A7E99, orange #F5921C. */
 .hm-page{--hm-ink:#0F2A33;--hm-ink-2:#2B4650;--hm-muted:#5A6F76;--hm-line:#DFE7EA;--hm-line-2:#CCD8DC;--hm-brand:#0A7E99;--hm-cyan:#0CC0DC;--hm-orange:#F5921C;--hm-petrol:#06394B;--hm-slate:#2B5C8A;--hm-seal:#E07B0C;color:var(--hm-ink)}
-.hm-wrap{max-width:1280px;margin:0 auto;padding:0 40px;box-sizing:border-box}
+.hm-wrap{max-width:1200px;margin:0 auto;padding:0 20px;box-sizing:border-box}
 .hm-num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
 .hm-eyebrow{font-size:13px;font-weight:600;color:var(--hm-muted);display:flex;align-items:center;gap:10px}
 .hm-eyebrow::before{content:"";width:22px;height:2px;background:var(--hm-orange)}
@@ -195,4 +195,53 @@
 }
 @media (prefers-reduced-motion:reduce){
   .hm-cert,.hm-cat,.hm-btn{transition:none}
+}
+
+/* ── Shared by the content pages (how, warranty, faq) ── */
+.hm-head{background:var(--hm-petrol);color:#FFFFFF;padding:56px 0 64px;position:relative;overflow:hidden}
+.hm-head::after{content:"";position:absolute;inset-inline-end:-140px;bottom:-200px;width:460px;height:460px;border-radius:50%;border:60px solid rgba(12,192,220,.07);pointer-events:none}
+.hm-head-grid{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:32px 48px;position:relative;z-index:1}
+.hm-head-copy{flex:1 1 460px;min-width:0;display:flex;flex-direction:column;gap:14px}
+.hm-head .hm-eyebrow{color:#9CC3CF}
+.hm-head-h{margin:0;font-size:44px;line-height:1.3;font-weight:700;letter-spacing:-.4px;color:#FFFFFF}
+.hm-head .hm-lede{color:#C5DBE2}
+.hm-head-aside{flex:0 1 280px;min-width:0}
+.hm-head-art{display:block;width:100%;max-width:280px;height:auto;margin-inline:auto}
+.hm-h3{margin:0;font-size:21px;font-weight:700;line-height:1.45}
+.hm-steps{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1px solid var(--hm-line-2)}
+.hm-steps-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.hm-steps li{padding:26px 0 0;padding-inline-end:28px;position:relative}
+.hm-steps li::before{content:"";position:absolute;top:-5px;inset-inline-start:0;width:9px;height:9px;border-radius:50%;background:#FFFFFF;border:1.5px solid var(--hm-muted)}
+.hm-steps li.hm-hold::before{background:var(--hm-cyan);border-color:var(--hm-cyan)}
+.hm-steps .hm-n{color:var(--hm-muted)}
+.hm-steps h2{margin:8px 0;font-size:20px;font-weight:700}
+.hm-steps p{margin:0;color:var(--hm-ink-2);line-height:1.75}
+.hm-split-flush{margin-top:0}
+.hm-ph-wide{aspect-ratio:3 / 1;margin-bottom:6px}
+.hm-status-top{margin:0;padding:0;border:0}
+.hm-checks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;color:var(--hm-ink-2)}
+.hm-checks li{display:flex;gap:10px;align-items:flex-start}
+.hm-checks svg{flex:none;margin-top:4px}
+.hm-checks.hm-ok svg{color:var(--hm-brand)}
+.hm-checks.hm-ord svg{color:var(--hm-slate)}
+.hm-note{margin-top:40px;padding:16px 20px;border-radius:12px;border:1px solid var(--hm-line-2);background:#FFFFFF;display:flex;align-items:center;gap:14px;font-size:16.5px}
+.hm-note svg{flex:none;color:var(--hm-orange)}
+.hm-faqs{max-width:860px}
+.hm-faq{border-bottom:1px solid var(--hm-line-2);padding:4px 0}
+.hm-faq:first-child{border-top:1px solid var(--hm-line-2)}
+.hm-faq summary{font-weight:600;font-size:18px;display:flex;justify-content:space-between;align-items:center;gap:12px;min-height:60px}
+.hm-faq p{margin:0 0 18px;color:var(--hm-ink-2);max-width:720px}
+.mn-faq.hm-faq[open]{background:transparent;border-color:var(--hm-line-2);box-shadow:none}
+@media (max-width:1023px){
+  .hm-head{padding:40px 0 48px}
+  .hm-head-h{font-size:34px}
+  .hm-steps,.hm-steps-3{grid-template-columns:minmax(0,1fr);border-top:0;border-inline-start:1px solid var(--hm-line-2)}
+  .hm-steps li{padding:0 0 26px;padding-inline-start:26px}
+  .hm-steps li::before{top:8px;inset-inline-start:-5px}
+}
+@media (max-width:767px){
+  .hm-head{padding:30px 0 36px}
+  .hm-head-h{font-size:28px}
+  .hm-head-aside{display:none}
+  .hm-faq summary{font-size:16.5px}
 }

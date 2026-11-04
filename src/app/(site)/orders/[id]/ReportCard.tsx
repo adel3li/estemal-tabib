@@ -14,10 +14,10 @@ type Props = {
 export function ReportCard({ text, reportHref, badges, onConfirm, onCancel }: Props) {
   const [asking, setAsking] = useState(false);
   return (
-    <div className="ot-cur" style={{ flex: 1, minWidth: 0, marginBottom: 24, padding: 18, borderRadius: 18, background: "#FFF5EA", border: "1px solid #F8C788" }}>
+    <div className="ot-cur" style={{ minWidth: 0, padding: 16, borderRadius: 10, background: "#FFF5EA", border: "1px solid #F8C788" }}>
       <div style={{ fontWeight: 700, fontSize: 18 }}>تقرير الفحص وصلك</div>
       <div style={{ color: "#5A4A3C", fontSize: 15 }}>{text}</div>
-      <div className="ot-cur-box" style={{ marginTop: 14, padding: 16, borderRadius: 16, background: "#FFFFFF", border: "1px solid #F9DDBE", display: "flex", flexWrap: "wrap", gap: 12, alignItems: "center" }}>
+      <div className="ot-cur-box" style={{ marginTop: 14, padding: 16, borderRadius: 12, background: "#FFFFFF", border: "1px solid #F9DDBE", display: "flex", flexWrap: "wrap", gap: 12, alignItems: "center" }}>
         <div style={{ flex: "1 1 220px", minWidth: 0, display: "flex", flexWrap: "wrap", gap: 8 }}>
           {badges.map((b) =>
             b.ok ? (
@@ -51,7 +51,7 @@ export function ReportCard({ text, reportHref, badges, onConfirm, onCancel }: Pr
           </button>
         </div>
       ) : (
-        <div role="alertdialog" aria-label="تأكيد إلغاء الطلب" style={{ marginTop: 12, padding: 14, borderRadius: 14, background: "#FBE9E7", border: "1px solid #E8B4AE", display: "flex", flexDirection: "column", gap: 10 }}>
+        <div role="alertdialog" aria-label="تأكيد إلغاء الطلب" style={{ marginTop: 12, padding: 14, borderRadius: 10, background: "#FBE9E7", border: "1px solid #E8B4AE", display: "flex", flexDirection: "column", gap: 10 }}>
           <div style={{ fontSize: 15, color: "#7A1A14", fontWeight: 600 }}>متأكد إنك عايز تلغي الطلب؟ فلوسك هترجعلك كاملة بنفس طريقة الدفع.</div>
           <div className="ot-actions" style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
             <button type="button" onClick={onCancel} style={{ minHeight: 44, padding: "0 18px", borderRadius: 12, border: 0, background: "#B3261E", color: "#FFFFFF", font: "inherit", fontWeight: 700, cursor: "pointer" }}>أيوه، إلغي الطلب</button>

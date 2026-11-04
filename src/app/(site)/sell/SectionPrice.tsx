@@ -71,7 +71,7 @@ export function SectionPrice({ f, set, err }: SectionProps) {
           <Msg k="keepLocation" err={err} />
         </fieldset>
 
-        <div className="sl-box" style={{ padding: 20, borderRadius: 18, background: "#F9FBFB", border: "1px solid #DCE3E1", display: "flex", flexDirection: "column", gap: 14 }}>
+        <div className="sl-box" style={{ padding: 20, borderRadius: 12, background: "#F9FBFB", border: "1px solid #CCD8DC", display: "flex", flexDirection: "column", gap: 14 }}>
           <span style={{ fontSize: 14, color: "#4A595A", display: "flex", alignItems: "center", gap: 8 }}>
             <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0A7E99" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none" }}>
               <path d="M7 7h11l-3-3" />
@@ -101,7 +101,7 @@ export function SectionPrice({ f, set, err }: SectionProps) {
           </div>
           <Msg k="sale" err={err} />
         </div>
-        <div style={{ padding: "14px 16px", borderRadius: 14, background: "#E2F4F8", color: "#075468", display: "flex", gap: 10, alignItems: "flex-start", fontSize: 15 }}>
+        <div style={{ padding: "14px 16px", borderRadius: 10, background: "#E2F4F8", color: "#075468", display: "flex", gap: 10, alignItems: "flex-start", fontSize: 15 }}>
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none", marginTop: 3 }}>
             <rect x="5" y="11" width="14" height="9" rx="2" />
             <path d="M8 11V8a4 4 0 0 1 8 0v3" />

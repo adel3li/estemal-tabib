@@ -1,58 +1,48 @@
+// «المواصفات» — v2 spec list next to the report.
 import type { ReactNode } from "react";
 import type { Device } from "@/lib/demo/types";
-import { brandModel, COND_TILE, defectInfo, REPAIRED, svgProps } from "./helpers";
+import { brandModel, COND_TILE, defectInfo, REPAIRED } from "./helpers";
 
-function Cell({ label, value, bg = "#F3F6F7", lab = "#4A595A", fg }: { label: string; value: ReactNode; bg?: string; lab?: string; fg?: string }) {
+function Row({ label, value, tone }: { label: string; value: ReactNode; tone?: "ok" | "warn" }) {
   return (
-    <div style={{ padding: "12px 14px", borderRadius: 12, background: bg }}>
-      <div style={{ fontSize: 13, color: lab }}>{label}</div>
-      <div style={{ fontWeight: 700, color: fg, overflowWrap: "anywhere" }}>{value}</div>
-    </div>
+    <>
+      <dt>{label}</dt>
+      <dd className={tone ? `li-spec-${tone}` : undefined}>{value}</dd>
+    </>
   );
 }
 
 export function DataGrid({ d }: { d: Device }) {
   const inspected = d.inspection === "inspected";
   const cond = COND_TILE[d.condition];
+  const defects = defectInfo(d).count;
   return (
-    <div className="li-dbox" style={{ marginTop: 10, borderRadius: 20, background: "#FFFFFF", border: "1px solid #DCE3E1", display: "flex", flexDirection: "column", gap: 16 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-        <h2 style={{ margin: 0, fontSize: 20 }}>بيانات الجهاز</h2>
-        {inspected ? (
-          <a href="#report" className="li-jump" style={{ fontSize: 14, fontWeight: 600, display: "flex", alignItems: "center", gap: 4 }}>
-            تقرير الفحص
-            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" {...svgProps} strokeWidth={2}><path d="M12 5v14" /><path d="M6 13l6 6 6-6" /></svg>
-          </a>
-        ) : (
-          <span style={{ fontSize: 13, color: "#4A595A" }}>حسب كلام البايع · هتتأكد في الفحص</span>
-        )}
+    <div className="li-specs-box">
+      <div className="li-specs-head">
+        <h2 className="li-h2">المواصفات</h2>
+        {!inspected ? <span>حسب كلام البايع · هتتأكد في الفحص</span> : null}
       </div>
-      <div className="li-dgrid">
+      <dl className="li-specs">
         {inspected ? (
           <>
-            <Cell label="الماركة / الموديل" value={brandModel(d)} />
-            <Cell label="سنة الصنع" value={d.year} />
-            <Cell label="بلد المنشأ" value={d.origin} />
-            {d.report ? <Cell label="كفاءة التشغيل" value={d.report.efficiency} bg="#E2F4F8" lab="#075468" fg="#0A7E99" /> : null}
-            <Cell label="عيوب مُعلنة" value={defectInfo(d).count} bg="#FEEEDB" lab="#6B3A10" fg="#8A4A05" />
+            <Row label="الماركة / الموديل" value={brandModel(d)} />
+            <Row label="سنة الصنع" value={d.year} />
+            <Row label="بلد المنشأ" value={d.origin} />
+            {d.report ? <Row label="كفاءة التشغيل" value={d.report.efficiency} tone="ok" /> : null}
+            <Row label="عيوب مُعلنة" value={defects} tone={defects ? "warn" : undefined} />
           </>
         ) : (
           <>
-            <Cell label="الماركة" value={d.brand} />
-            {d.capacity ? <Cell label="السعة" value={`${d.capacity} لتر`} /> : <Cell label="الموديل" value={d.model} />}
-            <Cell label="سنة الصنع" value={d.year} />
-            <Cell label="الحالة" value={cond.text} bg={cond.bg} lab={cond.lab} fg={cond.fg} />
-            <Cell label="الكرتونة" value={d.hasBox === undefined ? "مش معروف" : d.hasBox ? "موجودة" : "مش موجودة"} />
-            <Cell label="اتصلّح قبل كده؟" value={REPAIRED[d.repairedBefore ?? "unknown"]} />
+            <Row label="الماركة" value={d.brand} />
+            {d.capacity ? <Row label="السعة" value={`${d.capacity} لتر`} /> : <Row label="الموديل" value={d.model} />}
+            <Row label="سنة الصنع" value={d.year} />
+            <Row label="الحالة" value={cond.text} tone={d.condition === "a" ? "ok" : d.condition === "c" ? "warn" : undefined} />
+            <Row label="الكرتونة" value={d.hasBox === undefined ? "مش معروف" : d.hasBox ? "موجودة" : "مش موجودة"} />
+            <Row label="اتصلّح قبل كده؟" value={REPAIRED[d.repairedBefore ?? "unknown"]} />
           </>
         )}
-      </div>
-      {d.accessories ? (
-        <div style={{ fontSize: 14, color: "#3C4B4C" }}>
-          <span style={{ fontWeight: 700 }}>الملحقات: </span>
-          {d.accessories}
-        </div>
-      ) : null}
+        {d.accessories ? <Row label="الملحقات" value={d.accessories} /> : null}
+      </dl>
     </div>
   );
 }

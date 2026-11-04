@@ -42,12 +42,10 @@ export function bad(k: FieldKey, err: Errors, cls = "sl-in") {
   };
 }
 
+/** Section head, v2 style: title + «الخطوة ٢ من ٦». The icon props are kept so
+ *  the sections don't change; the v2 head shows no icon. */
 export function CardHead({
-  icon,
-  iconBg,
-  iconFg,
   step,
-  stepFg,
   title,
   extra,
 }: {
@@ -61,15 +59,8 @@ export function CardHead({
 }) {
   return (
     <legend className="sl-legend">
-      <span style={{ width: 48, height: 48, borderRadius: 15, background: iconBg, color: iconFg, display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>
-        <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-          {icon}
-        </svg>
-      </span>
-      <span style={{ flex: extra ? 1 : undefined, display: "flex", flexDirection: "column", lineHeight: 1.3 }}>
-        <span style={{ fontSize: 13, fontWeight: 600, color: stepFg }}>{step}</span>
-        <span style={{ fontWeight: 700, fontSize: 21, color: "#122022" }}>{title}</span>
-      </span>
+      <span className="sl-legend-t">{title.replace(/^[\u0660-\u0669\d]+\.\s*/, "")}</span>
+      <span className="sl-legend-step">{step}</span>
       {extra}
     </legend>
   );

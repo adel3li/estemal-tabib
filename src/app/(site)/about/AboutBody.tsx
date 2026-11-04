@@ -8,17 +8,17 @@ const [M1, M2] = BUSINESS.maintenanceMonthsOptions;
 export function AboutBody() {
   return (
     <>
-    <section style={{ position: "relative", overflow: "hidden", background: "linear-gradient(180deg, #FFFFFF 0%, #F3F6F7 100%)", borderBottom: "1px solid #E5EBEA" }}>
+    <section className="ab-top" style={{ position: "relative", overflow: "hidden", background: "linear-gradient(180deg, #FFFFFF 0%, #F3F6F7 100%)", borderBottom: "1px solid #E5EBEA" }}>
       <div aria-hidden="true" style={{ position: "absolute", top: -180, left: -140, width: 540, height: 540, borderRadius: 999, background: "radial-gradient(circle, rgba(10,126,153, 0.10) 0%, rgba(10,126,153, 0) 70%)" }} />
       <div style={{ position: "relative", maxWidth: 1100, margin: "0 auto", display: "flex", flexDirection: "column", gap: 28 }} className="ab-hero">
         <div style={{ fontSize: 14, color: "#4A595A", display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}><Link href={routes.home} className="ab-crumb">الرئيسية</Link><span aria-hidden="true">›</span><span>مين إحنا</span></div>
         <div className="ab-hero-row" style={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
           <div style={{ flex: "1 1 440px", minWidth: 0, display: "flex", flexDirection: "column", gap: 18 }}>
-            <span style={{ alignSelf: "flex-start", padding: "6px 14px 6px 16px", borderRadius: 999, background: "#E2F4F8", border: "1px solid #9ED8E6", color: "#0A7E99", fontWeight: 600, fontSize: 14, display: "flex", alignItems: "center", gap: 8 }}>
+            <span className="ab-pill" style={{ alignSelf: "flex-start", padding: "6px 14px 6px 16px", borderRadius: 999, background: "#E2F4F8", border: "1px solid #9ED8E6", color: "#0A7E99", fontWeight: 600, fontSize: 14, display: "flex", alignItems: "center", gap: 8 }}>
               <span aria-hidden="true" style={{ width: 8, height: 8, borderRadius: 999, background: "#0A7E99" }} />
               مين إحنا
             </span>
-            <h1 className="ab-h1" style={{ margin: 0 }}>بنخلّي شراء وبيع أجهزة الأسنان المستعملة <span style={{ color: "#0A7E99" }}>آمن وواضح</span></h1>
+            <h1 className="ab-h1" style={{ margin: 0 }}>بنخلّي شراء وبيع أجهزة الأسنان المستعملة <span className="ab-em" style={{ color: "#0A7E99" }}>آمن وواضح</span></h1>
             <p className="ab-lead" style={{ margin: 0, color: "#4A595A", maxWidth: 760 }}>
               استعمال طبيب منصة متخصصة 100% في أجهزة وأدوات طب الأسنان المستعملة. بنقف في النص بين البايع والمشتري: بنفحص الجهاز، وبنحفظ الفلوس، وبنوصّل الجهاز بضمان.
             </p>

@@ -65,81 +65,64 @@ export function Gallery({ d }: { d: Device }) {
 
   return (
     <>
-      <div style={{ position: "relative", borderRadius: 24, overflow: "hidden", background: "#E7EDEC", border: "1px solid #DCE3E1", aspectRatio: "4 / 3" }}>
+      <div className="hm-ph li-gal-main">
         {s.video ? (
           <div style={{ position: "relative", width: "100%", height: "100%" }}>
             <svg role="img" aria-label={inspected ? "فيديو وهو شغال" : "فيديو الجهاز وهو شغال"} viewBox="0 0 400 300" style={pic}><use href={s.ref} /></svg>
-            <div style={{ position: "absolute", inset: 0, background: "rgba(15, 42, 38, 0.35)", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 10, color: "#FFFFFF" }}>
-              <span style={{ width: 72, height: 72, borderRadius: 999, background: "rgba(255, 255, 255, 0.95)", color: "#0A7E99", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <div className="li-vid">
+              <span className="li-vid-play">
                 <svg aria-hidden="true" width="30" height="30" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
               </span>
-              <span style={{ fontWeight: 600 }}>{inspected ? "فيديو وهو شغال" : "فيديو الجهاز وهو شغال · 0:42"}</span>
+              <span>{inspected ? "فيديو وهو شغال" : "فيديو الجهاز وهو شغال · 0:42"}</span>
             </div>
           </div>
         ) : (
           <svg role="img" aria-label={s.label} viewBox="0 0 400 300" style={pic}><use href={s.ref} /></svg>
         )}
 
-        {inspected ? (
-          <span style={{ position: "absolute", top: 16, right: 16, padding: "7px 14px", borderRadius: 999, background: "#0A7E99", color: "#FFFFFF", fontSize: 14, fontWeight: 700, display: "flex", alignItems: "center", gap: 6, boxShadow: "0 2px 8px rgba(15,42,51, 0.18)" }}>
-            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" {...svgProps} strokeWidth={2.2}><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>تم الفحص
-          </span>
-        ) : (
-          <span style={{ position: "absolute", top: 16, right: 16, padding: "7px 14px", borderRadius: 999, background: "#FFFFFF", color: "#24508F", fontSize: 14, fontWeight: 700, display: "flex", alignItems: "center", gap: 6, boxShadow: "0 2px 8px rgba(15,42,51, 0.12)" }}>
-            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" {...svgProps} strokeWidth={2}><circle cx="11" cy="11" r="6" /><path d="M20 20l-4.5-4.5" /></svg>يُفحص عند الطلب
-          </span>
-        )}
-        <span style={{ position: "absolute", top: 16, left: 16, padding: "6px 12px", borderRadius: 999, background: "rgba(15,42,51, 0.72)", color: "#FFFFFF", fontSize: 13, fontWeight: 600 }}>
-          {slides.indexOf(s) + 1} / {slides.length}
+        <span className={inspected ? "li-badge li-badge-ok" : "li-badge li-badge-ord"}>
+          {inspected ? (
+            <><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" {...svgProps} strokeWidth={2.4}><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>تم الفحص</>
+          ) : (
+            <><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" {...svgProps} strokeWidth={2}><circle cx="11" cy="11" r="6" /><path d="M20 20l-4.5-4.5" /></svg>يُفحص عند الطلب</>
+          )}
         </span>
+        <span className="li-count hm-num">{slides.indexOf(s) + 1} / {slides.length}</span>
 
         {!inspected ? (
-          <span className="li-cap" style={{ position: "absolute", bottom: 16, right: 16, left: 16, padding: "10px 14px", borderRadius: 12, background: "rgba(255, 255, 255, 0.95)", color: "#24508F", fontSize: 14, fontWeight: 500, display: "flex", gap: 8, alignItems: "center" }}>
-            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" {...svgProps} strokeWidth={1.8} style={{ flex: "none" }}><circle cx="12" cy="12" r="9" /><path d="M12 8v5" /><path d="M12 16h.01" /></svg>
+          <span className="li-cap">
             {VIDEO_ENABLED ? "الصور والفيديو من البايع." : "الصور من البايع."} فريقنا هيصوّر الجهاز ويفحصه بعد طلبك.
           </span>
         ) : s.defect ? (
-          <span className="li-cap" style={{ position: "absolute", bottom: 16, right: 16, left: 16, padding: "10px 14px", borderRadius: 12, background: "#FFF5EA", border: "1px solid #F8C788", color: "#6B3A10", fontSize: 14, fontWeight: 600, display: "flex", gap: 8, alignItems: "center" }}>
-            <span aria-hidden="true" style={{ width: 22, height: 22, borderRadius: 999, background: "#F5921C", color: "#122022", display: "flex", alignItems: "center", justifyContent: "center", flex: "none", fontWeight: 700, fontSize: 13 }}>!</span>
+          <span className="li-cap li-cap-warn">
+            <span aria-hidden="true" className="li-cap-bang">!</span>
             {caption}
           </span>
         ) : !s.video ? (
-          <span className="li-cap" style={{ position: "absolute", bottom: 16, right: 16, left: 16, padding: "10px 14px", borderRadius: 12, background: "rgba(255, 255, 255, 0.95)", color: "#075468", fontSize: 14, fontWeight: 500, display: "flex", gap: 8, alignItems: "center" }}>
-            <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" {...svgProps} strokeWidth={1.8} style={{ flex: "none" }}><path d="M4 8h3l2-3h6l2 3h3v11H4z" /><circle cx="12" cy="13" r="3.5" /></svg>
-            صورة حقيقية للجهاز — تصوير فريق الفحص
-          </span>
+          <span className="li-cap">صورة حقيقية للجهاز — تصوير فريق الفحص</span>
         ) : null}
       </div>
 
       <div className="li-thumbs" style={{ gridTemplateColumns: `repeat(${cols}, minmax(0, 1fr))` }}>
         {slides.map((t, k) => {
           const on = t === s;
-          const bd = on ? (t.defect ? "#D0700A" : "#0A7E99") : t.defect ? "#F8C788" : "transparent";
           return (
             <button
               key={k}
               type="button"
-              className="li-thumb"
+              className={t.defect ? "li-thumb is-defect" : "li-thumb"}
               onClick={() => setI(k)}
               aria-label={t.label}
               aria-pressed={on}
-              style={{ position: "relative", padding: 0, borderRadius: 14, overflow: "hidden", border: `2px solid ${bd}`, background: "#E7EDEC", cursor: "pointer", aspectRatio: "4 / 3" }}
             >
               <svg aria-hidden="true" viewBox="0 0 400 300" style={pic}><use href={t.ref} /></svg>
-              {t.video && inspected ? (
-                <span style={{ position: "absolute", inset: 0, background: "rgba(15, 42, 38, 0.5)", color: "#FFFFFF", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 2, fontSize: 12, fontWeight: 600, fontFamily: "inherit" }}>
+              {t.video ? (
+                <span className="li-thumb-vid">
                   <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
-                  <span style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", maxWidth: "92%" }}>فيديو وهو شغال</span>
+                  {inspected ? <span>فيديو وهو شغال</span> : null}
                 </span>
               ) : null}
-              {t.video && !inspected ? (
-                <span style={{ position: "absolute", inset: 0, background: "rgba(15, 42, 38, 0.45)", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>
-                </span>
-              ) : null}
-              {t.defect ? (
-                <span style={{ position: "absolute", bottom: 0, right: 0, left: 0, padding: "2px 4px", background: "#FEEEDB", color: "#8A4A05", fontSize: 12, fontWeight: 700, fontFamily: "inherit", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>صورة العيب</span>
-              ) : null}
+              {t.defect ? <span className="li-thumb-defect">صورة العيب</span> : null}
             </button>
           );
         })}

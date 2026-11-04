@@ -42,3 +42,9 @@
   .tm-p{padding:12px 14px}
   .tm-cta{align-self:stretch;justify-content:center}
 }
+
+/* v2 direction: flat 12px panels without big shadows (the port's styles are inline). */
+.tm-page :is([style*="border-radius:24px"],[style*="border-radius:22px"],[style*="border-radius:20px"]){border-radius:12px !important;box-shadow:none !important}
+.tm-page [style*="border-radius:18px"]{border-radius:10px !important}
+.tm-page .tm-tab{border-radius:8px !important;box-shadow:none !important}
+.tm-head .tm-h1{letter-spacing:-.4px}

@@ -60,7 +60,7 @@ export default function OrderTrackerPage() {
       <OtSprite />
       <TrackerHeader o={o} />
       {note ? (
-        <div role="status" style={{ padding: "12px 16px", borderRadius: 14, background: o.status === "active" ? "#EAF5DD" : "#FBE9E7", color: o.status === "active" ? "#2F5E16" : "#7A1A14", fontWeight: 600 }}>
+        <div role="status" style={{ padding: "12px 16px", borderRadius: 10, background: o.status === "active" ? "#EAF5DD" : "#FBE9E7", color: o.status === "active" ? "#2F5E16" : "#7A1A14", fontWeight: 600 }}>
           {note}
         </div>
       ) : null}

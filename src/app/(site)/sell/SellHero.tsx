@@ -1,46 +1,78 @@
-import { VIDEO_ENABLED } from "@/config/features";
-const STEPS: { n: string; label: string; bg: string; fg: string }[] = [
-  { n: "١", label: "بياناتك", bg: "#E2F4F8", fg: "#0A7E99" },
-  { n: "٢", label: "بيانات الجهاز", bg: "#E6EDF7", fg: "#24508F" },
-  { n: "٣", label: "الحالة والعيوب", bg: "#FEEEDB", fg: "#8A4A05" },
-  { n: "٤", label: VIDEO_ENABLED ? "الصور والفيديو" : "الصور", bg: "#EAF5DD", fg: "#3F7A1F" },
-  { n: "٥", label: "السعر", bg: "#E2F4F8", fg: "#0A7E99" },
-  { n: "٦", label: "الإقرارات", bg: "#E6EDF7", fg: "#24508F" },
-];
+"use client";
 
-export function SellHero() {
+// /sell page head, step rail and side notes — v2 direction
+// (design-explorations/v2/src/sell.html, brand theme). The form itself stays
+// one long page; the rail links to each section and marks the one in view.
+import { useEffect, useState } from "react";
+import { BUSINESS } from "@/config/business";
+import { VIDEO_ENABLED } from "@/config/features";
+import { fmt } from "@/lib/demo/labels";
+import { NEXT_STEPS } from "./SellSuccess";
+
+const STEPS = ["بياناتك", "بيانات الجهاز", "الحالة والعيوب", VIDEO_ENABLED ? "الصور والفيديو" : "الصور", "السعر", "الإقرارات"];
+
+export function SellHead() {
   return (
-    <div className="sl-hero" style={{ background: "#FFFFFF", border: "1px solid #DCE3E1", boxShadow: "0 10px 30px rgba(15,42,51, 0.06)", display: "flex", flexWrap: "wrap", alignItems: "center" }}>
-      <div style={{ flex: "999 1 420px", minWidth: 0, display: "flex", flexDirection: "column", gap: 18 }}>
-        <span style={{ alignSelf: "flex-start", padding: "4px 14px", borderRadius: 999, background: "#FEEEDB", color: "#8A4A05", fontSize: 14, fontWeight: 700, display: "flex", alignItems: "center", gap: 6 }}>
-          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M3 12V4h8l10 10-8 8z" />
-            <circle cx="7.5" cy="8.5" r="1.5" />
-          </svg>
-          بيع جهازك
-        </span>
-        <div>
-          <h1 className="sl-h1">اعرض جهازك للبيع</h1>
-          <p className="sl-lead">كل ما كانت البيانات أدق، كل ما الجهاز اتباع أسرع. بعد ما تبعت الطلب هنكلمك خلال 24 ساعة نحدد ميعاد الفحص.</p>
-        </div>
-        <nav aria-label="خطوات النموذج">
-          <ol className="sl-steps">
-            {STEPS.map((s, i) => (
-              <li key={s.n}>
-                <a href={`#sl-s${i + 1}`} className="sl-step">
-                  <span style={{ width: 28, height: 28, borderRadius: 9, background: s.bg, color: s.fg, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>{s.n}</span>
-                  {s.label}
-                </a>
-              </li>
-            ))}
-          </ol>
-        </nav>
-      </div>
-      <div className="sl-hero-art" style={{ flex: "1 1 340px", minWidth: 0, maxWidth: 520, margin: "0 auto" }}>
-        <svg role="img" aria-label="رسم توضيحي لكرسي أسنان مع تقرير فحص وسعر" viewBox="0 0 520 380" style={{ display: "block", width: "100%", height: "auto" }}>
-          <use href="#sl-hero" />
-        </svg>
-      </div>
+    <div className="hm-wrap sl-head">
+      <div className="hm-eyebrow">بيع جهازك</div>
+      <h1 className="sl-h1">اعرض جهازك للبيع</h1>
+      <p className="sl-lead">كل ما كانت البيانات أدق، كل ما الجهاز اتباع أسرع. بعد ما تبعت الطلب هنكلمك خلال 24 ساعة نحدد ميعاد الفحص.</p>
     </div>
+  );
+}
+
+export function SellSteps() {
+  const [on, setOn] = useState(0);
+
+  useEffect(() => {
+    const els = STEPS.map((_, i) => document.getElementById(`sl-s${i + 1}`)).filter((x): x is HTMLElement => !!x);
+    if (!els.length || !("IntersectionObserver" in window)) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        const hit = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+        if (hit) setOn(els.indexOf(hit.target as HTMLElement));
+      },
+      { rootMargin: "-90px 0px -55% 0px" },
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <nav aria-label="خطوات النموذج" className="sl-rail">
+      <ol className="sl-steps">
+        {STEPS.map((label, i) => (
+          <li key={label}>
+            <a href={`#sl-s${i + 1}`} className={i < on ? "sl-step sl-step-done" : i === on ? "sl-step sl-step-on" : "sl-step"} aria-current={i === on ? "step" : undefined}>
+              <span className="sl-step-n hm-num" aria-hidden="true">{i < on ? "✓" : i + 1}</span>
+              {label}
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  );
+}
+
+export function SellAside() {
+  return (
+    <aside className="sl-side" aria-label="معلومات قبل ما تبعت">
+      <div className="sl-box-side">
+        <h2>رسوم الجدية</h2>
+        <div className="sl-side-fee">
+          <span>بتتدفع بعد ما تبعت الطلب</span>
+          <b>{fmt(BUSINESS.sellerSeriousnessFeeEGP)} ج.م</b>
+        </div>
+        <p>التفاصيل وطريقة التحويل بتظهر بعد ما تبعت. قواعد الاسترداد تحت قبل زرار الإرسال.</p>
+      </div>
+      <div className="sl-box-side">
+        <h2>بعد ما تبعت</h2>
+        <ol>
+          {NEXT_STEPS.map((s) => (
+            <li key={s}>{s.replace(" هنا", "")}</li>
+          ))}
+        </ol>
+      </div>
+    </aside>
   );
 }

@@ -1,11 +1,11 @@
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import type { DeviceType } from "@/lib/demo/types";
 import type { Filters } from "./filters";
 
-type Chip<T extends string> = { id: T; label: string };
+type Opt<T extends string> = { id: T; label: string };
 
-/** Chip order and colors exactly as Browse.dc.html (ids = store DeviceType ids). */
-const CAT_CHIPS: Chip<DeviceType | "all">[] = [
+/** Type order as Browse.dc.html (ids = store DeviceType ids). */
+const CAT_OPTS: Opt<DeviceType | "all">[] = [
   { id: "all", label: "الكل" },
   { id: "cam", label: "كاميرا" },
   { id: "rotary", label: "روتاري" },
@@ -21,53 +21,36 @@ const CAT_CHIPS: Chip<DeviceType | "all">[] = [
   { id: "iocam", label: "كاميرا إنترا أورال" },
   { id: "other", label: "جهاز تاني" },
 ];
-const TOP = ["cam", "rotary", "micro", "loupe", "cure"];
+const CAT_SHOW = 8;
 
-const ST_CHIPS: Chip<Filters["st"]>[] = [
+const ST_OPTS: Opt<Filters["st"]>[] = [
   { id: "all", label: "الكل" },
   { id: "done", label: "تم الفحص" },
   { id: "order", label: "يُفحص عند الطلب" },
 ];
-const MAINT_CHIPS: Chip<Filters["maint"]>[] = [
+const MAINT_OPTS: Opt<Filters["maint"]>[] = [
   { id: "all", label: "الكل" },
   { id: "3", label: "3 شهور" },
   { id: "6", label: "6 شهور" },
 ];
-const COND_CHIPS: Chip<Filters["cond"]>[] = [
+const COND_OPTS: Opt<Filters["cond"]>[] = [
   { id: "all", label: "الكل" },
   { id: "a", label: "ممتازة 81–100%" },
   { id: "b", label: "جيدة 60–80%" },
   { id: "c", label: "أقل من 60%" },
 ];
 
-function chipColors(on: boolean, id: string, isCat: boolean) {
-  let bg = on ? "#0A7E99" : "#FFFFFF";
-  let fg = on ? "#FFFFFF" : "#122022";
-  let bd = on ? "#0A7E99" : "#C9D4D3";
-  if (isCat && TOP.includes(id)) bd = "#7DBB4A";
-  if (isCat && id === "other") {
-    if (on) { bg = "#F5921C"; bd = "#F5921C"; fg = "#122022"; }
-    else { bg = "#FEEEDB"; bd = "#F5921C"; fg = "#6B3A10"; }
-  }
-  return { bg, fg, bd };
-}
-
-function ChipRow<T extends string>({ chips, value, onPick, isCat = false }: { chips: Chip<T>[]; value: T; onPick: (v: T) => void; isCat?: boolean }) {
+/** Single-choice list (v2 «chk» rows). `count` = results if this option were picked. */
+function OptList<T extends string>({ opts, value, onPick, count }: { opts: Opt<T>[]; value: T; onPick: (v: T) => void; count?: (v: T) => number }) {
   return (
-    <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-      {chips.map((c) => {
-        const on = c.id === value;
-        const { bg, fg, bd } = chipColors(on, c.id, isCat);
+    <div className="br-opts">
+      {opts.map((o) => {
+        const on = o.id === value;
         return (
-          <button
-            key={c.id}
-            type="button"
-            className="br-chip"
-            onClick={() => onPick(c.id)}
-            aria-pressed={on}
-            style={{ padding: "4px 14px", borderRadius: 999, border: `1px solid ${bd}`, background: bg, color: fg, font: "inherit", fontSize: 14, fontWeight: 600, cursor: "pointer" }}
-          >
-            {c.label}
+          <button key={o.id} type="button" className="br-opt" aria-pressed={on} onClick={() => onPick(o.id)}>
+            <i aria-hidden="true" />
+            {o.label}
+            {count ? <em className="hm-num">{count(o.id)}</em> : null}
           </button>
         );
       })}
@@ -75,31 +58,42 @@ function ChipRow<T extends string>({ chips, value, onPick, isCat = false }: { ch
   );
 }
 
-const ic = { width: 17, height: 17, viewBox: "0 0 24 24", fill: "none", stroke: "#0A7E99", strokeWidth: 1.9, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true } as const;
-
-function Group({ label, icon, last = false, children }: { label: string; icon: ReactNode; last?: boolean; children: ReactNode }) {
+function Seg<T extends string>({ opts, value, onPick }: { opts: Opt<T>[]; value: T; onPick: (v: T) => void }) {
   return (
-    <div role="group" aria-label={label} style={{ display: "flex", flexDirection: "column", gap: 10, padding: "18px 0", borderBottom: last ? undefined : "1px solid #E5EBEA" }}>
-      <span style={{ fontWeight: 600, fontSize: 15, display: "flex", alignItems: "center", gap: 8 }}>{icon}{label === "السعر" ? "السعر (ج.م)" : label}</span>
+    <div className="br-seg">
+      {opts.map((o) => (
+        <button key={o.id} type="button" aria-pressed={o.id === value} onClick={() => onPick(o.id)}>
+          {o.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function Group({ label, children, aside }: { label: string; children: ReactNode; aside?: ReactNode }) {
+  return (
+    <div role="group" aria-label={label} className="br-group">
+      <span className="br-group-h">{label}{aside}</span>
       {children}
     </div>
   );
 }
 
-const input = { minHeight: 44, padding: "0 12px", borderRadius: 12, border: "1px solid #C9D4D3", background: "#F3F6F7", font: "inherit", fontSize: 15, color: "#122022", minWidth: 0 } as const;
-
 type Props = {
   f: Filters;
   set: (p: Partial<Filters>) => void;
   reset: () => void;
+  /** Results for `f` with one field swapped — powers the counts next to each option. */
+  countWith: (p: Partial<Filters>) => number;
   /** < 1024px the aside is a sheet: open/close + result count for its footer button. */
   open: boolean;
   onClose: () => void;
   count: number;
 };
 
-export function FilterAside({ f, set, reset, open, onClose, count }: Props) {
+export function FilterAside({ f, set, reset, countWith, open, onClose, count }: Props) {
   const closeRef = useRef<HTMLButtonElement>(null);
+  const [allCats, setAllCats] = useState(false);
 
   // Sheet behaviour (only while open, which only happens < 1024px): Esc closes,
   // page behind doesn't scroll, focus moves into the sheet.
@@ -122,6 +116,11 @@ export function FilterAside({ f, set, reset, open, onClose, count }: Props) {
     };
   }, [open, onClose]);
 
+  // Keep the picked type visible when the list is collapsed.
+  const pickedHidden = CAT_OPTS.findIndex((o) => o.id === f.cat) >= CAT_SHOW;
+  const cats = allCats || pickedHidden ? CAT_OPTS : CAT_OPTS.slice(0, CAT_SHOW);
+  const more = CAT_OPTS.length - CAT_SHOW;
+
   return (
     <>
     {open ? <div className="br-backdrop" aria-hidden="true" onClick={onClose} /> : null}
@@ -132,51 +131,46 @@ export function FilterAside({ f, set, reset, open, onClose, count }: Props) {
       role={open ? "dialog" : undefined}
       aria-modal={open ? true : undefined}
     >
-      <div className="br-aside-head" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, paddingBottom: 14, borderBottom: "1px solid #E5EBEA" }}>
-        <span style={{ fontWeight: 700, fontSize: 18, display: "flex", alignItems: "center", gap: 10 }}>
-          <span style={{ width: 34, height: 34, borderRadius: 10, background: "#E2F4F8", color: "#0A7E99", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <svg {...ic} width={18} height={18} stroke="currentColor"><path d="M4 5h16l-6 8v5l-4 2v-7z" /></svg>
-          </span>
-          تصفية
-        </span>
+      <div className="br-aside-head">
+        <span className="br-aside-title">تصفية</span>
         <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <button type="button" className="br-reset" onClick={reset} style={{ padding: "0 12px", border: 0, borderRadius: 10, background: "transparent", color: "#0A7E99", font: "inherit", fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }}>
-            <svg {...ic} width={15} height={15} stroke="currentColor" strokeWidth={2}><path d="M4 12a8 8 0 1 0 2.3-5.7L4 8.6" /><path d="M4 4v4.6h4.6" /></svg>
-            مسح الكل
-          </button>
+          <button type="button" className="br-reset" onClick={reset}>مسح الكل</button>
           <button ref={closeRef} type="button" className="br-sheet-close" onClick={onClose} aria-label="إغلاق التصفية">
-            <svg {...ic} width={22} height={22} stroke="currentColor" strokeWidth={2}><path d="M6 6l12 12" /><path d="M18 6L6 18" /></svg>
+            <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M6 6l12 12" /><path d="M18 6L6 18" /></svg>
           </button>
         </span>
       </div>
 
       <div className="br-aside-body">
-
-      <Group label="حالة الفحص" icon={<svg {...ic}><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" /><path d="M9 12l2 2 4-4" /></svg>}>
-        <ChipRow chips={ST_CHIPS} value={f.st} onPick={(st) => set({ st })} />
-      </Group>
-      <Group label="نوع الجهاز" icon={<svg {...ic}><rect x="4" y="4" width="7" height="7" rx="2" /><rect x="13" y="4" width="7" height="7" rx="2" /><rect x="4" y="13" width="7" height="7" rx="2" /><rect x="13" y="13" width="7" height="7" rx="2" /></svg>}>
-        <ChipRow chips={CAT_CHIPS} value={f.cat} onPick={(cat) => set({ cat })} isCat />
-      </Group>
-      <Group label="مدة الضمان" icon={<svg {...ic}><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4 2.5-2.5z" /></svg>}>
-        <ChipRow chips={MAINT_CHIPS} value={f.maint} onPick={(maint) => set({ maint })} />
-      </Group>
-      <Group label="حالة المنتج" icon={<svg {...ic}><path d="M12 3l2.6 5.6 6 .7-4.5 4.1 1.2 6L12 16.4 6.7 19.4l1.2-6L3.4 9.3l6-.7z" /></svg>}>
-        <ChipRow chips={COND_CHIPS} value={f.cond} onPick={(cond) => set({ cond })} />
-      </Group>
-      <Group label="السعر" last icon={<svg {...ic}><path d="M3 12V4h8l10 10-8 8z" /><circle cx="7.5" cy="8.5" r="1.5" /></svg>}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 8 }}>
-          <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: 13, color: "#4A595A" }}>
-            من
-            <input type="text" className="br-input" inputMode="numeric" value={f.pmin} onChange={(e) => set({ pmin: e.target.value })} placeholder="0" style={input} />
-          </label>
-          <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: 13, color: "#4A595A" }}>
-            لحد
-            <input type="text" className="br-input" inputMode="numeric" value={f.pmax} onChange={(e) => set({ pmax: e.target.value })} placeholder="أي سعر" style={input} />
-          </label>
-        </div>
-      </Group>
-
+        <Group label="حالة الفحص">
+          <OptList opts={ST_OPTS} value={f.st} onPick={(st) => set({ st })} count={(st) => countWith({ st })} />
+        </Group>
+        <Group label="نوع الجهاز">
+          <OptList opts={cats} value={f.cat} onPick={(cat) => set({ cat })} count={(cat) => countWith({ cat })} />
+          {!pickedHidden ? (
+            <button type="button" className="hm-tlink br-more-types" onClick={() => setAllCats((x) => !x)} aria-expanded={allCats}>
+              {allCats ? "أنواع أقل" : `+ ${more} أنواع تانية`}
+            </button>
+          ) : null}
+        </Group>
+        <Group label="السعر (ج.م)">
+          <div className="br-range">
+            <label>
+              <span>من</span>
+              <input type="text" className="br-input" inputMode="numeric" value={f.pmin} onChange={(e) => set({ pmin: e.target.value })} placeholder="0" />
+            </label>
+            <label>
+              <span>لحد</span>
+              <input type="text" className="br-input" inputMode="numeric" value={f.pmax} onChange={(e) => set({ pmax: e.target.value })} placeholder="أي سعر" />
+            </label>
+          </div>
+        </Group>
+        <Group label="حالة المنتج">
+          <OptList opts={COND_OPTS} value={f.cond} onPick={(cond) => set({ cond })} count={(cond) => countWith({ cond })} />
+        </Group>
+        <Group label="مدة الضمان">
+          <Seg opts={MAINT_OPTS} value={f.maint} onPick={(maint) => set({ maint })} />
+        </Group>
       </div>
 
       <div className="br-sheet-foot">
@@ -188,3 +182,5 @@ export function FilterAside({ f, set, reset, open, onClose, count }: Props) {
     </>
   );
 }
+
+export const FILTER_LABELS = { ST_OPTS, CAT_OPTS, MAINT_OPTS, COND_OPTS };

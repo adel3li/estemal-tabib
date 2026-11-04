@@ -1,122 +1,78 @@
+// `/how` body — v2 direction: page head, the four steps on one numbered line,
+// then the two inspection types side by side. Copy unchanged from the
+// Main.dc.html port.
 import { BUSINESS } from "@/config/business";
+import { PageHead } from "../_v2/PageHead";
 
 const DAYS = BUSINESS.trialDays;
+
+const STEPS = [
+  { title: "البايع بيعرض جهازه", text: "بيانات الجهاز، وصوره وهو شغال." },
+  { title: "بنفحص الجهاز", text: "أجهزة بتتفحص قبل ما تتعرض، والباقي بنفحصه أول ما تطلبه وقبل الشحن." },
+  { title: "تدفع وفلوسك محفوظة", text: `تدفع الفلوس أو جزء منها، وبتفضل عندنا ${DAYS} أيام بعد الاستلام قبل ما تتحول للبايع.`, held: true },
+  { title: "نوصّل لحد بابك بضمان", text: "شحن آمن لحد بابك وتعاين بنفسك، مع ضمان تشغيل واستبدال وصيانة.", held: true },
+];
+
+const Check = () => (
+  <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
+);
 
 export function HowItWorks() {
   return (
     <>
-    <section id="how" style={{ background: "#FFFFFF", borderBottom: "1px solid #E5EBEA" }}>
-      <div className="mn-sec" style={{ maxWidth: 1200, margin: "0 auto", display: "flex", flexDirection: "column", gap: 36 }}>
-        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          <h1 className="mn-h2" style={{ margin: 0, fontWeight: 700 }}>إزاي بنشتغل؟</h1>
-          <p style={{ margin: 0, color: "#4A595A" }} className="mn-lead">أربع خطوات، وكل خطوة واضحة قدامك.</p>
+      <PageHead eyebrow="إزاي بنشتغل" title="إزاي بنشتغل؟" lede="أربع خطوات، وكل خطوة واضحة قدامك." />
+      <section id="how" className="hm-sec">
+        <div className="hm-wrap">
+          <ol className="hm-steps">
+            {STEPS.map((s, i) => (
+              <li key={s.title} className={s.held ? "hm-hold" : undefined}>
+                <span className="hm-n hm-num">0{i + 1}</span>
+                <h2>{s.title}</h2>
+                <p>{s.text}</p>
+              </li>
+            ))}
+          </ol>
         </div>
-        <ol className="mn-steps" style={{ listStyle: "none", margin: 0, padding: 0, display: "grid", gap: 18 }}>
-          <li style={{ padding: 24, borderRadius: 22, background: "#E2F4F8", border: "1px solid #9ED8E6", display: "flex", flexDirection: "column", gap: 12 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-              <span style={{ flex: "none", width: 52, height: 52, borderRadius: 16, background: "#0A7E99", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z" /><circle cx="12" cy="13" r="3.5" /></svg>
-              </span>
-              <h3 style={{ margin: 0, fontSize: 20, flex: 1, minWidth: 0, color: "#075468" }}>البايع بيعرض جهازه</h3>
-              <span aria-hidden="true" style={{ fontSize: 34, fontWeight: 700, color: "#0A7E99", opacity: 0.3 }}>١</span>
+      </section>
+
+      {/* TWO INSPECTION TYPES */}
+      <section className="hm-sec hm-sec-top0">
+        <div className="hm-wrap">
+          <div className="hm-sec-head">
+            <div>
+              <div className="hm-eyebrow">علامة على كل جهاز</div>
+              <h2 className="hm-h2">نوعين من الفحص… وانت عارف كل جهاز فين</h2>
+              <p className="hm-lede hm-lede-sm" style={{ marginTop: 10 }}>على كل جهاز علامة بتقولك اتفحص ولا لسه هيتفحص قبل ما يتشحن لك.</p>
             </div>
-            <p style={{ margin: 0, color: "#2E464A" }}>بيانات الجهاز، وصوره وهو شغال.</p>
-          </li>
-          <li style={{ padding: 24, borderRadius: 22, background: "#E6EDF7", border: "1px solid #A9BFE0", display: "flex", flexDirection: "column", gap: 12 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-              <span style={{ flex: "none", width: 52, height: 52, borderRadius: 16, background: "#24508F", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="6" /><path d="M20 20l-4.5-4.5" /></svg>
+          </div>
+          <div className="hm-split hm-split-flush">
+            <div>
+              <span className="hm-ph hm-ph-wide">
+                <svg aria-hidden="true" viewBox="0 0 600 200" preserveAspectRatio="xMidYMid slice"><use href="#mn-report" /></svg>
               </span>
-              <h3 style={{ margin: 0, fontSize: 20, flex: 1, minWidth: 0, color: "#1B3F73" }}>بنفحص الجهاز</h3>
-              <span aria-hidden="true" style={{ fontSize: 34, fontWeight: 700, color: "#24508F", opacity: 0.3 }}>٢</span>
+              <div className="hm-status hm-ok hm-status-top"><span className="hm-d" aria-hidden="true" />تم الفحص</div>
+              <h3 className="hm-h3">الجهاز اتفحص قبل ما يتعرض</h3>
+              <ul className="hm-checks hm-ok">
+                <li><Check />تقرير الفحص الكامل قدامك قبل ما تدفع</li>
+                <li><Check />الصور من فريق الفحص</li>
+                <li><Check />شحن أسرع لأن الفحص خلص</li>
+              </ul>
             </div>
-            <p style={{ margin: 0, color: "#2D4566" }}>أجهزة بتتفحص قبل ما تتعرض، والباقي بنفحصه أول ما تطلبه وقبل الشحن.</p>
-          </li>
-          <li style={{ padding: 24, borderRadius: 22, background: "#FEEEDB", border: "1px solid #F8C788", display: "flex", flexDirection: "column", gap: 12 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-              <span style={{ flex: "none", width: 52, height: 52, borderRadius: 16, background: "#D0700A", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="5" y="11" width="14" height="9" rx="2" /><path d="M8 11V8a4 4 0 0 1 8 0v3" /></svg>
+            <div>
+              <span className="hm-ph hm-ph-wide">
+                <svg aria-hidden="true" viewBox="0 0 600 200" preserveAspectRatio="xMidYMid slice"><use href="#mn-visit" /></svg>
               </span>
-              <h3 style={{ margin: 0, fontSize: 20, flex: 1, minWidth: 0, color: "#6B3A10" }}>تدفع وفلوسك محفوظة</h3>
-              <span aria-hidden="true" style={{ fontSize: 34, fontWeight: 700, color: "#8A4A05", opacity: 0.3 }}>٣</span>
+              <div className="hm-status hm-ord hm-status-top"><span className="hm-d" aria-hidden="true" />يُفحص عند الطلب</div>
+              <h3 className="hm-h3">بنفحصه بعد طلبك وقبل الشحن</h3>
+              <ul className="hm-checks hm-ord">
+                <li><Check />تقرير الفحص بيوصلك قبل ما الجهاز يتشحن</li>
+                <li><Check />لو الجهاز طلع مش مطابق، فلوسك بترجعلك كاملة</li>
+                <li><Check />لحد الفحص، الصور من البايع</li>
+              </ul>
             </div>
-            <p style={{ margin: 0, color: "#5E3A17" }}>تدفع الفلوس أو جزء منها، وبتفضل عندنا {DAYS} أيام بعد الاستلام قبل ما تتحول للبايع.</p>
-          </li>
-          <li style={{ padding: 24, borderRadius: 22, background: "#EAF5DD", border: "1px solid #A9D17F", display: "flex", flexDirection: "column", gap: 12 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-              <span style={{ flex: "none", width: 52, height: 52, borderRadius: 16, background: "#3F7A1F", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M3 7h11v9H3z" />
-                  <path d="M14 10h4l3 3v3h-7" />
-                  <circle cx="7" cy="17.5" r="1.8" />
-                  <circle cx="17" cy="17.5" r="1.8" />
-                </svg>
-              </span>
-              <h3 style={{ margin: 0, fontSize: 20, flex: 1, minWidth: 0, color: "#2F5A15" }}>نوصّل لحد بابك بضمان</h3>
-              <span aria-hidden="true" style={{ fontSize: 34, fontWeight: 700, color: "#3F7A1F", opacity: 0.3 }}>٤</span>
-            </div>
-            <p style={{ margin: 0, color: "#36521F" }}>شحن آمن لحد بابك وتعاين بنفسك، مع ضمان تشغيل واستبدال وصيانة.</p>
-          </li>
-        </ol>
-      </div>
-    </section>
-    {/* TWO INSPECTION TYPES */}
-    <section className="mn-sec" style={{ maxWidth: 1200, margin: "0 auto", display: "flex", flexDirection: "column", gap: 32 }}>
-      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-        <h2 className="mn-h2" style={{ margin: 0, fontWeight: 700 }}>نوعين من الفحص… وانت عارف كل جهاز فين</h2>
-        <p style={{ margin: 0, color: "#4A595A" }} className="mn-lead">على كل جهاز علامة بتقولك اتفحص ولا لسه هيتفحص قبل ما يتشحن لك.</p>
-      </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(320px, 100%), 1fr))", gap: 20 }}>
-        <div style={{ borderRadius: 24, background: "#FFFFFF", border: "2px solid #0A7E99", overflow: "hidden", boxShadow: "0 10px 30px rgba(15,42,51, 0.06)", display: "flex", flexDirection: "column" }}>
-          <svg aria-hidden="true" viewBox="0 0 600 200" preserveAspectRatio="xMidYMid slice" style={{ display: "block", width: "100%", aspectRatio: "3 / 1" }}><use href="#mn-report" /></svg>
-          <div style={{ padding: "26px 28px 30px", display: "flex", flexDirection: "column", gap: 14 }}>
-            <span style={{ alignSelf: "flex-start", padding: "6px 14px", borderRadius: 999, background: "#0A7E99", color: "#FFFFFF", fontWeight: 600, fontSize: 14, display: "flex", alignItems: "center", gap: 6 }}>
-              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
-              تم الفحص
-            </span>
-            <h3 style={{ margin: 0, fontSize: 22 }}>الجهاز اتفحص قبل ما يتعرض</h3>
-            <ul style={{ listStyle: "none", margin: 0, padding: 0, color: "#3C4B4C", display: "flex", flexDirection: "column", gap: 8 }}>
-              <li style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0A7E99" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none", marginTop: 4 }}><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
-                تقرير الفحص الكامل قدامك قبل ما تدفع
-              </li>
-              <li style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0A7E99" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none", marginTop: 4 }}><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
-                الصور من فريق الفحص
-              </li>
-              <li style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0A7E99" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none", marginTop: 4 }}><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
-                شحن أسرع لأن الفحص خلص
-              </li>
-            </ul>
           </div>
         </div>
-        <div style={{ borderRadius: 24, background: "#FFFFFF", border: "2px solid #24508F", overflow: "hidden", boxShadow: "0 10px 30px rgba(15,42,51, 0.06)", display: "flex", flexDirection: "column" }}>
-          <svg aria-hidden="true" viewBox="0 0 600 200" preserveAspectRatio="xMidYMid slice" style={{ display: "block", width: "100%", aspectRatio: "3 / 1" }}><use href="#mn-visit" /></svg>
-          <div style={{ padding: "26px 28px 30px", display: "flex", flexDirection: "column", gap: 14 }}>
-            <span style={{ alignSelf: "flex-start", padding: "6px 14px", borderRadius: 999, background: "#E6EDF7", color: "#24508F", fontWeight: 600, fontSize: 14, display: "flex", alignItems: "center", gap: 6 }}>
-              <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="6" /><path d="M20 20l-4.5-4.5" /></svg>
-              يُفحص عند الطلب
-            </span>
-            <h3 style={{ margin: 0, fontSize: 22 }}>بنفحصه بعد طلبك وقبل الشحن</h3>
-            <ul style={{ listStyle: "none", margin: 0, padding: 0, color: "#3C4B4C", display: "flex", flexDirection: "column", gap: 8 }}>
-              <li style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#24508F" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none", marginTop: 4 }}><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
-                تقرير الفحص بيوصلك قبل ما الجهاز يتشحن
-              </li>
-              <li style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#24508F" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none", marginTop: 4 }}><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
-                لو الجهاز طلع مش مطابق، فلوسك بترجعلك كاملة
-              </li>
-              <li style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#24508F" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none", marginTop: 4 }}><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
-                لحد الفحص، الصور من البايع
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
+      </section>
     </>
   );
 }

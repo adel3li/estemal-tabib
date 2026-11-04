@@ -44,3 +44,17 @@
 @media (hover: none){
   .ab-value:hover,.ab-cta:hover,.ab-amber:hover{transform:none}
 }
+
+/* v2 direction: petrol hero, flat panels (inline styles from the port, hence !important). */
+.ab-top{background:#06394B !important;border-bottom:0 !important}
+.ab-top > div[aria-hidden]{display:none}
+.ab-top, .ab-top .ab-h1{color:#FFFFFF}
+.ab-top .ab-em{color:#0CC0DC !important}
+.ab-top .ab-lead{color:#C5DBE2 !important}
+.ab-top .ab-crumb, .ab-top .ab-crumb + span, .ab-top .ab-crumb ~ span{color:#9CC3CF}
+.ab-top .ab-pill{background:transparent !important;border:0 !important;padding:0 !important;color:#9CC3CF !important;font-size:13px !important}
+.ab-top .ab-pill > span{width:22px !important;height:2px !important;border-radius:0 !important;background:#F5921C !important}
+.ab-hero-art{border:0 !important;border-radius:12px !important;box-shadow:0 30px 60px rgba(0,20,28,.35) !important}
+.ab-hero{padding-top:28px}
+.ab-card,.ab-cta-box,.ab-value{border-radius:12px !important;box-shadow:none !important;border-color:#DFE7EA !important}
+.ab-value:hover{transform:none;box-shadow:none}
