@@ -46,7 +46,7 @@ async function makeUser(label, admin = false) {
   return { id: data.user.id, email, client };
 }
 
-const created = { users: [], devices: [], orders: [] };
+const created = { users: [], devices: [], orders: [], reviews: [] };
 
 async function main() {
   // ── Fixtures ─────────────────────────────────────────────────────────────
@@ -307,9 +307,39 @@ async function main() {
   check("marketing can't add expenses", Boolean(r.error));
   r = await anon.from("device_expenses").select("id").limit(1);
   check("anon can't read expenses", denied(r));
+
+  // ── Reviews ──────────────────────────────────────────────────────────────
+  console.log("\nreviews");
+  r = await anon.from("reviews").insert({ author_name: `${tag} زائر`, role: "buyer", rating: 5, body: "تجربة ممتازة جداً" });
+  check("anon sends a review", !r.error, r.error?.message);
+  r = await a.client.from("reviews").insert({ author_name: `${tag} مستخدم`, role: "seller", rating: 4, body: "تجربة كويسة", status: "published", source: "team" });
+  check("a user sends a review (asking to publish it is ignored)", !r.error, r.error?.message);
+  r = await mk.client.from("reviews").insert({ author_name: `${tag} عميل قديم`, role: "buyer", rating: 5, body: "اتعاملت معاهم قبل كده", status: "published", source: "team" });
+  check("the team adds a published review", !r.error, r.error?.message);
+  const mine = await service.from("reviews").select("id, status, source, user_id").like("author_name", `${tag}%`);
+  created.reviews = mine.data.map((x) => x.id);
+  const sent = mine.data.filter((x) => x.source === "site");
+  check("sent reviews start pending, from the site, with the sender's id", sent.length === 2 && sent.every((x) => x.status === "pending") && sent.some((x) => x.user_id === a.id));
+  check("the team's review is published", mine.data.some((x) => x.source === "team" && x.status === "published"));
+  r = await anon.from("reviews").select("id").like("author_name", `${tag}%`);
+  check("pending reviews aren't public (only the team's published one shows)", !r.error && r.data.length === 1);
+  r = await anon.from("reviews").select("user_id").limit(1);
+  check("the public can't read who sent a review", Boolean(r.error));
+  r = await mk.client.from("reviews").select("id").like("author_name", `${tag}%`);
+  check("marketing sees pending reviews", !r.error && r.data.length === 3);
+  const pend = sent[0].id;
+  r = await mk.client.from("reviews").update({ status: "published" }).eq("id", pend).select("id");
+  check("marketing publishes a review", !r.error && r.data.length === 1, r.error?.message);
+  r = await anon.from("reviews").select("id, published_at").eq("id", pend);
+  check("published review is public with a date", !r.error && r.data.length === 1 && !!r.data[0].published_at);
+  r = await a.client.from("reviews").update({ body: "غيرته" }).eq("id", created.reviews[0]).select("id");
+  check("a user can't edit reviews", denied(r));
+  r = await a.client.from("reviews").delete().eq("id", created.reviews[0]).select("id");
+  check("a user can't delete reviews", denied(r));
 }
 
 async function cleanup() {
+  if (created.reviews.length) await service.from("reviews").delete().in("id", created.reviews);
   if (created.orders.length) await service.from("payments").delete().in("order_id", created.orders);
   if (created.orders.length) await service.from("orders").delete().in("id", created.orders);
   if (created.devices.length) await service.from("devices").delete().in("id", created.devices);

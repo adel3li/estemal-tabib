@@ -35,6 +35,7 @@ export const routes = {
     demand: "/admin/demand",
     team: "/admin/team",
     customers: "/admin/customers",
+    reviews: "/admin/reviews",
     profit: "/admin/profit",
     settings: "/admin/settings",
   },

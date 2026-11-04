@@ -77,7 +77,7 @@ export async function middleware(request: NextRequest) {
 }
 
 /** What the marketing & follow-up team opens (docs/ADMIN_SPEC.md §1). */
-const MARKETING_PATHS = ["/admin/orders", "/admin/requests", "/admin/demand", "/admin/customers"];
+const MARKETING_PATHS = ["/admin/orders", "/admin/requests", "/admin/demand", "/admin/customers", "/admin/reviews"];
 
 export const config = {
   // Everything except build assets and static files.

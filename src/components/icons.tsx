@@ -129,6 +129,12 @@ export const GearIcon = ({ size = 20, ...p }: P) => (
   </svg>
 );
 
+export const StarIcon = ({ size = 20, ...p }: P) => (
+  <svg {...base(size, p)}>
+    <path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z" />
+  </svg>
+);
+
 export const CheckIcon = ({ size = 16, ...p }: P) => (
   <svg {...base(size, { strokeWidth: 2.2, ...p })}>
     <path d="M5 12.5l4.5 4.5L19 7.5" />

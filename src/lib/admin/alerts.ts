@@ -3,7 +3,7 @@
 // In-dashboard notifications (docs/ADMIN_SPEC.md §6, §8 — no WhatsApp/SMS
 // services). Computed live from the data, so they clear themselves once the
 // team acts (request reviewed, order paid, client notified…).
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BUSINESS } from "@/config/business";
 import { fmt, typeLabel } from "@/lib/demo/labels";
 import { useAuth } from "@/lib/auth/AuthProvider";
@@ -12,6 +12,7 @@ import type { Device, DeviceRequest, Submission } from "@/lib/demo/types";
 import { isPastDay } from "@/lib/inspections/db";
 import { STEP_DELIVERY, STEP_INSPECTION, STEP_REPORT, STEP_SHIPPING, STEP_TRIAL, useOrders, type Order } from "@/lib/orders/orders";
 import { routes } from "@/lib/routes";
+import { supabaseBrowser } from "@/lib/supabase/client";
 import { noReplyDeadline, reviewHoursLeft } from "@/lib/submissions/time";
 
 export type Tone = "bad" | "warn" | "info" | "ok";
@@ -28,7 +29,29 @@ export function useAdminAlerts() {
   const [now] = useState(() => Date.now());
   const { state, matchesFor } = demo;
   // The marketing team doesn't see money (ADMIN_SPEC §1): no payment-based items.
-  const { isAdmin } = useAuth();
+  const { isAdmin, isTeam } = useAuth();
+
+  // Reviews sent from the site waiting for the team (count only).
+  const [pendingReviews, setPendingReviews] = useState(0);
+  useEffect(() => {
+    if (!isTeam) return;
+    let alive = true;
+    const load = () =>
+      supabaseBrowser()
+        .from("reviews")
+        .select("id", { count: "exact", head: true })
+        .eq("status", "pending")
+        .then(({ count }) => {
+          if (alive) setPendingReviews(count ?? 0);
+        });
+    void load();
+    // The reviews page announces changes so the menu count follows.
+    window.addEventListener("reviews-changed", load);
+    return () => {
+      alive = false;
+      window.removeEventListener("reviews-changed", load);
+    };
+  }, [isTeam]);
 
   // (1) New sell requests, oldest first (24-hour review).
   const newSubs: Submission[] = state.submissions
@@ -102,8 +125,10 @@ export function useAdminAlerts() {
     if (i.status === "needs_review") alerts.push({ key: `in-${i.id}`, tone: "warn", title: `تقرير الفحص ${i.id} مستني الاعتماد`, sub: i.title, href: routes.admin.inspections, cta: "راجعه" });
     else if (i.status !== "done" && isPastDay(i.scheduledAt, now)) alerts.push({ key: `in-${i.id}`, tone: "bad", title: `فحص ${i.id} ميعاده عدّى`, sub: i.title, href: routes.admin.inspections, cta: "افتح الفحوصات" });
   }
+  if (pendingReviews > 0)
+    alerts.push({ key: "reviews", tone: "warn", title: pendingReviews === 1 ? "رأي جديد مستني المراجعة" : `${pendingReviews} آراء جديدة مستنية المراجعة`, sub: "راجعها وانشرها على صفحة «آراء العملاء»", href: routes.admin.reviews, cta: "راجعها" });
   const order: Record<Tone, number> = { bad: 0, warn: 1, ok: 2, info: 3 };
   alerts.sort((a, b) => order[a.tone] - order[b.tone]);
 
-  return { ready: demo.ready && orders.ready, isAdmin, now, newSubs, openSubs, toInspect, toDeliver, orderTodo, matches, alerts, orders: orders.orders };
+  return { ready: demo.ready && orders.ready, isAdmin, now, pendingReviews, newSubs, openSubs, toInspect, toDeliver, orderTodo, matches, alerts, orders: orders.orders };
 }

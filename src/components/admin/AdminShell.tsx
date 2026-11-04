@@ -11,6 +11,7 @@ import {
   ChartIcon,
   CoinsIcon,
   GearIcon,
+  StarIcon,
   GridIcon,
   HomeIcon,
   LockIcon,
@@ -35,20 +36,21 @@ const NAV = [
   { href: routes.admin.payments, label: "الجدول المالي", Icon: LockIcon },
   { href: routes.admin.requests, label: "طلبات «اطلب جهاز»", Icon: BellIcon, team: true },
   { href: routes.admin.customers, label: "العملاء", Icon: UsersIcon, team: true },
+  { href: routes.admin.reviews, label: "الآراء", Icon: StarIcon, team: true, badge: "reviews" as const },
   { href: routes.admin.demand, label: "الطلب على الأجهزة", Icon: ChartIcon, team: true },
   { href: routes.admin.profit, label: "الأرباح", Icon: CoinsIcon },
   { href: routes.admin.team, label: "الفريق", Icon: UsersIcon },
   { href: routes.admin.settings, label: "الإعدادات", Icon: GearIcon },
 ];
 /** What the marketing team sees (docs/ADMIN_SPEC.md §1; middleware enforces it). */
-const TEAM_HREFS: string[] = [routes.admin.root, routes.admin.orders, routes.admin.requests, routes.admin.customers, routes.admin.demand];
+const TEAM_HREFS: string[] = [routes.admin.root, routes.admin.orders, routes.admin.requests, routes.admin.customers, routes.admin.reviews, routes.admin.demand];
 
 const isActive = (pathname: string, n: (typeof NAV)[number]) =>
   n.match ? n.match(pathname) : pathname === n.href || pathname.startsWith(n.href + "/");
 
 export function AdminShell({ children }: { children: ReactNode }) {
   const pathname = usePathname() ?? "";
-  const { openSubs: subs, alerts } = useAdminAlerts();
+  const { openSubs: subs, alerts, pendingReviews } = useAdminAlerts();
   const { profile, isAdmin } = useAuth();
   const nav = isAdmin ? NAV : NAV.filter((n) => TEAM_HREFS.includes(n.href));
   const newSubs = subs.length;
@@ -136,7 +138,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
             >
               <Icon />
               {label}
-              {(badge === "submissions" && newSubs > 0) || (badge === "alerts" && alerts.length > 0) ? (
+              {(badge === "submissions" && newSubs > 0) || (badge === "alerts" && alerts.length > 0) || (badge === "reviews" && pendingReviews > 0) ? (
                 <span
                   style={{
                     marginRight: "auto",
@@ -148,7 +150,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
                     fontWeight: 700,
                   }}
                 >
-                  {badge === "alerts" ? alerts.length : newSubs}
+                  {badge === "alerts" ? alerts.length : badge === "reviews" ? pendingReviews : newSubs}
                 </span>
               ) : null}
             </Link>
