@@ -1,10 +1,10 @@
 .ot-cta{transition:background .15s ease, transform .15s ease;cursor:pointer}
-.ot-cta:hover{background:#08403B;color:#FFFFFF;transform:translateY(-1px)}
+.ot-cta:hover{background:#076278;color:#FFFFFF;transform:translateY(-1px)}
 .ot-ghost{transition:background .15s ease}
-.ot-ghost:hover{background:#F5F7F4;color:#12221F}
+.ot-ghost:hover{background:#F3F6F7;color:#122022}
 .ot-amber{transition:background .15s ease}
-.ot-amber:hover{background:#E8952A;color:#12221F}
-.ot-cta:focus-visible,.ot-ghost:focus-visible,.ot-amber:focus-visible{outline:3px solid #F2A33A;outline-offset:2px}
+.ot-amber:hover{background:#E0820F;color:#122022}
+.ot-cta:focus-visible,.ot-ghost:focus-visible,.ot-amber:focus-visible{outline:3px solid #F5921C;outline-offset:2px}
 
 /* ── Responsive (MOBILE.md). Desktop values stay as the defaults. ── */
 .ot-wrap{max-width:1200px;margin:0 auto;padding:28px 20px 72px;display:flex;flex-direction:column;gap:24px}

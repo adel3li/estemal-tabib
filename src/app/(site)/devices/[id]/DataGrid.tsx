@@ -3,7 +3,7 @@ import { categoryFields } from "@/lib/demo/labels";
 import type { Device } from "@/lib/demo/types";
 import { brandModel, COND_TILE, defectInfo, REPAIRED, svgProps } from "./helpers";
 
-function Cell({ label, value, bg = "#F5F7F4", lab = "#4A5A56", fg }: { label: string; value: ReactNode; bg?: string; lab?: string; fg?: string }) {
+function Cell({ label, value, bg = "#F3F6F7", lab = "#4A595A", fg }: { label: string; value: ReactNode; bg?: string; lab?: string; fg?: string }) {
   return (
     <div style={{ padding: "12px 14px", borderRadius: 12, background: bg }}>
       <div style={{ fontSize: 13, color: lab }}>{label}</div>
@@ -16,7 +16,7 @@ export function DataGrid({ d }: { d: Device }) {
   const inspected = d.inspection === "inspected";
   const cond = COND_TILE[d.condition];
   return (
-    <div className="li-dbox" style={{ marginTop: 10, borderRadius: 20, background: "#FFFFFF", border: "1px solid #DCE3DF", display: "flex", flexDirection: "column", gap: 16 }}>
+    <div className="li-dbox" style={{ marginTop: 10, borderRadius: 20, background: "#FFFFFF", border: "1px solid #DCE3E1", display: "flex", flexDirection: "column", gap: 16 }}>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
         <h2 style={{ margin: 0, fontSize: 20 }}>بيانات الجهاز</h2>
         {inspected ? (
@@ -25,7 +25,7 @@ export function DataGrid({ d }: { d: Device }) {
             <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" {...svgProps} strokeWidth={2}><path d="M12 5v14" /><path d="M6 13l6 6 6-6" /></svg>
           </a>
         ) : (
-          <span style={{ fontSize: 13, color: "#4A5A56" }}>حسب كلام البايع · هتتأكد في الفحص</span>
+          <span style={{ fontSize: 13, color: "#4A595A" }}>حسب كلام البايع · هتتأكد في الفحص</span>
         )}
       </div>
       <div className="li-dgrid">
@@ -34,8 +34,8 @@ export function DataGrid({ d }: { d: Device }) {
             <Cell label="الماركة / الموديل" value={brandModel(d)} />
             <Cell label="سنة الصنع" value={d.year} />
             <Cell label="بلد المنشأ" value={d.origin} />
-            {d.report ? <Cell label="كفاءة التشغيل" value={d.report.efficiency} bg="#E3F0ED" lab="#0B4A44" fg="#0D5C55" /> : null}
-            <Cell label="عيوب مُعلنة" value={defectInfo(d).count} bg="#FBEEDC" lab="#6B3A10" fg="#8A4209" />
+            {d.report ? <Cell label="كفاءة التشغيل" value={d.report.efficiency} bg="#E2F4F8" lab="#075468" fg="#0A7E99" /> : null}
+            <Cell label="عيوب مُعلنة" value={defectInfo(d).count} bg="#FEEEDB" lab="#6B3A10" fg="#8A4A05" />
           </>
         ) : (
           <>
@@ -55,7 +55,7 @@ export function DataGrid({ d }: { d: Device }) {
           ))}
       </div>
       {d.accessories ? (
-        <div style={{ fontSize: 14, color: "#3C4C48" }}>
+        <div style={{ fontSize: 14, color: "#3C4B4C" }}>
           <span style={{ fontWeight: 700 }}>الملحقات: </span>
           {d.accessories}
         </div>

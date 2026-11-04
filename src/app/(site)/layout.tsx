@@ -10,8 +10,8 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
-        background: "#F5F7F4",
-        color: "#12221F",
+        background: "#F3F6F7",
+        color: "#122022",
         fontSize: 16,
         lineHeight: 1.7,
       }}

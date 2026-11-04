@@ -57,9 +57,9 @@ export function BrowseClient() {
     <div>
       <BrowseArt />
 
-      <section style={{ background: "#FFFFFF", borderBottom: "1px solid #E5EBE8" }}>
+      <section style={{ background: "#FFFFFF", borderBottom: "1px solid #E5EBEA" }}>
         <div style={{ maxWidth: 1240, margin: "0 auto", padding: "18px 20px 30px", display: "flex", flexDirection: "column", gap: 18 }}>
-          <div className="br-crumbs" style={{ fontSize: 14, color: "#4A5A56", display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
+          <div className="br-crumbs" style={{ fontSize: 14, color: "#4A595A", display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
             <Link href={routes.home}>الرئيسية</Link>
             <span aria-hidden="true">›</span>
             <span>كل الأجهزة</span>
@@ -67,16 +67,16 @@ export function BrowseClient() {
           <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-end", gap: 16 }}>
             <div style={{ flex: "1 1 420px", minWidth: 0 }}>
               <h1 className="br-title" style={{ margin: 0, lineHeight: 1.3 }}>كل الأجهزة</h1>
-              <p style={{ margin: "4px 0 0", color: "#4A5A56", fontSize: 17 }}>كل جهاز عليه علامة بتقولك اتفحص ولا هيتفحص عند الطلب، والضمان مكتوب عليه.</p>
+              <p style={{ margin: "4px 0 0", color: "#4A595A", fontSize: 17 }}>كل جهاز عليه علامة بتقولك اتفحص ولا هيتفحص عند الطلب، والضمان مكتوب عليه.</p>
             </div>
             <div style={{ display: "flex", flexWrap: "wrap", gap: 10, fontSize: 14 }}>
-              <span style={{ display: "flex", alignItems: "center", gap: 8, padding: "6px 12px 6px 6px", borderRadius: 999, background: "#F5F7F4", border: "1px solid #E5EBE8" }}>
-                <span style={{ padding: "2px 10px", borderRadius: 999, background: "#0D5C55", color: "#FFFFFF", fontWeight: 600, display: "flex", alignItems: "center", gap: 4 }}>
+              <span style={{ display: "flex", alignItems: "center", gap: 8, padding: "6px 12px 6px 6px", borderRadius: 999, background: "#F3F6F7", border: "1px solid #E5EBEA" }}>
+                <span style={{ padding: "2px 10px", borderRadius: 999, background: "#0A7E99", color: "#FFFFFF", fontWeight: 600, display: "flex", alignItems: "center", gap: 4 }}>
                   <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" {...svg} strokeWidth={2.6}><path d="M5 12l4 4 10-10" /></svg>تم الفحص
                 </span>
                 التقرير متاح دلوقتي
               </span>
-              <span style={{ display: "flex", alignItems: "center", gap: 8, padding: "6px 12px 6px 6px", borderRadius: 999, background: "#F5F7F4", border: "1px solid #E5EBE8" }}>
+              <span style={{ display: "flex", alignItems: "center", gap: 8, padding: "6px 12px 6px 6px", borderRadius: 999, background: "#F3F6F7", border: "1px solid #E5EBEA" }}>
                 <span style={{ padding: "2px 10px", borderRadius: 999, background: "#E6EDF7", color: "#24508F", fontWeight: 600, display: "flex", alignItems: "center", gap: 4 }}>
                   <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" {...svg} strokeWidth={2.4}><circle cx="11" cy="11" r="6" /><path d="M20 20l-4.5-4.5" /></svg>يُفحص عند الطلب
                 </span>
@@ -86,7 +86,7 @@ export function BrowseClient() {
           </div>
           <label style={{ position: "relative", display: "block" }}>
             <span style={{ position: "absolute", width: 1, height: 1, overflow: "hidden", clip: "rect(0 0 0 0)" }}>ابحث عن جهاز</span>
-            <span style={{ position: "absolute", top: "50%", right: 18, transform: "translateY(-50%)", color: "#0D5C55", display: "flex" }}>
+            <span style={{ position: "absolute", top: "50%", right: 18, transform: "translateY(-50%)", color: "#0A7E99", display: "flex" }}>
               <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" {...svg} strokeWidth={1.8}><circle cx="11" cy="11" r="6" /><path d="M20 20l-4.5-4.5" /></svg>
             </span>
             <input
@@ -95,7 +95,7 @@ export function BrowseClient() {
               value={f.q}
               onChange={(e) => set({ q: e.target.value })}
               placeholder="ابحث باسم الجهاز: يونيت، أوتوكلاف، إندو موتور…"
-              style={{ width: "100%", boxSizing: "border-box", minHeight: 56, padding: "0 52px 0 16px", borderRadius: 16, border: "1px solid #C9D4CF", background: "#F5F7F4", font: "inherit", fontSize: 17, color: "#12221F" }}
+              style={{ width: "100%", boxSizing: "border-box", minHeight: 56, padding: "0 52px 0 16px", borderRadius: 16, border: "1px solid #C9D4D3", background: "#F3F6F7", font: "inherit", fontSize: 17, color: "#122022" }}
             />
           </label>
         </div>
@@ -105,9 +105,9 @@ export function BrowseClient() {
         <FilterAside f={f} set={set} reset={reset} open={sheet} onClose={closeSheet} count={n} />
 
         <div style={{ flex: "999 1 600px", minWidth: 0, display: "flex", flexDirection: "column", gap: 18 }}>
-          <div className="br-bar" style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 12, padding: "10px 10px 10px 14px", borderRadius: 16, background: "#FFFFFF", border: "1px solid #DCE3DF" }}>
+          <div className="br-bar" style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 12, padding: "10px 10px 10px 14px", borderRadius: 16, background: "#FFFFFF", border: "1px solid #DCE3E1" }}>
             <span className="br-count" style={{ fontWeight: 700, fontSize: 18, display: "flex", alignItems: "center", gap: 10 }} aria-live="polite">
-              <span aria-hidden="true" style={{ width: 34, height: 34, borderRadius: 10, background: "#F5F7F4", color: "#0D5C55", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <span aria-hidden="true" style={{ width: 34, height: 34, borderRadius: 10, background: "#F3F6F7", color: "#0A7E99", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <svg width="18" height="18" viewBox="0 0 24 24" {...svg} strokeWidth={1.9}><rect x="4" y="4" width="7" height="7" rx="2" /><rect x="13" y="4" width="7" height="7" rx="2" /><rect x="4" y="13" width="7" height="7" rx="2" /><rect x="13" y="13" width="7" height="7" rx="2" /></svg>
               </span>
               {countLabel}
@@ -117,14 +117,14 @@ export function BrowseClient() {
               تصفية
               {active ? <span className="br-filter-n" aria-label={`${active} فلتر مفعّل`}>{active}</span> : null}
             </button>
-            <label className="br-sort" style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 15, color: "#4A5A56" }}>
+            <label className="br-sort" style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 15, color: "#4A595A" }}>
               <span className="br-sort-label">ترتيب حسب</span>
               <select
                 className="br-input"
                 aria-label="ترتيب حسب"
                 value={f.sort}
                 onChange={(e) => set({ sort: e.target.value as Sort })}
-                style={{ minHeight: 42, padding: "0 10px", borderRadius: 10, border: "1px solid #C9D4CF", background: "#FFFFFF", font: "inherit", color: "#12221F" }}
+                style={{ minHeight: 42, padding: "0 10px", borderRadius: 10, border: "1px solid #C9D4D3", background: "#FFFFFF", font: "inherit", color: "#122022" }}
               >
                 <option value="new">الأحدث</option>
                 <option value="asc">من الأقل سعراً للأعلى</option>
@@ -142,34 +142,34 @@ export function BrowseClient() {
               ))}
             </div>
           ) : (
-            <div style={{ padding: "48px 24px", borderRadius: 24, background: "#FFFFFF", border: "1px dashed #9FB2AB", display: "flex", flexDirection: "column", alignItems: "center", gap: 12, textAlign: "center" }}>
-              <span style={{ width: 76, height: 76, borderRadius: 22, background: "#E3F0ED", color: "#0D5C55", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <div style={{ padding: "48px 24px", borderRadius: 24, background: "#FFFFFF", border: "1px dashed #9FB2B1", display: "flex", flexDirection: "column", alignItems: "center", gap: 12, textAlign: "center" }}>
+              <span style={{ width: 76, height: 76, borderRadius: 22, background: "#E2F4F8", color: "#0A7E99", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <svg aria-hidden="true" width="38" height="38" viewBox="0 0 24 24" {...svg} strokeWidth={1.6}><circle cx="11" cy="11" r="6" /><path d="M20 20l-4.5-4.5" /><path d="M9 11h4" /></svg>
               </span>
               <div style={{ fontWeight: 700, fontSize: 20 }}>مفيش أجهزة بالمواصفات دي دلوقتي</div>
-              <div style={{ color: "#4A5A56" }}>جرّب تغيّر التصفية، أو اطلب الجهاز وهنبلغك أول ما يتعرض.</div>
-              <button type="button" className="br-ghost" onClick={reset} style={{ minHeight: 46, padding: "0 20px", borderRadius: 12, border: "1px solid #C9D4CF", background: "#FFFFFF", font: "inherit", fontWeight: 600, cursor: "pointer" }}>مسح التصفية</button>
+              <div style={{ color: "#4A595A" }}>جرّب تغيّر التصفية، أو اطلب الجهاز وهنبلغك أول ما يتعرض.</div>
+              <button type="button" className="br-ghost" onClick={reset} style={{ minHeight: 46, padding: "0 20px", borderRadius: 12, border: "1px solid #C9D4D3", background: "#FFFFFF", font: "inherit", fontWeight: 600, cursor: "pointer" }}>مسح التصفية</button>
             </div>
           )}
 
-          <div className="br-cta-box" style={{ marginTop: 10, borderRadius: 24, background: "#0F2A26", color: "#FFFFFF", display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 18 }}>
+          <div className="br-cta-box" style={{ marginTop: 10, borderRadius: 24, background: "#06394B", color: "#FFFFFF", display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 18 }}>
             <div style={{ flex: "1 1 320px", minWidth: 0, display: "flex", gap: 16, alignItems: "center" }}>
-              <span aria-hidden="true" style={{ flex: "none", width: 52, height: 52, borderRadius: 16, background: "#163A35", color: "#F2A33A", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <span aria-hidden="true" style={{ flex: "none", width: 52, height: 52, borderRadius: 16, background: "#0D4A5E", color: "#F5921C", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <svg width="26" height="26" viewBox="0 0 24 24" {...svg} strokeWidth={1.8}><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9" /><path d="M13.7 21a2 2 0 0 1-3.4 0" /></svg>
               </span>
               <div style={{ minWidth: 0 }}>
                 <div className="br-cta-title" style={{ fontWeight: 700 }}>مش لاقي الجهاز اللي بتدوّر عليه؟</div>
-                <div style={{ color: "#C3D3CE" }}>قولنا الجهاز والميزانية، وهنبلغك أول ما يتعرض جهاز مناسب.</div>
+                <div style={{ color: "#C3D3D3" }}>قولنا الجهاز والميزانية، وهنبلغك أول ما يتعرض جهاز مناسب.</div>
               </div>
             </div>
             <div className="br-cta-actions" style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-              <Link href={routes.request} className="br-cta-dark" style={{ minHeight: 48, padding: "0 22px", borderRadius: 12, background: "#F2A33A", color: "#12221F", fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center" }}>اطلب جهاز</Link>
+              <Link href={routes.request} className="br-cta-dark" style={{ minHeight: 48, padding: "0 22px", borderRadius: 12, background: "#F5921C", color: "#122022", fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center" }}>اطلب جهاز</Link>
               <a
                 href={wa("أهلاً، بدوّر على جهاز أسنان مستعمل ومش لاقيه في «كل الأجهزة». ممكن تساعدوني؟")}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="br-ghost-dark"
-                style={{ minHeight: 48, padding: "0 18px", borderRadius: 12, border: "1px solid #2E5650", color: "#FFFFFF", fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}
+                style={{ minHeight: 48, padding: "0 18px", borderRadius: 12, border: "1px solid #2E4F56", color: "#FFFFFF", fontWeight: 600, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}
               >
                 <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" {...svg} strokeWidth={1.8}><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7L4 20z" /></svg>
                 واتساب

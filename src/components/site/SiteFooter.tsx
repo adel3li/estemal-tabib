@@ -7,13 +7,13 @@ import { ToothIcon, WhatsAppIcon } from "@/components/icons";
 import { routes } from "@/lib/routes";
 import { useSettings } from "@/lib/settings";
 
-const link = { color: "#C3D3CE" } as const;
+const link = { color: "#C3D3D3" } as const;
 const col = { flex: "1 1 150px", minWidth: 0, display: "flex", flexDirection: "column", gap: 10 } as const;
 
 export function SiteFooter() {
   const { wa, whatsapp, email, social } = useSettings();
   return (
-    <footer className="site-footer" style={{ background: "#0F2A26", color: "#C3D3CE" }}>
+    <footer className="site-footer" style={{ background: "#06394B", color: "#C3D3D3" }}>
       <div
         style={{
           maxWidth: 1200,
@@ -32,8 +32,8 @@ export function SiteFooter() {
                   width: 40,
                   height: 40,
                   borderRadius: 12,
-                  background: "#F2A33A",
-                  color: "#12221F",
+                  background: "#F5921C",
+                  color: "#122022",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -81,8 +81,8 @@ export function SiteFooter() {
                 minHeight: 44,
                 padding: "0 18px",
                 borderRadius: 12,
-                background: "#F2A33A",
-                color: "#12221F",
+                background: "#F5921C",
+                color: "#122022",
                 fontWeight: 700,
                 display: "flex",
                 alignItems: "center",
@@ -111,7 +111,7 @@ export function SiteFooter() {
         <div
           style={{
             paddingTop: 18,
-            borderTop: "1px solid #2E5650",
+            borderTop: "1px solid #2E4F56",
             display: "flex",
             flexWrap: "wrap",
             justifyContent: "space-between",

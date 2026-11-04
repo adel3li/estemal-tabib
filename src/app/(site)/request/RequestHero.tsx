@@ -1,12 +1,12 @@
 const STEPS = [
-  { n: "١", label: "الجهاز اللي محتاجه", bg: "#E3F0ED", fg: "#0D5C55" },
-  { n: "٢", label: "الميزانية والتوقيت", bg: "#FBEEDC", fg: "#8A4209" },
+  { n: "١", label: "الجهاز اللي محتاجه", bg: "#E2F4F8", fg: "#0A7E99" },
+  { n: "٢", label: "الميزانية والتوقيت", bg: "#FEEEDB", fg: "#8A4A05" },
   { n: "٣", label: "بياناتك", bg: "#E6EDF7", fg: "#24508F" },
 ];
 
 export function RequestHero() {
   return (
-    <div className="rq-hero" style={{ background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexWrap: "wrap", alignItems: "center" }}>
+    <div className="rq-hero" style={{ background: "#FFFFFF", border: "1px solid #DCE3E1", boxShadow: "0 10px 30px rgba(15,42,51, 0.06)", display: "flex", flexWrap: "wrap", alignItems: "center" }}>
       <div style={{ flex: "999 1 380px", minWidth: 0, display: "flex", flexDirection: "column", gap: 18 }}>
         <div>
           <h1 className="rq-h1">اطلب جهاز</h1>

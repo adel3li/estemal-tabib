@@ -34,13 +34,13 @@ const COND_CHIPS: Chip<Filters["cond"]>[] = [
 ];
 
 function chipColors(on: boolean, id: string, isCat: boolean) {
-  let bg = on ? "#0D5C55" : "#FFFFFF";
-  let fg = on ? "#FFFFFF" : "#12221F";
-  let bd = on ? "#0D5C55" : "#C9D4CF";
+  let bg = on ? "#0A7E99" : "#FFFFFF";
+  let fg = on ? "#FFFFFF" : "#122022";
+  let bd = on ? "#0A7E99" : "#C9D4D3";
   if (isCat && TOP.includes(id)) bd = "#7DBB4A";
   if (isCat && id === "other") {
-    if (on) { bg = "#F2A33A"; bd = "#F2A33A"; fg = "#12221F"; }
-    else { bg = "#FBEEDC"; bd = "#F2A33A"; fg = "#6B3A10"; }
+    if (on) { bg = "#F5921C"; bd = "#F5921C"; fg = "#122022"; }
+    else { bg = "#FEEEDB"; bd = "#F5921C"; fg = "#6B3A10"; }
   }
   return { bg, fg, bd };
 }
@@ -68,18 +68,18 @@ function ChipRow<T extends string>({ chips, value, onPick, isCat = false }: { ch
   );
 }
 
-const ic = { width: 17, height: 17, viewBox: "0 0 24 24", fill: "none", stroke: "#0D5C55", strokeWidth: 1.9, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true } as const;
+const ic = { width: 17, height: 17, viewBox: "0 0 24 24", fill: "none", stroke: "#0A7E99", strokeWidth: 1.9, strokeLinecap: "round", strokeLinejoin: "round", "aria-hidden": true } as const;
 
 function Group({ label, icon, last = false, children }: { label: string; icon: ReactNode; last?: boolean; children: ReactNode }) {
   return (
-    <div role="group" aria-label={label} style={{ display: "flex", flexDirection: "column", gap: 10, padding: "18px 0", borderBottom: last ? undefined : "1px solid #E5EBE8" }}>
+    <div role="group" aria-label={label} style={{ display: "flex", flexDirection: "column", gap: 10, padding: "18px 0", borderBottom: last ? undefined : "1px solid #E5EBEA" }}>
       <span style={{ fontWeight: 600, fontSize: 15, display: "flex", alignItems: "center", gap: 8 }}>{icon}{label === "السعر" ? "السعر (ج.م)" : label}</span>
       {children}
     </div>
   );
 }
 
-const input = { minHeight: 44, padding: "0 12px", borderRadius: 12, border: "1px solid #C9D4CF", background: "#F5F7F4", font: "inherit", fontSize: 15, color: "#12221F", minWidth: 0 } as const;
+const input = { minHeight: 44, padding: "0 12px", borderRadius: 12, border: "1px solid #C9D4D3", background: "#F3F6F7", font: "inherit", fontSize: 15, color: "#122022", minWidth: 0 } as const;
 
 type Props = {
   f: Filters;
@@ -126,15 +126,15 @@ export function FilterAside({ f, set, reset, open, onClose, count }: Props) {
       role={open ? "dialog" : undefined}
       aria-modal={open ? true : undefined}
     >
-      <div className="br-aside-head" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, paddingBottom: 14, borderBottom: "1px solid #E5EBE8" }}>
+      <div className="br-aside-head" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, paddingBottom: 14, borderBottom: "1px solid #E5EBEA" }}>
         <span style={{ fontWeight: 700, fontSize: 18, display: "flex", alignItems: "center", gap: 10 }}>
-          <span style={{ width: 34, height: 34, borderRadius: 10, background: "#E3F0ED", color: "#0D5C55", display: "flex", alignItems: "center", justifyContent: "center" }}>
+          <span style={{ width: 34, height: 34, borderRadius: 10, background: "#E2F4F8", color: "#0A7E99", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <svg {...ic} width={18} height={18} stroke="currentColor"><path d="M4 5h16l-6 8v5l-4 2v-7z" /></svg>
           </span>
           تصفية
         </span>
         <span style={{ display: "flex", alignItems: "center", gap: 8 }}>
-          <button type="button" className="br-reset" onClick={reset} style={{ padding: "0 12px", border: 0, borderRadius: 10, background: "transparent", color: "#0D5C55", font: "inherit", fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }}>
+          <button type="button" className="br-reset" onClick={reset} style={{ padding: "0 12px", border: 0, borderRadius: 10, background: "transparent", color: "#0A7E99", font: "inherit", fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }}>
             <svg {...ic} width={15} height={15} stroke="currentColor" strokeWidth={2}><path d="M4 12a8 8 0 1 0 2.3-5.7L4 8.6" /><path d="M4 4v4.6h4.6" /></svg>
             مسح الكل
           </button>
@@ -174,11 +174,11 @@ export function FilterAside({ f, set, reset, open, onClose, count }: Props) {
       </Group>
       <Group label="السعر" last icon={<svg {...ic}><path d="M3 12V4h8l10 10-8 8z" /><circle cx="7.5" cy="8.5" r="1.5" /></svg>}>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: 8 }}>
-          <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: 13, color: "#4A5A56" }}>
+          <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: 13, color: "#4A595A" }}>
             من
             <input type="text" className="br-input" inputMode="numeric" value={f.pmin} onChange={(e) => set({ pmin: e.target.value })} placeholder="0" style={input} />
           </label>
-          <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: 13, color: "#4A5A56" }}>
+          <label style={{ display: "flex", flexDirection: "column", gap: 4, fontSize: 13, color: "#4A595A" }}>
             لحد
             <input type="text" className="br-input" inputMode="numeric" value={f.pmax} onChange={(e) => set({ pmax: e.target.value })} placeholder="أي سعر" style={input} />
           </label>

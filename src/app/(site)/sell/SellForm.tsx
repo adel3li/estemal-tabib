@@ -161,7 +161,7 @@ export function SellForm() {
         <SellHero />
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           {restoredDraft ? (
-            <div role="status" style={{ padding: "12px 16px", borderRadius: 14, background: "#E3F0ED", border: "1px solid #9CCBC2", color: "#0B4A44", fontWeight: 600, fontSize: 15 }}>
+            <div role="status" style={{ padding: "12px 16px", borderRadius: 14, background: "#E2F4F8", border: "1px solid #9ED8E6", color: "#075468", fontWeight: 600, fontSize: 15 }}>
               رجّعنالك البيانات اللي كنت كتبتها. {VIDEO_ENABLED ? "الصور والفيديو بس محتاج تضيفهم تاني." : "الصور بس محتاج تضيفها تاني."}
             </div>
           ) : null}

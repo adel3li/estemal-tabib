@@ -20,10 +20,10 @@ import { Steps } from "./Steps";
 function NotFound() {
   return (
     <section style={{ maxWidth: 1200, margin: "0 auto", padding: "56px 20px 80px" }}>
-      <div style={{ padding: "48px 24px", borderRadius: 24, background: "#FFFFFF", border: "1px dashed #9FB2AB", display: "flex", flexDirection: "column", alignItems: "center", gap: 12, textAlign: "center" }}>
+      <div style={{ padding: "48px 24px", borderRadius: 24, background: "#FFFFFF", border: "1px dashed #9FB2B1", display: "flex", flexDirection: "column", alignItems: "center", gap: 12, textAlign: "center" }}>
         <h1 style={{ margin: 0, fontWeight: 700, fontSize: 24 }}>الجهاز ده مش متاح</h1>
-        <div style={{ color: "#4A5A56" }}>ممكن يكون اتشال أو الرابط غلط. شوف الأجهزة المتاحة دلوقتي.</div>
-        <Link href={routes.devices} className="li-cta" style={{ minHeight: 48, padding: "0 22px", borderRadius: 12, background: "#0D5C55", color: "#FFFFFF", fontWeight: 700, display: "flex", alignItems: "center" }}>كل الأجهزة</Link>
+        <div style={{ color: "#4A595A" }}>ممكن يكون اتشال أو الرابط غلط. شوف الأجهزة المتاحة دلوقتي.</div>
+        <Link href={routes.devices} className="li-cta" style={{ minHeight: 48, padding: "0 22px", borderRadius: 12, background: "#0A7E99", color: "#FFFFFF", fontWeight: 700, display: "flex", alignItems: "center" }}>كل الأجهزة</Link>
       </div>
     </section>
   );
@@ -67,7 +67,7 @@ export function DeviceClient() {
       <BrowseArt />
       <DeviceArt />
 
-      <div className="li-crumbs" style={{ maxWidth: 1200, margin: "0 auto", padding: "20px 20px 0", fontSize: 14, color: "#4A5A56", display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
+      <div className="li-crumbs" style={{ maxWidth: 1200, margin: "0 auto", padding: "20px 20px 0", fontSize: 14, color: "#4A595A", display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
         <Link href={routes.home}>الرئيسية</Link>
         <span aria-hidden="true">›</span>
         <Link href={routes.devices}>كل الأجهزة</Link>

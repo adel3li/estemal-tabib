@@ -3,9 +3,9 @@ import type { ReactNode } from "react";
 
 export type Tone = { bg: string; fg: string; dot: string };
 export const TONES = {
-  teal: { bg: "#E3F0ED", fg: "#0D5C55", dot: "#0D5C55" },
+  teal: { bg: "#E2F4F8", fg: "#0A7E99", dot: "#0A7E99" },
   blue: { bg: "#E6EDF7", fg: "#24508F", dot: "#24508F" },
-  amber: { bg: "#FBEEDC", fg: "#C46A12", dot: "#C46A12" },
+  amber: { bg: "#FEEEDB", fg: "#D0700A", dot: "#D0700A" },
   green: { bg: "#EAF5DD", fg: "#3F7A1F", dot: "#3F7A1F" },
 } satisfies Record<string, Tone>;
 
@@ -13,8 +13,8 @@ const NUMS = "١٢٣٤٥٦٧٨٩";
 
 export function Toc({ label, items }: { label: string; items: { id: string; title: string; tone: Tone }[] }) {
   return (
-    <nav className="tm-toc" aria-label={label} style={{ padding: 18, borderRadius: 20, background: "#FFFFFF", border: "1px solid #DCE3DF", display: "flex", flexDirection: "column", gap: 4 }}>
-      <span style={{ padding: "0 8px 6px", fontSize: 13, fontWeight: 700, color: "#4A5A56" }}>المحتويات</span>
+    <nav className="tm-toc" aria-label={label} style={{ padding: 18, borderRadius: 20, background: "#FFFFFF", border: "1px solid #DCE3E1", display: "flex", flexDirection: "column", gap: 4 }}>
+      <span style={{ padding: "0 8px 6px", fontSize: 13, fontWeight: 700, color: "#4A595A" }}>المحتويات</span>
       {items.map((it, i) => (
         <a key={it.id} href={`#${it.id}`} style={{ padding: "8px 10px", borderRadius: 12, display: "flex", alignItems: "center", gap: 10, fontSize: 15, fontWeight: 500 }}>
           <span style={{ flex: "none", width: 26, height: 26, borderRadius: 8, background: it.tone.bg, color: it.tone.fg, fontSize: 13, fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center" }}>{NUMS[i]}</span>
@@ -27,12 +27,12 @@ export function Toc({ label, items }: { label: string; items: { id: string; titl
 
 export function Numbers({ rows }: { rows: { label: string; value: ReactNode }[] }) {
   return (
-    <div style={{ padding: 18, borderRadius: 20, background: "#0F2A26", color: "#C3D3CE", display: "flex", flexDirection: "column", gap: 10 }}>
+    <div style={{ padding: 18, borderRadius: 20, background: "#06394B", color: "#C3D3D3", display: "flex", flexDirection: "column", gap: 10 }}>
       <span style={{ fontSize: 13, fontWeight: 700, color: "#FFFFFF" }}>أرقام مهمة</span>
       {rows.map((r, i) => (
-        <div key={r.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 10, ...(i < rows.length - 1 ? { paddingBottom: 8, borderBottom: "1px solid #2E5650" } : {}) }}>
+        <div key={r.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 10, ...(i < rows.length - 1 ? { paddingBottom: 8, borderBottom: "1px solid #2E4F56" } : {}) }}>
           <span style={{ fontSize: 14 }}>{r.label}</span>
-          <span style={{ fontSize: 18, fontWeight: 700, color: "#F2A33A", whiteSpace: "nowrap", flex: "none" }}>{r.value}</span>
+          <span style={{ fontSize: 18, fontWeight: 700, color: "#F5921C", whiteSpace: "nowrap", flex: "none" }}>{r.value}</span>
         </div>
       ))}
     </div>
@@ -44,7 +44,7 @@ export const Min = () => <span style={{ fontSize: 13, fontWeight: 600 }}>بحد 
 
 export function Article({ id, n, title, tone, icon, children }: { id: string; n: number; title: string; tone: Tone; icon: ReactNode; children: ReactNode }) {
   return (
-    <article id={id} className="tm-art" style={{ borderRadius: 24, background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexDirection: "column", gap: 14 }}>
+    <article id={id} className="tm-art" style={{ borderRadius: 24, background: "#FFFFFF", border: "1px solid #DCE3E1", boxShadow: "0 10px 30px rgba(15,42,51, 0.06)", display: "flex", flexDirection: "column", gap: 14 }}>
       <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
         <span style={{ position: "relative", flex: "none", width: 52, height: 52, borderRadius: 16, background: tone.bg, color: tone.fg, display: "flex", alignItems: "center", justifyContent: "center" }}>
           <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -64,7 +64,7 @@ export function Article({ id, n, title, tone, icon, children }: { id: string; n:
 /** One clause: bold lead-in + text. */
 export function Clause({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <p className="tm-p" style={{ margin: 0, borderRadius: 14, background: "#F7FAF8", border: "1px solid #E5EBE8" }}>
+    <p className="tm-p" style={{ margin: 0, borderRadius: 14, background: "#F7FAF9", border: "1px solid #E5EBEA" }}>
       <strong>{title}:</strong> {children}
     </p>
   );
@@ -74,9 +74,9 @@ export function Clause({ title, children }: { title: string; children: ReactNode
 export function Outcome({ kind, title, items }: { kind: "ok" | "no"; title: string; items: ReactNode[] }) {
   const ok = kind === "ok";
   return (
-    <div style={{ padding: "16px 18px", borderRadius: 16, background: ok ? "#E3F0ED" : "#FBEEDC", border: `1px solid ${ok ? "#9CCBC2" : "#F0C88A"}`, color: ok ? "#0B4A44" : "#6B3A10" }}>
+    <div style={{ padding: "16px 18px", borderRadius: 16, background: ok ? "#E2F4F8" : "#FEEEDB", border: `1px solid ${ok ? "#9ED8E6" : "#F8C788"}`, color: ok ? "#075468" : "#6B3A10" }}>
       <div style={{ fontWeight: 700, display: "flex", alignItems: "center", gap: 8 }}>
-        <span style={{ flex: "none", width: 26, height: 26, borderRadius: 999, background: ok ? "#0D5C55" : "#C46A12", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <span style={{ flex: "none", width: 26, height: 26, borderRadius: 999, background: ok ? "#0A7E99" : "#D0700A", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center" }}>
           <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
             {ok ? <path d="M5 12l4 4 10-10" /> : <path d="M6 6l12 12M18 6L6 18" />}
           </svg>

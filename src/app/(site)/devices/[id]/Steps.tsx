@@ -3,19 +3,19 @@ import { svgProps } from "./helpers";
 const ic = { "aria-hidden": true, width: 22, height: 22, viewBox: "0 0 24 24", ...svgProps, strokeWidth: 1.8 } as const;
 
 const STEPS = [
-  { n: "١", text: "تدفع الفلوس أو جزء منها، والفلوس بتتحفظ عندنا", bg: "#E3F0ED", bd: "#9CCBC2", ib: "#0D5C55", num: "#0D5C55", fg: "#0B4A44", icon: <svg {...ic}><rect x="5" y="11" width="14" height="9" rx="2" /><path d="M8 11V8a4 4 0 0 1 8 0v3" /></svg> },
+  { n: "١", text: "تدفع الفلوس أو جزء منها، والفلوس بتتحفظ عندنا", bg: "#E2F4F8", bd: "#9ED8E6", ib: "#0A7E99", num: "#0A7E99", fg: "#075468", icon: <svg {...ic}><rect x="5" y="11" width="14" height="9" rx="2" /><path d="M8 11V8a4 4 0 0 1 8 0v3" /></svg> },
   { n: "٢", text: "نفحص الجهاز", bg: "#E6EDF7", bd: "#A9BFE0", ib: "#24508F", num: "#24508F", fg: "#1B3F73", icon: <svg {...ic}><circle cx="11" cy="11" r="6" /><path d="M20 20l-4.5-4.5" /></svg> },
-  { n: "٣", text: "تقرير الفحص يوصلك وتأكّد على الطلب", bg: "#FBEEDC", bd: "#F0C88A", ib: "#C46A12", num: "#8A4209", fg: "#6B3A10", icon: <svg {...ic}><path d="M7 3h7l5 5v13H7z" /><path d="M14 3v5h5" /><path d="M10 13l2 2 4-4" /></svg> },
+  { n: "٣", text: "تقرير الفحص يوصلك وتأكّد على الطلب", bg: "#FEEEDB", bd: "#F8C788", ib: "#D0700A", num: "#8A4A05", fg: "#6B3A10", icon: <svg {...ic}><path d="M7 3h7l5 5v13H7z" /><path d="M14 3v5h5" /><path d="M10 13l2 2 4-4" /></svg> },
   { n: "٤", text: "نشحن لك لحد بابك وتعاين بنفسك", bg: "#EAF5DD", bd: "#A9D17F", ib: "#3F7A1F", num: "#3F7A1F", fg: "#2F5A15", icon: <svg {...ic}><path d="M3 7h11v9H3z" /><path d="M14 10h4l3 3v3h-7" /><circle cx="7" cy="17.5" r="1.8" /><circle cx="17" cy="17.5" r="1.8" /></svg> },
 ];
 
 export function Steps() {
   return (
     <section style={{ maxWidth: 1200, margin: "0 auto", padding: "0 20px 72px" }}>
-      <div className="li-panel" style={{ borderRadius: 24, background: "#FFFFFF", border: "1px solid #DCE3DF", display: "flex", flexDirection: "column", gap: 22 }}>
+      <div className="li-panel" style={{ borderRadius: 24, background: "#FFFFFF", border: "1px solid #DCE3E1", display: "flex", flexDirection: "column", gap: 22 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
           <h2 className="li-h2s" style={{ margin: 0 }}>إيه اللي هيحصل بعد ما تطلب</h2>
-          <span style={{ color: "#4A5A56" }}>4 خطوات، وفي كل خطوة بنبلغك على واتساب.</span>
+          <span style={{ color: "#4A595A" }}>4 خطوات، وفي كل خطوة بنبلغك على واتساب.</span>
         </div>
         <ol className="li-steps" style={{ listStyle: "none", margin: 0, padding: 0 }}>
           {STEPS.map((s) => (

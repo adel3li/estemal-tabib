@@ -15,7 +15,7 @@ const ROLE_TEXT: Record<Role, string> = { buyer: "اشترى", seller: "باع" 
 
 function Stars({ n, size = 18 }: { n: number; size?: number }) {
   return (
-    <span aria-label={`${n} من 5`} role="img" style={{ display: "inline-flex", gap: 2, color: "#F2A33A" }}>
+    <span aria-label={`${n} من 5`} role="img" style={{ display: "inline-flex", gap: 2, color: "#F5921C" }}>
       {[1, 2, 3, 4, 5].map((i) => (
         <svg key={i} aria-hidden="true" width={size} height={size} viewBox="0 0 24 24" fill={i <= n ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round">
           <path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z" />
@@ -75,13 +75,13 @@ export function ReviewsBody() {
         <div className="mn-sec" style={{ maxWidth: 1200, margin: "0 auto", display: "flex", flexWrap: "wrap", alignItems: "flex-end", justifyContent: "space-between", gap: 24 }}>
           <div style={{ flex: "1 1 420px", minWidth: 0, display: "flex", flexDirection: "column", gap: 8 }}>
             <h1 className="mn-h2" style={{ margin: 0, fontWeight: 700 }}>آراء الدكاترة</h1>
-            <p className="mn-lead" style={{ margin: 0, color: "#4A5A56" }}>تجارب دكاترة اشتروا وباعوا أجهزتهم على استعمال طبيب.</p>
+            <p className="mn-lead" style={{ margin: 0, color: "#4A595A" }}>تجارب دكاترة اشتروا وباعوا أجهزتهم على استعمال طبيب.</p>
           </div>
           <div className="rv-score">
             <span style={{ fontSize: 34, fontWeight: 700, lineHeight: 1 }}>{list && list.length ? avg.toFixed(1) : "—"}</span>
             <span style={{ display: "flex", flexDirection: "column", gap: 4 }}>
               <Stars n={Math.round(avg) || 5} />
-              <span style={{ fontSize: 14, color: "#4A5A56" }}>{list && list.length ? `من ${list.length} تقييم` : "لسه مفيش تقييمات"}</span>
+              <span style={{ fontSize: 14, color: "#4A595A" }}>{list && list.length ? `من ${list.length} تقييم` : "لسه مفيش تقييمات"}</span>
             </span>
           </div>
         </div>
@@ -89,25 +89,25 @@ export function ReviewsBody() {
 
       <section className="mn-sec" style={{ maxWidth: 1200, margin: "0 auto", display: "flex", flexDirection: "column", gap: 40 }}>
         {list === null ? (
-          <div role="status" style={{ color: "#4A5A56" }}>بنحمّل الآراء…</div>
+          <div role="status" style={{ color: "#4A595A" }}>بنحمّل الآراء…</div>
         ) : list.length ? (
           <ul className="rv-grid">
             {list.map((r) => (
               <li key={r.id} className="rv-card">
                 <Stars n={r.rating} />
                 <p style={{ margin: 0, fontSize: 17, whiteSpace: "pre-wrap", overflowWrap: "anywhere" }}>«{r.body}»</p>
-                <div style={{ marginTop: "auto", paddingTop: 14, borderTop: "1px solid #E5EBE8", display: "flex", alignItems: "center", gap: 12 }}>
+                <div style={{ marginTop: "auto", paddingTop: 14, borderTop: "1px solid #E5EBEA", display: "flex", alignItems: "center", gap: 12 }}>
                   <span aria-hidden="true" className="rv-avatar">{r.author_name.replace(/^د\.\s*/, "").trim().charAt(0) || "د"}</span>
                   <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.4, minWidth: 0 }}>
                     <span style={{ fontWeight: 700, overflowWrap: "anywhere" }}>{r.author_name}</span>
-                    <span style={{ fontSize: 14, color: "#4A5A56" }}>{ROLE_TEXT[r.role]} {r.device || "جهاز"}</span>
+                    <span style={{ fontSize: 14, color: "#4A595A" }}>{ROLE_TEXT[r.role]} {r.device || "جهاز"}</span>
                   </span>
                 </div>
               </li>
             ))}
           </ul>
         ) : (
-          <div style={{ padding: 24, borderRadius: 20, background: "#FFFFFF", border: "1px solid #DCE3DF", color: "#4A5A56", textAlign: "center" }}>
+          <div style={{ padding: 24, borderRadius: 20, background: "#FFFFFF", border: "1px solid #DCE3E1", color: "#4A595A", textAlign: "center" }}>
             لسه مفيش آراء منشورة. اشتريت أو بعت جهاز معانا؟ كن أول واحد يكتب رأيه.
           </div>
         )}
@@ -122,7 +122,7 @@ export function ReviewsBody() {
         >
           <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
             <h2 id="rv-form-title" style={{ margin: 0, fontSize: 24, fontWeight: 700 }}>اكتب رأيك</h2>
-            <p style={{ margin: 0, color: "#4A5A56" }}>اشتريت أو بعت جهاز على الموقع؟ قولنا تجربتك. بننشر الرأي بعد ما نراجعه.</p>
+            <p style={{ margin: 0, color: "#4A595A" }}>اشتريت أو بعت جهاز على الموقع؟ قولنا تجربتك. بننشر الرأي بعد ما نراجعه.</p>
           </div>
           <div className="rv-row">
             <label className="rv-field">
