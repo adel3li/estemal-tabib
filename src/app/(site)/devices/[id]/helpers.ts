@@ -18,8 +18,8 @@ export const REPAIRED: Record<YesNoUnknown, string> = { yes: "أيوه", no: "ل
 
 export const COND_TILE: Record<Condition, { text: string; bg: string; lab: string; fg: string }> = {
   a: { text: "ممتازة · 81% – 100%", bg: "#EAF5DD", lab: "#3F7A1F", fg: "#2F5A15" },
-  b: { text: "جيدة · 60% – 80%", bg: "#F5F7F4", lab: "#4A5A56", fg: "#12221F" },
-  c: { text: "أقل من 60% · محتاج صيانة", bg: "#FBEEDC", lab: "#6B3A10", fg: "#8A4209" },
+  b: { text: "جيدة · 60% – 80%", bg: "#F3F6F7", lab: "#4A595A", fg: "#122022" },
+  c: { text: "أقل من 60% · محتاج صيانة", bg: "#FEEEDB", lab: "#6B3A10", fg: "#8A4A05" },
 };
 
 export function orderMessage(d: Device, promo = ""): string {

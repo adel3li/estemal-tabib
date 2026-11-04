@@ -11,7 +11,7 @@ export default function ForbiddenPage() {
     <div className="au-root">
       <section className="au-wrap">
         <div className="au-card" style={{ alignItems: "center", textAlign: "center" }}>
-          <span className="au-icon" style={{ background: "#FBEEDC", color: "#8A4209" }}>
+          <span className="au-icon" style={{ background: "#FEEEDB", color: "#8A4A05" }}>
             <svg aria-hidden="true" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
               <rect x="4" y="10" width="16" height="11" rx="2" />
               <path d="M8 10V7a4 4 0 0 1 8 0v3" />

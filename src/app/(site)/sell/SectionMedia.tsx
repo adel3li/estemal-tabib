@@ -86,16 +86,16 @@ function Tile({
           if (list.length) onFiles(list);
         }}
       />
-      <button type="button" id={id} className={cls} style={muted && !files.length && !invalid ? { borderColor: "#C9D4CF" } : undefined} onClick={() => input.current?.click()} aria-describedby={invalid && id ? `${id}-msg` : undefined}>
+      <button type="button" id={id} className={cls} style={muted && !files.length && !invalid ? { borderColor: "#C9D4D3" } : undefined} onClick={() => input.current?.click()} aria-describedby={invalid && id ? `${id}-msg` : undefined}>
         <svg aria-hidden="true" viewBox="0 0 200 120" style={{ display: "block", width: "100%", maxWidth: 220, height: "auto", marginBottom: 6 }}>
           <use href={`#${art}`} />
         </svg>
-        <span style={{ fontWeight: 700, fontSize: 16, color: "#12221F" }}>
+        <span style={{ fontWeight: 700, fontSize: 16, color: "#122022" }}>
           {title}
           {required ? <Star /> : null}
         </span>
         <span style={{ fontSize: 13 }}>{status ?? hint}</span>
-        <span style={{ marginTop: 4, padding: "6px 14px", borderRadius: 999, background: muted ? "#F5F7F4" : "#E3F0ED", color: muted ? "#3C4C48" : "#0D5C55", fontSize: 13, fontWeight: 700, display: "flex", alignItems: "center", gap: 6 }}>
+        <span style={{ marginTop: 4, padding: "6px 14px", borderRadius: 999, background: muted ? "#F3F6F7" : "#E2F4F8", color: muted ? "#3C4B4C" : "#0A7E99", fontSize: 13, fontWeight: 700, display: "flex", alignItems: "center", gap: 6 }}>
           {ctaIcon}
           {cta}
         </span>
@@ -105,7 +105,7 @@ function Tile({
           {files.map((x, i) => (
             <li key={`${x.name}-${i}`}>
               <span dir="auto">{x.name}</span>
-              {x.note ? <span style={{ flex: "none", color: "#4A5A56" }}>{x.note}</span> : null}
+              {x.note ? <span style={{ flex: "none", color: "#4A595A" }}>{x.note}</span> : null}
               <button type="button" className="sl-x" aria-label={`شيل ${x.name}`} onClick={() => onRemove(i)}>
                 ×
               </button>
@@ -187,7 +187,7 @@ export function SectionMedia({ media, setMedia, err }: { media: Media; setMedia:
               onRemove={(i) => setMedia({ ...media, photos: media.photos.filter((_, j) => j !== i) })}
               invalid={!!err.photos}
             />
-            {photoMsg ? <span className="sl-msg" style={{ color: "#8A4209" }}>{photoMsg}</span> : null}
+            {photoMsg ? <span className="sl-msg" style={{ color: "#8A4A05" }}>{photoMsg}</span> : null}
             <Msg k="photos" err={err} />
           </div>
           {VIDEO_ENABLED ? (

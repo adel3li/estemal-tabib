@@ -1,16 +1,16 @@
 // Public site footer — ported from Main.dc.html <footer>.
 import Link from "next/link";
 import { BUSINESS } from "@/config/business";
-import { ToothIcon, WhatsAppIcon } from "@/components/icons";
+import { WhatsAppIcon } from "@/components/icons";
 import { routes } from "@/lib/routes";
 import { waLink } from "@/lib/whatsapp";
 
-const link = { color: "#C3D3CE" } as const;
+const link = { color: "#C3D3D3" } as const;
 const col = { flex: "1 1 150px", minWidth: 0, display: "flex", flexDirection: "column", gap: 10 } as const;
 
 export function SiteFooter() {
   return (
-    <footer className="site-footer" style={{ background: "#0F2A26", color: "#C3D3CE" }}>
+    <footer className="site-footer" style={{ background: "#06394B", color: "#C3D3D3" }}>
       <div
         style={{
           maxWidth: 1200,
@@ -24,21 +24,8 @@ export function SiteFooter() {
         <div className="ft-row" style={{ display: "flex", flexWrap: "wrap", gap: "32px 48px", justifyContent: "space-between" }}>
           <div style={{ flex: "2 1 280px", minWidth: 0, display: "flex", flexDirection: "column", gap: 12 }}>
             <Link href={routes.home} style={{ display: "flex", alignItems: "center", gap: 10, color: "#FFFFFF" }}>
-              <span
-                style={{
-                  width: 40,
-                  height: 40,
-                  borderRadius: 12,
-                  background: "#F2A33A",
-                  color: "#12221F",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <ToothIcon />
-              </span>
-              <span style={{ fontSize: 22, fontWeight: 700 }}>استعمال طبيب</span>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/brand/logo-on-dark.png" alt="استعمال طبيب" style={{ height: 64, width: "auto", display: "block" }} />
             </Link>
             <span style={{ color: "#FFFFFF", fontWeight: 600 }}>
               من طبيب أسنان
@@ -78,8 +65,8 @@ export function SiteFooter() {
                 minHeight: 44,
                 padding: "0 18px",
                 borderRadius: 12,
-                background: "#F2A33A",
-                color: "#12221F",
+                background: "#F5921C",
+                color: "#122022",
                 fontWeight: 700,
                 display: "flex",
                 alignItems: "center",
@@ -98,7 +85,7 @@ export function SiteFooter() {
         <div
           style={{
             paddingTop: 18,
-            borderTop: "1px solid #2E5650",
+            borderTop: "1px solid #2E4F56",
             display: "flex",
             flexWrap: "wrap",
             justifyContent: "space-between",

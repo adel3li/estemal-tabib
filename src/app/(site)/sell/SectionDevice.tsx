@@ -53,7 +53,7 @@ export function SectionDevice({ f, set, err }: SectionProps) {
           <span>سبب البيع<Star /></span>
           <input type="text" placeholder="مثال: ترقية لموديل أحدث" {...bad("saleReason", err)} value={f.saleReason} onChange={(e) => set({ saleReason: e.target.value })} required />
           <Msg k="saleReason" err={err} />
-          <span style={{ fontWeight: 400, fontSize: 13, color: "#4A5A56", display: "flex", alignItems: "center", gap: 6 }}>
+          <span style={{ fontWeight: 400, fontSize: 13, color: "#4A595A", display: "flex", alignItems: "center", gap: 6 }}>
             <svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none" }}>
               <rect x="5" y="11" width="14" height="9" rx="2" />
               <path d="M8 11V8a4 4 0 0 1 8 0v3" />

@@ -14,8 +14,8 @@ const MAX_SLIDES = 5;
 const INTERVAL_MS = 5000;
 
 const COND_TONE: Record<Condition, { bg: string; fg: string }> = {
-  a: { bg: "#E3F0ED", fg: "#0D5C55" },
-  b: { bg: "#FBEEDC", fg: "#8A4209" },
+  a: { bg: "#E2F4F8", fg: "#0A7E99" },
+  b: { bg: "#FEEEDB", fg: "#8A4A05" },
   c: { bg: "#FBE3DC", fg: "#8A2A09" },
 };
 
@@ -72,14 +72,14 @@ export function HeroCarousel() {
       }}
       style={{ flex: "1 1 420px", minWidth: 0, maxWidth: 520, position: "relative" }}
     >
-      <div aria-hidden="true" style={{ position: "absolute", inset: "18px -14px -14px 18px", borderRadius: 26, background: "#E3F0ED", border: "1px solid #C9DED8" }} />
+      <div aria-hidden="true" style={{ position: "absolute", inset: "18px -14px -14px 18px", borderRadius: 26, background: "#E2F4F8", border: "1px solid #C9DDDE" }} />
       <div
         key={d.id}
         className="mn-slide"
         role="group"
         aria-roledescription="slide"
         aria-label={`${cur + 1} من ${n}`}
-        style={{ position: "relative", background: "#FFFFFF", border: "1px solid #DCE3DF", borderRadius: 24, boxShadow: "0 24px 50px rgba(18, 34, 31, 0.10)", overflow: "hidden" }}
+        style={{ position: "relative", background: "#FFFFFF", border: "1px solid #DCE3E1", borderRadius: 24, boxShadow: "0 24px 50px rgba(15,42,51, 0.10)", overflow: "hidden" }}
       >
         <Slide d={d} />
       </div>
@@ -102,7 +102,7 @@ export function HeroCarousel() {
   );
 }
 
-function Row({ label, children, bg = "#F5F7F4" }: { label: string; children: React.ReactNode; bg?: string }) {
+function Row({ label, children, bg = "#F3F6F7" }: { label: string; children: React.ReactNode; bg?: string }) {
   return (
     <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, padding: "10px 14px", borderRadius: 12, background: bg }}>
       <span style={{ flex: "none" }}>{label}</span>
@@ -130,57 +130,57 @@ function Slide({ d }: { d: Device }) {
   const defects = d.declaredDefects.trim();
   return (
     <>
-      <div className="mn-hc-img" style={{ position: "relative", aspectRatio: "4 / 2.7", background: "#E7EDEA" }}>
+      <div className="mn-hc-img" style={{ position: "relative", aspectRatio: "4 / 2.7", background: "#E7EDEC" }}>
         <svg role="img" aria-label={`رسم توضيحي ل${d.title}`} viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" style={{ display: "block", width: "100%", height: "100%" }}><use href={artFor(d.type)} /></svg>
         {inspected ? (
-          <svg className="mn-hc-seal" aria-hidden="true" viewBox="0 0 120 120" style={{ position: "absolute", bottom: 14, left: 14, width: 84, height: 84, filter: "drop-shadow(0 6px 14px rgba(18, 34, 31, 0.18))" }}><use href="#mn-seal" /></svg>
+          <svg className="mn-hc-seal" aria-hidden="true" viewBox="0 0 120 120" style={{ position: "absolute", bottom: 14, left: 14, width: 84, height: 84, filter: "drop-shadow(0 6px 14px rgba(15,42,51, 0.18))" }}><use href="#mn-seal" /></svg>
         ) : null}
         {inspected ? (
-          <span style={{ position: "absolute", top: 14, right: 14, padding: "6px 12px", borderRadius: 999, background: "#0D5C55", color: "#FFFFFF", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6, boxShadow: "0 2px 8px rgba(18, 34, 31, 0.18)" }}>
+          <span style={{ position: "absolute", top: 14, right: 14, padding: "6px 12px", borderRadius: 999, background: "#0A7E99", color: "#FFFFFF", fontSize: 13, fontWeight: 600, display: "flex", alignItems: "center", gap: 6, boxShadow: "0 2px 8px rgba(15,42,51, 0.18)" }}>
             <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>
             تم الفحص
           </span>
         ) : (
-          <span style={{ position: "absolute", top: 14, right: 14, padding: "6px 12px", borderRadius: 999, background: "#FFFFFF", color: "#24508F", fontSize: 13, fontWeight: 700, display: "flex", alignItems: "center", gap: 6, boxShadow: "0 2px 8px rgba(18, 34, 31, 0.18)" }}>
+          <span style={{ position: "absolute", top: 14, right: 14, padding: "6px 12px", borderRadius: 999, background: "#FFFFFF", color: "#24508F", fontSize: 13, fontWeight: 700, display: "flex", alignItems: "center", gap: 6, boxShadow: "0 2px 8px rgba(15,42,51, 0.18)" }}>
             <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="6" /><path d="M20 20l-4.5-4.5" /></svg>
             يُفحص عند الطلب
           </span>
         )}
-        <span style={{ position: "absolute", bottom: 14, right: 14, padding: "5px 10px", borderRadius: 999, background: "rgba(18, 34, 31, 0.68)", color: "#FFFFFF", fontSize: 12, fontWeight: 600 }}>
+        <span style={{ position: "absolute", bottom: 14, right: 14, padding: "5px 10px", borderRadius: 999, background: "rgba(15,42,51, 0.68)", color: "#FFFFFF", fontSize: 12, fontWeight: 600 }}>
           {inspected ? "صورة حقيقية للجهاز من فريق الفحص" : "صورة من البايع"}
         </span>
       </div>
       <div className="mn-hc-body" style={{ padding: "22px 24px", display: "flex", flexDirection: "column", gap: 16 }}>
         <div>
           <div className="mn-hc-title" style={{ fontSize: 20, fontWeight: 700, overflowWrap: "anywhere" }}>{d.title} — {subtitle(d)}</div>
-          <div style={{ fontSize: 14, color: "#4A5A56" }}>{typeLabel(d.type)}</div>
+          <div style={{ fontSize: 14, color: "#4A595A" }}>{typeLabel(d.type)}</div>
         </div>
         <div className="mn-hc-data" style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          <div style={{ fontSize: 14, fontWeight: 600, color: "#4A5A56", display: "flex", alignItems: "center", gap: 6 }}>
-            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D5C55" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="10" cy="8" r="4" /><path d="M3 20c.8-3.5 3.6-5.5 7-5.5" /><path d="M15 17l2 2 4-4" /></svg>
+          <div style={{ fontSize: 14, fontWeight: 600, color: "#4A595A", display: "flex", alignItems: "center", gap: 6 }}>
+            <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0A7E99" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="10" cy="8" r="4" /><path d="M3 20c.8-3.5 3.6-5.5 7-5.5" /><path d="M15 17l2 2 4-4" /></svg>
             بيانات الجهاز من البايع
           </div>
           <Row label="الحالة">
             <span style={chip(tone.bg, tone.fg)}>{CONDITIONS[d.condition].label}</span>
           </Row>
           <Row label="الملحقات">
-            <span style={{ ...chip("#FFFFFF", "#3C4C48"), border: "1px solid #E5EBE8" }} title={d.accessories || undefined}>{d.accessories.trim() || "مفيش"}</span>
+            <span style={{ ...chip("#FFFFFF", "#3C4B4C"), border: "1px solid #E5EBEA" }} title={d.accessories || undefined}>{d.accessories.trim() || "مفيش"}</span>
           </Row>
           <Row label="الصيانة">
-            <span style={chip("#E3F0ED", "#0D5C55")}>{d.maintenanceMonths} شهور</span>
+            <span style={chip("#E2F4F8", "#0A7E99")}>{d.maintenanceMonths} شهور</span>
           </Row>
           {defects ? (
-            <Row label="عيوب مُعلنة" bg="#FBEEDC">
-              <span style={chip("#FFFFFF", "#8A4209")} title={defects}>{defects}</span>
+            <Row label="عيوب مُعلنة" bg="#FEEEDB">
+              <span style={chip("#FFFFFF", "#8A4A05")} title={defects}>{defects}</span>
             </Row>
           ) : (
             <Row label="عيوب مُعلنة">
-              <span style={chip("#E3F0ED", "#0D5C55")}>مفيش</span>
+              <span style={chip("#E2F4F8", "#0A7E99")}>مفيش</span>
             </Row>
           )}
         </div>
-        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 8, paddingTop: 12, borderTop: "1px solid #E5EBE8" }}>
-          <span style={{ fontWeight: 700, fontSize: 20 }}>{fmt(d.price)} <span style={{ fontSize: 14, fontWeight: 600, color: "#4A5A56" }}>ج.م</span></span>
+        <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 8, paddingTop: 12, borderTop: "1px solid #E5EBEA" }}>
+          <span style={{ fontWeight: 700, fontSize: 20 }}>{fmt(d.price)} <span style={{ fontSize: 14, fontWeight: 600, color: "#4A595A" }}>ج.م</span></span>
           <Link href={routes.device(d.id)} className="mn-link44" style={{ fontWeight: 600, fontSize: 14 }}>شوف تفاصيل الجهاز ←</Link>
         </div>
       </div>

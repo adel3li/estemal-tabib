@@ -23,8 +23,8 @@ export default function OrderTrackerPage() {
     return (
       <section style={{ maxWidth: 640, margin: "0 auto", padding: "72px 20px", textAlign: "center", display: "flex", flexDirection: "column", gap: 14, alignItems: "center" }}>
         <h1 style={{ margin: 0, fontSize: 28, fontWeight: 700 }}>مش لاقيين الطلب ده</h1>
-        <p style={{ margin: 0, color: "#4A5A56" }}>اتأكد من رقم الطلب في الرسالة اللي وصلتك، أو كلمنا على واتساب.</p>
-        <Link href={routes.home} className="ot-cta" style={{ minHeight: 46, padding: "0 20px", borderRadius: 12, background: "#0D5C55", color: "#FFFFFF", fontWeight: 700, display: "flex", alignItems: "center" }}>
+        <p style={{ margin: 0, color: "#4A595A" }}>اتأكد من رقم الطلب في الرسالة اللي وصلتك، أو كلمنا على واتساب.</p>
+        <Link href={routes.home} className="ot-cta" style={{ minHeight: 46, padding: "0 20px", borderRadius: 12, background: "#0A7E99", color: "#FFFFFF", fontWeight: 700, display: "flex", alignItems: "center" }}>
           ارجع للرئيسية
         </Link>
       </section>
@@ -47,7 +47,7 @@ export default function OrderTrackerPage() {
       ];
 
   const confirm = () => {
-    ensureStep(o.id, STEP_SHIPPING, { when: nowLabel(), txt: "المشتري أكّد تقرير الفحص · الطلب اتحرك لخطوة «الشحن»", who: "المشتري", col: "#0D5C55" });
+    ensureStep(o.id, STEP_SHIPPING, { when: nowLabel(), txt: "المشتري أكّد تقرير الفحص · الطلب اتحرك لخطوة «الشحن»", who: "المشتري", col: "#0A7E99" });
     setNote("تمام! أكّدت التقرير، وهنبدأ نجهّز الشحن لحد بابك.");
   };
   const cancel = () => {

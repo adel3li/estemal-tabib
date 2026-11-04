@@ -1,22 +1,22 @@
 /* Ported from design-reference/Browse.dc.html <helmet> (header/nav rules live in the global header). */
 .br-ghost{transition:background .15s ease}
-.br-ghost:hover{background:#F5F7F4;color:#12221F}
+.br-ghost:hover{background:#F3F6F7;color:#122022}
 .br-card{transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease}
-.br-card:hover{transform:translateY(-4px);box-shadow:0 18px 36px rgba(18,34,31,.12);border-color:#9CCBC2;color:#12221F}
-.br-card:focus-visible{outline:3px solid #0D5C55;outline-offset:3px}
+.br-card:hover{transform:translateY(-4px);box-shadow:0 18px 36px rgba(15,42,51,.12);border-color:#9ED8E6;color:#122022}
+.br-card:focus-visible{outline:3px solid #0A7E99;outline-offset:3px}
 .br-img svg{transition:transform .3s ease}
 .br-card:hover .br-img svg{transform:scale(1.04)}
 .br-more{transition:background .15s ease, color .15s ease}
-.br-card:hover .br-more{background:#0D5C55;color:#FFFFFF}
+.br-card:hover .br-more{background:#0A7E99;color:#FFFFFF}
 .br-chip{transition:box-shadow .15s ease, transform .15s ease}
-.br-chip:hover{box-shadow:0 0 0 3px rgba(13,92,85,.12);transform:translateY(-1px)}
-.br-chip:focus-visible{outline:3px solid #0D5C55;outline-offset:2px}
+.br-chip:hover{box-shadow:0 0 0 3px rgba(10,126,153,.12);transform:translateY(-1px)}
+.br-chip:focus-visible{outline:3px solid #0A7E99;outline-offset:2px}
 .br-input{transition:border-color .15s ease, box-shadow .15s ease}
-.br-input:focus{outline:none;border-color:#0D5C55 !important;box-shadow:0 0 0 3px rgba(13,92,85,.15)}
-.br-reset:hover{background:#E3F0ED !important}
+.br-input:focus{outline:none;border-color:#0A7E99 !important;box-shadow:0 0 0 3px rgba(10,126,153,.15)}
+.br-reset:hover{background:#E2F4F8 !important}
 .br-cta-dark{transition:background .15s ease, transform .15s ease}
-.br-cta-dark:hover{background:#E8942A;color:#12221F;transform:translateY(-1px)}
-.br-ghost-dark:hover{background:#163A35;color:#FFFFFF}
+.br-cta-dark:hover{background:#E0820F;color:#122022;transform:translateY(-1px)}
+.br-ghost-dark:hover{background:#0D4A5E;color:#FFFFFF}
 
 /* ---- Responsive (desktop values first; ≥1024 matches the design) ---- */
 .br-title{font-size:36px}
@@ -25,7 +25,7 @@
 .br-chip{min-height:40px}
 .br-reset{min-height:36px}
 .br-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
-.br-aside{flex:1 1 260px;min-width:0;box-sizing:border-box;padding:22px;border-radius:24px;background:#FFFFFF;border:1px solid #DCE3DF;box-shadow:0 10px 30px rgba(18,34,31,.06);display:flex;flex-direction:column;gap:0}
+.br-aside{flex:1 1 260px;min-width:0;box-sizing:border-box;padding:22px;border-radius:24px;background:#FFFFFF;border:1px solid #DCE3E1;box-shadow:0 10px 30px rgba(15,42,51,.06);display:flex;flex-direction:column;gap:0}
 .br-aside-body{display:flex;flex-direction:column}
 .br-sheet-close,.br-sheet-foot,.br-filter-btn,.br-backdrop{display:none}
 @media (min-width: 1024px){
@@ -33,16 +33,16 @@
 }
 @media (max-width: 1023px){
   .br-aside{display:none}
-  .br-aside.is-open{display:flex;position:fixed;z-index:70;inset:auto 0 0 0;max-height:88vh;max-height:88dvh;padding:0;border-radius:24px 24px 0 0;border:0;box-shadow:0 -12px 40px rgba(18,34,31,.25);overflow:hidden;overscroll-behavior:contain}
+  .br-aside.is-open{display:flex;position:fixed;z-index:70;inset:auto 0 0 0;max-height:88vh;max-height:88dvh;padding:0;border-radius:24px 24px 0 0;border:0;box-shadow:0 -12px 40px rgba(15,42,51,.25);overflow:hidden;overscroll-behavior:contain}
   .br-aside.is-open .br-aside-head{flex:none;padding:12px 16px 12px;padding-inline-start:20px}
   .br-aside.is-open .br-aside-body{flex:1 1 auto;min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:0 20px 20px}
-  .br-backdrop{display:block;position:fixed;inset:0;z-index:69;background:rgba(18,34,31,.45)}
-  .br-sheet-close{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid #DCE3DF;border-radius:12px;background:#FFFFFF;color:#12221F;cursor:pointer}
-  .br-sheet-close:focus-visible,.br-sheet-apply:focus-visible,.br-filter-btn:focus-visible{outline:3px solid #0D5C55;outline-offset:2px}
-  .br-sheet-foot{display:block;flex:none;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:#FFFFFF;border-top:1px solid #E5EBE8;box-shadow:0 -6px 16px rgba(18,34,31,.06)}
-  .br-sheet-apply{width:100%;min-height:52px;border:0;border-radius:14px;background:#0D5C55;color:#FFFFFF;font:inherit;font-size:17px;font-weight:700;cursor:pointer}
-  .br-filter-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 16px;border:1px solid #0D5C55;border-radius:12px;background:#E3F0ED;color:#0D5C55;font:inherit;font-size:16px;font-weight:700;cursor:pointer}
-  .br-filter-n{min-width:22px;height:22px;padding:0 6px;box-sizing:border-box;border-radius:999px;background:#0D5C55;color:#FFFFFF;font-size:13px;display:inline-flex;align-items:center;justify-content:center}
+  .br-backdrop{display:block;position:fixed;inset:0;z-index:69;background:rgba(15,42,51,.45)}
+  .br-sheet-close{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border:1px solid #DCE3E1;border-radius:12px;background:#FFFFFF;color:#122022;cursor:pointer}
+  .br-sheet-close:focus-visible,.br-sheet-apply:focus-visible,.br-filter-btn:focus-visible{outline:3px solid #0A7E99;outline-offset:2px}
+  .br-sheet-foot{display:block;flex:none;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:#FFFFFF;border-top:1px solid #E5EBEA;box-shadow:0 -6px 16px rgba(15,42,51,.06)}
+  .br-sheet-apply{width:100%;min-height:52px;border:0;border-radius:14px;background:#0A7E99;color:#FFFFFF;font:inherit;font-size:17px;font-weight:700;cursor:pointer}
+  .br-filter-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 16px;border:1px solid #0A7E99;border-radius:12px;background:#E2F4F8;color:#0A7E99;font:inherit;font-size:16px;font-weight:700;cursor:pointer}
+  .br-filter-n{min-width:22px;height:22px;padding:0 6px;box-sizing:border-box;border-radius:999px;background:#0A7E99;color:#FFFFFF;font-size:13px;display:inline-flex;align-items:center;justify-content:center}
   .br-chip{min-height:44px}
   .br-reset{min-height:44px}
   .br-bar .br-count{flex:1 1 auto}

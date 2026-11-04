@@ -11,7 +11,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { ToothIcon } from "@/components/icons";
 import { AccountMenu, AccountPanel, MenuBadge, SignOutRow } from "./AccountMenu";
 import { routes } from "@/lib/routes";
 
@@ -72,13 +71,9 @@ export function SiteHeader() {
     <header className="site-header">
       <div className="site-header-row">
         <Link href={routes.home} aria-label="استعمال طبيب — الرئيسية" className="site-logo" onClick={close}>
-          <span className="site-logo-mark">
-            <ToothIcon />
-          </span>
-          <span className="site-logo-text">
-            <span className="site-logo-name">استعمال طبيب</span>
-            <span className="site-logo-sub">أجهزة أسنان مستعملة بفحص وضمان</span>
-          </span>
+          {/* Client logo (exploration — cut from a screenshot; swap for the vector file) */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/brand/logo.png" alt="استعمال طبيب" style={{ height: 52, width: "auto", display: "block" }} />
         </Link>
 
         <div className="site-actions">

@@ -41,10 +41,10 @@ export function SectionContact({ f, set, err }: SectionProps) {
   return (
     <fieldset id="sl-s1" className="sl-card">
       <CardHead
-        iconBg="#E3F0ED"
-        iconFg="#0D5C55"
+        iconBg="#E2F4F8"
+        iconFg="#0A7E99"
         step="الخطوة ١ من ٦"
-        stepFg="#0D5C55"
+        stepFg="#0A7E99"
         title="١. بياناتك"
         icon={
           <>
@@ -81,8 +81,8 @@ export function SectionContact({ f, set, err }: SectionProps) {
           </label>
         </div>
         {!hasLoc ? (
-          <div style={{ padding: "14px 16px", borderRadius: 16, border: "1.5px dashed #9CCBC2", background: "#F9FBFA", display: "flex", flexWrap: "wrap", alignItems: "center", gap: 12 }}>
-            <button type="button" onClick={locate} disabled={geo === "busy"} className="sl-loc" style={{ minHeight: 46, padding: "0 18px", borderRadius: 12, border: "1.5px solid #0D5C55", background: "#FFFFFF", color: "#0D5C55", font: "inherit", fontWeight: 700, display: "flex", alignItems: "center", gap: 8, cursor: geo === "busy" ? "progress" : "pointer" }}>
+          <div style={{ padding: "14px 16px", borderRadius: 16, border: "1.5px dashed #9ED8E6", background: "#F9FBFB", display: "flex", flexWrap: "wrap", alignItems: "center", gap: 12 }}>
+            <button type="button" onClick={locate} disabled={geo === "busy"} className="sl-loc" style={{ minHeight: 46, padding: "0 18px", borderRadius: 12, border: "1.5px solid #0A7E99", background: "#FFFFFF", color: "#0A7E99", font: "inherit", fontWeight: 700, display: "flex", alignItems: "center", gap: 8, cursor: geo === "busy" ? "progress" : "pointer" }}>
               <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z" />
                 <circle cx="12" cy="9.5" r="2.5" />
@@ -96,22 +96,22 @@ export function SectionContact({ f, set, err }: SectionProps) {
             ) : null}
           </div>
         ) : (
-          <div style={{ padding: "12px 16px", borderRadius: 16, background: "#E3F0ED", border: "1px solid #9CCBC2", color: "#0B4A44", display: "flex", flexWrap: "wrap", alignItems: "center", gap: 12, fontSize: 15 }}>
+          <div style={{ padding: "12px 16px", borderRadius: 16, background: "#E2F4F8", border: "1px solid #9ED8E6", color: "#075468", display: "flex", flexWrap: "wrap", alignItems: "center", gap: 12, fontSize: 15 }}>
             <span style={{ display: "flex", alignItems: "center", gap: 8, fontWeight: 700 }}>
-              <span style={{ width: 30, height: 30, borderRadius: 999, background: "#0D5C55", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <span style={{ width: 30, height: 30, borderRadius: 999, background: "#0A7E99", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M5 12.5l4.5 4.5L19 7.5" />
                 </svg>
               </span>
               تم تحديد موقعك
             </span>
-            <span dir="ltr" style={{ fontSize: 13, color: "#3C4C48" }}>
+            <span dir="ltr" style={{ fontSize: 13, color: "#3C4B4C" }}>
               {f.lat}, {f.lng}
             </span>
             <a className="sl-maplink" href={`https://www.google.com/maps?q=${f.lat},${f.lng}`} target="_blank" rel="noopener noreferrer" style={{ fontWeight: 600 }}>
               شوفه على الخريطة
             </a>
-            <button type="button" className="sl-change" onClick={() => set({ lat: undefined, lng: undefined })} style={{ padding: "0 12px", border: 0, background: "transparent", color: "#0B4A44", font: "inherit", textDecoration: "underline", cursor: "pointer" }}>
+            <button type="button" className="sl-change" onClick={() => set({ lat: undefined, lng: undefined })} style={{ padding: "0 12px", border: 0, background: "transparent", color: "#075468", font: "inherit", textDecoration: "underline", cursor: "pointer" }}>
               غيّر
             </button>
           </div>

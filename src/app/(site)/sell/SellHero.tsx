@@ -1,18 +1,18 @@
 import { VIDEO_ENABLED } from "@/config/features";
 const STEPS: { n: string; label: string; bg: string; fg: string }[] = [
-  { n: "١", label: "بياناتك", bg: "#E3F0ED", fg: "#0D5C55" },
+  { n: "١", label: "بياناتك", bg: "#E2F4F8", fg: "#0A7E99" },
   { n: "٢", label: "بيانات الجهاز", bg: "#E6EDF7", fg: "#24508F" },
-  { n: "٣", label: "الحالة والعيوب", bg: "#FBEEDC", fg: "#8A4209" },
+  { n: "٣", label: "الحالة والعيوب", bg: "#FEEEDB", fg: "#8A4A05" },
   { n: "٤", label: VIDEO_ENABLED ? "الصور والفيديو" : "الصور", bg: "#EAF5DD", fg: "#3F7A1F" },
-  { n: "٥", label: "السعر", bg: "#E3F0ED", fg: "#0D5C55" },
+  { n: "٥", label: "السعر", bg: "#E2F4F8", fg: "#0A7E99" },
   { n: "٦", label: "الإقرارات", bg: "#E6EDF7", fg: "#24508F" },
 ];
 
 export function SellHero() {
   return (
-    <div className="sl-hero" style={{ background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexWrap: "wrap", alignItems: "center" }}>
+    <div className="sl-hero" style={{ background: "#FFFFFF", border: "1px solid #DCE3E1", boxShadow: "0 10px 30px rgba(15,42,51, 0.06)", display: "flex", flexWrap: "wrap", alignItems: "center" }}>
       <div style={{ flex: "999 1 420px", minWidth: 0, display: "flex", flexDirection: "column", gap: 18 }}>
-        <span style={{ alignSelf: "flex-start", padding: "4px 14px", borderRadius: 999, background: "#FBEEDC", color: "#8A4209", fontSize: 14, fontWeight: 700, display: "flex", alignItems: "center", gap: 6 }}>
+        <span style={{ alignSelf: "flex-start", padding: "4px 14px", borderRadius: 999, background: "#FEEEDB", color: "#8A4A05", fontSize: 14, fontWeight: 700, display: "flex", alignItems: "center", gap: 6 }}>
           <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M3 12V4h8l10 10-8 8z" />
             <circle cx="7.5" cy="8.5" r="1.5" />

@@ -68,7 +68,7 @@ export function CardHead({
       </span>
       <span style={{ flex: extra ? 1 : undefined, display: "flex", flexDirection: "column", lineHeight: 1.3 }}>
         <span style={{ fontSize: 13, fontWeight: 600, color: stepFg }}>{step}</span>
-        <span style={{ fontWeight: 700, fontSize: 21, color: "#12221F" }}>{title}</span>
+        <span style={{ fontWeight: 700, fontSize: 21, color: "#122022" }}>{title}</span>
       </span>
       {extra}
     </legend>
@@ -85,8 +85,8 @@ export const radioStyle = (size: number, margin: string | number = 0): CSSProper
   width: size,
   height: size,
   margin,
-  accentColor: "#0D5C55",
+  accentColor: "#0A7E99",
   flex: "none",
 });
 
-export const subLegend: CSSProperties = { padding: "0 6px", fontWeight: 600, fontSize: 14, color: "#24332F" };
+export const subLegend: CSSProperties = { padding: "0 6px", fontWeight: 600, fontSize: 14, color: "#243233" };

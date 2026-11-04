@@ -39,7 +39,7 @@ export function DrawnUnderline() {
       style={{ position: "absolute", right: 0, left: 0, bottom: -6, width: "100%", height: 12, overflow: "visible" }}
     >
       {/* Path runs right → left so the stroke starts at the beginning of the RTL word. */}
-      <path key={run} d="M117 7 Q60 1 3 8" pathLength={1} stroke="#F2A33A" strokeWidth="4" fill="none" strokeLinecap="round" />
+      <path key={run} d="M117 7 Q60 1 3 8" pathLength={1} stroke="#F5921C" strokeWidth="4" fill="none" strokeLinecap="round" />
     </svg>
   );
 }

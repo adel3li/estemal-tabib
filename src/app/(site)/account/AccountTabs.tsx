@@ -17,20 +17,20 @@ export type TabId = "devices" | "requests" | "saved" | "profile" | "orders";
 
 const SUB_ST: Record<MySubmission["status"], [string, string, string]> = {
   new: ["وصل وبنراجعه", "#E6EDF7", "#24508F"],
-  follow_up: ["محتاجين منك حاجة", "#FBEEDC", "#8A4209"],
+  follow_up: ["محتاجين منك حاجة", "#FEEEDB", "#8A4A05"],
   accepted: ["اتقبل", "#EAF5DD", "#3F7A1F"],
   rejected: ["اترفض", "#FBE9E7", "#B3261E"],
 };
 const FEE_ST: Record<MySubmission["fee_status"], [string, string, string]> = {
-  pending: ["رسوم الجدية لسه ما اتدفعتش", "#FBEEDC", "#8A4209"],
+  pending: ["رسوم الجدية لسه ما اتدفعتش", "#FEEEDB", "#8A4A05"],
   paid: ["رسوم الجدية اتدفعت ✓", "#EAF5DD", "#3F7A1F"],
   refunded: ["رسوم الجدية اترجعت", "#E6EDF7", "#24508F"],
   forfeited: ["رسوم الجدية اتخصمت", "#FBE9E7", "#B3261E"],
 };
 const REQ_ST: Record<MyRequest["status"], [string, string, string]> = {
-  new: ["بندوّر لك", "#FBEEDC", "#8A4209"],
+  new: ["بندوّر لك", "#FEEEDB", "#8A4A05"],
   notified: ["بلّغناك على واتساب", "#E6EDF7", "#24508F"],
-  closed: ["مقفول", "#E5EBE8", "#4A5A56"],
+  closed: ["مقفول", "#E5EBEA", "#4A595A"],
 };
 
 const Pill = ({ s }: { s: [string, string, string] }) => (
@@ -80,7 +80,7 @@ function FeeRef({ sub }: { sub: MySubmission }) {
         e.preventDefault();
         void save();
       }}
-      style={{ width: "100%", display: "flex", flexDirection: "column", gap: 8, paddingTop: 10, borderTop: "1px solid #EDF1EF" }}
+      style={{ width: "100%", display: "flex", flexDirection: "column", gap: 8, paddingTop: 10, borderTop: "1px solid #EDF1F0" }}
     >
       <label htmlFor={id} className="au-field">
         حوّل {BUSINESS.sellerSeriousnessFeeEGP} ج.م بحد أدنى على {BUSINESS.feeTransferDetails} واكتب رقم التحويل
@@ -246,11 +246,11 @@ export function AccountTabs({
                   <div className="au-pills" style={{ alignItems: "center" }}>
                     <Pill s={REQ_ST[r.status]} />
                     {r.matches ? (
-                      <Link href={`${routes.devices}?cat=${r.device_type}`} className="au-pill" style={{ background: "#E3F0ED", color: "#0D5C55" }}>
+                      <Link href={`${routes.devices}?cat=${r.device_type}`} className="au-pill" style={{ background: "#E2F4F8", color: "#0A7E99" }}>
                         {r.matches === 1 ? "جهاز واحد مطابق" : `${r.matches} أجهزة مطابقة`}
                       </Link>
                     ) : (
-                      <span className="au-pill" style={{ background: "#F5F7F4", color: "#4A5A56" }}>
+                      <span className="au-pill" style={{ background: "#F3F6F7", color: "#4A595A" }}>
                         لسه مفيش جهاز مطابق
                       </span>
                     )}

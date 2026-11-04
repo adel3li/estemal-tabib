@@ -8,16 +8,16 @@ export function TrackerHeader({ o }: { o: Order }) {
   const shown = Math.min(o.step + 1, ORDER_STEPS.length);
   const curLabel = released ? "اتحوّل للبايع" : o.status !== "active" ? "الطلب اتلغى" : ORDER_STEPS[o.step];
   const state = (i: number) => (i < o.step || released ? "done" : i === o.step ? (o.status === "active" ? "cur" : "bad") : "todo");
-  const barCol = { done: "#0D5C55", cur: "#F2A33A", bad: "#B3261E", todo: "#DCE3DF" } as const;
+  const barCol = { done: "#0A7E99", cur: "#F5921C", bad: "#B3261E", todo: "#DCE3E1" } as const;
   const tile = {
-    done: { background: "#E3F0ED", color: "#0D5C55" },
-    cur: { background: "#FBEEDC", color: "#C46A12" },
+    done: { background: "#E2F4F8", color: "#0A7E99" },
+    cur: { background: "#FEEEDB", color: "#D0700A" },
     bad: { background: "#FBE9E7", color: "#B3261E" },
-    todo: { background: "#F5F7F4", color: "#8FA09A" },
+    todo: { background: "#F3F6F7", color: "#8FA0A0" },
   } as const;
   return (
-    <div className="ot-head" style={{ padding: 20, borderRadius: 24, background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexWrap: "wrap", gap: 24, alignItems: "center" }}>
-      <div className="ot-art" style={{ flex: "1 1 280px", maxWidth: 380, minWidth: 0, borderRadius: 18, overflow: "hidden", border: "1px solid #DCE3DF", aspectRatio: "4 / 3", position: "relative" }}>
+    <div className="ot-head" style={{ padding: 20, borderRadius: 24, background: "#FFFFFF", border: "1px solid #DCE3E1", boxShadow: "0 10px 30px rgba(15,42,51, 0.06)", display: "flex", flexWrap: "wrap", gap: 24, alignItems: "center" }}>
+      <div className="ot-art" style={{ flex: "1 1 280px", maxWidth: 380, minWidth: 0, borderRadius: 18, overflow: "hidden", border: "1px solid #DCE3E1", aspectRatio: "4 / 3", position: "relative" }}>
         <svg role="img" aria-label="رسم توضيحي للجهاز مع تقرير الفحص" viewBox="0 0 400 300" style={{ display: "block", width: "100%", height: "100%" }}>
           <use href="#ot-auto" />
         </svg>
@@ -26,7 +26,7 @@ export function TrackerHeader({ o }: { o: Order }) {
         <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "flex-start", gap: 12 }}>
           <div>
             <h1 className="ot-h1">متابعة طلبك</h1>
-            <div className="ot-sub" style={{ color: "#4A5A56" }}>طلب رقم {o.id} · {o.device}</div>
+            <div className="ot-sub" style={{ color: "#4A595A" }}>طلب رقم {o.id} · {o.device}</div>
           </div>
           <span role="status" style={{ padding: "8px 16px", borderRadius: 999, background: pill.bg, border: `1px solid ${pill.bd}`, color: pill.fg, fontWeight: 600, display: "flex", alignItems: "center", gap: 8 }}>
             <span aria-hidden="true" style={{ width: 10, height: 10, borderRadius: 999, background: pill.dot, boxShadow: `0 0 0 4px ${pill.dot}40` }} />
@@ -34,8 +34,8 @@ export function TrackerHeader({ o }: { o: Order }) {
           </span>
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", fontSize: 14, color: "#4A5A56" }}>
-            <span style={{ fontWeight: 600, color: "#12221F" }}>{curLabel}</span>
+          <div style={{ display: "flex", justifyContent: "space-between", fontSize: 14, color: "#4A595A" }}>
+            <span style={{ fontWeight: 600, color: "#122022" }}>{curLabel}</span>
             <span>{shown} / {ORDER_STEPS.length}</span>
           </div>
           <div role="img" aria-label={`الخطوة ${shown} من ${ORDER_STEPS.length}`} className="ot-steps">

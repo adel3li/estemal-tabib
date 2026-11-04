@@ -109,23 +109,23 @@ export function BuyerTerms() {
           </Clause>
         </Article>
 
-        <article className="tm-art tm-art-dark" style={{ borderRadius: 24, background: "#0F2A26", color: "#FFFFFF", display: "flex", flexWrap: "wrap", alignItems: "center", gap: "18px 24px" }}>
+        <article className="tm-art tm-art-dark" style={{ borderRadius: 24, background: "#06394B", color: "#FFFFFF", display: "flex", flexWrap: "wrap", alignItems: "center", gap: "18px 24px" }}>
           <div style={{ flex: "1 1 220px", minWidth: 0, display: "flex", alignItems: "center", gap: 14 }}>
-            <span style={{ flex: "none", width: 52, height: 52, borderRadius: 16, background: "#F2A33A", color: "#12221F", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <span style={{ flex: "none", width: 52, height: 52, borderRadius: 16, background: "#F5921C", color: "#122022", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" /><path d="M9 12l2 2 4-4" /></svg>
             </span>
             <h2 style={{ margin: 0, fontSize: 20 }}>ضمانك على كل جهاز</h2>
           </div>
-          <div style={{ flex: "2 1 320px", minWidth: 0, display: "flex", flexWrap: "wrap", gap: 10, color: "#C3D3CE" }}>
-            <span style={{ flex: "1 1 180px", padding: "12px 16px", borderRadius: 14, background: "rgba(255, 255, 255, 0.07)", border: "1px solid #2E5650" }}>
+          <div style={{ flex: "2 1 320px", minWidth: 0, display: "flex", flexWrap: "wrap", gap: 10, color: "#C3D3D3" }}>
+            <span style={{ flex: "1 1 180px", padding: "12px 16px", borderRadius: 14, background: "rgba(255, 255, 255, 0.07)", border: "1px solid #2E4F56" }}>
               استرجاع خلال: <strong style={{ color: "#FFFFFF" }}>{DAYS} أيام</strong>
             </span>
-            <span style={{ flex: "1 1 220px", padding: "12px 16px", borderRadius: 14, background: "rgba(255, 255, 255, 0.07)", border: "1px solid #2E5650" }}>
+            <span style={{ flex: "1 1 220px", padding: "12px 16px", borderRadius: 14, background: "rgba(255, 255, 255, 0.07)", border: "1px solid #2E4F56" }}>
               صيانة مجانية: <strong style={{ color: "#FFFFFF" }}>{M1} – {M2} شهور</strong> حسب الجهاز
             </span>
           </div>
         </article>
-        <Link href={routes.devices} className="tm-cta tm-cta-teal" style={{ minHeight: 54, padding: "0 26px", borderRadius: 14, background: "#0D5C55", color: "#FFFFFF", fontWeight: 700, fontSize: 17, display: "flex", alignItems: "center", gap: 8 }}>
+        <Link href={routes.devices} className="tm-cta tm-cta-teal" style={{ minHeight: 54, padding: "0 26px", borderRadius: 14, background: "#0A7E99", color: "#FFFFFF", fontWeight: 700, fontSize: 17, display: "flex", alignItems: "center", gap: 8 }}>
           تصفّح الأجهزة
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5" /><path d="M11 6l-6 6 6 6" /></svg>
         </Link>
