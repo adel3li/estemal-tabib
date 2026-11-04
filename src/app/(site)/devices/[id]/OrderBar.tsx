@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { Device } from "@/lib/demo/types";
 import { fmt } from "@/lib/demo/labels";
-import { waLink } from "@/lib/whatsapp";
+import { useSettings } from "@/lib/settings";
 import { orderMessage } from "./helpers";
 
 /**
@@ -11,7 +11,8 @@ import { orderMessage } from "./helpers";
  * order button. Hidden while the price card's own buttons are on screen, and
  * once the page's end (footer) comes into view, so it never covers them.
  */
-export function OrderBar({ d, promo }: { d: Device; promo: string }) {
+export function OrderBar({ d, promo, qty = 1 }: { d: Device; promo: string; qty?: number }) {
+  const { wa } = useSettings();
   const endRef = useRef<HTMLDivElement>(null);
   const [ctaVisible, setCtaVisible] = useState(false);
   const [atEnd, setAtEnd] = useState(false);
@@ -44,7 +45,7 @@ export function OrderBar({ d, promo }: { d: Device; promo: string }) {
         {unavailable ? (
           <span className="li-bar-btn is-off" role="status">{d.status === "sold" ? "اتباع" : "محجوز دلوقتي"}</span>
         ) : (
-          <a href={waLink(orderMessage(d, promo))} target="_blank" rel="noopener noreferrer" className="li-bar-btn" tabIndex={hidden ? -1 : undefined}>
+          <a href={wa(orderMessage(d, promo, qty))} target="_blank" rel="noopener noreferrer" className="li-bar-btn" tabIndex={hidden ? -1 : undefined}>
             اطلب الجهاز
           </a>
         )}

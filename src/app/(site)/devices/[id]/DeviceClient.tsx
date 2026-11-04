@@ -4,7 +4,10 @@
 // gallery + sticky buy column, then the report (or the on-order steps) next to the specs.
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { DevicesLoading } from "@/components/site/DevicesLoading";
+import { supabaseBrowser } from "@/lib/supabase/client";
+import { SUPABASE_URL } from "@/lib/supabase/env";
 import { isPublic, useDemo } from "@/lib/demo/store";
 import { typeLabel } from "@/lib/demo/labels";
 import { routes } from "@/lib/routes";
@@ -31,12 +34,35 @@ function NotFound() {
 
 export function DeviceClient() {
   const params = useParams<{ id: string }>();
-  const { getDevice } = useDemo();
+  const { getDevice, ready, devicesError } = useDemo();
   const id = typeof params.id === "string" ? params.id : "";
   const d = getDevice(id);
   // Discount code typed on the price card; both order buttons send it.
   const [promo, setPromo] = useState("");
 
+  // How many units (only shown when there are several).
+  const [qty, setQty] = useState(1);
+  const code = d && isPublic(d) ? d.id : null;
+
+  // «الأكثر مشاهدة» (ADMIN_SPEC open point B): count one view per device per browser session.
+  useEffect(() => {
+    if (!code || !SUPABASE_URL) return;
+    const key = `seen:${code}`;
+    try {
+      if (window.sessionStorage.getItem(key)) return;
+      window.sessionStorage.setItem(key, "1");
+    } catch {
+      /* storage blocked — count it anyway */
+    }
+    supabaseBrowser().rpc("count_device_view", { p_code: code }).then(({ error }) => { if (error) console.error("view count failed", error.message); });
+  }, [code]);
+
+  if (!ready || (devicesError && !d))
+    return (
+      <div className="hm-wrap" style={{ padding: "24px 20px 60px" }}>
+        <DevicesLoading failed={devicesError} cards={1} />
+      </div>
+    );
   if (!d || !isPublic(d)) return <NotFound />;
   const inspected = d.inspection === "inspected";
 
@@ -61,7 +87,7 @@ export function DeviceClient() {
             <Gallery key={d.id} d={d} />
           </div>
           <aside className="li-aside">
-            <PriceCard d={d} promo={promo} onPromo={setPromo} />
+            <PriceCard d={d} promo={promo} onPromo={setPromo} qty={qty} onQty={setQty} />
           </aside>
         </section>
 
@@ -72,7 +98,7 @@ export function DeviceClient() {
           </div>
         </section>
       </div>
-      <OrderBar d={d} promo={promo} />
+      <OrderBar d={d} promo={promo} qty={qty} />
     </div>
   );
 }

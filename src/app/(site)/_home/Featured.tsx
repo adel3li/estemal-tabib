@@ -9,6 +9,8 @@ import { isListed, useDemo } from "@/lib/demo/store";
 import { fmt, typeLabel } from "@/lib/demo/labels";
 import type { Device } from "@/lib/demo/types";
 import { artFor } from "./artMap";
+import { OldPrice } from "@/components/site/Price";
+import { SaveHeart } from "@/components/site/SaveButton";
 
 const SHOW = 4;
 
@@ -63,9 +65,11 @@ export function Featured() {
   );
 }
 
-function DeviceCard({ d }: { d: Device }) {
+export function DeviceCard({ d }: { d: Device }) {
   const insp = d.inspection === "inspected";
   return (
+    <div className="card-wrap">
+    <SaveHeart deviceId={d.id} title={d.title} />
     <Link href={routes.device(d.id)} className="hm-card">
       <span className="hm-ph hm-card-ph">
         <svg role="img" aria-label={`رسم توضيحي ل${d.title}`} viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
@@ -78,6 +82,7 @@ function DeviceCard({ d }: { d: Device }) {
       {/* No year or location on cards (client feedback). */}
       <div className="hm-spec">{typeLabel(d.type)}</div>
       <div className="hm-pill">ضمان + صيانة {d.maintenanceMonths} شهور</div>
+      <OldPrice d={d} />
       <div className="hm-price">
         <span className="hm-num">{fmt(d.price)}</span> <small>ج.م</small>
       </div>
@@ -87,5 +92,6 @@ function DeviceCard({ d }: { d: Device }) {
         <em>{insp ? "فيه تقرير" : "قبل الشحن"}</em>
       </div>
     </Link>
+    </div>
   );
 }

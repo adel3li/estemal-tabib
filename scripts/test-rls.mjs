@@ -30,11 +30,12 @@ function check(name, ok, detail = "") {
 const denied = (r) => Boolean(r.error) || (Array.isArray(r.data) && r.data.length === 0) || r.data === null;
 
 async function makeUser(label, admin = false) {
+  // admin: true → "admin", or a role name ("marketing").
   const email = `${tag}-${label}@example.com`;
   const { data, error } = await service.auth.admin.createUser({ email, email_confirm: true });
   if (error) throw error;
   if (admin) {
-    const up = await service.from("profiles").update({ role: "admin" }).eq("id", data.user.id);
+    const up = await service.from("profiles").update({ role: admin === true ? "admin" : admin }).eq("id", data.user.id);
     if (up.error) throw up.error;
   }
   const link = await service.auth.admin.generateLink({ type: "magiclink", email });
@@ -45,7 +46,7 @@ async function makeUser(label, admin = false) {
   return { id: data.user.id, email, client };
 }
 
-const created = { users: [], devices: [] };
+const created = { users: [], devices: [], orders: [], reviews: [] };
 
 async function main() {
   // ── Fixtures ─────────────────────────────────────────────────────────────
@@ -187,9 +188,207 @@ async function main() {
   check("edits devices", !r.error && r.data.length === 1, r.error?.message);
   r = await admin.client.from("audit_log").insert({ actor_id: admin.id, entity: "device", entity_id: draft, action: "feature" });
   check("writes audit_log", !r.error, r.error?.message);
+
+  // ── Orders (control panel step 3) ────────────────────────────────────────
+  console.log("\norders, payments, archived «تم البيع»");
+  const sold = await service
+    .from("devices")
+    .insert([
+      { title: `${tag} sold fresh`, type: "apex", condition: "a", sale_price: 1000, status: "sold", archive_at: new Date(Date.now() + 86400e3).toISOString() },
+      { title: `${tag} sold archived`, type: "apex", condition: "a", sale_price: 1000, status: "sold", archive_at: new Date(Date.now() - 1000).toISOString() },
+    ])
+    .select("id, title");
+  if (sold.error) throw sold.error;
+  const fresh = sold.data.find((d) => d.title.endsWith("fresh")).id;
+  const archived = sold.data.find((d) => d.title.endsWith("archived")).id;
+  created.devices.push(fresh, archived);
+  r = await anon.from("devices").select("id").in("id", [fresh, archived]);
+  check("anon sees a sold device during the warranty window, not after (archived)", !r.error && r.data.length === 1 && r.data[0].id === fresh, JSON.stringify(r.data));
+  r = await anon.from("public_devices").select("id").in("id", [fresh, archived]);
+  check("public_devices hides archived too", !r.error && r.data.length === 1);
+  r = await admin.client.from("devices").select("id").in("id", [fresh, archived]);
+  check("admin still sees archived devices", !r.error && r.data.length === 2);
+
+  r = await admin.client.from("orders").insert({ device_id: pub, price: 1000, delivery_name: "x", delivery_phone: "01000000000" }).select("id").single();
+  check("admin enters an order without a buyer account", !r.error, r.error?.message);
+  if (r.data) created.orders.push(r.data.id);
+  r = await service.from("orders").insert({ device_id: pub, buyer_id: a.id, price: 1000, status: "inspection_report" }).select("id").single();
+  if (r.error) throw r.error;
+  const ord = r.data.id;
+  created.orders.push(ord);
+  r = await a.client.from("orders").select("id").eq("id", ord);
+  check("buyer reads own order", !r.error && r.data.length === 1);
+  r = await b.client.from("orders").select("id").eq("id", ord);
+  check("another user can't read it", denied(r));
+  r = await a.client.from("orders").update({ status: "trial" }).eq("id", ord).select();
+  check("buyer can't change the order", denied(r));
+  r = await a.client.from("payments").insert({ order_id: ord, kind: "balance", amount: 1, status: "confirmed" });
+  check("buyer can't record a payment", Boolean(r.error));
+  r = await b.client.rpc("buyer_report_decision", { p_order: ord, p_accept: true });
+  check("another user can't answer the report", Boolean(r.error));
+  r = await a.client.rpc("buyer_report_decision", { p_order: ord, p_accept: true });
+  check("buyer accepts the report → shipping", !r.error && r.data === "shipping", r.error?.message);
+  r = await a.client.rpc("buyer_report_decision", { p_order: ord, p_accept: false });
+  check("can't answer twice", Boolean(r.error));
+  r = await anon.rpc("buyer_report_decision", { p_order: ord, p_accept: true });
+  check("anon can't call buyer_report_decision", Boolean(r.error));
+
+  // ── Marketing & follow-up team (control panel step 5) ────────────────────
+  console.log("\nmarketing team");
+  const mk = await makeUser("marketing", "marketing");
+  created.users.push(mk.id);
+  r = await mk.client.from("profiles").select("id, phone").in("id", [a.id, b.id]);
+  check("reads customers' profiles (phones)", !r.error && r.data.length === 2, r.error?.message);
+  r = await mk.client.from("orders").select("id").eq("id", ord);
+  check("reads orders", !r.error && r.data.length === 1);
+  r = await mk.client.from("device_requests").select("id").eq("id", reqId);
+  check("reads «اطلب جهاز» requests", !r.error && r.data.length === 1);
+  r = await mk.client.from("device_requests").update({ status: "closed" }).eq("id", reqId).select();
+  check("updates a request status", !r.error && r.data.length === 1, r.error?.message);
+  for (const t of ["payments", "device_private", "seller_submissions", "inspections", "audit_log"]) {
+    r = await mk.client.from(t).select("*").limit(5);
+    check(`can't read ${t}`, denied(r), JSON.stringify(r.data)?.slice(0, 120));
+  }
+  r = await mk.client.from("orders").update({ tracking_no: "TRK-1", shipping_company: "x" }).eq("id", ord).select();
+  check("updates shipping data on an order", !r.error && r.data.length === 1, r.error?.message);
+  r = await mk.client.from("orders").update({ status: "delivered" }).eq("id", ord).select();
+  check("moves shipping → delivered", !r.error && r.data[0]?.status === "delivered", r.error?.message);
+  r = await mk.client.from("orders").update({ status: "trial", delivered_at: new Date().toISOString(), trial_ends_at: new Date(Date.now() + 3 * 86400e3).toISOString() }).eq("id", ord).select();
+  check("moves delivered → trial (receipt)", !r.error && r.data[0]?.status === "trial", r.error?.message);
+  const dv = await service.from("devices").select("status, archive_at").eq("id", pub).single();
+  check("trigger: the listing became «تم البيع» with archive date", dv.data.status === "sold" && !!dv.data.archive_at, JSON.stringify(dv.data));
+  r = await mk.client.from("orders").update({ status: "released_to_seller" }).eq("id", ord).select();
+  check("can't release money to the seller", Boolean(r.error));
+  r = await mk.client.from("orders").update({ price: 1 }).eq("id", ord).select();
+  check("can't change the price", Boolean(r.error));
+  r = await mk.client.from("orders").insert({ device_id: pub, price: 1 });
+  check("can't create an order", Boolean(r.error));
+  r = await mk.client.from("devices").update({ featured: true }).eq("id", pub).select();
+  check("can't edit a device", denied(r));
+  r = await mk.client.from("profiles").update({ role: "admin" }).eq("id", mk.id);
+  check("can't make self admin", Boolean(r.error));
+  r = await mk.client.rpc("set_team_role", { p_email: a.email, p_role: "marketing" });
+  check("can't manage the team", Boolean(r.error));
+  r = await mk.client.rpc("demand_stats");
+  check("reads demand stats", !r.error && Array.isArray(r.data), r.error?.message);
+  r = await a.client.rpc("demand_stats");
+  check("a normal user can't read demand stats", Boolean(r.error));
+  r = await anon.rpc("count_device_view", { p_code: "L-does-not-exist" });
+  check("anon can count a view", !r.error, r.error?.message);
+  r = await admin.client.rpc("set_team_role", { p_email: b.email, p_role: "marketing" });
+  check("admin adds a team member by email", !r.error, r.error?.message);
+  r = await admin.client.rpc("set_team_role", { p_email: admin.email, p_role: "user" });
+  check("admin can't demote self", Boolean(r.error));
+
+  // ── Settings, customer notes, expenses (control panel step 6) ────────────
+  console.log("\nsettings, customer notes, device expenses");
+  r = await anon.from("site_settings").select("whatsapp").eq("id", 1);
+  check("anon reads the public settings", !r.error && r.data.length === 1, r.error?.message);
+  r = await a.client.from("site_settings").update({ whatsapp: "01000000000" }).eq("id", 1).select();
+  check("a user can't change settings", denied(r));
+  r = await mk.client.from("site_settings").update({ whatsapp: "01000000000" }).eq("id", 1).select();
+  check("marketing can't change settings", denied(r));
+  const before = (await service.from("site_settings").select("whatsapp").eq("id", 1).single()).data.whatsapp;
+  r = await admin.client.from("site_settings").update({ whatsapp: before }).eq("id", 1).select();
+  check("admin changes settings", !r.error && r.data.length === 1, r.error?.message);
+  r = await mk.client.from("customer_notes").insert({ customer_id: a.id, body: "اتكلمنا على واتساب" }).select().single();
+  check("marketing writes a customer note", !r.error && r.data.author_id === mk.id, r.error?.message);
+  r = await mk.client.from("customer_notes").insert({ customer_id: a.id, body: "x", author_id: admin.id });
+  check("can't write a note as someone else", Boolean(r.error));
+  r = await a.client.from("customer_notes").select("id").eq("customer_id", a.id);
+  check("the customer can't read notes about them", denied(r));
+  r = await admin.client.from("customer_notes").select("id").eq("customer_id", a.id);
+  check("admin reads notes", !r.error && r.data.length === 1);
+  r = await admin.client.from("device_expenses").insert({ device_id: pub, kind: "shipping", amount: 150 }).select().single();
+  check("admin records an expense", !r.error, r.error?.message);
+  r = await mk.client.from("device_expenses").select("id").eq("device_id", pub);
+  check("marketing can't read expenses", denied(r));
+  r = await mk.client.from("device_expenses").insert({ device_id: pub, kind: "other", amount: 1 });
+  check("marketing can't add expenses", Boolean(r.error));
+  r = await anon.from("device_expenses").select("id").limit(1);
+  check("anon can't read expenses", denied(r));
+
+  // ── Reviews ──────────────────────────────────────────────────────────────
+  console.log("\nreviews");
+  r = await anon.from("reviews").insert({ author_name: `${tag} زائر`, role: "buyer", rating: 5, body: "تجربة ممتازة جداً" });
+  check("anon sends a review", !r.error, r.error?.message);
+  r = await a.client.from("reviews").insert({ author_name: `${tag} مستخدم`, role: "seller", rating: 4, body: "تجربة كويسة", status: "published", source: "team" });
+  check("a user sends a review (asking to publish it is ignored)", !r.error, r.error?.message);
+  r = await mk.client.from("reviews").insert({ author_name: `${tag} عميل قديم`, role: "buyer", rating: 5, body: "اتعاملت معاهم قبل كده", status: "published", source: "team" });
+  check("the team adds a published review", !r.error, r.error?.message);
+  const mine = await service.from("reviews").select("id, status, source, user_id").like("author_name", `${tag}%`);
+  created.reviews = mine.data.map((x) => x.id);
+  const sent = mine.data.filter((x) => x.source === "site");
+  check("sent reviews start pending, from the site, with the sender's id", sent.length === 2 && sent.every((x) => x.status === "pending") && sent.some((x) => x.user_id === a.id));
+  check("the team's review is published", mine.data.some((x) => x.source === "team" && x.status === "published"));
+  r = await anon.from("reviews").select("id").like("author_name", `${tag}%`);
+  check("pending reviews aren't public (only the team's published one shows)", !r.error && r.data.length === 1);
+  r = await anon.from("reviews").select("user_id").limit(1);
+  check("the public can't read who sent a review", Boolean(r.error));
+  r = await mk.client.from("reviews").select("id").like("author_name", `${tag}%`);
+  check("marketing sees pending reviews", !r.error && r.data.length === 3);
+  const pend = sent[0].id;
+  r = await mk.client.from("reviews").update({ status: "published" }).eq("id", pend).select("id");
+  check("marketing publishes a review", !r.error && r.data.length === 1, r.error?.message);
+  r = await anon.from("reviews").select("id, published_at").eq("id", pend);
+  check("published review is public with a date", !r.error && r.data.length === 1 && !!r.data[0].published_at);
+  r = await a.client.from("reviews").update({ body: "غيرته" }).eq("id", created.reviews[0]).select("id");
+  check("a user can't edit reviews", denied(r));
+  r = await a.client.from("reviews").delete().eq("id", created.reviews[0]).select("id");
+  check("a user can't delete reviews", denied(r));
+
+  // ── Device categories ────────────────────────────────────────────────────
+  console.log("\ndevice categories");
+  r = await anon.from("device_categories").select("id").eq("id", "unit");
+  check("anon reads categories", !r.error && r.data.length === 1);
+  const catId = `t_${Date.now().toString(36)}`;
+  r = await a.client.from("device_categories").insert({ id: catId, label: "نوع تجربة" });
+  check("a user can't add a category", Boolean(r.error));
+  r = await mk.client.from("device_categories").insert({ id: catId, label: "نوع تجربة" });
+  check("marketing can't add a category", Boolean(r.error));
+  r = await admin.client.from("device_categories").insert({ id: catId, label: "نوع تجربة", fields: [{ key: "f1", label: "الذاكرة", kind: "select", options: ["128 GB", "256 GB"] }] }).select("id").single();
+  check("admin adds a category with fields", !r.error, r.error?.message);
+  r = await a.client.from("device_categories").update({ label: "x" }).eq("id", catId).select();
+  check("a user can't rename a category", denied(r));
+  r = await admin.client.from("devices").update({ type: "no_such_type" }).eq("id", draft).select();
+  check("a device can't use an unknown category", Boolean(r.error));
+  r = await admin.client.from("devices").update({ type: catId, specs: { f1: "256 GB" } }).eq("id", draft).select("type, specs").single();
+  check("a device takes the new category + its details", !r.error && r.data.type === catId && r.data.specs.f1 === "256 GB", r.error?.message);
+  await service.from("devices").update({ type: "apex", specs: {} }).eq("id", draft);
+  await service.from("device_categories").delete().eq("id", catId);
+
+  // ── Quantity (stock follows the orders) ──────────────────────────────────
+  console.log("\nquantity");
+  const q = await service.from("devices").insert({ title: `${tag} qty`, type: "cure", condition: "a", sale_price: 1000, status: "published", quantity: 3 }).select("id").single();
+  created.devices.push(q.data.id);
+  const stock = async () => (await service.from("devices").select("status, available, archive_at").eq("id", q.data.id).single()).data;
+  let x = await stock();
+  check("new listing: 3 available", x.available === 3 && x.status === "published", JSON.stringify(x));
+  const o1 = await admin.client.from("orders").insert({ device_id: q.data.id, price: 2000, quantity: 2 }).select("id").single();
+  created.orders.push(o1.data.id);
+  x = await stock();
+  check("order for 2 → 1 left, still on sale", x.available === 1 && x.status === "published", JSON.stringify(x));
+  const o2 = await admin.client.from("orders").insert({ device_id: q.data.id, price: 1000, quantity: 1 }).select("id").single();
+  created.orders.push(o2.data.id);
+  x = await stock();
+  check("last unit ordered → «محجوز», 0 left", x.available === 0 && x.status === "reserved", JSON.stringify(x));
+  await admin.client.from("orders").update({ status: "trial", trial_ends_at: new Date(Date.now() + 3 * 86400e3).toISOString() }).eq("id", o1.data.id);
+  x = await stock();
+  check("2 of 3 received → still «محجوز»", x.status === "reserved", JSON.stringify(x));
+  await admin.client.from("orders").update({ status: "cancelled_refunded" }).eq("id", o2.data.id);
+  x = await stock();
+  check("an order cancelled → back on sale, 1 left", x.available === 1 && x.status === "published", JSON.stringify(x));
+  await admin.client.from("devices").update({ quantity: 2 }).eq("id", q.data.id);
+  x = await stock();
+  check("quantity lowered to 2 and both received → «تم البيع» with archive date", x.status === "sold" && x.available === 0 && !!x.archive_at, JSON.stringify(x));
+  r = await anon.from("public_devices").select("quantity, available").eq("id", q.data.id);
+  check("public view shows quantity / available", !r.error && r.data[0]?.quantity === 2, r.error?.message);
 }
 
 async function cleanup() {
+  if (created.reviews.length) await service.from("reviews").delete().in("id", created.reviews);
+  if (created.orders.length) await service.from("payments").delete().in("order_id", created.orders);
+  if (created.orders.length) await service.from("orders").delete().in("id", created.orders);
   if (created.devices.length) await service.from("devices").delete().in("id", created.devices);
   if (created.devices.length) await service.from("audit_log").delete().in("entity_id", created.devices);
   for (const id of created.users) await service.auth.admin.deleteUser(id);

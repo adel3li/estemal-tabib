@@ -1,26 +1,18 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import type { DeviceType } from "@/lib/demo/types";
+import { useDeviceTypes } from "@/lib/categories";
+import { categoryFields } from "@/lib/demo/labels";
 import type { Filters } from "./filters";
 
 type Opt<T extends string> = { id: T; label: string };
 
-/** Type order as Browse.dc.html (ids = store DeviceType ids). */
-const CAT_OPTS: Opt<DeviceType | "all">[] = [
-  { id: "all", label: "الكل" },
-  { id: "cam", label: "كاميرا" },
-  { id: "rotary", label: "روتاري" },
-  { id: "micro", label: "ميكرو موتور" },
-  { id: "loupe", label: "لوب تكبير" },
-  { id: "cure", label: "لايت كيور" },
-  { id: "unit", label: "يونيت أسنان" },
-  { id: "xray", label: "أشعة" },
-  { id: "autoclave", label: "أوتوكلاف" },
-  { id: "surg", label: "موتور جراحة وزراعة" },
-  { id: "apex", label: "أبيكس لوكيتور" },
-  { id: "contra", label: "كونترا" },
-  { id: "iocam", label: "كاميرا إنترا أورال" },
-  { id: "other", label: "جهاز تاني" },
-];
+// Category options: Browse.dc.html's order for the built-ins (the client's
+// priority groups first), then any category added from the dashboard.
+const DESIGN_ORDER = ["cam", "rotary", "micro", "loupe", "cure", "unit", "xray", "autoclave", "surg", "apex", "contra", "iocam"];
+export function catOpts(types: { id: DeviceType; label: string }[]): Opt<DeviceType | "all">[] {
+  const rank = (id: string) => (id === "other" ? 9999 : DESIGN_ORDER.includes(id) ? DESIGN_ORDER.indexOf(id) : 500 + types.findIndex((t) => t.id === id));
+  return [{ id: "all", label: "الكل" }, ...[...types].sort((x, y) => rank(x.id) - rank(y.id))];
+}
 const CAT_SHOW = 8;
 
 const ST_OPTS: Opt<Filters["st"]>[] = [
@@ -94,6 +86,7 @@ type Props = {
 export function FilterAside({ f, set, reset, countWith, open, onClose, count }: Props) {
   const closeRef = useRef<HTMLButtonElement>(null);
   const [allCats, setAllCats] = useState(false);
+  const CAT_OPTS = catOpts(useDeviceTypes());
 
   // Sheet behaviour (only while open, which only happens < 1024px): Esc closes,
   // page behind doesn't scroll, focus moves into the sheet.
@@ -146,13 +139,28 @@ export function FilterAside({ f, set, reset, countWith, open, onClose, count }: 
           <OptList opts={ST_OPTS} value={f.st} onPick={(st) => set({ st })} count={(st) => countWith({ st })} />
         </Group>
         <Group label="نوع الجهاز">
-          <OptList opts={cats} value={f.cat} onPick={(cat) => set({ cat })} count={(cat) => countWith({ cat })} />
+          <OptList opts={cats} value={f.cat} onPick={(cat) => set({ cat, spec: {} })} count={(cat) => countWith({ cat, spec: {} })} />
           {!pickedHidden ? (
             <button type="button" className="hm-tlink br-more-types" onClick={() => setAllCats((x) => !x)} aria-expanded={allCats}>
               {allCats ? "أنواع أقل" : `+ ${more} أنواع تانية`}
             </button>
           ) : null}
         </Group>
+        {/* The chosen category's own «اختيار» details as filters (set in «الأنواع»). */}
+        {f.cat !== "all"
+          ? categoryFields(f.cat)
+              .filter((x) => x.kind === "select" && (x.options ?? []).length)
+              .map((x) => (
+                <Group key={x.key} label={x.label}>
+                  <OptList
+                    opts={[{ id: "", label: "الكل" }, ...(x.options ?? []).map((o) => ({ id: o, label: o }))]}
+                    value={f.spec[x.key] ?? ""}
+                    onPick={(v) => set({ spec: { ...f.spec, [x.key]: v } })}
+                    count={(v) => countWith({ spec: { ...f.spec, [x.key]: v } })}
+                  />
+                </Group>
+              ))
+          : null}
         <Group label="السعر (ج.م)">
           <div className="br-range">
             <label>
@@ -183,4 +191,4 @@ export function FilterAside({ f, set, reset, countWith, open, onClose, count }: 
   );
 }
 
-export const FILTER_LABELS = { ST_OPTS, CAT_OPTS, MAINT_OPTS, COND_OPTS };
+export const FILTER_LABELS = { ST_OPTS, MAINT_OPTS, COND_OPTS };

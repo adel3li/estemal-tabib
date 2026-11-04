@@ -66,7 +66,7 @@ export function DeviceRow({
               {d.id} · {d.governorate}
               {d.featured ? (
                 <span className="al-pill" style={{ background: "#FBEEDC", color: "#8A4209", padding: "0 8px" }}>
-                  ★ مميز
+                  ★ مميز{d.featuredUntil ? ` لحد ${new Date(d.featuredUntil).toLocaleDateString("ar-EG-u-nu-latn", { day: "numeric", month: "long", timeZone: "Africa/Cairo" })}` : ""}
                 </span>
               ) : null}
             </span>

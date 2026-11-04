@@ -65,16 +65,17 @@ export function SellAside() {
       <div className="sl-box-side">
         <h2>رسوم الجدية</h2>
         <div className="sl-side-fee">
-          <span>بتتدفع بعد ما تبعت الطلب</span>
+          <span>بتبدأ من · حسب قيمة الجهاز</span>
           <b>{fmt(BUSINESS.sellerSeriousnessFeeEGP)} ج.م</b>
         </div>
-        <p>التفاصيل وطريقة التحويل بتظهر بعد ما تبعت. قواعد الاسترداد تحت قبل زرار الإرسال.</p>
+        {/* docs/ADMIN_SPEC.md §2: nothing to pay now; the amount is set after review. */}
+        <p>مش هتدفع حاجة دلوقتي. بنراجع طلبك خلال 24 ساعة، ولو اتقبل بنبلغك بقيمة الرسوم وإزاي تدفعها.</p>
       </div>
       <div className="sl-box-side">
         <h2>بعد ما تبعت</h2>
         <ol>
           {NEXT_STEPS.map((s) => (
-            <li key={s}>{s.replace(" هنا", "")}</li>
+            <li key={s}>{s}</li>
           ))}
         </ol>
       </div>

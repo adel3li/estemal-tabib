@@ -1,8 +1,12 @@
 "use client";
 
-// Demo data store shared by every page (public site + admin).
-// Persists to localStorage so what you do in the admin shows up on the site
-// in the same browser. Replaced by Supabase in Step 2 (PHASE1_PROMPT.md §7).
+// Data store shared by every page (public site + admin). Everything comes
+// from Supabase — RLS decides what each user sees:
+//   DEVICES (everyone; admins also drafts + private data), FAVORITES (the
+//   signed-in user's), and for admins: SUBMISSIONS (sell requests), REQUESTS
+//   («اطلب جهاز») and INSPECTIONS.
+// Admin actions change the state here; sync effects write whatever differs
+// from the last copy known to be in the database.
 
 import {
   createContext,
@@ -14,8 +18,17 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { sellerNetFromSalePrice } from "@/config/business";
-import { CORE_CHECKS, DEMO_VERSION, SEED } from "./seed";
+import { BUSINESS } from "@/config/business";
+import { useAuth } from "@/lib/auth/AuthProvider";
+import { loginHref } from "@/lib/auth/next";
+import { loadCategories } from "@/lib/categories";
+import { fetchDevices, fetchFavorites, saveDevice, setFavorite } from "@/lib/devices/db";
+import { dateLabelOf, dayIndex, fetchInspections, inspectionRow, saveInspection } from "@/lib/inspections/db";
+import { fetchRequests, requestRow, saveRequest } from "@/lib/requests/db";
+import { fetchSubmissions, saveSubmission, setTrust as setTrustDb, whenAr, workflowRow } from "@/lib/submissions/db";
+import { supabaseBrowser } from "@/lib/supabase/client";
+import { SUPABASE_URL } from "@/lib/supabase/env";
+import { CORE_CHECKS } from "./seed";
 import type {
   DemoState,
   Device,
@@ -26,26 +39,7 @@ import type {
   Submission,
 } from "./types";
 
-const STORAGE_KEY = "istimal-tabib-demo";
-
-function load(): DemoState | null {
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (!raw) return null;
-    const parsed = JSON.parse(raw) as DemoState;
-    return parsed.version === DEMO_VERSION ? parsed : null;
-  } catch {
-    return null;
-  }
-}
-
-function save(state: DemoState) {
-  try {
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  } catch {
-    /* storage full / blocked — the demo still works in memory */
-  }
-}
+const EMPTY: DemoState = { version: 1, devices: [], favorites: [], submissions: [], requests: [], inspections: [] };
 
 /** Next code after the highest existing one: L-215 → L-216, #1024 → #1025. */
 function nextCode(existing: string[], prefix: string, start: number): string {
@@ -55,86 +49,248 @@ function nextCode(existing: string[], prefix: string, start: number): string {
   return `${prefix}${Math.max(start - 1, ...nums) + 1}`;
 }
 
-const today = () => "النهارده";
+/** A log line stamped now (display text + ISO for the database). */
+const stamp = (log: Omit<LogLine, "at">): LogLine => {
+  const iso = new Date().toISOString();
+  return { ...log, iso, at: whenAr(iso) };
+};
 
-type NewSubmission = Omit<Submission, "id" | "createdAt" | "status" | "log" | "feeStatus" | "sellerNet" | "feeReference"> &
-  Partial<Pick<Submission, "feeReference" | "id">>;
-// `id`: the public code the database gave the row, so the demo admin shows the same number.
-type NewRequest = Omit<DeviceRequest, "id" | "createdAt" | "status" | "notifiedAt"> & Partial<Pick<DeviceRequest, "id">>;
+/** «3 نوفمبر 2026» */
+const todayAr = () => new Date().toLocaleDateString("ar-EG-u-nu-latn", { day: "numeric", month: "long", year: "numeric", timeZone: "Africa/Cairo" });
+
+export type NewInspection = Omit<Inspection, "id" | "status" | "form" | "day" | "dateLabel"> & { scheduledAt: string };
 
 export type DemoApi = {
-  /** false until localStorage has been read (first client render uses the seed). */
+  /** false until the database data for the current user has loaded. */
   ready: boolean;
+  /** Device load failed (offline / Supabase down). */
+  devicesError: boolean;
   state: DemoState;
   getDevice: (id: string) => Device | undefined;
   addDevice: (d: Omit<Device, "id" | "views" | "createdAt">) => string;
   updateDevice: (id: string, patch: Partial<Device>) => void;
-  addSubmission: (s: NewSubmission) => string;
+  /** Sell requests / requests / inspections failed to load (admins). */
+  submissionsError: boolean;
   updateSubmission: (id: string, patch: Partial<Submission>, log?: Omit<LogLine, "at">) => void;
   /** Accept a sell request → creates a draft device from it. Returns the device id. */
   acceptSubmission: (id: string) => string;
-  addRequest: (r: NewRequest) => string;
+  /** Flag a seller account جاد / مشبوه (null = no flag). Applies to all their requests. */
+  setSellerTrust: (sellerId: string, trust: Submission["sellerTrust"]) => Promise<void>;
   updateRequest: (id: string, patch: Partial<DeviceRequest>) => void;
   /** Schedule a new inspection (e.g. from «حدد ميعاد فحص»). Returns its id. */
-  addInspection: (i: Omit<Inspection, "id" | "status" | "form">) => string;
+  addInspection: (i: NewInspection) => string;
   updateInspection: (id: string, patch: Partial<Inspection>) => void;
   /** «اعتمد ونشّر»: marks the inspection done, writes the report to the device,
    *  and publishes it for pre-publish inspections. Returns the device id. */
   approveInspection: (id: string) => string;
+  /** Re-read the devices from the database (after orders move stock / status there). */
+  reloadDevices: () => Promise<void>;
+  /** Save / unsave a device (signed-in users; others are sent to /login). */
   toggleFavorite: (deviceId: string) => void;
-  /** Published devices that match a buyer request (type + budget + inspection pref). */
+  /** Published devices that match a buyer request (ADMIN_SPEC §6, open point C). */
   matchesFor: (r: DeviceRequest) => Device[];
-  reset: () => void;
 };
 
 const DemoContext = createContext<DemoApi | null>(null);
 
+/**
+ * «Similar» device for a request (ADMIN_SPEC open point C): same type,
+ * published, price ≥ the minimum and ≤ the maximum + 20%; inspected-only
+ * requests match inspected devices only.
+ */
+export function deviceMatches(d: Device, r: Pick<DeviceRequest, "deviceType" | "budgetMin" | "budgetMax" | "inspectionPref">): boolean {
+  return (
+    d.status === "published" &&
+    d.type === r.deviceType &&
+    (!r.budgetMin || d.price >= r.budgetMin) &&
+    (!r.budgetMax || d.price <= r.budgetMax * (1 + BUSINESS.requestBudgetSlack)) &&
+    (r.inspectionPref === "any" || d.inspection === "inspected")
+  );
+}
+
 export function DemoProvider({ children }: { children: ReactNode }) {
-  const [state, setState] = useState<DemoState>(SEED);
-  const [ready, setReady] = useState(false);
-  const loaded = useRef(false);
+  const [state, setState] = useState<DemoState>(EMPTY);
+  // Which user the database data was loaded for («user:isAdmin») — ready only when it's the current one.
+  const [loadedFor, setLoadedFor] = useState<string | null>(null);
+  const [devicesError, setDevicesError] = useState(false);
+  const [submissionsError, setSubmissionsError] = useState(false);
+  const auth = useAuth();
+  // Last copy known to match the database (by public code) — the sync effects
+  // write only what differs from it.
+  const synced = useRef<Map<string, Device>>(new Map());
+  const syncedSubs = useRef<Map<string, string>>(new Map());
+  const syncedReqs = useRef<Map<string, string>>(new Map());
+  const syncedInsp = useRef<Map<string, string>>(new Map());
   // Source of truth for actions: lets an action return the new id right away
   // and lets two actions in one click see each other's result.
-  const ref = useRef<DemoState>(SEED);
+  const ref = useRef<DemoState>(EMPTY);
   const commit = useCallback((fn: (s: DemoState) => DemoState) => {
     ref.current = fn(ref.current);
     setState(ref.current);
   }, []);
 
-  // Hydrate from localStorage once, after the first (server-matching) render.
-  /* eslint-disable react-hooks/set-state-in-effect */
+  const { ready: authReady, userId, isAdmin, isTeam } = auth;
+  const loadKey = authReady ? `${userId ?? "anon"}:${isAdmin}:${isTeam}` : null;
+  const ready = loadKey !== null && loadedFor === loadKey;
+  const devicesReady = ready;
+
+  // Load everything for this user; reloaded when the signed-in user changes.
   useEffect(() => {
-    const stored = load();
-    if (stored) {
-      ref.current = stored;
-      setState(stored);
+    if (!loadKey) return;
+    if (!SUPABASE_URL) {
+      void Promise.resolve().then(() => setLoadedFor(loadKey));
+      return;
     }
-    loaded.current = true;
-    setReady(true);
-  }, []);
-  /* eslint-enable react-hooks/set-state-in-effect */
-
-  // Save after every change. Uses ref.current (not this render's `state`): on
-  // the first client commit the hydration effect above has already put the
-  // stored data in ref.current while `state` is still the seed — saving
-  // `state` there would overwrite the user's data with the seed.
-  useEffect(() => {
-    if (loaded.current) save(ref.current);
-  }, [state]);
-
-  // Keep tabs in sync (admin in one tab, site in another).
-  useEffect(() => {
-    const onStorage = (e: StorageEvent) => {
-      if (e.key !== STORAGE_KEY) return;
-      const fresh = load();
-      if (fresh) {
-        ref.current = fresh;
-        setState(fresh);
-      }
+    let alive = true;
+    const sb = supabaseBrowser();
+    const adminOnly = <T,>(fn: () => Promise<T[]>) =>
+      isAdmin
+        ? fn().catch((e) => {
+            console.error("admin data load failed", e);
+            if (alive) setSubmissionsError(true);
+            return [] as T[];
+          })
+        : Promise.resolve([] as T[]);
+    Promise.all([
+      fetchDevices(sb),
+      // Categories first-class with the devices, so labels / forms are right when «ready».
+      loadCategories(sb).catch((e) => console.error("categories load failed", e)),
+      userId ? fetchFavorites(sb, userId) : Promise.resolve([] as string[]),
+      adminOnly(() => fetchSubmissions(sb)),
+      // The marketing team sees «اطلب جهاز» requests too (ADMIN_SPEC §1).
+      isTeam ? fetchRequests(sb).catch((e) => { console.error(e); if (alive) setSubmissionsError(true); return []; }) : Promise.resolve([]),
+      adminOnly(() => fetchInspections(sb)),
+    ])
+      .then(([devices, , favorites, submissions, requests, inspections]) => {
+        if (!alive) return;
+        synced.current = new Map(devices.map((d) => [d.id, d]));
+        const devIds = new Map(devices.map((d) => [d.id, d.dbId]));
+        const subIds = new Map(submissions.map((x) => [x.id, x.dbId]));
+        syncedSubs.current = new Map(submissions.map((x) => [x.id, JSON.stringify(workflowRow(x, x.deviceId ? devIds.get(x.deviceId) : undefined))]));
+        syncedReqs.current = new Map(requests.map((r) => [r.id, JSON.stringify(requestRow(r))]));
+        syncedInsp.current = new Map(
+          inspections.map((i) => [
+            i.id,
+            JSON.stringify(inspectionRow(i, { deviceDbId: i.deviceId ? devIds.get(i.deviceId) : undefined, submissionDbId: i.submissionId ? subIds.get(i.submissionId) : undefined, orderDbId: i.orderDbId })),
+          ]),
+        );
+        ref.current = { ...ref.current, devices, favorites, submissions, requests, inspections };
+        setState(ref.current);
+        setDevicesError(false);
+        setLoadedFor(loadKey);
+      })
+      .catch((e) => {
+        console.error("devices load failed", e);
+        if (alive) {
+          setDevicesError(true);
+          setLoadedFor(loadKey);
+        }
+      });
+    return () => {
+      alive = false;
     };
-    window.addEventListener("storage", onStorage);
-    return () => window.removeEventListener("storage", onStorage);
-  }, []);
+  }, [loadKey, userId, isAdmin, isTeam]);
+
+  // Admin changes → database. Compares with the last synced copy, so every
+  // action (add/edit, accept submission, approve inspection) is covered.
+  useEffect(() => {
+    if (!isAdmin || !devicesReady) return;
+    const sb = supabaseBrowser();
+    for (const raw of state.devices) {
+      // Link to the sell request's database row (the admin picks it by code).
+      const subDbId = raw.submissionId ? ref.current.submissions.find((x) => x.id === raw.submissionId)?.dbId : undefined;
+      const d = raw.submissionDbId === subDbId ? raw : { ...raw, submissionDbId: subDbId };
+      const prev = synced.current.get(d.id);
+      if (prev && JSON.stringify(prev) === JSON.stringify(d)) continue;
+      synced.current.set(d.id, d); // optimistic: don't send the same change twice
+      saveDevice(sb, prev, d)
+        .then((dbId) => {
+          if (d.dbId === dbId) return;
+          const withId = { ...d, dbId };
+          synced.current.set(d.id, withId);
+          ref.current = { ...ref.current, devices: ref.current.devices.map((x) => (x.id === d.id ? { ...x, dbId } : x)) };
+          setState(ref.current);
+        })
+        .catch((e) => {
+          console.error("device save failed", d.id, e);
+          if (prev) synced.current.set(d.id, prev);
+          else synced.current.delete(d.id);
+          window.alert(`ما قدرناش نحفظ ${d.id} في قاعدة البيانات. جرّب تاني.`);
+        });
+    }
+  }, [state.devices, isAdmin, devicesReady]);
+
+  // Sell requests → database. Re-runs when devices change too: a just-accepted
+  // request gets its device_id once the draft is saved.
+  useEffect(() => {
+    if (!isAdmin || !devicesReady) return;
+    const sb = supabaseBrowser();
+    for (const x of state.submissions) {
+      if (!x.dbId) continue;
+      const deviceDbId = x.deviceId ? state.devices.find((d) => d.id === x.deviceId)?.dbId : undefined;
+      if (x.deviceId && !deviceDbId) continue; // wait for the draft device's id
+      const row = workflowRow(x, deviceDbId);
+      const json = JSON.stringify(row);
+      const prev = syncedSubs.current.get(x.id);
+      if (prev === json) continue;
+      syncedSubs.current.set(x.id, json);
+      saveSubmission(sb, x.dbId, row).catch((e) => {
+        console.error("submission save failed", x.id, e);
+        if (prev === undefined) syncedSubs.current.delete(x.id);
+        else syncedSubs.current.set(x.id, prev);
+        window.alert(`ما قدرناش نحفظ طلب ${x.id} في قاعدة البيانات. جرّب تاني.`);
+      });
+    }
+  }, [state.submissions, state.devices, isAdmin, devicesReady]);
+
+  // «اطلب جهاز» status changes → database (admin or marketing).
+  useEffect(() => {
+    if (!isTeam || !devicesReady) return;
+    const sb = supabaseBrowser();
+    for (const r of state.requests) {
+      if (!r.dbId) continue;
+      const row = requestRow(r);
+      const json = JSON.stringify(row);
+      const prev = syncedReqs.current.get(r.id);
+      if (prev === json) continue;
+      syncedReqs.current.set(r.id, json);
+      saveRequest(sb, r.dbId, row).catch((e) => {
+        console.error("request save failed", r.id, e);
+        if (prev === undefined) syncedReqs.current.delete(r.id);
+        else syncedReqs.current.set(r.id, prev);
+        window.alert(`ما قدرناش نحفظ طلب ${r.id} في قاعدة البيانات. جرّب تاني.`);
+      });
+    }
+  }, [state.requests, isTeam, devicesReady]);
+
+  // Inspections → database (new ones are inserted). Waits for linked rows'
+  // ids (a draft device created in the same click).
+  useEffect(() => {
+    if (!isAdmin || !devicesReady) return;
+    const sb = supabaseBrowser();
+    for (const i of state.inspections) {
+      const deviceDbId = i.deviceId ? state.devices.find((d) => d.id === i.deviceId)?.dbId : undefined;
+      if (i.deviceId && !deviceDbId) continue;
+      const submissionDbId = i.submissionId ? state.submissions.find((x) => x.id === i.submissionId)?.dbId : undefined;
+      const row = inspectionRow(i, { deviceDbId, submissionDbId, orderDbId: i.orderDbId });
+      const json = JSON.stringify(row);
+      const prev = syncedInsp.current.get(i.id);
+      if (prev === json) continue;
+      syncedInsp.current.set(i.id, json);
+      saveInspection(sb, i.dbId, row, userId ?? undefined)
+        .then((dbId) => {
+          if (i.dbId === dbId) return;
+          ref.current = { ...ref.current, inspections: ref.current.inspections.map((x) => (x.id === i.id ? { ...x, dbId } : x)) };
+          setState(ref.current);
+        })
+        .catch((e) => {
+          console.error("inspection save failed", i.id, e);
+          if (prev === undefined) syncedInsp.current.delete(i.id);
+          else syncedInsp.current.set(i.id, prev);
+          window.alert(`ما قدرناش نحفظ الفحص ${i.id} في قاعدة البيانات. جرّب تاني.`);
+        });
+    }
+  }, [state.inspections, state.devices, state.submissions, isAdmin, devicesReady, userId]);
 
   const getDevice = useCallback((id: string) => state.devices.find((d) => d.id === decodeURIComponent(id)), [state.devices]);
 
@@ -142,7 +298,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     let id = "";
     commit((s) => {
       id = nextCode(s.devices.map((x) => x.id), "L-", 201);
-      const device: Device = { ...d, id, views: 0, createdAt: "27 أكتوبر 2026" };
+      const device: Device = { ...d, id, views: 0, createdAt: todayAr() };
       return { ...s, devices: [device, ...s.devices] };
     });
     return id;
@@ -152,30 +308,11 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     commit((s) => ({ ...s, devices: s.devices.map((d) => (d.id === id ? { ...d, ...patch } : d)) }));
   }, [commit]);
 
-  const addSubmission: DemoApi["addSubmission"] = useCallback((input) => {
-    let id = "";
-    commit((s) => {
-      id = input.id ?? nextCode(s.submissions.map((x) => x.id), "#", 1025);
-      const sub: Submission = {
-        ...input,
-        id,
-        createdAt: `${today()} ${new Date().toLocaleTimeString("ar-EG", { hour: "numeric", minute: "2-digit" })}`,
-        status: "new",
-        feeStatus: "pending",
-        feeReference: input.feeReference ?? "",
-        sellerNet: sellerNetFromSalePrice(input.salePrice),
-        log: [{ text: "الطلب وصل من صفحة «اعرض جهازك»", at: today(), tone: "info" }],
-      };
-      return { ...s, submissions: [sub, ...s.submissions] };
-    });
-    return id;
-  }, [commit]);
-
   const updateSubmission: DemoApi["updateSubmission"] = useCallback((id, patch, log) => {
     commit((s) => ({
       ...s,
       submissions: s.submissions.map((x) =>
-        x.id === id ? { ...x, ...patch, log: log ? [...x.log, { ...log, at: today() }] : x.log } : x,
+        x.id === id ? { ...x, ...patch, log: log ? [...x.log, stamp(log)] : x.log } : x,
       ),
     }));
   }, [commit]);
@@ -207,7 +344,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
         featured: false,
         views: 0,
         source: "seller",
-        createdAt: "27 أكتوبر 2026",
+        createdAt: todayAr(),
         accessories: x.accessories,
         declaredDefects: x.defects,
         hasBox: x.hasBox,
@@ -216,6 +353,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
         saleReason: x.saleReason,
         locationNow: x.keepLocation === "send_to_platform" ? "مقر الفحص" : "عند البايع",
         submissionId: x.id,
+        submissionDbId: x.dbId,
       };
       return {
         ...s,
@@ -226,7 +364,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
                 ...y,
                 status: "accepted",
                 deviceId,
-                log: [...y.log, { text: `اتقبل واتحول لإعلان مسودة (${deviceId})`, at: today(), tone: "ok" }],
+                log: [...y.log, stamp({ text: `اتقبل واتحول لإعلان مسودة (${deviceId})`, tone: "ok" })],
               }
             : y,
         ),
@@ -235,14 +373,9 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     return deviceId;
   }, [commit]);
 
-  const addRequest: DemoApi["addRequest"] = useCallback((input) => {
-    let id = "";
-    commit((s) => {
-      id = input.id ?? nextCode(s.requests.map((x) => x.id), "R-", 119);
-      const r: DeviceRequest = { ...input, id, createdAt: "27 أكتوبر", status: "new" };
-      return { ...s, requests: [r, ...s.requests] };
-    });
-    return id;
+  const setSellerTrust: DemoApi["setSellerTrust"] = useCallback(async (sellerId, trust) => {
+    await setTrustDb(supabaseBrowser(), sellerId, trust ?? null);
+    commit((s) => ({ ...s, submissions: s.submissions.map((x) => (x.sellerId === sellerId ? { ...x, sellerTrust: trust ?? null } : x)) }));
   }, [commit]);
 
   const updateRequest: DemoApi["updateRequest"] = useCallback((id, patch) => {
@@ -252,10 +385,12 @@ export function DemoProvider({ children }: { children: ReactNode }) {
   const addInspection: DemoApi["addInspection"] = useCallback((input) => {
     let id = "";
     commit((s) => {
-      id = nextCode(s.inspections.map((x) => x.id), "F-", 306);
+      id = nextCode(s.inspections.map((x) => x.id), "F-", 301);
       const insp: Inspection = {
         ...input,
         id,
+        day: dayIndex(input.scheduledAt),
+        dateLabel: dateLabelOf(input.scheduledAt),
         status: "scheduled",
         form: {
           checks: { run: { v: "", n: "" }, look: { v: "", n: "" }, parts: { v: "", n: "" }, maint: { v: "", n: "" } },
@@ -282,7 +417,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
       const f = insp.form;
       const report: InspectionReport = {
         no: insp.id,
-        date: "27 أكتوبر 2026",
+        date: todayAr(),
         serial: "[S/N]",
         technician: insp.technician || "[اسم الفني]",
         efficiency: f.efficiency || "—",
@@ -330,7 +465,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
             featured: false,
             views: 0,
             source: "seller",
-            createdAt: "27 أكتوبر 2026",
+            createdAt: todayAr(),
             accessories: "",
             declaredDefects: f.defects,
             report,
@@ -349,57 +484,56 @@ export function DemoProvider({ children }: { children: ReactNode }) {
   }, [commit]);
 
   const toggleFavorite: DemoApi["toggleFavorite"] = useCallback((deviceId) => {
-    commit((s) => ({
-      ...s,
-      favorites: s.favorites.includes(deviceId)
-        ? s.favorites.filter((x) => x !== deviceId)
-        : [...s.favorites, deviceId],
-    }));
-  }, [commit]);
-
-  const matchesFor: DemoApi["matchesFor"] = useCallback(
-    (r) =>
-      state.devices.filter(
-        (d) =>
-          d.status === "published" &&
-          d.type === r.deviceType &&
-          (!r.budgetMin || d.price >= r.budgetMin) &&
-          (!r.budgetMax || d.price <= r.budgetMax) &&
-          (r.inspectionPref === "any" || d.inspection === "inspected"),
-      ),
-    [state.devices],
-  );
-
-  const reset = useCallback(() => {
-    try {
-      window.localStorage.removeItem(STORAGE_KEY);
-    } catch {
-      /* ignore */
+    if (!userId) {
+      window.location.assign(loginHref(window.location.pathname + window.location.search));
+      return;
     }
-    ref.current = SEED;
-    setState(SEED);
+    const d = ref.current.devices.find((x) => x.id === deviceId);
+    if (!d?.dbId) return;
+    const on = !ref.current.favorites.includes(deviceId);
+    const apply = (want: boolean) =>
+      commit((s) => ({
+        ...s,
+        favorites: want ? [...s.favorites.filter((x) => x !== deviceId), deviceId] : s.favorites.filter((x) => x !== deviceId),
+      }));
+    apply(on);
+    setFavorite(supabaseBrowser(), userId, d.dbId, on).catch((e) => {
+      console.error("favorite failed", e);
+      apply(!on);
+    });
+  }, [commit, userId]);
+
+  const reloadDevices: DemoApi["reloadDevices"] = useCallback(async () => {
+    if (!SUPABASE_URL) return;
+    const devices = await fetchDevices(supabaseBrowser());
+    synced.current = new Map(devices.map((d) => [d.id, d]));
+    ref.current = { ...ref.current, devices };
+    setState(ref.current);
   }, []);
+
+  const matchesFor: DemoApi["matchesFor"] = useCallback((r) => state.devices.filter((d) => deviceMatches(d, r)), [state.devices]);
 
   const api = useMemo<DemoApi>(
     () => ({
       ready,
+      devicesError,
+      submissionsError,
       state,
       getDevice,
       addDevice,
       updateDevice,
-      addSubmission,
       updateSubmission,
       acceptSubmission,
-      addRequest,
+      setSellerTrust,
       updateRequest,
       addInspection,
       updateInspection,
       approveInspection,
       toggleFavorite,
+      reloadDevices,
       matchesFor,
-      reset,
     }),
-    [ready, state, getDevice, addDevice, updateDevice, addSubmission, updateSubmission, acceptSubmission, addRequest, updateRequest, addInspection, updateInspection, approveInspection, toggleFavorite, matchesFor, reset],
+    [ready, devicesError, submissionsError, state, getDevice, addDevice, updateDevice, updateSubmission, acceptSubmission, setSellerTrust, updateRequest, addInspection, updateInspection, approveInspection, toggleFavorite, reloadDevices, matchesFor],
   );
 
   return <DemoContext.Provider value={api}>{children}</DemoContext.Provider>;
@@ -414,5 +548,6 @@ export function useDemo(): DemoApi {
 /** Devices a buyer can see in «كل الأجهزة». */
 export const isListed = (d: Device) => d.status === "published";
 /** Devices whose page is publicly reachable (§7 RLS: published / reserved / sold). */
-export const isPublic = (d: Device) => d.status === "published" || d.status === "reserved" || d.status === "sold";
+export const isPublic = (d: Device) =>
+  d.status === "published" || d.status === "reserved" || (d.status === "sold" && (!d.archiveAt || Date.parse(d.archiveAt) > Date.now()));
 

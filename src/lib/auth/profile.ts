@@ -10,7 +10,7 @@ export type Profile = {
   governorate: string | null;
   address: string | null;
   account_type: AccountType | null;
-  role: "user" | "admin";
+  role: "user" | "admin" | "marketing";
   onboarded_at: string | null;
 };
 

@@ -297,3 +297,19 @@
   .hm-qsell{padding:16px}
 }
 @media (prefers-reduced-motion:reduce){.hm-car-dot span{transition:none}}
+
+/* ── Home rows from main («فرصة متتفوتش», «وصل جديد», …) in the v2 look ── */
+.hm-page .mn-rows{padding:8px 20px 0;gap:40px}
+.hm-page .mn-row-h{font-size:26px;letter-spacing:-.3px}
+.hm-page .mn-row-sub{color:var(--hm-muted)}
+.hm-page .mn-row-more{color:var(--hm-ink);border-bottom:1px solid currentColor;min-height:32px;padding-bottom:2px}
+.hm-page .mn-row-more:hover{color:var(--hm-brand)}
+.hm-page .mn-row-deal{border-radius:12px;background:#FFF6EC;border:1px solid #F9DDBE;padding:22px}
+.hm-page .mn-row-deal .mn-row-h{color:#8A4A05}
+.hm-page .mn-row{grid-auto-columns:minmax(220px,260px);gap:20px}
+@media (max-width:767px){
+  .hm-page .mn-rows{padding:4px 16px 0;gap:28px}
+  .hm-page .mn-row-h{font-size:20px}
+  .hm-page .mn-row{grid-auto-columns:46%;gap:12px}
+  .hm-page .mn-row-deal{padding:14px 12px}
+}

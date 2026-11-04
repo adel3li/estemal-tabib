@@ -6,10 +6,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useRef, useState } from "react";
 import { isListed, useDemo } from "@/lib/demo/store";
 import { routes } from "@/lib/routes";
-import { waLink } from "@/lib/whatsapp";
+import { useSettings } from "@/lib/settings";
+import { DevicesLoading } from "@/components/site/DevicesLoading";
+import { useDeviceTypes } from "@/lib/categories";
 import { BrowseArt } from "./art";
 import { DeviceCard } from "./DeviceCard";
-import { FILTER_LABELS, FilterAside } from "./FilterAside";
+import { catOpts, FILTER_LABELS, FilterAside } from "./FilterAside";
 import { applyFilters, EMPTY, parseFilters, serializeFilters, type Filters, type Sort } from "./filters";
 
 const svg = { fill: "none", stroke: "currentColor", strokeLinecap: "round", strokeLinejoin: "round" } as const;
@@ -19,7 +21,9 @@ const REQ_AFTER = 6;
 const labelOf = <T extends string>(opts: { id: T; label: string }[], id: T) => opts.find((o) => o.id === id)?.label ?? id;
 
 export function BrowseClient() {
-  const { state } = useDemo();
+  const { wa } = useSettings();
+  const { state, ready, devicesError } = useDemo();
+  const CAT_OPTS = catOpts(useDeviceTypes());
   const router = useRouter();
   const sp = useSearchParams();
   const spKey = sp.toString();
@@ -49,7 +53,7 @@ export function BrowseClient() {
   const n = items.length;
   const countLabel = n === 1 ? "جهاز واحد متاح" : `${n} أجهزة متاحة`;
 
-  const { ST_OPTS, CAT_OPTS, MAINT_OPTS, COND_OPTS } = FILTER_LABELS;
+  const { ST_OPTS, MAINT_OPTS, COND_OPTS } = FILTER_LABELS;
   const chips: { label: string; clear: Partial<Filters> }[] = [
     ...(f.st !== "all" ? [{ label: labelOf(ST_OPTS, f.st), clear: { st: "all" as const } }] : []),
     ...(f.cat !== "all" ? [{ label: labelOf(CAT_OPTS, f.cat), clear: { cat: "all" as const } }] : []),
@@ -76,7 +80,7 @@ export function BrowseClient() {
       <div className="br-reqbar-acts">
         <Link href={routes.request} className="hm-btn hm-btn-line br-btn-sm">اطلب جهاز</Link>
         <a
-          href={waLink("أهلاً، بدوّر على جهاز أسنان مستعمل ومش لاقيه في «كل الأجهزة». ممكن تساعدوني؟")}
+          href={wa("أهلاً، بدوّر على جهاز أسنان مستعمل ومش لاقيه في «كل الأجهزة». ممكن تساعدوني؟")}
           target="_blank"
           rel="noopener noreferrer"
           className="hm-tlink"
@@ -153,7 +157,9 @@ export function BrowseClient() {
               </div>
             ) : null}
 
-            {n > 0 ? (
+            {!ready || devicesError ? (
+              <DevicesLoading failed={devicesError} cards={6} />
+            ) : n > 0 ? (
               <div className="br-grid">
                 {items.flatMap((d, i) => {
                   const card = <DeviceCard key={d.id} d={d} />;

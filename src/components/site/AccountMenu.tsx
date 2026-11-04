@@ -46,7 +46,7 @@ export function Avatar({ size = 40 }: { size?: number }) {
 }
 
 export function AccountMenu() {
-  const { ready, userId, profile, email, isAdmin } = useAuth();
+  const { ready, userId, profile, email, isTeam } = useAuth();
   const [open, setOpen] = useState(false);
   const wrap = useRef<HTMLDivElement>(null);
   const btn = useRef<HTMLButtonElement>(null);
@@ -111,7 +111,7 @@ export function AccountMenu() {
               </span>
             ) : null}
           </div>
-          {ITEMS(isAdmin).map((i) => (
+          {ITEMS(isTeam).map((i) => (
             <Link key={i.href} href={i.href} role="menuitem" className="acc-item" onClick={() => setOpen(false)}>
               {i.label}
             </Link>
@@ -127,7 +127,7 @@ export function AccountMenu() {
 
 /** Account block at the top of the phone menu panel. */
 export function AccountPanel({ onNavigate }: { onNavigate: () => void }) {
-  const { ready, userId, profile, email, isAdmin } = useAuth();
+  const { ready, userId, profile, email, isTeam } = useAuth();
   const login = useLoginHref();
   if (!ready) return null;
 
@@ -154,7 +154,7 @@ export function AccountPanel({ onNavigate }: { onNavigate: () => void }) {
         </span>
       </div>
       <div className="acc-panel-links">
-        {ITEMS(isAdmin).map((i) => (
+        {ITEMS(isTeam).map((i) => (
           <Link key={i.href} href={i.href} className="acc-chip" onClick={onNavigate}>
             {i.label}
           </Link>

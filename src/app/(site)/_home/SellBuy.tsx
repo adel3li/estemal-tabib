@@ -6,7 +6,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { BUSINESS } from "@/config/business";
 import { VIDEO_ENABLED } from "@/config/features";
-import { DEVICE_TYPES, parseNum } from "@/lib/demo/labels";
+import { parseNum } from "@/lib/demo/labels";
+import { useDeviceTypes } from "@/lib/categories";
 import type { DeviceType } from "@/lib/demo/types";
 import { routes } from "@/lib/routes";
 
@@ -17,6 +18,7 @@ const Check = () => (
 );
 
 export function SellBuy() {
+  const DEVICE_TYPES = useDeviceTypes();
   const [type, setType] = useState<DeviceType>(DEVICE_TYPES[0].id);
   const [price, setPrice] = useState("");
 

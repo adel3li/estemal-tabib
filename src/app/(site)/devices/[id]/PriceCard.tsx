@@ -1,3 +1,5 @@
+"use client";
+
 // Buy column on the device page — v2 «buy» block: title, price, the inspection
 // box, order buttons and the promise list (money held, return, maintenance, delivery).
 import Link from "next/link";
@@ -6,8 +8,10 @@ import { BUSINESS } from "@/config/business";
 import type { Device } from "@/lib/demo/types";
 import { fmt, typeLabel } from "@/lib/demo/labels";
 import { routes } from "@/lib/routes";
-import { waLink } from "@/lib/whatsapp";
-import { askMessage, brandModel, orderMessage, svgProps } from "./helpers";
+import { OldPrice } from "@/components/site/Price";
+import { SaveButton } from "@/components/site/SaveButton";
+import { useSettings } from "@/lib/settings";
+import { askMessage, brandModel, orderMessage, svgProps, unitsLeft } from "./helpers";
 
 const ic = (w = 18) => ({ "aria-hidden": true, width: w, height: w, viewBox: "0 0 24 24", ...svgProps, strokeWidth: 1.9 }) as const;
 
@@ -20,7 +24,9 @@ function PromiseRow({ icon, title, text }: { icon: ReactNode; title: ReactNode; 
   );
 }
 
-export function PriceCard({ d, promo, onPromo }: { d: Device; promo: string; onPromo: (v: string) => void }) {
+export function PriceCard({ d, promo, onPromo, qty = 1, onQty }: { d: Device; promo: string; onPromo: (v: string) => void; qty?: number; onQty?: (n: number) => void }) {
+  const left = unitsLeft(d);
+  const { wa } = useSettings();
   const inspected = d.inspection === "inspected";
   const days = BUSINESS.trialDays;
   const unavailable = d.status === "reserved" || d.status === "sold";
@@ -45,6 +51,7 @@ export function PriceCard({ d, promo, onPromo }: { d: Device; promo: string; onP
         </div>
       ) : null}
 
+      <OldPrice d={d} style={{ fontSize: 15 }} />
       <div className="li-price"><span className="hm-num">{fmt(d.price)}</span><small>ج.م</small></div>
       <div className="li-note">في نطاق السعر العادل للسوق</div>
 
@@ -94,15 +101,29 @@ export function PriceCard({ d, promo, onPromo }: { d: Device; promo: string; onP
             />
             <span>الكود بيتبعت مع طلبك، وبنأكدلك الخصم على واتساب.</span>
           </label>
-          <a href={waLink(orderMessage(d, promo))} target="_blank" rel="noopener noreferrer" className="hm-btn li-btn-brand">
+          {left > 1 && onQty ? (
+            <div className="li-qty">
+              <span>
+                <b>متاح {left} قطع</b>
+                <small>{qty > 1 ? `الإجمالي: ${(d.price * qty).toLocaleString("en-US")} ج.م` : "السعر للقطعة الواحدة"}</small>
+              </span>
+              <span role="group" aria-label="الكمية" className="li-qty-ctl">
+                <button type="button" aria-label="قلّل" disabled={qty <= 1} onClick={() => onQty(Math.max(1, qty - 1))}>−</button>
+                <output aria-live="polite">{qty}</output>
+                <button type="button" aria-label="زوّد" disabled={qty >= left} onClick={() => onQty(Math.min(left, qty + 1))}>+</button>
+              </span>
+            </div>
+          ) : null}
+          <a href={wa(orderMessage(d, promo, qty))} target="_blank" rel="noopener noreferrer" className="hm-btn li-btn-brand">
             {inspected ? "اطلب الجهاز" : "اطلب الجهاز وابدأ الفحص"}
           </a>
           </>
         )}
-        <a href={waLink(askMessage(d))} target="_blank" rel="noopener noreferrer" className="hm-btn hm-btn-line li-btn-full">
+        <a href={wa(askMessage(d))} target="_blank" rel="noopener noreferrer" className="hm-btn hm-btn-line li-btn-full">
           <svg {...ic(20)} strokeWidth={1.8}><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7L4 20z" /></svg>
           اسأل على واتساب
         </a>
+        <SaveButton deviceId={d.id} />
         <div className="li-deposit">
           تقدر تحجز الجهاز بـ <span className="hm-num">{fmt(BUSINESS.buyerReservationDepositEGP)}</span> ج.م بحد أدنى، وبتتخصم من سعره. <Link href={routes.termsBuyer}>شروط الشراء</Link>
         </div>

@@ -14,7 +14,7 @@ function noteOf(d: Device): [string, string, string, string, string, string] {
   if (d.status === "reserved")
     return ["#FBEEDC", "#6B3A10", `محجوز بعربون ${BUSINESS.buyerReservationDepositEGP} ج.م`, "مشتري حجز الجهاز ودفع العربون. الجهاز مش هيظهر لحد تاني لحد ما الطلب يكمل أو يتلغي.", routes.admin.orders, "افتح الطلب في «الطلبات والشحن»"];
   if (d.status === "sold")
-    return ["#E6EDF7", "#1D3F72", "الطلب ماشي", `فلوس المشتري محفوظة، وبتتحول للبايع بعد الاستلام وفترة التجربة ${BUSINESS.trialDays} أيام.`, routes.admin.payments, "شوف الدفعة في «المدفوعات المحفوظة»"];
+    return ["#E6EDF7", "#1D3F72", "الطلب ماشي", `فلوس المشتري محفوظة، وبتتحول للبايع بعد الاستلام وفترة التجربة ${BUSINESS.trialDays} أيام.`, routes.admin.payments, "شوف الفلوس في «الجدول المالي»"];
   if (d.inspection === "on_order")
     return ["#E6EDF7", "#1D3F72", "يُفحص عند الطلب", "أول ما مشتري يطلبه، فني معتمد بيفحصه وبيترفع تقرير الفحص قبل الشحن.", routes.admin.inspections, "افتح «الفحوصات»"];
   return ["#E3F0ED", "#0B4A44", "تم الفحص بفني معتمد", "تقرير الفحص مرفوع وظاهر للمشتري في صفحة الجهاز.", isPublic(d) ? routes.device(d.id) : routes.admin.inspections, "شوف تقرير الفحص"];

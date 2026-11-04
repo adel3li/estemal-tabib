@@ -12,6 +12,8 @@ export type MySubmission = {
   status: "new" | "follow_up" | "accepted" | "rejected";
   fee_status: "pending" | "paid" | "refunded" | "forfeited";
   fee_reference: string | null;
+  /** Set by the team after accepting the request (docs/ADMIN_SPEC.md §2). */
+  fee_amount: number | null;
   reject_reason: string | null;
   created_at: string;
 };
@@ -39,7 +41,7 @@ export type MyFavorite = {
 };
 
 export const SUBMISSION_COLUMNS =
-  "id, public_code, device_type, brand, details, sale_price, price_help, status, fee_status, fee_reference, reject_reason, created_at";
+  "id, public_code, device_type, brand, details, sale_price, price_help, status, fee_status, fee_reference, fee_amount, reject_reason, created_at";
 export const REQUEST_COLUMNS =
   "id, public_code, device_type, brand_pref, budget_min, budget_max, needed_by, inspection_pref, status, created_at";
 

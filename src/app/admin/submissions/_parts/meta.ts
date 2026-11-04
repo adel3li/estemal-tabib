@@ -1,6 +1,7 @@
 // Visual maps from Admin-Submissions.dc.html keyed by the store's values.
 import { VIDEO_ENABLED } from "@/config/features";
 import { typeLabel } from "@/lib/demo/labels";
+import { matchesSearch } from "@/lib/search";
 import type { LogLine, Submission, SubmissionStatus } from "@/lib/demo/types";
 
 export const ST: Record<SubmissionStatus, { l: string; bg: string; fg: string }> = {
@@ -10,12 +11,17 @@ export const ST: Record<SubmissionStatus, { l: string; bg: string; fg: string }>
   rejected: { l: "اترفض", bg: "#FBE9E7", fg: "#B3261E" },
 };
 
-export const TABS: [SubmissionStatus, string][] = [
+/** List tabs: the 4 statuses + «مشبوه» (requests from accounts flagged suspicious, ADMIN_SPEC §7). */
+export type Tab = SubmissionStatus | "spam";
+export const TABS: [Tab, string][] = [
   ["new", "جديد"],
   ["follow_up", "محتاج متابعة"],
   ["accepted", "اتقبل"],
   ["rejected", "اترفض"],
+  ["spam", "مشبوه"],
 ];
+export const inTab = (s: Submission, t: Tab) =>
+  t === "spam" ? s.sellerTrust === "suspicious" : s.sellerTrust !== "suspicious" && s.status === t;
 
 export const DOT: Record<NonNullable<LogLine["tone"]>, string> = {
   info: "#24508F",
@@ -38,15 +44,26 @@ export const PHOTO_REQS: [string, string][] = [
   ...(VIDEO_ENABLED ? ([["video", "فيديو وهو شغال"]] as [string, string][]) : []),
 ];
 
+// Instant-rejection reasons from the client (ADMIN_SPEC §2) + price, the main review point.
 export const REJECT_REASONS = [
-  "السعر بعيد عن السوق لحالة الجهاز",
-  "الصور مش كفاية ومفيش رد",
-  "الجهاز مش من التصنيفات اللي بنعرضها",
-  "حالة الجهاز أقل من المطلوب",
+  "السعر مش منطقي بالنسبة للسوق",
+  "الجهاز خارج التصنيفات اللي بنعرضها",
+  "جهاز مسروق أو مشبوه",
+  "الجهاز تالف والبايع رافض يصلحه",
+  "الوصف مش مطابق للجهاز",
+  "تواصل ضعيف أو متأخر من البايع",
   "سبب تاني",
+];
+export const NO_REPLY_REASON = "مفيش رد من البايع";
+
+export const FEE_METHODS: [string, string][] = [
+  ["instapay", "InstaPay"],
+  ["vodafone_cash", "فودافون كاش"],
 ];
 
 export const SLOTS = ["الصبح (10 – 1)", "بعد الضهر (1 – 5)", "بالليل (5 – 8)"];
+/** Inspection happens only at headquarters (ADMIN_SPEC §4). */
+export const HQ = "مقر الفحص";
 export const TECHS = ["[اسم الفني المعتمد]", "[فني معتمد تاني]"];
 
 /** Transforms that make the repeated drawing look like different photos (from the design). */
@@ -62,4 +79,4 @@ export const THUMB_TF = [
 ];
 
 export const matches = (s: Submission, q: string) =>
-  !q || `${s.id} ${s.details} ${typeLabel(s.deviceType)} ${s.governorate}`.toLowerCase().indexOf(q) >= 0;
+  matchesSearch(q, [s.id, s.details, typeLabel(s.deviceType), s.governorate, s.fullName, s.deviceId], [s.phone]);

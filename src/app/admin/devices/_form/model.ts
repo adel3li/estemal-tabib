@@ -1,4 +1,5 @@
 // Form model for «إضافة جهاز / تعديل» (Admin.dc.html) + mapping to/from the demo store.
+import { categoryFields } from "@/lib/demo/labels";
 import { BUSINESS, sellerNetFromSalePrice, type MaintenanceMonths } from "@/config/business";
 import { CONDITIONS, parseNum } from "@/lib/demo/labels";
 import { CORE_CHECKS } from "@/lib/demo/seed";
@@ -38,14 +39,21 @@ export type FormState = {
   cond: Condition;
   defects: string;
   price: string;
+  /** «السعر قبل الخصم» (optional) — the device shows in «فرصة متتفوتش». */
+  oldPrice: string;
+  /** How many of this exact device we have. */
+  quantity: string;
   maint: MaintenanceMonths;
   notes: string;
   hasBox?: boolean;
   repairedBefore?: YesNoUnknown;
+  /** The category's own detail fields (see «الأنواع»), by field key. */
+  specs: Record<string, string>;
 };
 
 export const emptyForm = (): FormState => ({
   src: "company",
+  specs: {},
   submissionId: "",
   sellerNet: "",
   netTouched: false,
@@ -66,6 +74,8 @@ export const emptyForm = (): FormState => ({
   cond: "a",
   defects: "",
   price: "",
+  oldPrice: "",
+  quantity: "1",
   maint: BUSINESS.maintenanceMonthsOptions[0],
   notes: "",
 });
@@ -85,6 +95,7 @@ export function formFromDevice(d: Device): FormState {
     locationNow: d.locationNow ?? "مقر الفحص",
     title: d.title,
     type: d.type,
+    specs: { ...(d.specs ?? {}) },
     brand: real(d.brand),
     model: real(d.model),
     year: real(d.year),
@@ -96,6 +107,8 @@ export function formFromDevice(d: Device): FormState {
     cond: d.condition,
     defects: d.declaredDefects,
     price: d.price ? String(d.price) : "",
+    oldPrice: d.compareAtPrice ? String(d.compareAtPrice) : "",
+    quantity: String(d.quantity ?? 1),
     maint: d.maintenanceMonths,
     notes: d.internalNotes ?? "",
     hasBox: d.hasBox,
@@ -168,6 +181,8 @@ export function deviceFields(f: FormState, base?: Device): Omit<Device, "id" | "
   return {
     title: f.title.trim(),
     type: f.type,
+    // Only the fields of the chosen category, and only filled ones.
+    specs: Object.fromEntries(categoryFields(f.type).map((x) => [x.key, (f.specs[x.key] ?? "").trim()]).filter(([, v]) => v)),
     brand: f.brand.trim() || "[الماركة]",
     model: f.model.trim() || "[الموديل]",
     year: f.year.trim() || "[السنة]",
@@ -175,6 +190,9 @@ export function deviceFields(f: FormState, base?: Device): Omit<Device, "id" | "
     capacity: base?.capacity,
     governorate: f.governorate,
     price: parseNum(f.price),
+    compareAtPrice: parseNum(f.oldPrice) > parseNum(f.price) ? Math.round(parseNum(f.oldPrice)) : undefined,
+    quantity: Math.max(1, Math.round(parseNum(f.quantity)) || 1),
+    available: base?.available,
     condition: f.cond,
     inspection: f.insp,
     maintenanceMonths: f.maint,

@@ -2,13 +2,14 @@
 
 import { useState } from "react";
 import { VIDEO_ENABLED } from "@/config/features";
-import type { Device, DeviceType } from "@/lib/demo/types";
+import type { BuiltinType, Device } from "@/lib/demo/types";
+import { artKey } from "@/lib/demo/labels";
 import { defectInfo, svgProps } from "./helpers";
 
 type Slide = { ref: string; label: string; video?: boolean; defect?: boolean };
 
 /** Same type → art mapping as the cards in «كل الأجهزة» (symbols from ../art.tsx). */
-const TYPE_ART: Record<DeviceType, string> = {
+const TYPE_ART: Record<BuiltinType, string> = {
   unit: "#br-unit", xray: "#br-xray", autoclave: "#br-autoclave", surg: "#br-surg", endo: "#br-rotary",
   apex: "#br-apex", cure: "#br-cure", rotary: "#br-rotary", contra: "#br-contra", micro: "#br-micro",
   iocam: "#br-iocam", cam: "#br-iocam", loupe: "#br-loupe", other: "#br-unit",
@@ -31,7 +32,7 @@ function allSlidesFor(d: Device): Slide[] {
         { ref: "#li-light", label: "فيديو وهو شغال", video: true },
       ];
     }
-    const art = TYPE_ART[d.type];
+    const art = TYPE_ART[artKey(d.type)];
     return [
       { ref: art, label: `صورة ${d.title}` },
       ...(count ? [{ ref: art, label: "صورة العيب", defect: true }] : []),
@@ -46,7 +47,7 @@ function allSlidesFor(d: Device): Slide[] {
       { ref: "#oo-side", label: "فيديو الجهاز", video: true },
     ];
   }
-  const art = TYPE_ART[d.type];
+  const art = TYPE_ART[artKey(d.type)];
   return [
     { ref: art, label: `صورة ${d.title}` },
     { ref: art, label: "فيديو الجهاز", video: true },

@@ -1,6 +1,6 @@
-import type { Payment } from "@/lib/demo/orders";
+export type PmIconName = "unit" | "box" | "hand" | "cam";
 
-export const PmIcon = ({ icon }: { icon: Payment["icon"] }) => (
+export const PmIcon = ({ icon }: { icon: PmIconName }) => (
   <svg aria-hidden="true" width="40" height="40" viewBox="0 0 40 40" style={{ flex: "none" }}>
     <use href={`#pm-ic-${icon}`} />
   </svg>

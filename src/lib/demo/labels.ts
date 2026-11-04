@@ -1,10 +1,14 @@
-import type { Condition, DeviceType, DeviceStatus, InspectionState } from "./types";
+import type { BuiltinType, Condition, DeviceType, DeviceStatus, InspectionState } from "./types";
 
 /**
- * Device types in form order. The client's priority groups come first:
- * motors, rotary, cameras, loupes, light cure; then everything else.
+ * Device categories (table device_categories, editable from «الأنواع» in the
+ * dashboard). The built-in list below is the starting point until the
+ * database answers; `setCategories` updates everything in place, so
+ * `DEVICE_TYPES`, `typeLabel` etc. stay simple imports.
+ * Order: the client's priority groups first (motors, rotary, cameras, loupes,
+ * light cure), then everything else, «جهاز تاني» last.
  */
-export const DEVICE_TYPES: { id: DeviceType; label: string }[] = [
+export const BUILTIN_TYPES: { id: BuiltinType; label: string }[] = [
   { id: "surg", label: "موتور جراحة وزراعة" },
   { id: "endo", label: "إندو موتور" },
   { id: "micro", label: "ميكرو موتور" },
@@ -21,8 +25,41 @@ export const DEVICE_TYPES: { id: DeviceType; label: string }[] = [
   { id: "other", label: "جهاز تاني" },
 ];
 
-export const typeLabel = (t: DeviceType) =>
-  DEVICE_TYPES.find((x) => x.id === t)?.label ?? "جهاز تاني";
+export type FieldKind = "text" | "number" | "select";
+export type CategoryField = { key: string; label: string; kind: FieldKind; options?: string[]; unit?: string };
+export type Category = { id: DeviceType; label: string; sort: number; active: boolean; art: BuiltinType; fields: CategoryField[] };
+
+const isBuiltin = (t: string): t is BuiltinType => BUILTIN_TYPES.some((b) => b.id === t);
+const ALL = new Map<string, Category>(BUILTIN_TYPES.map((b, i) => [b.id, { id: b.id, label: b.label, sort: (i + 1) * 10, active: true, art: b.id, fields: [] }]));
+
+/** Active categories in display order — used by every form and filter. Updated in place. */
+export const DEVICE_TYPES: { id: DeviceType; label: string }[] = [...BUILTIN_TYPES];
+
+let version = 0;
+const listeners = new Set<() => void>();
+
+/** Called with the rows from device_categories. */
+export function setCategories(list: Category[]) {
+  ALL.clear();
+  list.forEach((c) => ALL.set(c.id, { ...c, art: isBuiltin(c.art) ? c.art : "other", fields: Array.isArray(c.fields) ? c.fields : [] }));
+  const active = list.filter((c) => c.active).sort((a, b) => a.sort - b.sort || a.label.localeCompare(b.label));
+  DEVICE_TYPES.splice(0, DEVICE_TYPES.length, ...active.map((c) => ({ id: c.id, label: c.label })));
+  version++;
+  listeners.forEach((l) => l());
+}
+export const categoriesVersion = () => version;
+export const subscribeCategories = (cb: () => void) => {
+  listeners.add(cb);
+  return () => listeners.delete(cb);
+};
+/** Every category (also hidden ones), for the admin page. */
+export const allCategories = () => [...ALL.values()].sort((a, b) => a.sort - b.sort);
+
+export const typeLabel = (t: DeviceType) => ALL.get(t)?.label ?? "جهاز تاني";
+/** Which built-in drawing to use for a category. */
+export const artKey = (t: DeviceType): BuiltinType => ALL.get(t)?.art ?? (isBuiltin(t) ? t : "other");
+/** The category's own detail fields (e.g. camera → memory). */
+export const categoryFields = (t: DeviceType): CategoryField[] => ALL.get(t)?.fields ?? [];
 
 export const typeFromLabel = (label: string): DeviceType =>
   DEVICE_TYPES.find((x) => x.label === label)?.id ?? "other";

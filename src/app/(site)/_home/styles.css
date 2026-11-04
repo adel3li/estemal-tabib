@@ -144,3 +144,24 @@
   .mn-cats-h{font-size:18px}
 }
 @media (prefers-reduced-motion:reduce){.mn-cat-pic{transition:none}}
+
+/* Product rows (Rows.tsx): swipeable, more products on screen. */
+.mn-rows{max-width:1200px;margin:0 auto;box-sizing:border-box;padding:28px 20px 8px;display:flex;flex-direction:column;gap:28px}
+.mn-row-sec{display:flex;flex-direction:column;gap:12px;min-width:0}
+.mn-row-deal{padding:18px;border-radius:24px;background:linear-gradient(135deg,#FEEEDB 0%,#FFF7EC 100%);border:1px solid #F8C788}
+.mn-row-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
+.mn-row-h{margin:0;font-size:24px;font-weight:700;display:flex;align-items:center;gap:8px}
+.mn-row-deal .mn-row-h{color:#8A4A05}
+.mn-row-sub{margin:2px 0 0;font-size:14px;color:#4A595A}
+.mn-row-more{flex:none;font-weight:600;font-size:15px;min-height:44px;display:inline-flex;align-items:center}
+.mn-row{list-style:none;margin:0;padding:2px 2px 6px;display:grid;grid-auto-flow:column;grid-auto-columns:minmax(220px,250px);gap:16px;overflow-x:auto;scrollbar-width:thin;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.mn-row > li{scroll-snap-align:start;display:flex;min-width:0}
+.mn-row > li > .card-wrap{flex:1}
+@media (max-width:767px){
+  .mn-rows{padding:20px 16px 4px;gap:22px}
+  .mn-row-deal{padding:14px 12px;border-radius:20px;margin-inline:-4px}
+  .mn-row-h{font-size:19px}
+  .mn-row{grid-auto-columns:46%;gap:10px;scrollbar-width:none;margin-inline:-16px;padding-inline:16px;scroll-padding-inline:16px}
+  .mn-row-deal .mn-row{margin-inline:-12px;padding-inline:12px}
+  .mn-row::-webkit-scrollbar{display:none}
+}

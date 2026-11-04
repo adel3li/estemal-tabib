@@ -3,12 +3,13 @@
 import Link from "next/link";
 import { CONDITIONS, fmt, INSPECTION_LABEL, typeLabel } from "@/lib/demo/labels";
 import { useDemo } from "@/lib/demo/store";
+import type { DeviceRequest } from "@/lib/demo/types";
 import { routes } from "@/lib/routes";
 
-export function RequestSuccess({ id, onAgain }: { id: string; onAgain: () => void }) {
-  const { state, matchesFor } = useDemo();
-  const req = state.requests.find((r) => r.id === id);
-  const matches = req ? matchesFor(req) : [];
+export function RequestSuccess({ req, onAgain }: { req: DeviceRequest; onAgain: () => void }) {
+  const { matchesFor } = useDemo();
+  const id = req.id;
+  const matches = matchesFor(req);
 
   return (
     <section className="rq-done">

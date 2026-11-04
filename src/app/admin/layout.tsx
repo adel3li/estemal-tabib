@@ -8,14 +8,15 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-// role = admin only. src/middleware.ts already redirects/blocks; this is the second
-// lock in case the proxy is ever bypassed. RLS guards the data itself.
+// Team only (admin / marketing). src/middleware.ts already blocks — including the
+// marketing team's page limits; this is the second lock in case the proxy is
+// ever bypassed. RLS guards the data itself.
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const supabase = await supabaseServer();
   const { data } = await supabase.auth.getClaims();
   const userId = data?.claims?.sub;
   if (!userId) notFound();
   const { data: profile } = await supabase.from("profiles").select("role").eq("id", userId).maybeSingle();
-  if (profile?.role !== "admin") notFound();
+  if (profile?.role !== "admin" && profile?.role !== "marketing") notFound();
   return <AdminShell>{children}</AdminShell>;
 }

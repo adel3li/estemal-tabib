@@ -3,21 +3,19 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { DEVICE_TYPES, parseNum } from "@/lib/demo/labels";
-import { useDemo } from "@/lib/demo/store";
-import type { Condition, DeviceType, YesNoUnknown } from "@/lib/demo/types";
+import { parseNum } from "@/lib/demo/labels";
+import type { DeviceType } from "@/lib/demo/types";
 import { useAuth } from "@/lib/auth/AuthProvider";
 import { VIDEO_ENABLED } from "@/config/features";
 import { loginHref } from "@/lib/auth/next";
 import { routes } from "@/lib/routes";
-import { salePriceFromSellerNet, sellerNetFromSalePrice } from "@/config/business";
+import { sellerNetFromSalePrice } from "@/config/business";
 import {
   clearDraft,
   EMPTY_FORM,
   FIELD_ORDER,
   fieldId,
   loadDraft,
-  normalizePhone,
   saveDraft,
   validate,
   type Errors,
@@ -40,7 +38,7 @@ const EMPTY_MEDIA: Media = { photos: [], video: null, extras: [] };
 function fromQuery(q: URLSearchParams): Partial<Form> {
   const out: Partial<Form> = {};
   const type = q.get("type");
-  if (type && DEVICE_TYPES.some((t) => t.id === type)) out.deviceType = type as DeviceType;
+  if (type && /^[a-z0-9_]{2,40}$/.test(type)) out.deviceType = type as DeviceType;
   const details = q.get("details");
   if (details) out.details = details.slice(0, 200);
   const price = parseNum(q.get("price") ?? "");
@@ -54,13 +52,11 @@ function fromQuery(q: URLSearchParams): Partial<Form> {
 export function SellForm() {
   const q = useSearchParams();
   const router = useRouter();
-  const { addSubmission } = useDemo();
   const auth = useAuth();
   const [f, setF] = useState<Form>(EMPTY_FORM);
   const [media, setMedia] = useState<Media>(EMPTY_MEDIA);
   const [tried, setTried] = useState(false);
   const [doneId, setDoneId] = useState<string | null>(null);
-  const [dbId, setDbId] = useState<string | undefined>();
   const [sending, setSending] = useState(false);
   const [sendErr, setSendErr] = useState("");
   const [restoredDraft, setRestoredDraft] = useState(false);
@@ -136,42 +132,8 @@ export function SellForm() {
       setSendErr(res.error);
       return;
     }
-    // Mirror into the demo store under the same number so the (still demo)
-    // admin pages show it — remove in Step 7 when the admin reads the database.
-    const sale = parseNum(f.sale) || (parseNum(f.net) ? salePriceFromSellerNet(parseNum(f.net)) : 0);
-    const id = addSubmission({
-      id: res.code,
-      fullName: f.fullName.trim(),
-      phone: normalizePhone(f.phone),
-      governorate: f.governorate,
-      pickupAddress: f.pickupAddress.trim(),
-      lat: f.lat,
-      lng: f.lng,
-      deviceType: f.deviceType,
-      brand: f.brand.trim(),
-      details: f.details.trim(),
-      year: "",
-      accessories: f.accessories.trim(),
-      saleReason: f.saleReason.trim(),
-      condition: f.wantsRepair ? "c" : (f.condition as Condition),
-      wantsRepair: f.wantsRepair,
-      repairDescription: f.wantsRepair ? f.repairDescription.trim() : "",
-      hasWarranty: f.warranty === "yes",
-      warrantyRemaining: f.warranty === "yes" ? f.warrantyRemaining.trim() : "",
-      hasBox: f.box === "yes",
-      repairedBefore: f.repaired as YesNoUnknown,
-      repairedDetails: f.repaired === "yes" ? f.repairedDetails.trim() : "",
-      defects: f.defects.trim(),
-      keepLocation: f.keepLocation || "with_seller",
-      salePrice: sale,
-      photos: media.photos.length,
-      hasVideo: !!media.video,
-      accessoryPhotos: media.extras.length,
-      feeReference: "",
-    });
     clearDraft();
-    setDbId(res.id);
-    setDoneId(id);
+    setDoneId(res.code);
     window.scrollTo({ top: 0 });
   };
 
@@ -183,7 +145,7 @@ export function SellForm() {
     window.scrollTo({ top: 0 });
   };
 
-  if (doneId) return <SellSuccess id={doneId} dbId={dbId} onAgain={again} />;
+  if (doneId) return <SellSuccess id={doneId} onAgain={again} />;
 
   const errCount = Object.keys(err).length;
 

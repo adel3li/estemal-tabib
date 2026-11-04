@@ -1,8 +1,9 @@
 // Illustrations from Admin-Submissions.dc.html (sb-*).
+import { artKey } from "@/lib/demo/labels";
 import type { DeviceType } from "@/lib/demo/types";
 
 export function artFor(type: DeviceType): string {
-  switch (type) {
+  switch (artKey(type)) {
     case "unit":
       return "#sb-unit";
     case "autoclave":

@@ -1,7 +1,8 @@
 // Demo data model. Mirrors PHASE1_PROMPT.md §7 closely enough that the
 // Supabase version can replace the store without changing pages much.
 
-export type DeviceType =
+/** The 14 built-in device types (each has a drawing in the design). */
+export type BuiltinType =
   | "unit"
   | "xray"
   | "autoclave"
@@ -16,6 +17,8 @@ export type DeviceType =
   | "cam"
   | "loupe"
   | "other";
+/** A device category id (table device_categories): the built-ins + any the admin adds. */
+export type DeviceType = string;
 
 /** a = ممتازة 81–100% · b = جيدة 60–80% · c = أقل من 60% */
 export type Condition = "a" | "b" | "c";
@@ -43,6 +46,8 @@ export type InspectionReport = {
 };
 
 export type Device = {
+  /** Database uuid (devices.id); undefined until the device is saved. */
+  dbId?: string;
   id: string; // public code, also the URL segment: /devices/L-201
   title: string;
   type: DeviceType;
@@ -53,11 +58,23 @@ export type Device = {
   capacity?: string; // e.g. autoclave «[السعة] لتر»
   governorate: string;
   price: number; // EGP
+  /** Values of the category's own detail fields, by field key (devices.specs). */
+  specs?: Record<string, string>;
+  /** Units we have of this exact device (client, 4 Nov). Default 1. */
+  quantity?: number;
+  /** Units not taken by an open order (kept by the database). */
+  available?: number;
+  /** «السعر قبل الخصم»: old price shown crossed out; devices with one are «فرصة متتفوتش». */
+  compareAtPrice?: number;
   condition: Condition;
   inspection: InspectionState;
   maintenanceMonths: 3 | 6;
   status: DeviceStatus;
+  /** «تم البيع» devices leave the site at this time (warranty window over). */
+  archiveAt?: string;
+  /** Shown as «مميز» only until this time (at most 7 days, ADMIN_SPEC §3). */
   featured: boolean;
+  featuredUntil?: string;
   views: number;
   source: DeviceSource;
   createdAt: string; // display date, e.g. «12 أكتوبر 2026»
@@ -73,15 +90,31 @@ export type Device = {
   internalNotes?: string;
   locationNow?: string;
   submissionId?: string;
+  /** seller_submissions.id behind `submissionId` (set when loaded from the database). */
+  submissionDbId?: string;
 };
 
-export type LogLine = { text: string; at: string; tone?: "info" | "ok" | "warn" | "bad" };
+export type LogLine = {
+  text: string;
+  at: string; // display, e.g. «3 نوفمبر، 4:10 م»
+  /** When it happened (stored in the database). */
+  iso?: string;
+  tone?: "info" | "ok" | "warn" | "bad";
+};
 
 export type SubmissionStatus = "new" | "follow_up" | "accepted" | "rejected";
 
 export type Submission = {
+  /** seller_submissions.id (database uuid). */
+  dbId?: string;
   id: string; // «#1024»
   createdAt: string; // display, e.g. «النهارده 10:40 ص»
+  createdAtIso?: string;
+  sellerId?: string;
+  /** Seller account flag (profiles.trust): suspicious → «مشبوه» tab. */
+  sellerTrust?: "serious" | "suspicious" | null;
+  /** «ساعدوني أحدد السعر» */
+  priceHelp?: boolean;
   fullName: string;
   phone: string;
   governorate: string;
@@ -111,6 +144,12 @@ export type Submission = {
   accessoryPhotos: number;
   feeStatus: "pending" | "paid" | "refunded" | "forfeited";
   feeReference: string;
+  /** Fee set for this device after acceptance (ADMIN_SPEC §2). */
+  feeAmount?: number;
+  feeRequestedAt?: string; // ISO
+  /** Our FIRST message to the seller — the 3-working-day no-reply rule counts from it. */
+  firstContactAt?: string; // ISO
+  sellerRepliedAt?: string; // ISO
   status: SubmissionStatus;
   rejectReason?: string;
   deviceId?: string; // set when accepted → draft device
@@ -118,8 +157,13 @@ export type Submission = {
 };
 
 export type DeviceRequest = {
+  /** device_requests.id (database uuid). */
+  dbId?: string;
+  /** The account that sent it (profiles.id). */
+  userId?: string;
   id: string; // «R-118»
   createdAt: string; // «27 أكتوبر»
+  createdAtIso?: string;
   fullName: string;
   phone: string;
   governorate: string;
@@ -131,24 +175,33 @@ export type DeviceRequest = {
   inspectionPref: "any" | "inspected_only";
   notes: string;
   status: "new" | "notified" | "closed";
-  notifiedAt?: string;
+  notifiedAt?: string; // display
+  notifiedAtIso?: string;
 };
 
 export type CheckKey = "run" | "look" | "parts" | "maint";
 export type CheckValue = { v: "" | "pass" | "note"; n: string };
 
 export type Inspection = {
+  /** inspections.id (database uuid); undefined until saved. */
+  dbId?: string;
   id: string; // «F-297»
+  /** When (ISO). `day` is derived from it for the week list. */
+  scheduledAt?: string;
+  /** «الثلاثاء 4 نوفمبر» */
+  dateLabel?: string;
+  submissionId?: string; // «#1024» — the sell request it came from
   deviceId?: string; // linked listing, if it exists
   title: string;
   deviceType: DeviceType;
   governorate: string;
   location: string; // «عند البايع · مدينة نصر» | «مقر الفحص»
   technician: string; // "" = needs a technician
-  day: number; // 0..6 within the demo week (24–30 أكتوبر), 3 = today
+  day: number; // 0..6 in the week list (today = 3, earlier → 0, later → 6)
   time: string;
   kind: "pre_publish" | "after_order";
   orderId?: string;
+  orderDbId?: string;
   status: "scheduled" | "needs_review" | "done";
   form: {
     checks: Record<CheckKey, CheckValue>;

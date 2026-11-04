@@ -1,9 +1,10 @@
 // Illustrations from Admin-Listings.dc.html (al-*) and Admin.dc.html (ad-*).
+import { artKey } from "@/lib/demo/labels";
 import type { DeviceType } from "@/lib/demo/types";
 
 /** Device type → listing art symbol id (Admin-Listings uses six drawings). */
 export function artFor(type: DeviceType): string {
-  switch (type) {
+  switch (artKey(type)) {
     case "unit":
       return "#al-unit";
     case "autoclave":

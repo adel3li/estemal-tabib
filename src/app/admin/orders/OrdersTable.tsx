@@ -1,9 +1,11 @@
 import { fmt } from "@/lib/demo/labels";
-import type { Order } from "@/lib/demo/orders";
+import type { Order } from "@/lib/orders/orders";
 import { OrSymbol } from "./art";
 import { FILTERS, inFilter, payView, stepCol, stepView, type Filter } from "./model";
 
 type Props = {
+  /** false = marketing team: no «المدفوع» column content. */
+  money?: boolean;
   orders: Order[];
   base: Order[];
   rows: Order[];
@@ -13,7 +15,7 @@ type Props = {
   onOpen: (id: string) => void;
 };
 
-export function OrdersTable({ orders, base, rows, filter, sel, onFilter, onOpen }: Props) {
+export function OrdersTable({ money = true, orders, base, rows, filter, sel, onFilter, onOpen }: Props) {
   return (
     <section className="ad-card" aria-labelledby="or-tbl-h">
       <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 10 }}>
@@ -83,7 +85,7 @@ export function OrdersTable({ orders, base, rows, filter, sel, onFilter, onOpen 
                   <span className="or-td or-c-amt" role="cell" style={{ fontWeight: 700, whiteSpace: "nowrap" }}>
                     {fmt(o.amount)} <span style={{ fontSize: 12, color: "#4A5A56", fontWeight: 400 }}>ج.م</span>
                   </span>
-                  <span className="or-td or-c-pay" role="cell"><span className="or-pill" style={{ background: payBg, color: payFg }}>{payTxt}</span></span>
+                  <span className="or-td or-c-pay" role="cell">{money ? <span className="or-pill" style={{ background: payBg, color: payFg }}>{payTxt}</span> : "—"}</span>
                   <span className="or-td or-c-step" role="cell">
                     <span style={{ display: "flex", flexDirection: "column", gap: 4 }}>
                       <span style={{ display: "flex", alignItems: "center", gap: 6, fontWeight: 600, whiteSpace: "nowrap" }}>

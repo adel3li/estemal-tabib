@@ -5,12 +5,13 @@
 // top of the home page (§76). Art: the /devices symbols (BrowseArt) and
 // #mn-tools from the home art for «جهاز تاني».
 import Link from "next/link";
-import { DEVICE_TYPES } from "@/lib/demo/labels";
+import { artKey } from "@/lib/demo/labels";
+import { useDeviceTypes } from "@/lib/categories";
 import { isListed, useDemo } from "@/lib/demo/store";
-import type { DeviceType } from "@/lib/demo/types";
+import type { BuiltinType } from "@/lib/demo/types";
 import { routes } from "@/lib/routes";
 
-const ART: Record<DeviceType, string> = {
+const ART: Record<BuiltinType, string> = {
   unit: "#br-unit", xray: "#br-xray", autoclave: "#br-autoclave", surg: "#br-surg", endo: "#br-rotary",
   apex: "#br-apex", cure: "#br-cure", rotary: "#br-rotary", contra: "#br-contra", micro: "#br-micro",
   iocam: "#br-iocam", cam: "#br-iocam", loupe: "#br-loupe", other: "#mn-tools",
@@ -20,6 +21,7 @@ const countText = (n: number) => (n === 0 ? "" : n === 1 ? "جهاز واحد" :
 
 export function Categories() {
   const { state } = useDemo();
+  const types = useDeviceTypes();
   const listed = state.devices.filter(isListed);
 
   return (
@@ -29,12 +31,12 @@ export function Categories() {
         <Link href={routes.devices} className="hm-tlink">كل الأجهزة <span aria-hidden="true">←</span></Link>
       </div>
       <ul className="hm-cats">
-        {DEVICE_TYPES.map((t) => (
+        {types.map((t) => (
           <li key={t.id}>
             <Link href={`${routes.devices}?cat=${t.id}`} className="hm-cat">
               <span className="hm-cat-pic">
                 <svg aria-hidden="true" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
-                  <use href={ART[t.id]} />
+                  <use href={ART[artKey(t.id)]} />
                 </svg>
               </span>
               <span className="hm-cat-name">{t.label}</span>

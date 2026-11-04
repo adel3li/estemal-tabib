@@ -8,12 +8,12 @@ export const ST: Record<ReqStatus, [string, string, string]> = {
   closed: ["مقفول", "#E5EBE8", "#4A5A56"],
 };
 export const TABS: [ReqStatus, string][] = [["new", "جديد"], ["notified", "اتبلّغ"], ["closed", "مقفول"]];
-export const TODAY = "27 أكتوبر";
 
 export const prefOf = (r: DeviceRequest): [string, string, string] =>
   r.inspectionPref === "inspected_only" ? ["ما تم فحصه فقط", "#E3F0ED", "#0D5C55"] : ["أي حالة", "#F5F7F4", "#3C4C48"];
 
-export const budgetTxt = (r: DeviceRequest) => `${fmt(r.budgetMin)} – ${fmt(r.budgetMax)}`;
+export const budgetTxt = (r: DeviceRequest) =>
+  r.budgetMin && r.budgetMax ? `${fmt(r.budgetMin)} – ${fmt(r.budgetMax)}` : r.budgetMax ? `لحد ${fmt(r.budgetMax)}` : r.budgetMin ? `من ${fmt(r.budgetMin)}` : "مش محددة";
 
 export const condTxt = (d: Device) =>
   CONDITIONS[d.condition].short === CONDITIONS[d.condition].range

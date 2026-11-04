@@ -1,14 +1,17 @@
+"use client";
+
 // Public site footer — ported from Main.dc.html <footer>.
 import Link from "next/link";
 import { BUSINESS } from "@/config/business";
 import { WhatsAppIcon } from "@/components/icons";
 import { routes } from "@/lib/routes";
-import { waLink } from "@/lib/whatsapp";
+import { useSettings } from "@/lib/settings";
 
 const link = { color: "#C3D3D3" } as const;
 const col = { flex: "1 1 150px", minWidth: 0, display: "flex", flexDirection: "column", gap: 10 } as const;
 
 export function SiteFooter() {
+  const { wa, whatsapp, email, social } = useSettings();
   return (
     <footer className="site-footer" style={{ background: "#06394B", color: "#C3D3D3" }}>
       <div
@@ -57,7 +60,7 @@ export function SiteFooter() {
           <div style={{ ...col, flex: "1 1 200px" }}>
             <span style={{ color: "#FFFFFF", fontWeight: 700 }}>تواصل معانا</span>
             <a
-              href={waLink("أهلاً، عندي سؤال عن استعمال طبيب.")}
+              href={wa("أهلاً، عندي سؤال عن استعمال طبيب.")}
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -76,9 +79,19 @@ export function SiteFooter() {
               <WhatsAppIcon />
               كلمنا على واتساب
             </a>
-            <span>واتساب: {BUSINESS.contact.whatsapp}</span>
-            <span>{BUSINESS.contact.email}</span>
-            <span>{BUSINESS.contact.social}</span>
+            <span>واتساب: <span dir="ltr">{whatsapp}</span></span>
+            <span>{email}</span>
+            {social.length ? (
+              <span style={{ display: "flex", flexWrap: "wrap", gap: 12 }}>
+                {social.map((x) => (
+                  <a key={x.label} href={x.href} target="_blank" rel="noopener noreferrer" style={{ color: "inherit", textDecoration: "underline" }}>
+                    {x.label}
+                  </a>
+                ))}
+              </span>
+            ) : (
+              <span>{BUSINESS.contact.social}</span>
+            )}
           </div>
         </div>
 

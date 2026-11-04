@@ -1,6 +1,8 @@
+import { artKey } from "@/lib/demo/labels";
 import type { DeviceType } from "@/lib/demo/types";
 
-export function rqIcon(t: DeviceType): string {
+export function rqIcon(type: DeviceType): string {
+  const t = artKey(type);
   if (t === "unit") return "#rq-ic-unit";
   if (t === "autoclave" || t === "xray") return "#rq-ic-box";
   if (t === "iocam" || t === "cam") return "#rq-ic-cam";

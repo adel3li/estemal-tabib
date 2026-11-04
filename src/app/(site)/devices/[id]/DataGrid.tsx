@@ -1,6 +1,7 @@
 // «المواصفات» — v2 spec list next to the report.
 import type { ReactNode } from "react";
 import type { Device } from "@/lib/demo/types";
+import { categoryFields } from "@/lib/demo/labels";
 import { brandModel, COND_TILE, defectInfo, REPAIRED } from "./helpers";
 
 function Row({ label, value, tone }: { label: string; value: ReactNode; tone?: "ok" | "warn" }) {
@@ -41,6 +42,12 @@ export function DataGrid({ d }: { d: Device }) {
             <Row label="اتصلّح قبل كده؟" value={REPAIRED[d.repairedBefore ?? "unknown"]} />
           </>
         )}
+        {/* The category's own details (set in «الأنواع» in the dashboard). */}
+        {categoryFields(d.type)
+          .filter((x) => d.specs?.[x.key])
+          .map((x) => (
+            <Row key={x.key} label={x.label} value={`${d.specs?.[x.key]}${x.unit ? ` ${x.unit}` : ""}`} />
+          ))}
         {d.accessories ? <Row label="الملحقات" value={d.accessories} /> : null}
       </dl>
     </div>

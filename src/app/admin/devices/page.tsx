@@ -2,6 +2,7 @@
 
 // Ported from design-reference/Admin-Listings.dc.html
 import Link from "next/link";
+import { BUSINESS } from "@/config/business";
 import { useState } from "react";
 import { useDemo } from "@/lib/demo/store";
 import { typeLabel } from "@/lib/demo/labels";
@@ -13,6 +14,9 @@ import { DeviceRow } from "./_list/DeviceRow";
 import { KPI_STATUS, ST, type TabKey, missingForPublish, tabOf, toggleOf } from "./_list/meta";
 import { Toast, type ToastTone } from "./_ui/Toast";
 import "./styles.css";
+
+/** «مميز» ends after BUSINESS.featuredMaxDays (ADMIN_SPEC §3). */
+const featuredEnd = () => new Date(Date.now() + BUSINESS.featuredMaxDays * 86_400_000).toISOString();
 
 const TABS: [TabKey, string][] = [
   ["all", "الكل"],
@@ -68,9 +72,9 @@ export default function AdminDevicesPage() {
     setSel(d.id);
   };
   const doFeature = (d: Device) => {
-    updateDevice(d.id, { featured: !d.featured });
+    updateDevice(d.id, d.featured ? { featured: false, featuredUntil: undefined } : { featured: true, featuredUntil: featuredEnd() });
     setToast({
-      text: d.featured ? `اتشال التمييز من «${d.title}».` : `«${d.title}» بقى مميز وهيظهر في أول النتايج.`,
+      text: d.featured ? `اتشال التمييز من «${d.title}».` : `«${d.title}» بقى مميز ${BUSINESS.featuredMaxDays} أيام وهيظهر في أول النتايج.`,
       tone: "ok",
     });
     setSel(d.id);

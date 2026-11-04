@@ -1,11 +1,13 @@
 // Device card on /devices — v2 flat card (design-explorations/v2/src/browse.html).
 import Link from "next/link";
-import type { Device, DeviceType } from "@/lib/demo/types";
-import { CONDITIONS, fmt, typeLabel } from "@/lib/demo/labels";
+import type { BuiltinType, Device } from "@/lib/demo/types";
+import { artKey, CONDITIONS, fmt, typeLabel } from "@/lib/demo/labels";
+import { OldPrice } from "@/components/site/Price";
+import { SaveHeart } from "@/components/site/SaveButton";
 import { routes } from "@/lib/routes";
 
 /** Store type → Browse.dc.html symbol. Types without their own art borrow the closest one. */
-const IMG: Record<DeviceType, string> = {
+const IMG: Record<BuiltinType, string> = {
   unit: "#br-unit",
   xray: "#br-xray",
   autoclave: "#br-autoclave",
@@ -27,10 +29,12 @@ export function DeviceCard({ d }: { d: Device }) {
   // No year or location on cards (client feedback).
   const spec = typeLabel(d.type);
   return (
+    <div className="card-wrap">
+    <SaveHeart deviceId={d.id} title={d.title} />
     <Link href={routes.device(d.id)} className="hm-card br-card">
       <span className="hm-ph hm-card-ph">
         <svg role="img" aria-label={d.title} viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
-          <use href={IMG[d.type]} />
+          <use href={IMG[artKey(d.type)]} />
         </svg>
         <span className="hm-code hm-num">{d.id}</span>
         <span className="br-photo-tag">{inspected ? "صورة من فريق الفحص" : "صورة من البايع"}</span>
@@ -38,6 +42,8 @@ export function DeviceCard({ d }: { d: Device }) {
       <h3 className="hm-card-title">{d.title}</h3>
       <div className="hm-spec">{spec}</div>
       <div className="hm-spec">الحالة: {CONDITIONS[d.condition].short} · صيانة {d.maintenanceMonths} شهور</div>
+      {(d.available ?? 1) > 1 ? <div className="hm-pill hm-pill-stock">متاح {d.available} قطع</div> : null}
+      <OldPrice d={d} />
       <div className="hm-price">
         <span className="hm-num">{fmt(d.price)}</span> <small>ج.م</small>
       </div>
@@ -47,5 +53,6 @@ export function DeviceCard({ d }: { d: Device }) {
         <em>{inspected ? "فيه تقرير" : "قبل الشحن"}</em>
       </div>
     </Link>
+    </div>
   );
 }

@@ -1,4 +1,4 @@
-import { ORDER_STEPS, STEP_RELEASED, type Order } from "@/lib/demo/orders";
+import { ORDER_STEPS, STEP_RELEASED, type Order } from "@/lib/orders/orders";
 import { pillOf } from "./model";
 
 export function TrackerHeader({ o }: { o: Order }) {

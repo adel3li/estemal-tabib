@@ -6,7 +6,8 @@
 // 2. sends signed-out visitors of /sell, /request, /account, /admin, /onboarding
 //    to /login?next=<path>;
 // 3. sends signed-in users who haven't finished their profile to /onboarding (once);
-// 4. lets only role = admin into /admin (RLS enforces the same on the data).
+// 4. lets only the team into /admin: admins everywhere, the marketing team only
+//    into MARKETING_PATHS (RLS enforces the same on the data).
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { safeNext } from "@/lib/auth/next";
@@ -66,11 +67,17 @@ export async function middleware(request: NextRequest) {
     .maybeSingle();
 
   if (!profile?.onboarded_at) return redirect(`/onboarding?next=${encodeURIComponent(pathname + search)}`);
-  if (under(pathname, "/admin") && profile.role !== "admin") {
-    return withCookies(NextResponse.rewrite(new URL("/forbidden", request.url), { status: 403 }));
+  if (under(pathname, "/admin")) {
+    const ok =
+      profile.role === "admin" ||
+      (profile.role === "marketing" && (pathname === "/admin" || MARKETING_PATHS.some((p) => under(pathname, p))));
+    if (!ok) return withCookies(NextResponse.rewrite(new URL("/forbidden", request.url), { status: 403 }));
   }
   return response;
 }
+
+/** What the marketing & follow-up team opens (docs/ADMIN_SPEC.md §1). */
+const MARKETING_PATHS = ["/admin/orders", "/admin/requests", "/admin/demand", "/admin/customers", "/admin/reviews"];
 
 export const config = {
   // Everything except build assets and static files.

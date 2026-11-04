@@ -1,4 +1,4 @@
-import { AR_DIGITS, ORDER_STEPS, STEP_RELEASED, isSkipped, type Order } from "@/lib/demo/orders";
+import { AR_DIGITS, ORDER_STEPS, STEP_RELEASED, isSkipped, type Order } from "@/lib/orders/orders";
 
 export function Stepper({ o }: { o: Order }) {
   const all = o.step >= STEP_RELEASED;

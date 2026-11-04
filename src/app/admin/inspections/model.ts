@@ -1,10 +1,10 @@
 import { CONDITIONS } from "@/lib/demo/labels";
 import type { CheckKey, Condition, Inspection } from "@/lib/demo/types";
+import { isPastDay } from "@/lib/inspections/db";
 
+/** Week list: today−3 … today+3 (see lib/inspections/db weekDays). */
 export const TODAY = 3;
-export const DAYS: [string, string][] = [
-  ["السبت", "٢٤"], ["الحد", "٢٥"], ["الاتنين", "٢٦"], ["الثلاثاء", "٢٧"], ["الأربع", "٢٨"], ["الخميس", "٢٩"], ["الجمعة", "٣٠"],
-];
+// Technicians have no accounts (ADMIN_SPEC §1); their names go here once the client sends them.
 export const TECHS = ["[اسم الفني ١]", "[اسم الفني ٢]", "[اسم الفني ٣]"];
 
 export const CHECKS: { key: CheckKey; label: string; sub: string; ph: string }[] = [
@@ -30,7 +30,7 @@ export const ST: Record<St, [string, string, string]> = {
 export function statusOf(it: Inspection): St {
   if (it.status === "done") return "pub";
   if (it.status === "needs_review") return "review";
-  if (it.day < TODAY) return "late";
+  if (isPastDay(it.scheduledAt)) return "late";
   if (!it.technician) return "notech";
   return "sched";
 }

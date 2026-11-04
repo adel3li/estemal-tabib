@@ -9,6 +9,7 @@ import { Categories } from "./_home/Categories";
 import { BrowseArt } from "./devices/art";
 import { Featured } from "./_home/Featured";
 import { SellBuy } from "./_home/SellBuy";
+import { Rows } from "./_home/Rows";
 
 export default function HomePage() {
   return (
@@ -18,6 +19,7 @@ export default function HomePage() {
       {/* Category tiles first (client, §76), then hero, devices, quick sell box (§ header tabs: how-it-works lives on /how). */}
       <Categories />
       <Hero />
+      <Rows />
       <Featured />
       <SellBuy />
     </div>

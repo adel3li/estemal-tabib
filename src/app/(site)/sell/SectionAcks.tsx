@@ -74,6 +74,10 @@ export function FeeBox({ f, onSubmit, sending = false }: { f: SectionProps["f"];
           </span>
           <span className="sl-fee-amt">{fee} ج.م <span style={{ fontSize: 14, fontWeight: 600 }}>بحد أدنى</span></span>
         </div>
+        {/* docs/ADMIN_SPEC.md §2: nothing to pay now; the amount is set after review. */}
+        <div role="note" style={{ padding: "12px 16px", borderRadius: 10, background: "#E2F4F8", border: "1px solid #9ED8E6", color: "#075468", fontSize: 15, fontWeight: 600 }}>
+          مش هتدفع حاجة دلوقتي. بنراجع طلبك خلال 24 ساعة، ولو اتقبل بنبلغك بقيمة الرسوم (حسب قيمة الجهاز) وإزاي تدفعها. وإعلانك بيتنشر أول ما الرسوم توصل.
+        </div>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 12 }}>
           <div style={{ padding: "16px 18px", borderRadius: 10, background: "#E2F4F8", border: "1px solid #9ED8E6", display: "flex", flexDirection: "column", gap: 8, fontSize: 14, color: "#075468" }}>
             <span style={{ fontWeight: 700, display: "flex", alignItems: "center", gap: 8 }}>
@@ -115,7 +119,7 @@ export function FeeBox({ f, onSubmit, sending = false }: { f: SectionProps["f"];
             <span aria-hidden="true" style={{ height: 8, borderRadius: 999, background: "#DCE3E1", overflow: "hidden", display: "block" }}>
               <span style={{ display: "block", height: "100%", width: `${Math.round((n / ACKS.length) * 100)}%`, background: "#0A7E99", borderRadius: 999, transition: "width .2s ease" }} />
             </span>
-            <span style={{ fontSize: 13, color: "#4A595A" }}>{ready ? "هنراجع البيانات ونبعتلك خطوات دفع الرسوم" : "وافق على الإقرارات الثلاثة علشان تكمل"}</span>
+            <span style={{ fontSize: 13, color: "#4A595A" }}>{ready ? "هنراجع طلبك خلال 24 ساعة ونبلغك بالخطوة الجاية" : "وافق على الإقرارات الثلاثة علشان تكمل"}</span>
           </div>
           {/* aria-disabled instead of disabled: clicking it still scrolls to the missing declarations. */}
           <button

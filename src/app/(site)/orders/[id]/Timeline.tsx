@@ -1,4 +1,4 @@
-import { ORDER_STEPS, STEP_RELEASED, STEP_REPORT, isSkipped, type Order } from "@/lib/demo/orders";
+import { ORDER_STEPS, STEP_RELEASED, STEP_REPORT, isSkipped, type Order } from "@/lib/orders/orders";
 import { STEP_TEXT } from "./model";
 import { ReportCard } from "./ReportCard";
 
@@ -55,7 +55,7 @@ export function Timeline({ o, reportHref, badges, onConfirm, onCancel }: Props) 
                   <div style={{ color: "#5A6F76" }}>
                     <div style={{ fontWeight: 600, fontSize: 17, color: done ? "#0F2A33" : "#5A6F76" }}>{label}</div>
                     <div style={{ fontSize: 15 }}>
-                      {skip ? "مش محتاجة — الجهاز اتفحص قبل ما يتعرض" : done ? STEP_TEXT[i][0] : STEP_TEXT[i][1]}
+                      {skip ? "مش محتاجة — الجهاز اتفحص قبل ما يتعرض" : done ? `${STEP_TEXT[i][0]}${o.stepDates[i] ? ` · ${o.stepDates[i]}` : ""}` : STEP_TEXT[i][1]}
                     </div>
                   </div>
                 )}

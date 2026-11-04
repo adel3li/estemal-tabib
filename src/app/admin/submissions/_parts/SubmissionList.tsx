@@ -1,15 +1,18 @@
 "use client";
 
 import { forwardRef } from "react";
+import { BUSINESS } from "@/config/business";
 import { fmt } from "@/lib/demo/labels";
-import type { Submission, SubmissionStatus } from "@/lib/demo/types";
+import type { Submission } from "@/lib/demo/types";
+import { noReplyDeadline, reviewHoursLeft } from "@/lib/submissions/time";
 import { artFor } from "../art";
-import { FEE, ST, TABS } from "./meta";
+import { FEE, ST, TABS, type Tab } from "./meta";
 
 type Props = {
-  tab: SubmissionStatus;
-  counts: Record<SubmissionStatus, number>;
-  onTab: (t: SubmissionStatus) => void;
+  tab: Tab;
+  counts: Record<Tab, number>;
+  onTab: (t: Tab) => void;
+  now: number;
   q: string;
   onQ: (q: string) => void;
   items: Submission[];
@@ -17,7 +20,7 @@ type Props = {
   onPick: (id: string) => void;
 };
 
-export const SubmissionList = forwardRef<HTMLElement, Props>(function SubmissionList({ tab, counts, onTab, q, onQ, items, sel, onPick }, ref) {
+export const SubmissionList = forwardRef<HTMLElement, Props>(function SubmissionList({ tab, counts, onTab, now, q, onQ, items, sel, onPick }, ref) {
   return (
     <section ref={ref} className="ad-card sb-list" aria-label="قائمة الطلبات" style={{ padding: 16, gap: 12, minWidth: 0 }}>
       <div role="tablist" aria-label="حالة الطلب" className="sb-tabs" style={{ gap: 4, padding: 4, borderRadius: 14, background: "#F5F7F4" }}>
@@ -58,13 +61,16 @@ export const SubmissionList = forwardRef<HTMLElement, Props>(function Submission
           <circle cx="11" cy="11" r="6" />
           <path d="M20 20l-4.5-4.5" />
         </svg>
-        <input type="search" className="ad-in" value={q} onChange={(e) => onQ(e.target.value)} placeholder="رقم الطلب، الجهاز، أو المحافظة" style={{ paddingRight: 38 }} />
+        <input type="search" className="ad-in" value={q} onChange={(e) => onQ(e.target.value)} placeholder="رقم الطلب، الجهاز، المحافظة، أو اسم/موبايل البايع" style={{ paddingRight: 38 }} />
       </label>
       <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
         {items.map((x) => {
           const on = sel === x.id;
           const st = ST[x.status];
           const fee = FEE[x.feeStatus];
+          const reviewLate = x.status === "new" && !!x.createdAtIso && reviewHoursLeft(x.createdAtIso, now) <= 0;
+          const noReply = x.status !== "rejected" && !!x.firstContactAt && !x.sellerRepliedAt && now > noReplyDeadline(x.firstContactAt);
+          const showFee = x.status === "accepted" || x.feeStatus !== "pending";
           return (
             <button
               key={x.id}
@@ -88,15 +94,32 @@ export const SubmissionList = forwardRef<HTMLElement, Props>(function Submission
                 </span>
                 <span style={{ fontWeight: 700, overflowWrap: "anywhere" }}>{x.details}</span>
                 <span style={{ fontSize: 13, color: "#3C4C48" }}>
-                  {x.fullName} · <span style={{ fontWeight: 700, color: "#12221F" }}>{fmt(x.salePrice)} ج.م</span>
+                  {x.fullName} · <span style={{ fontWeight: 700, color: "#12221F" }}>{x.salePrice ? `${fmt(x.salePrice)} ج.م` : "محتاج مساعدة في السعر"}</span>
                 </span>
                 <span style={{ display: "flex", flexWrap: "wrap", gap: 4, marginTop: 4 }}>
                   <span className="sb-pill" style={{ background: st.bg, color: st.fg }}>
                     {st.l}
                   </span>
-                  <span className="sb-pill" style={{ background: fee.bg, color: fee.fg }}>
-                    {fee.short}
-                  </span>
+                  {x.sellerTrust === "suspicious" ? (
+                    <span className="sb-pill" style={{ background: "#FBE9E7", color: "#B3261E" }}>
+                      مشبوه
+                    </span>
+                  ) : null}
+                  {reviewLate ? (
+                    <span className="sb-pill" style={{ background: "#FBE9E7", color: "#B3261E" }}>
+                      عدّى {BUSINESS.sellReviewHours} ساعة
+                    </span>
+                  ) : null}
+                  {noReply ? (
+                    <span className="sb-pill" style={{ background: "#FBE9E7", color: "#B3261E" }}>
+                      مفيش رد
+                    </span>
+                  ) : null}
+                  {showFee ? (
+                    <span className="sb-pill" style={{ background: fee.bg, color: fee.fg }}>
+                      {fee.short}
+                    </span>
+                  ) : null}
                   <span className="sb-pill" style={{ background: "#F5F7F4", color: "#3C4C48" }}>
                     {x.keepLocation === "with_seller" ? "يفضل معايا" : "أبعته يتفحص"}
                   </span>

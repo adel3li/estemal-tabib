@@ -48,7 +48,7 @@ export function SectionPrice({ f, set, err }: SectionProps) {
                   </svg>
                   يفضل معايا
                 </span>
-                <span style={{ fontSize: 14, color: "#4A595A" }}>الجهاز بيتفحص عندك لما حد يطلبه.</span>
+                <span style={{ fontSize: 14, color: "#4A595A" }}>الجهاز يفضل عندك. أول ما حد يطلبه بتشحنه لمقرنا على حسابك، ونفحصه قبل ما يوصل للمشتري.</span>
               </span>
             </label>
             <label className={err.keepLocation ? "sl-opt sl-opt-rec sl-bad-box" : "sl-opt sl-opt-rec"}>

@@ -1,30 +1,71 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { BUSINESS, sellerNetFromSalePrice } from "@/config/business";
+// Orders from the database (control panel step 3, docs/ADMIN_SPEC.md §5, §9).
+// Layout from design-reference/Admin-Orders.dc.html; the new-order form,
+// payments and cancel/return panels are additions in the same style.
+import { useSearchParams } from "next/navigation";
+import { Suspense, useMemo, useRef, useState } from "react";
+import { BUSINESS } from "@/config/business";
 import { fmt } from "@/lib/demo/labels";
-import { ORDER_STEPS, STEP_RELEASED, STEP_SHIPPING, nowLabel, useOrders } from "@/lib/demo/orders";
+import { useAuth } from "@/lib/auth/AuthProvider";
 import { useDemo } from "@/lib/demo/store";
+import type { Device } from "@/lib/demo/types";
+import { ORDER_STEPS, STEP_INSPECTION, STEP_RELEASED, STEP_SHIPPING, STEP_TRIAL, methodLabel, useOrders, type NewOrder, type Order } from "@/lib/orders/orders";
+import { matchesSearch } from "@/lib/search";
+import { supabaseBrowser } from "@/lib/supabase/client";
 import { OrSprite } from "./art";
 import { Kpis } from "./Kpis";
+import { NewOrderForm } from "./NewOrderForm";
 import { OrderDetail } from "./OrderDetail";
 import { OrdersTable } from "./OrdersTable";
-import { TK, inFilter, type Filter, type Toast } from "./model";
+import { TK, inFilter, netOf, type Filter, type Toast } from "./model";
 import "./styles.css";
 
-const STAFF = "[اسم الموظف]";
+export default function OrdersPageRoute() {
+  return (
+    <Suspense>
+      <OrdersPage />
+    </Suspense>
+  );
+}
 
-export default function OrdersPage() {
-  const { orders, updateOrder, advanceOrder } = useOrders();
-  const { getDevice } = useDemo();
-  const [sel, setSel] = useState<string | null>("#2043");
-  const [filter, setFilter] = useState<Filter>("all");
+function OrdersPage() {
+  const api = useOrders();
+  // The marketing team: tracking only — no money, no new orders (ADMIN_SPEC §1).
+  const { isAdmin } = useAuth();
+  const { ready: storeReady, state, updateSubmission, addInspection, reloadDevices } = useDemo();
+  // ?open=#2001 (links from the financial table), ?filter=inspect|deliver (home boxes).
+  const params = useSearchParams();
+  const [sel, setSel] = useState<string | null>(params.get("open"));
+  const [filter, setFilter] = useState<Filter>(() => {
+    const f = params.get("filter");
+    return f === "inspect" || f === "deliver" ? f : "all";
+  });
   const [q, setQ] = useState("");
   const [toast, setToast] = useState<Toast | null>(null);
   const [err, setErr] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [creating, setCreating] = useState(false);
+  const [now] = useState(() => Date.now());
   const detRef = useRef<HTMLDivElement>(null);
 
-  // On phones/tablets bring the opened order's details into view.
+  // Seller side comes from the listing and its sell request (admin data).
+  const orders = useMemo(
+    () =>
+      api.orders.map((o): Order => {
+        const dev = state.devices.find((d) => d.dbId === o.deviceDbId);
+        const co = dev?.source === "company";
+        const sub = dev?.submissionId ? state.submissions.find((s) => s.id === dev.submissionId) : undefined;
+        return { ...o, sellerCo: co, seller: co ? "استعمال طبيب" : (sub?.fullName ?? (isAdmin ? "[البايع]" : "")), sellerNet: dev?.sellerNet };
+      }),
+    [api.orders, state.devices, state.submissions, isAdmin],
+  );
+  const deviceOf = (o: Order) => state.devices.find((d) => d.dbId === o.deviceDbId);
+  const sellerPhoneOf = (o: Order) => {
+    const dev = deviceOf(o);
+    return dev?.submissionId ? state.submissions.find((s) => s.id === dev.submissionId)?.phone : undefined;
+  };
+
   const narrow = () => window.matchMedia("(max-width: 1023px)").matches;
   const scrollToEl = (el: Element | null) => {
     if (!el || !narrow()) return;
@@ -33,14 +74,66 @@ export default function OrdersPage() {
   const openOrder = (id: string) => {
     setSel(id);
     setErr("");
+    setCreating(false);
     scrollToEl(detRef.current);
   };
   const backToList = () => scrollToEl(document.getElementById(`or-row-${(sel ?? "").replace("#", "")}`) ?? document.getElementById("or-tbl-h"));
 
   const query = q.trim();
-  const base = orders.filter((o) => !query || `${o.id} ${o.device} ${o.cat}`.includes(query));
+  const base = orders.filter((o) => matchesSearch(query, [o.id, o.deviceId, o.device, o.cat, o.buyer, o.seller], [o.buyerPhone, sellerPhoneOf(o)]));
   const rows = base.filter((o) => inFilter(o, filter));
   const so = orders.find((o) => o.id === sel) ?? null;
+
+  /** Run a database action with a busy flag and an error message. */
+  const run = async (fn: () => Promise<void>) => {
+    if (busy) return;
+    setBusy(true);
+    try {
+      await fn();
+    } catch (e) {
+      console.error(e);
+      setErr("ما قدرناش نحفظ التغيير في قاعدة البيانات. جرّب تاني.");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const create = (n: NewOrder, d: Device) =>
+    run(async () => {
+      const code = await api.createOrder(n);
+      // The database moves the listing's stock / status (all units taken → «محجوز»).
+      await reloadDevices();
+      setCreating(false);
+      setSel(code);
+      const left = (d.available ?? 1) - n.quantity;
+      setToast({ kind: "ok", txt: left > 0 ? `طلب ${code} اتسجل (${n.quantity} من ${d.id}) — فاضل ${left} متاح على الموقع.` : `طلب ${code} اتسجل، و${d.id} بقى «محجوز» على الموقع.` });
+    });
+
+  const findAccount = async (email: string) => {
+    const { data } = await supabaseBrowser().from("profiles").select("id").ilike("email", email).maybeSingle();
+    return (data?.id as string | undefined) ?? undefined;
+  };
+
+  /** Seller paid out + their seriousness fee refunded in full (ADMIN_SPEC §5, open point G). */
+  const release = async (o: Order) => {
+    const dev = deviceOf(o);
+    if (!o.sellerCo) {
+      await api.addPayment(o.id, { kind: "seller_payout", amount: netOf(o), method: "", reference: "", payerless: true }, `${fmt(netOf(o))} ج.م اتحولوا للبايع`);
+    }
+    const sub = dev?.submissionId ? state.submissions.find((s) => s.id === dev.submissionId) : undefined;
+    if (sub?.dbId && sub.feeStatus === "paid") {
+      const amount = sub.feeAmount ?? BUSINESS.sellerSeriousnessFeeEGP;
+      const { error } = await supabaseBrowser().from("payments").insert({
+        submission_id: sub.dbId,
+        kind: "refund",
+        amount,
+        status: "confirmed",
+        confirmed_at: new Date().toISOString(),
+      });
+      if (error) throw error;
+      updateSubmission(sub.id, { feeStatus: "refunded" }, { text: `الجهاز اتباع (${o.id}) · رسوم الجدية ${fmt(amount)} ج.م اترجعت للبايع`, tone: "ok" });
+    }
+  };
 
   const advance = () => {
     if (!so) return;
@@ -48,29 +141,63 @@ export default function OrdersPage() {
       setErr("قبل ما تحرّكه للاستلام: اكتب شركة الشحن ورقم الشحنة واحفظهم.");
       return;
     }
-    let txt = "";
-    advanceOrder(so.id, (next) => {
-      txt = next >= STEP_RELEASED
-        ? `فترة التجربة خلصت · ${fmt(sellerNetFromSalePrice(so.amount))} ج.م اتحولوا للبايع`
-        : `الطلب اتحرك لخطوة «${ORDER_STEPS[next]}»`;
-      return { when: nowLabel(), txt, who: STAFF, col: next >= STEP_RELEASED ? "#3F7A1F" : "#0D5C55" };
+    void run(async () => {
+      let txt = "";
+      const next = await api.advanceOrder(so.id, (n) => {
+        txt =
+          n >= STEP_RELEASED
+            ? "فترة الضمان خلصت · الطلب اتقفل"
+            : n === STEP_TRIAL
+              ? `المشتري استلم · بدأ الضمان ${BUSINESS.trialDays} أيام`
+              : `الطلب اتحرك لخطوة «${ORDER_STEPS[n]}»`;
+        return txt;
+      });
+      const dev = deviceOf(so);
+      // Received → the database marks «تم البيع» once every unit is received
+      // (archived after the warranty). Refresh our copy.
+      if (next === STEP_TRIAL) await reloadDevices();
+      if (isAdmin && next >= STEP_RELEASED) await release(so);
+      // «يُفحص عند الطلب»: the inspection at HQ goes on the inspections list.
+      let extra = "";
+      if (isAdmin && next === STEP_INSPECTION && !state.inspections.some((i) => i.orderId === so.id)) {
+        const inspId = addInspection({
+          kind: "after_order",
+          orderId: so.id,
+          orderDbId: so.dbId,
+          deviceId: dev?.id,
+          submissionId: dev?.submissionId,
+          title: so.device,
+          deviceType: dev?.type ?? "other",
+          governorate: dev?.governorate ?? so.gov,
+          location: "مقر الفحص",
+          technician: "",
+          time: "الصبح (10 – 1)",
+          scheduledAt: new Date(Date.now() + 2 * 86_400_000).toISOString(),
+        });
+        extra = ` اتعمل فحص ${inspId} في «الفحوصات» — حدد الفني والميعاد، وبلّغ البايع يشحن الجهاز للمقر.`;
+      }
+      setErr("");
+      setToast({ kind: "ok", txt: `${so.id}: ${txt}.${extra}` });
     });
-    setErr("");
-    setToast({ kind: "ok", txt: `${so.id}: ${txt}.` });
   };
 
-  const payRest = () => {
+  /** Cancel / return: refund what's due, put the same listing back on sale. */
+  const close = (kind: "cancelled_refunded" | "returned", refund: number, why: string) => {
     if (!so) return;
-    updateOrder(so.id, { paid: "full" }, {
-      when: nowLabel(),
-      txt: `الباقي اتدفع (${fmt(so.amount - BUSINESS.buyerReservationDepositEGP)} ج.م) · بقى دفع كامل ومحفوظ`,
-      who: STAFF,
-      col: "#3F7A1F",
+    void run(async () => {
+      if (refund > 0) {
+        await api.addPayment(so.id, { kind: "refund", amount: refund, method: so.payMethod ?? "", reference: "" }, `${fmt(refund)} ج.م رجعت للمشتري`);
+      }
+      await api.closeOrder(so.id, kind, why);
+      // Units free again → the database puts the listing back on sale.
+      await reloadDevices();
+      setErr("");
+      setToast({ kind: "info", txt: `${so.id}: ${why}. الإعلان رجع متاح.` });
     });
-    setToast({ kind: "ok", txt: `طلب ${so.id} بقى مدفوع كامل.` });
   };
 
   const tk = TK[toast?.kind ?? "ok"];
+  const orderable = state.devices.filter((d) => d.status === "published" && d.dbId);
 
   return (
     <>
@@ -81,10 +208,17 @@ export default function OrdersPage() {
           <h1 className="or-h1" style={{ margin: 0, lineHeight: 1.3, fontWeight: 700 }}>الطلبات والشحن</h1>
           <div style={{ color: "#4A5A56" }}>تابع كل طلب في خطواته السبعة، من التأكيد لحد ما الفلوس تتحول للبايع.</div>
         </div>
-        <label className="or-search">
-          <span style={{ position: "absolute", width: 1, height: 1, overflow: "hidden" }}>دوّر في الطلبات</span>
-          <input type="search" className="ad-in" value={q} onChange={(e) => setQ(e.target.value)} placeholder="دوّر برقم الطلب أو الجهاز" />
-        </label>
+        <div className="or-acts">
+          <label className="or-search">
+            <span style={{ position: "absolute", width: 1, height: 1, overflow: "hidden" }}>دوّر في الطلبات</span>
+            <input type="search" className="ad-in" value={q} onChange={(e) => setQ(e.target.value)} placeholder="رقم الطلب، الجهاز (L-215)، أو اسم/موبايل المشتري أو البايع" />
+          </label>
+          {isAdmin ? (
+            <button type="button" className="ad-btn ad-pri" onClick={() => { setCreating(true); setSel(null); scrollToEl(detRef.current); }}>
+              + طلب جديد
+            </button>
+          ) : null}
+        </div>
       </div>
 
       {toast ? (
@@ -95,40 +229,60 @@ export default function OrdersPage() {
         </div>
       ) : null}
 
-      <Kpis orders={orders} />
-      <OrdersTable orders={orders} base={base} rows={rows} filter={filter} sel={sel} onFilter={setFilter} onOpen={openOrder} />
-
-      <div ref={detRef} className="or-det-anchor">
-
-      {so ? (
-        <OrderDetail
-          o={so}
-          device={so.deviceId ? getDevice(so.deviceId) : undefined}
-          err={err}
-          onAdvance={advance}
-          onPayRest={payRest}
-          onClose={() => { setSel(null); setErr(""); }}
-          onBack={backToList}
-          onError={setErr}
-          onShip={(s) => {
-            updateOrder(so.id, s, {
-              when: nowLabel(),
-              txt: `بيانات الشحن اتحدثت: ${s.co} · ${s.no}${s.eta ? ` · التسليم ${s.eta}` : ""}`,
-              who: STAFF,
-              col: "#24508F",
-            });
-            setErr("");
-            setToast({ kind: "info", txt: `بيانات شحن ${so.id} اتحفظت.` });
-          }}
-          onNote={(txt) => updateOrder(so.id, {}, { when: nowLabel(), txt, who: STAFF, col: "#F2A33A" })}
-        />
+      {!api.ready || !storeReady ? (
+        <div className="ad-card" role="status" style={{ minHeight: 160, alignItems: "center", justifyContent: "center", color: "#4A5A56" }}>بنحمّل الطلبات…</div>
+      ) : api.error ? (
+        <div className="ad-card" role="alert" style={{ minHeight: 160, alignItems: "center", justifyContent: "center", color: "#7A1A14" }}>ما قدرناش نحمّل الطلبات. حدّث الصفحة.</div>
       ) : (
-        <div className="ad-card" style={{ alignItems: "center", textAlign: "center", padding: 32 }}>
-          <div style={{ fontWeight: 700 }}>اختار طلب من الجدول</div>
-          <div className="ad-hint">هتشوف خطواته، بيانات الشحن، أرقام الطرفين، وسجل النشاط.</div>
-        </div>
+        <>
+          <Kpis orders={orders} money={isAdmin} />
+          <OrdersTable money={isAdmin} orders={orders} base={base} rows={rows} filter={filter} sel={sel} onFilter={setFilter} onOpen={openOrder} />
+
+          <div ref={detRef} className="or-det-anchor">
+            {creating && isAdmin ? (
+              <NewOrderForm devices={orderable} busy={busy} findAccount={findAccount} onCreate={(n, d) => void create(n, d)} onCancel={() => setCreating(false)} />
+            ) : so ? (
+              <OrderDetail
+                o={so}
+                device={deviceOf(so)}
+                sellerPhone={sellerPhoneOf(so)}
+                busy={busy}
+                money={isAdmin}
+                now={now}
+                err={err}
+                onAdvance={advance}
+                onPay={(amount, method, reference) =>
+                  void run(async () => {
+                    const kind = so.collected === 0 && amount < so.amount ? "reservation_deposit" : "balance";
+                    await api.addPayment(so.id, { kind, amount, method, reference }, `دفعة ${fmt(amount)} ج.م (${methodLabel(method)}${reference ? ` · ${reference}` : ""})`);
+                    if (so.step === 0) await api.ensureStep(so.id, 1, "الفلوس اتحفظت");
+                    setToast({ kind: "ok", txt: `اتسجلت دفعة ${fmt(amount)} ج.م على ${so.id}.` });
+                  })
+                }
+                onLocation={(loc) => void run(() => api.updateOrder(so.id, { location: loc }, loc ? `الجهاز دلوقتي: ${loc}` : undefined))}
+                onCancelOrder={(refund) => close("cancelled_refunded", refund, "الطلب اتلغى")}
+                onReturn={(refund, ourFault) => close("returned", refund, ourFault ? "مرتجع · عيب أو خطأ من جهتنا" : "مرتجع · أسباب شخصية من المشتري")}
+                onClose={() => { setSel(null); setErr(""); }}
+                onBack={backToList}
+                onError={setErr}
+                onShip={(s) =>
+                  void run(async () => {
+                    await api.updateOrder(so.id, s, `بيانات الشحن: ${s.co} · ${s.no}${s.eta ? ` · التسليم ${s.eta}` : ""}`);
+                    setErr("");
+                    setToast({ kind: "info", txt: `بيانات شحن ${so.id} اتحفظت.` });
+                  })
+                }
+                onNote={(txt) => void run(() => api.updateOrder(so.id, {}, txt))}
+              />
+            ) : (
+              <div className="ad-card" style={{ alignItems: "center", textAlign: "center", padding: 32 }}>
+                <div style={{ fontWeight: 700 }}>{orders.length ? "اختار طلب من الجدول" : "لسه مفيش طلبات"}</div>
+                <div className="ad-hint">{orders.length ? "هتشوف خطواته، بيانات الشحن، الفلوس، أرقام الطرفين، وسجل النشاط." : "لما مشتري يطلب جهاز على واتساب، سجّله من «+ طلب جديد»."}</div>
+              </div>
+            )}
+          </div>
+        </>
       )}
-      </div>
     </>
   );
 }
