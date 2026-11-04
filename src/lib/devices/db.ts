@@ -29,6 +29,8 @@ type DeviceRow = {
   sale_price: number;
   compare_at_price: number | null;
   specs: Record<string, string> | null;
+  quantity: number;
+  available: number;
   maintenance_months: number;
   source: DeviceSource;
   status: DeviceStatus;
@@ -65,7 +67,7 @@ type ReportRow = {
 };
 
 const DEVICE_COLUMNS =
-  "id, public_code, title, type, brand, model, details, origin, capacity, manufacture_year, governorate, accessories, condition, inspection_state, declared_defects, has_box, repaired_before, sale_price, compare_at_price, specs, maintenance_months, source, status, archive_at, featured, featured_until, views, published_at, created_at";
+  "id, public_code, title, type, brand, model, details, origin, capacity, manufacture_year, governorate, accessories, condition, inspection_state, declared_defects, has_box, repaired_before, sale_price, compare_at_price, specs, quantity, available, maintenance_months, source, status, archive_at, featured, featured_until, views, published_at, created_at";
 
 /** «12 أكتوبر 2026» */
 const dateAr = (iso: string | null) =>
@@ -107,6 +109,8 @@ function deviceFrom(d: DeviceRow, p?: PrivateRow, r?: ReportRow): Device {
     price: d.sale_price,
     compareAtPrice: d.compare_at_price ?? undefined,
     specs: d.specs && Object.keys(d.specs).length ? d.specs : undefined,
+    quantity: d.quantity ?? 1,
+    available: d.available ?? 1,
     condition: d.condition,
     inspection: d.inspection_state,
     maintenanceMonths: d.maintenance_months === 6 ? 6 : 3,
@@ -168,6 +172,8 @@ function rowFrom(d: Device) {
     compare_at_price: d.compareAtPrice && d.compareAtPrice > d.price ? Math.round(d.compareAtPrice) : null,
     // Only non-empty values of the category's detail fields.
     specs: Object.fromEntries(Object.entries(d.specs ?? {}).filter(([, v]) => String(v ?? "").trim() !== "")),
+    // `available` is the database's (it follows the orders).
+    quantity: Math.max(1, Math.min(999, Math.round(d.quantity ?? 1))),
     maintenance_months: d.maintenanceMonths,
     source: d.source,
     status: d.status,

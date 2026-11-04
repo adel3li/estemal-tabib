@@ -33,7 +33,7 @@ function OrdersPage() {
   const api = useOrders();
   // The marketing team: tracking only — no money, no new orders (ADMIN_SPEC §1).
   const { isAdmin } = useAuth();
-  const { ready: storeReady, state, updateDevice, updateSubmission, addInspection } = useDemo();
+  const { ready: storeReady, state, updateSubmission, addInspection, reloadDevices } = useDemo();
   // ?open=#2001 (links from the financial table), ?filter=inspect|deliver (home boxes).
   const params = useSearchParams();
   const [sel, setSel] = useState<string | null>(params.get("open"));
@@ -101,10 +101,12 @@ function OrdersPage() {
   const create = (n: NewOrder, d: Device) =>
     run(async () => {
       const code = await api.createOrder(n);
-      if (d.status === "published") updateDevice(d.id, { status: "reserved" });
+      // The database moves the listing's stock / status (all units taken → «محجوز»).
+      await reloadDevices();
       setCreating(false);
       setSel(code);
-      setToast({ kind: "ok", txt: `طلب ${code} اتسجل، و${d.id} بقى «محجوز» على الموقع.` });
+      const left = (d.available ?? 1) - n.quantity;
+      setToast({ kind: "ok", txt: left > 0 ? `طلب ${code} اتسجل (${n.quantity} من ${d.id}) — فاضل ${left} متاح على الموقع.` : `طلب ${code} اتسجل، و${d.id} بقى «محجوز» على الموقع.` });
     });
 
   const findAccount = async (email: string) => {
@@ -151,11 +153,9 @@ function OrdersPage() {
         return txt;
       });
       const dev = deviceOf(so);
-      // Received → «تم البيع» on the site for the warranty window, then archived
-      // (a database trigger does it too — this keeps the admin's copy in step).
-      if (isAdmin && next === STEP_TRIAL && dev) {
-        updateDevice(dev.id, { status: "sold", archiveAt: new Date(Date.now() + BUSINESS.trialDays * 86_400_000).toISOString() });
-      }
+      // Received → the database marks «تم البيع» once every unit is received
+      // (archived after the warranty). Refresh our copy.
+      if (next === STEP_TRIAL) await reloadDevices();
       if (isAdmin && next >= STEP_RELEASED) await release(so);
       // «يُفحص عند الطلب»: the inspection at HQ goes on the inspections list.
       let extra = "";
@@ -189,8 +189,8 @@ function OrdersPage() {
         await api.addPayment(so.id, { kind: "refund", amount: refund, method: so.payMethod ?? "", reference: "" }, `${fmt(refund)} ج.م رجعت للمشتري`);
       }
       await api.closeOrder(so.id, kind, why);
-      const dev = deviceOf(so);
-      if (dev && (dev.status === "reserved" || dev.status === "sold")) updateDevice(dev.id, { status: "published", archiveAt: undefined });
+      // Units free again → the database puts the listing back on sale.
+      await reloadDevices();
       setErr("");
       setToast({ kind: "info", txt: `${so.id}: ${why}. الإعلان رجع متاح.` });
     });

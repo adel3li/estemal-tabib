@@ -8,14 +8,15 @@ import { routes } from "@/lib/routes";
 import { OldPrice } from "@/components/site/Price";
 import { SaveButton } from "@/components/site/SaveButton";
 import { useSettings } from "@/lib/settings";
-import { askMessage, brandModel, orderMessage, svgProps } from "./helpers";
+import { askMessage, brandModel, orderMessage, svgProps, unitsLeft } from "./helpers";
 
 const ic = (w = 22) => ({ "aria-hidden": true, width: w, height: w, viewBox: "0 0 24 24", ...svgProps, strokeWidth: 1.8 }) as const;
 const pill = { padding: "2px 10px", borderRadius: 999, background: "#F5F7F4", fontSize: 12, fontWeight: 600, color: "#3C4C48" } as const;
 const tile = { padding: "12px 6px", borderRadius: 14, display: "flex", flexDirection: "column", alignItems: "center", gap: 6 } as const;
 const wRow = { padding: "12px 16px", display: "flex", alignItems: "center", gap: 12, borderTop: "1px solid #E5EBE8" } as const;
 
-export function PriceCard({ d, promo, onPromo }: { d: Device; promo: string; onPromo: (v: string) => void }) {
+export function PriceCard({ d, promo, onPromo, qty = 1, onQty }: { d: Device; promo: string; onPromo: (v: string) => void; qty?: number; onQty?: (n: number) => void }) {
+  const left = unitsLeft(d);
   const { wa } = useSettings();
   const inspected = d.inspection === "inspected";
   const days = BUSINESS.trialDays;
@@ -131,6 +132,19 @@ export function PriceCard({ d, promo, onPromo }: { d: Device; promo: string; onP
           // Phase 1 (PHASE1_PROMPT §9): ordering happens on WhatsApp; orders are Phase 2.
           // The discount code rides along in the message; the team checks it by hand.
           <>
+          {left > 1 && onQty ? (
+            <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 10, padding: "10px 14px", borderRadius: 12, background: "#E3F0ED" }}>
+              <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.4 }}>
+                <span style={{ fontWeight: 700, color: "#0B4A44" }}>متاح {left} قطع</span>
+                <span style={{ fontSize: 13, color: "#0B4A44" }}>{qty > 1 ? `الإجمالي: ${(d.price * qty).toLocaleString("en-US")} ج.م` : "السعر للقطعة الواحدة"}</span>
+              </span>
+              <span role="group" aria-label="الكمية" style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <button type="button" aria-label="قلّل" disabled={qty <= 1} onClick={() => onQty(Math.max(1, qty - 1))} style={{ width: 44, height: 44, borderRadius: 12, border: "1px solid #9CCBC2", background: "#FFFFFF", font: "inherit", fontSize: 20, cursor: "pointer" }}>−</button>
+                <output aria-live="polite" style={{ minWidth: 28, textAlign: "center", fontWeight: 700, fontSize: 18 }}>{qty}</output>
+                <button type="button" aria-label="زوّد" disabled={qty >= left} onClick={() => onQty(Math.min(left, qty + 1))} style={{ width: 44, height: 44, borderRadius: 12, border: "1px solid #9CCBC2", background: "#FFFFFF", font: "inherit", fontSize: 20, cursor: "pointer" }}>+</button>
+              </span>
+            </div>
+          ) : null}
           <label className="li-promo" style={{ display: "flex", flexDirection: "column", gap: 6, fontSize: 14, fontWeight: 600 }}>
             عندك كود خصم؟
             <input
@@ -146,7 +160,7 @@ export function PriceCard({ d, promo, onPromo }: { d: Device; promo: string; onP
             />
             <span style={{ fontSize: 13, fontWeight: 400, color: "#4A5A56" }}>الكود بيتبعت مع طلبك، وبنأكدلك الخصم على واتساب.</span>
           </label>
-          <a href={wa(orderMessage(d, promo))} target="_blank" rel="noopener noreferrer" className="li-cta" style={{ minHeight: 56, borderRadius: 14, background: "#0D5C55", color: "#FFFFFF", fontWeight: 700, fontSize: 18, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+          <a href={wa(orderMessage(d, promo, qty))} target="_blank" rel="noopener noreferrer" className="li-cta" style={{ minHeight: 56, borderRadius: 14, background: "#0D5C55", color: "#FFFFFF", fontWeight: 700, fontSize: 18, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
             {inspected ? "اطلب الجهاز" : "اطلب الجهاز وابدأ الفحص"}
             <svg {...ic(20)} strokeWidth={2}><path d="M19 12H5" /><path d="M11 6l-6 6 6 6" /></svg>
           </a>

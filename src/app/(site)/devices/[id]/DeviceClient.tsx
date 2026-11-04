@@ -36,6 +36,8 @@ export function DeviceClient() {
   const d = getDevice(id);
   // Discount code typed on the price card; both order buttons send it.
   const [promo, setPromo] = useState("");
+  // How many units (only shown when there are several).
+  const [qty, setQty] = useState(1);
   const code = d && isPublic(d) ? d.id : null;
 
   // «الأكثر مشاهدة» (ADMIN_SPEC open point B): count one view per device per browser session.
@@ -83,12 +85,12 @@ export function DeviceClient() {
           <DataGrid d={d} />
         </div>
         <aside className="li-aside" style={{ minWidth: 0, display: "flex", flexDirection: "column", gap: 16 }}>
-          <PriceCard d={d} promo={promo} onPromo={setPromo} />
+          <PriceCard d={d} promo={promo} onPromo={setPromo} qty={qty} onQty={setQty} />
         </aside>
       </section>
 
       {inspected ? <Report d={d} /> : <Steps />}
-      <OrderBar d={d} promo={promo} />
+      <OrderBar d={d} promo={promo} qty={qty} />
     </div>
   );
 }

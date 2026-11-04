@@ -22,10 +22,13 @@ export const COND_TILE: Record<Condition, { text: string; bg: string; lab: strin
   c: { text: "أقل من 60% · محتاج صيانة", bg: "#FBEEDC", lab: "#6B3A10", fg: "#8A4209" },
 };
 
-export function orderMessage(d: Device, promo = ""): string {
+export function orderMessage(d: Device, promo = "", qty = 1): string {
   const code = promo.trim();
-  return `أهلاً، عايز أطلب الجهاز ده من «استعمال طبيب»:\n${d.title} — ${typeLabel(d.type)}\nكود الجهاز: ${d.id}${code ? `\nكود الخصم: ${code}` : ""}`;
+  return `أهلاً، عايز أطلب الجهاز ده من «استعمال طبيب»:\n${d.title} — ${typeLabel(d.type)}\nكود الجهاز: ${d.id}${qty > 1 ? `\nالكمية: ${qty}` : ""}${code ? `\nكود الخصم: ${code}` : ""}`;
 }
+
+/** Units a buyer can order now (several identical units, client 4 Nov). */
+export const unitsLeft = (d: Device) => Math.max(0, d.available ?? 1);
 
 export function askMessage(d: Device): string {
   return `أهلاً، عندي سؤال عن الجهاز ده:\n${d.title}\nكود الجهاز: ${d.id}`;

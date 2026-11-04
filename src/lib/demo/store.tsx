@@ -83,6 +83,8 @@ export type DemoApi = {
   /** «اعتمد ونشّر»: marks the inspection done, writes the report to the device,
    *  and publishes it for pre-publish inspections. Returns the device id. */
   approveInspection: (id: string) => string;
+  /** Re-read the devices from the database (after orders move stock / status there). */
+  reloadDevices: () => Promise<void>;
   /** Save / unsave a device (signed-in users; others are sent to /login). */
   toggleFavorite: (deviceId: string) => void;
   /** Published devices that match a buyer request (ADMIN_SPEC §6, open point C). */
@@ -501,6 +503,14 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     });
   }, [commit, userId]);
 
+  const reloadDevices: DemoApi["reloadDevices"] = useCallback(async () => {
+    if (!SUPABASE_URL) return;
+    const devices = await fetchDevices(supabaseBrowser());
+    synced.current = new Map(devices.map((d) => [d.id, d]));
+    ref.current = { ...ref.current, devices };
+    setState(ref.current);
+  }, []);
+
   const matchesFor: DemoApi["matchesFor"] = useCallback((r) => state.devices.filter((d) => deviceMatches(d, r)), [state.devices]);
 
   const api = useMemo<DemoApi>(
@@ -520,9 +530,10 @@ export function DemoProvider({ children }: { children: ReactNode }) {
       updateInspection,
       approveInspection,
       toggleFavorite,
+      reloadDevices,
       matchesFor,
     }),
-    [ready, devicesError, submissionsError, state, getDevice, addDevice, updateDevice, updateSubmission, acceptSubmission, setSellerTrust, updateRequest, addInspection, updateInspection, approveInspection, toggleFavorite, matchesFor],
+    [ready, devicesError, submissionsError, state, getDevice, addDevice, updateDevice, updateSubmission, acceptSubmission, setSellerTrust, updateRequest, addInspection, updateInspection, approveInspection, toggleFavorite, reloadDevices, matchesFor],
   );
 
   return <DemoContext.Provider value={api}>{children}</DemoContext.Provider>;

@@ -63,6 +63,9 @@ export function DeviceCard({ d }: { d: Device }) {
             <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" {...svg} strokeWidth={2}><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4 2.5-2.5z" /></svg>
             صيانة {d.maintenanceMonths} شهور
           </span>
+          {(d.available ?? 1) > 1 ? (
+            <span style={{ padding: "2px 10px", borderRadius: 999, background: "#FBEEDC", fontSize: 12, fontWeight: 700, color: "#8A4209" }}>متاح {d.available} قطع</span>
+          ) : null}
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, paddingTop: 12, borderTop: "1px solid #E5EBE8", marginTop: "auto" }}>
           <span style={{ display: "flex", flexDirection: "column", gap: 2, minWidth: 0 }}>

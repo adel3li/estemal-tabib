@@ -51,7 +51,8 @@ export const inspView = (o: Order): [string, string, string] =>
   o.insp === "inspected" ? [INSPECTION_LABEL.inspected, "#0D5C55", "#FFFFFF"] : [INSPECTION_LABEL.on_order, "#E6EDF7", "#24508F"];
 
 /** Seller net: the fixed amount from the listing when known (ADMIN_SPEC §3), else 85%. */
-export const netOf = (o: Order) => o.sellerNet ?? sellerNetFromSalePrice(o.amount);
+/** Seller net for the whole order: fixed per-unit amount × units (ADMIN_SPEC §3), else 85% of the total. */
+export const netOf = (o: Order) => (o.sellerNet ? o.sellerNet * (o.quantity ?? 1) : sellerNetFromSalePrice(o.amount));
 export const netTxt = (o: Order) => fmt(netOf(o));
 
 export type Toast = { kind: "ok" | "info"; txt: string };

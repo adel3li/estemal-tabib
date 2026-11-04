@@ -356,6 +356,33 @@ async function main() {
   check("a device takes the new category + its details", !r.error && r.data.type === catId && r.data.specs.f1 === "256 GB", r.error?.message);
   await service.from("devices").update({ type: "apex", specs: {} }).eq("id", draft);
   await service.from("device_categories").delete().eq("id", catId);
+
+  // ── Quantity (stock follows the orders) ──────────────────────────────────
+  console.log("\nquantity");
+  const q = await service.from("devices").insert({ title: `${tag} qty`, type: "cure", condition: "a", sale_price: 1000, status: "published", quantity: 3 }).select("id").single();
+  created.devices.push(q.data.id);
+  const stock = async () => (await service.from("devices").select("status, available, archive_at").eq("id", q.data.id).single()).data;
+  let x = await stock();
+  check("new listing: 3 available", x.available === 3 && x.status === "published", JSON.stringify(x));
+  const o1 = await admin.client.from("orders").insert({ device_id: q.data.id, price: 2000, quantity: 2 }).select("id").single();
+  created.orders.push(o1.data.id);
+  x = await stock();
+  check("order for 2 → 1 left, still on sale", x.available === 1 && x.status === "published", JSON.stringify(x));
+  const o2 = await admin.client.from("orders").insert({ device_id: q.data.id, price: 1000, quantity: 1 }).select("id").single();
+  created.orders.push(o2.data.id);
+  x = await stock();
+  check("last unit ordered → «محجوز», 0 left", x.available === 0 && x.status === "reserved", JSON.stringify(x));
+  await admin.client.from("orders").update({ status: "trial", trial_ends_at: new Date(Date.now() + 3 * 86400e3).toISOString() }).eq("id", o1.data.id);
+  x = await stock();
+  check("2 of 3 received → still «محجوز»", x.status === "reserved", JSON.stringify(x));
+  await admin.client.from("orders").update({ status: "cancelled_refunded" }).eq("id", o2.data.id);
+  x = await stock();
+  check("an order cancelled → back on sale, 1 left", x.available === 1 && x.status === "published", JSON.stringify(x));
+  await admin.client.from("devices").update({ quantity: 2 }).eq("id", q.data.id);
+  x = await stock();
+  check("quantity lowered to 2 and both received → «تم البيع» with archive date", x.status === "sold" && x.available === 0 && !!x.archive_at, JSON.stringify(x));
+  r = await anon.from("public_devices").select("quantity, available").eq("id", q.data.id);
+  check("public view shows quantity / available", !r.error && r.data[0]?.quantity === 2, r.error?.message);
 }
 
 async function cleanup() {

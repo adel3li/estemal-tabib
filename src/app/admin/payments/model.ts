@@ -30,5 +30,6 @@ export function moneyStatus(o: Order, now: number): MoneyStatus {
 export const iconOf = (o: Order): PmIconName => (o.sym === "unit" ? "unit" : o.sym === "small" ? "hand" : "box");
 
 /** Seller net: fixed amount from the listing when known (ADMIN_SPEC §3), else 85%. */
-export const netOf = (o: Order) => o.sellerNet ?? sellerNetFromSalePrice(o.amount);
+/** Seller net for the whole order: fixed per-unit amount × units (ADMIN_SPEC §3), else 85% of the total. */
+export const netOf = (o: Order) => (o.sellerNet ? o.sellerNet * (o.quantity ?? 1) : sellerNetFromSalePrice(o.amount));
 export const FEE_PCT = `${Math.round(BUSINESS.platformFeeMaxRate * 100)}%`;

@@ -41,6 +41,8 @@ export type FormState = {
   price: string;
   /** «السعر قبل الخصم» (optional) — the device shows in «فرصة متتفوتش». */
   oldPrice: string;
+  /** How many of this exact device we have. */
+  quantity: string;
   maint: MaintenanceMonths;
   notes: string;
   hasBox?: boolean;
@@ -73,6 +75,7 @@ export const emptyForm = (): FormState => ({
   defects: "",
   price: "",
   oldPrice: "",
+  quantity: "1",
   maint: BUSINESS.maintenanceMonthsOptions[0],
   notes: "",
 });
@@ -105,6 +108,7 @@ export function formFromDevice(d: Device): FormState {
     defects: d.declaredDefects,
     price: d.price ? String(d.price) : "",
     oldPrice: d.compareAtPrice ? String(d.compareAtPrice) : "",
+    quantity: String(d.quantity ?? 1),
     maint: d.maintenanceMonths,
     notes: d.internalNotes ?? "",
     hasBox: d.hasBox,
@@ -187,6 +191,8 @@ export function deviceFields(f: FormState, base?: Device): Omit<Device, "id" | "
     governorate: f.governorate,
     price: parseNum(f.price),
     compareAtPrice: parseNum(f.oldPrice) > parseNum(f.price) ? Math.round(parseNum(f.oldPrice)) : undefined,
+    quantity: Math.max(1, Math.round(parseNum(f.quantity)) || 1),
+    available: base?.available,
     condition: f.cond,
     inspection: f.insp,
     maintenanceMonths: f.maint,

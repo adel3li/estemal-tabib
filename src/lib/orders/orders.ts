@@ -81,6 +81,8 @@ export type Order = {
   sellerCo?: boolean;
   /** Seller's fixed net (device_private), filled by the admin page. */
   sellerNet?: number;
+  /** Units in this order (price is the total). */
+  quantity: number;
   amount: number;
   /** «full» once the money in covers the price. */
   paid: "full" | "dep";
@@ -133,6 +135,7 @@ export const normalizeOrderId = (id: string) => `#${decodeURIComponent(id).repla
 type Row = {
   id: string;
   public_code: string;
+  quantity: number;
   buyer_id: string | null;
   device_id: string;
   status: DbStatus;
@@ -155,7 +158,7 @@ type Row = {
 };
 
 const COLUMNS =
-  "id, public_code, buyer_id, device_id, status, price, delivery_name, delivery_phone, delivery_governorate, delivery_address, payment_method, shipping_company, tracking_no, eta, device_location, delivered_at, trial_ends_at, created_at, device:devices(public_code, title, type, governorate, inspection_state, maintenance_months), events:order_events(status, note, created_at, actor:profiles(full_name)), payments(kind, amount, method, reference, status, created_at)";
+  "id, public_code, quantity, buyer_id, device_id, status, price, delivery_name, delivery_phone, delivery_governorate, delivery_address, payment_method, shipping_company, tracking_no, eta, device_location, delivered_at, trial_ends_at, created_at, device:devices(public_code, title, type, governorate, inspection_state, maintenance_months), events:order_events(status, note, created_at, actor:profiles(full_name)), payments(kind, amount, method, reference, status, created_at)";
 
 const stepOf = (s: DbStatus) => STEP_STATUS.indexOf(s as StepStatus);
 const COL: Partial<Record<DbStatus, string>> = { funds_held: "#3F7A1F", released_to_seller: "#3F7A1F", cancelled_refunded: "#B3261E", returned: "#B3261E", shipping: "#24508F", trial: "#0D5C55" };
@@ -174,7 +177,8 @@ function fromRow(r: Row): Order {
     id: r.public_code,
     date: whenAr(r.created_at).split("،")[0],
     createdIso: r.created_at,
-    device: d?.title ?? "—",
+    // «أوتوكلاف × 3» when the order is for several units.
+    device: `${d?.title ?? "—"}${(r.quantity ?? 1) > 1 ? ` × ${r.quantity}` : ""}`,
     cat: d ? typeLabel(d.type) : "",
     sym: (d && SYM[artKey(d.type)]) || "small",
     gov: d?.governorate ?? "",
@@ -187,6 +191,7 @@ function fromRow(r: Row): Order {
     buyerAddress: r.delivery_address ?? "",
     seller: "",
     amount: r.price,
+    quantity: r.quantity ?? 1,
     paid: collected >= r.price ? "full" : "dep",
     collected,
     remaining: Math.max(0, r.price - collected),
@@ -241,6 +246,8 @@ async function reload(key: string) {
 
 export type NewOrder = {
   deviceDbId: string;
+  /** Units (price is the total for all of them). */
+  quantity: number;
   price: number;
   buyerId?: string;
   buyerName: string;
@@ -307,6 +314,7 @@ export function useOrders(): OrdersApi {
       .insert({
         device_id: n.deviceDbId,
         buyer_id: n.buyerId ?? null,
+        quantity: n.quantity,
         price: n.price,
         deposit: n.paidNow > 0 && n.paidNow < n.price ? n.paidNow : 0,
         status,

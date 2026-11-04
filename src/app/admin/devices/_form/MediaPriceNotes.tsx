@@ -116,6 +116,20 @@ export function PriceSection({ f, set }: { f: FormState; set: (patch: Partial<Fo
           </span>
         </label>
         <label className="ad-field">
+          <span>الكمية (كام قطعة عندنا من نفس الجهاز)</span>
+          <input
+            type="text"
+            inputMode="numeric"
+            className="ad-in"
+            value={f.quantity}
+            onChange={(e) => set({ quantity: e.target.value })}
+            aria-describedby="ad-qty-hint"
+          />
+          <span id="ad-qty-hint" className="ad-hint">
+            {parseNum(f.quantity) > 1 ? `الإعلان بيظهر مرة واحدة ومكتوب «متاح ${Math.round(parseNum(f.quantity))} قطع»، والمشتري يقدر يطلب أكتر من واحد. السعر للقطعة الواحدة.` : "لو عندك أكتر من واحد بنفس المواصفات بالظبط، اكتب العدد."}
+          </span>
+        </label>
+        <label className="ad-field">
           مدة الصيانة المجانية
           <select className="ad-in" value={f.maint} onChange={(e) => set({ maint: Number(e.target.value) as FormState["maint"] })}>
             {BUSINESS.maintenanceMonthsOptions.map((m) => (

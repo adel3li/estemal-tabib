@@ -26,6 +26,7 @@ export function NewOrderForm({ devices, busy, findAccount, onCreate, onCancel }:
   // Device picker: type the code (L-215) or part of the name (client, 4 Nov).
   const [find, setFind] = useState("");
   const [price, setPrice] = useState("");
+  const [qty, setQty] = useState("1");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [gov, setGov] = useState("");
@@ -42,10 +43,17 @@ export function NewOrderForm({ devices, busy, findAccount, onCreate, onCancel }:
     setDeviceId(id);
     const x = devices.find((y) => y.id === id);
     if (x) setPrice(String(x.price));
+    setQty("1");
   };
 
   const submit = async () => {
     const p = Math.round(parseNum(price));
+    const units = Math.max(1, Math.round(parseNum(qty)) || 1);
+    const free = d?.available ?? 1;
+    if (d && units > free) {
+      setErr(`متاح ${free} بس من الجهاز ده.`);
+      return;
+    }
     const paid = Math.round(parseNum(paidNow));
     const digits = phone.replace(/[^0-9]/g, "");
     const missing = [
@@ -76,6 +84,7 @@ export function NewOrderForm({ devices, busy, findAccount, onCreate, onCancel }:
     onCreate(
       {
         deviceDbId: d.dbId ?? "",
+        quantity: units,
         price: p,
         buyerId,
         buyerName: name.trim(),
@@ -133,8 +142,24 @@ export function NewOrderForm({ devices, busy, findAccount, onCreate, onCancel }:
             </>
           )}
         </div>
+        {d && (d.quantity ?? 1) > 1 ? (
+          <label className="ad-field">
+            الكمية (متاح {d.available ?? 1} من {d.quantity})
+            <input
+              type="text"
+              inputMode="numeric"
+              className="ad-in"
+              value={qty}
+              onChange={(e) => {
+                setQty(e.target.value);
+                const u = Math.max(1, Math.round(parseNum(e.target.value)) || 1);
+                setPrice(String(d.price * u));
+              }}
+            />
+          </label>
+        ) : null}
         <label className="ad-field">
-          سعر البيع (ج.م)
+          {d && (d.quantity ?? 1) > 1 ? "إجمالي السعر (ج.م)" : "سعر البيع (ج.م)"}
           <input type="text" inputMode="numeric" className="ad-in" value={price} onChange={(e) => setPrice(e.target.value)} />
         </label>
         <label className="ad-field">

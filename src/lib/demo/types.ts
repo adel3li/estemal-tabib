@@ -60,6 +60,10 @@ export type Device = {
   price: number; // EGP
   /** Values of the category's own detail fields, by field key (devices.specs). */
   specs?: Record<string, string>;
+  /** Units we have of this exact device (client, 4 Nov). Default 1. */
+  quantity?: number;
+  /** Units not taken by an open order (kept by the database). */
+  available?: number;
   /** «السعر قبل الخصم»: old price shown crossed out; devices with one are «فرصة متتفوتش». */
   compareAtPrice?: number;
   condition: Condition;

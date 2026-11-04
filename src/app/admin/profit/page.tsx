@@ -47,7 +47,8 @@ export default function ProfitPage() {
         .map((o) => {
           const d = state.devices.find((x) => x.dbId === o.deviceDbId);
           const company = d?.source === "company";
-          const cost = company ? (d?.purchaseCost ?? 0) : (d?.sellerNet ?? sellerNetFromSalePrice(o.amount));
+          const units = o.quantity ?? 1;
+          const cost = company ? (d?.purchaseCost ?? 0) * units : d?.sellerNet ? d.sellerNet * units : sellerNetFromSalePrice(o.amount);
           const items = (exp ?? []).filter((e) => e.device_id === o.deviceDbId);
           const spent = items.reduce((a, e) => a + e.amount, 0);
           return {
