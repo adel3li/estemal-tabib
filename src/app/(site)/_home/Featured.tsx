@@ -8,7 +8,8 @@ import { useState } from "react";
 import { routes } from "@/lib/routes";
 import { OldPrice } from "@/components/site/Price";
 import { SaveHeart } from "@/components/site/SaveButton";
-import { isListed, useDemo } from "@/lib/demo/store";
+import { isListed } from "@/lib/demo/store";
+import { usePublicDevices } from "@/lib/public/seed";
 import { fmt, typeLabel } from "@/lib/demo/labels";
 import type { Device } from "@/lib/demo/types";
 import { artFor } from "./artMap";
@@ -27,10 +28,10 @@ const FILTERS: [string, (d: Device) => boolean][] = [
 const countText = (n: number) => (n === 1 ? "جهاز واحد" : n === 2 ? "جهازين" : `${n} أجهزة`);
 
 export function Featured() {
-  const { state } = useDemo();
+  const { devices } = usePublicDevices();
   const [cur, setCur] = useState(0);
 
-  const listed = state.devices.filter(isListed);
+  const listed = devices.filter(isListed);
   const ordered = [...listed.filter((d) => d.featured), ...listed.filter((d) => !d.featured)];
   const shown = ordered.filter(FILTERS[cur][1]).slice(0, SHOW);
 

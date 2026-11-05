@@ -6,7 +6,8 @@ import Link from "next/link";
 import { DevicePic } from "@/components/site/DevicePic";
 import { useEffect, useRef, useState } from "react";
 import { routes } from "@/lib/routes";
-import { isListed, useDemo } from "@/lib/demo/store";
+import { isListed } from "@/lib/demo/store";
+import { usePublicDevices } from "@/lib/public/seed";
 import { CONDITIONS, fmt, typeLabel } from "@/lib/demo/labels";
 import type { Condition, Device } from "@/lib/demo/types";
 import { artFor } from "./artMap";
@@ -28,8 +29,8 @@ function subtitle(d: Device) {
 }
 
 export function HeroCarousel() {
-  const { state, ready } = useDemo();
-  const listed = state.devices.filter(isListed);
+  const { devices, ready } = usePublicDevices();
+  const listed = devices.filter(isListed);
   const slides = [...listed.filter((d) => d.featured), ...listed.filter((d) => !d.featured)].slice(0, MAX_SLIDES);
   const n = slides.length;
 

@@ -1,5 +1,3 @@
-"use client";
-
 // Devices ⇄ Supabase (Step 4). The app keeps using the `Device` shape from the
 // demo types; these helpers map it to the §7 tables:
 //   devices (public columns) · device_private (admin-only) · device_reports (public report)

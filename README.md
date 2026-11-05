@@ -13,7 +13,7 @@ A marketplace for used dental equipment in Egypt. A certified technician inspect
 
 | Part | What |
 |---|---|
-| Site | Next.js 16 (App Router, TypeScript), Arabic RTL, IBM Plex Sans Arabic (self-hosted) |
+| Site | Next.js 16 (App Router, TypeScript), Arabic RTL, IBM Plex Sans Arabic (self-hosted). Public listings are rendered on the server (fast, Google, link previews). |
 | Hosting | **Vercel**: every push to `claude/nice-fermat-y7zom3` deploys. A Cloudflare Workers build (OpenNext) also works; see below. |
 | Database + login | **Supabase**: Postgres with row-level security on every table; login is Google only for now. |
 | Photos | **Supabase Storage**: `device-photos` (public) and `submission-photos` (private). Each photo is shrunk in the browser before upload. |
@@ -46,6 +46,7 @@ The site itself needs only these two. Find them in Supabase → Project Settings
 |---|---|
 | `NEXT_PUBLIC_SUPABASE_URL` | `https://<project-ref>.supabase.co`, with no `<` `>` brackets |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | the "publishable" / anon key |
+| `NEXT_PUBLIC_SITE_URL` | optional: the site's own domain once it has one (for link previews); defaults to the Vercel address |
 
 Only the scripts below use these, so never add them to Vercel. Keep them in `.env.local`, which git ignores:
 

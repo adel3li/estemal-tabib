@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useRef, useState } from "react";
-import { isListed, useDemo } from "@/lib/demo/store";
+import { isListed } from "@/lib/demo/store";
+import { usePublicDevices } from "@/lib/public/seed";
 import { routes } from "@/lib/routes";
 import { useSettings } from "@/lib/settings";
 import { BrowseArt } from "./art";
@@ -16,7 +17,7 @@ const svg = { fill: "none", stroke: "currentColor", strokeLinecap: "round", stro
 
 export function BrowseClient() {
   const { wa } = useSettings();
-  const { state, ready, devicesError } = useDemo();
+  const { devices, ready, failed: devicesError } = usePublicDevices();
   const router = useRouter();
   const sp = useSearchParams();
   const spKey = sp.toString();
@@ -40,7 +41,7 @@ export function BrowseClient() {
   const set = (p: Partial<Filters>) => commit({ ...f, ...p });
   const reset = () => commit(EMPTY);
 
-  const items = applyFilters(state.devices.filter(isListed), f);
+  const items = applyFilters(devices.filter(isListed), f);
   const n = items.length;
   const countLabel = n === 1 ? "جهاز واحد متاح" : `${n} أجهزة متاحة`;
   const active = [f.st !== "all", f.cat !== "all", f.maint !== "all", f.cond !== "all", Boolean(f.pmin || f.pmax)].filter(Boolean).length;

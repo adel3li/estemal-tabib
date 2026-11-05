@@ -8,9 +8,16 @@ import { BrowseArt } from "./devices/art";
 import { Featured } from "./_home/Featured";
 import { Rows } from "./_home/Rows";
 import { SellQuick } from "./_home/SellQuick";
+import { getPublicData } from "@/lib/public/data";
+import { PublicSeed } from "@/lib/public/seed";
 
-export default function HomePage() {
+// Rebuilt at most every 30 s with the current listings; the browser then loads the live list.
+export const revalidate = 30;
+
+export default async function HomePage() {
+  const data = await getPublicData();
   return (
+    <PublicSeed devices={data.devices} categories={data.categories}>
     <div className="mn-page">
       <MainArt />
       <BrowseArt />
@@ -20,5 +27,6 @@ export default function HomePage() {
       <Featured />
       <SellQuick />
     </div>
+    </PublicSeed>
   );
 }
