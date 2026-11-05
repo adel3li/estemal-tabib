@@ -34,10 +34,12 @@ function Chip({ on, label, onClick, col = "#0D5C55" }: { on: boolean; label: str
 /** The «قبول / اطلب صور / حدد ميعاد / رفض» block with its sub-flows (Admin-Submissions.dc.html script). */
 export function SubmissionActions({ p, h }: { p: Submission; h: ActionHandlers }) {
   const [mode, setMode] = useState<Mode>("");
-  const [fee, setFee] = useState(String(p.feeAmount ?? MIN_FEE));
+  // Device sent to us and left ≥ 7 days → no fee (client, 5 Nov 2026); kept with the seller → at least MIN_FEE.
+  const atUs = p.keepLocation === "send_to_platform";
+  const [fee, setFee] = useState(String(p.feeAmount ?? (atUs ? 0 : MIN_FEE)));
   const [feeTried, setFeeTried] = useState(false);
   const feeNum = parseNum(fee);
-  const feeBad = !feeNum || feeNum < MIN_FEE;
+  const feeBad = atUs ? feeNum < 0 || (feeNum > 0 && feeNum < MIN_FEE) : !feeNum || feeNum < MIN_FEE;
   const [photoReq, setPhotoReq] = useState<string[]>(["plate"]);
   const [schedDate, setSchedDate] = useState("");
   const [schedSlot, setSchedSlot] = useState(SLOTS[0]);
@@ -95,7 +97,9 @@ export function SubmissionActions({ p, h }: { p: Submission; h: ActionHandlers }
         <div style={{ padding: 16, borderRadius: 16, background: "#EAF5DD", border: "1px solid #B9DB9A", display: "flex", flexDirection: "column", gap: 12 }}>
           <div style={{ fontWeight: 700, color: "#2C5A13" }}>قبول الطلب — رسوم الجدية للجهاز ده</div>
           <div style={{ fontSize: 14, color: "#2C5A13" }}>
-            هيتعمل إعلان مسودة من الطلب. حدد رسوم الجدية حسب نوع الجهاز وقيمته ({fmt(MIN_FEE)} ج.م على الأقل)، وبعدين اطلبها من البايع على واتساب. الإعلان بيتنشر أول ما الرسوم توصل.
+            {atUs
+              ? `البايع اختار يبعت الجهاز يفضل عندنا: مفيش رسوم جدية (اكتب 0)، بشرط الجهاز يفضل عندنا ${BUSINESS.minListingDays} أيام على الأقل. الشحن على البايع. لو هيفضل معاه في الآخر، حط رسوم ${fmt(MIN_FEE)} ج.م أو أكتر.`
+              : `هيتعمل إعلان مسودة من الطلب. حدد رسوم الجدية حسب نوع الجهاز وقيمته (${fmt(MIN_FEE)} ج.م على الأقل)، وبعدين اطلبها من البايع على واتساب. الإعلان بيتنشر أول ما الرسوم توصل.`}
           </div>
           <label className="ad-field" style={{ maxWidth: 260 }}>
             رسوم الجدية (ج.م)
@@ -111,7 +115,7 @@ export function SubmissionActions({ p, h }: { p: Submission; h: ActionHandlers }
           </label>
           {feeTried && feeBad ? (
             <div role="alert" style={{ fontSize: 13, color: "#B3261E", fontWeight: 600 }}>
-              الرسوم لازم تكون {fmt(MIN_FEE)} ج.م أو أكتر.
+              {atUs ? `اكتب 0 (من غير رسوم) أو ${fmt(MIN_FEE)} ج.م أو أكتر.` : `الرسوم لازم تكون ${fmt(MIN_FEE)} ج.م أو أكتر.`}
             </div>
           ) : null}
           <div className="sb-subacts">

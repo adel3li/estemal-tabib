@@ -81,7 +81,6 @@ function reportFrom(r: ReportRow): InspectionReport {
     no: orPh(r.report_code, "[###]"),
     date: r.inspected_at ? dateAr(r.inspected_at) : "[التاريخ]",
     serial: orPh(r.serial_no, "[S/N]"),
-    technician: orPh(r.technician_name, "[اسم الفني]"),
     efficiency: orPh(r.overall_efficiency, ""),
     appearance: orPh(r.appearance, ""),
     replacedParts: orPh(r.replaced_parts, "[القطع]"),
@@ -111,7 +110,7 @@ function deviceFrom(d: DeviceRow, p?: PrivateRow, r?: ReportRow): Device {
     available: d.available ?? 1,
     condition: d.condition,
     inspection: d.inspection_state,
-    maintenanceMonths: d.maintenance_months === 6 ? 6 : 3,
+    maintenanceMonths: d.maintenance_months === 6 ? 6 : d.maintenance_months === 1 ? 1 : 3,
     status: d.status,
     archiveAt: d.archive_at ?? undefined,
     // «مميز» ends by itself after BUSINESS.featuredMaxDays.
@@ -139,7 +138,7 @@ function deviceFrom(d: DeviceRow, p?: PrivateRow, r?: ReportRow): Device {
 export async function fetchDevices(sb: SupabaseClient, admin = false): Promise<Device[]> {
   const [dv, rp, md, pv] = await Promise.all([
     sb.from("devices").select(DEVICE_COLUMNS).order("created_at", { ascending: false }),
-    sb.from("device_reports").select("device_id, report_code, technician_name, inspected_at, checklist, overall_efficiency, appearance, serial_no, replaced_parts, condition, defects"),
+    sb.from("device_reports").select("device_id, report_code, inspected_at, checklist, overall_efficiency, appearance, serial_no, replaced_parts, condition, defects"),
     sb.from("device_media").select("device_id, r2_key, sort_order").eq("kind", "photo").order("sort_order"),
     // Admin-only table: don't even ask for it otherwise (it would just be refused).
     admin
@@ -203,7 +202,6 @@ const privateFrom = (d: Device, deviceId: string) => ({
 const reportRowFrom = (r: InspectionReport, deviceId: string, condition: Condition) => ({
   device_id: deviceId,
   report_code: orNull(r.no),
-  technician_name: orNull(r.technician),
   inspected_at: new Date().toISOString(),
   checklist: r.checklist.map((c, i) => ({ key: `row${i + 1}`, label: c.label, group: i < 4 ? "core" : "category", ok: c.result === "pass", note: c.note ?? null })),
   overall_efficiency: r.efficiency || null,

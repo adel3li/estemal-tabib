@@ -37,7 +37,8 @@ export type InspectionReport = {
   no: string; // «رقم التقرير»
   date: string;
   serial: string;
-  technician: string;
+  /** Not shown anywhere public — the name stays on the inspection (internal). */
+  technician?: string;
   efficiency: string; // e.g. «ممتاز»
   appearance: string; // e.g. «جيد جداً»
   replacedParts: string;
@@ -70,7 +71,7 @@ export type Device = {
   compareAtPrice?: number;
   condition: Condition;
   inspection: InspectionState;
-  maintenanceMonths: 3 | 6;
+  maintenanceMonths: 1 | 3 | 6;
   status: DeviceStatus;
   /** «تم البيع» devices leave the site at this time (warranty window over). */
   archiveAt?: string;
@@ -144,7 +145,7 @@ export type Submission = {
   photos: number;
   hasVideo: boolean;
   accessoryPhotos: number;
-  feeStatus: "pending" | "paid" | "refunded" | "forfeited";
+  feeStatus: "pending" | "paid" | "refunded" | "forfeited" | "waived"; // waived = device stays with us ≥ 7 days, no fee
   feeReference: string;
   /** Fee set for this device after acceptance (ADMIN_SPEC §2). */
   feeAmount?: number;
@@ -181,8 +182,11 @@ export type DeviceRequest = {
   notifiedAtIso?: string;
 };
 
-export type CheckKey = "run" | "look" | "parts" | "maint";
+/** «run» / «look» / «parts» / «maint» for the built-in items, «c-…» for added ones. */
+export type CheckKey = string;
 export type CheckValue = { v: "" | "pass" | "note"; n: string };
+/** One checklist item of an inspection (in order). */
+export type CheckItem = CheckValue & { key: CheckKey; label: string };
 
 export type Inspection = {
   /** inspections.id (database uuid); undefined until saved. */
@@ -206,7 +210,7 @@ export type Inspection = {
   orderDbId?: string;
   status: "scheduled" | "needs_review" | "done";
   form: {
-    checks: Record<CheckKey, CheckValue>;
+    checks: CheckItem[];
     efficiency: string;
     condition: Condition | "";
     defects: string;

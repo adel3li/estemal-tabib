@@ -1,6 +1,6 @@
 "use client";
 
-import { BUSINESS } from "@/config/business";
+import { BUSINESS, monthsAr } from "@/config/business";
 import { fmt } from "@/lib/demo/labels";
 import type { Order } from "@/lib/orders/orders";
 import { useSettings } from "@/lib/settings";
@@ -13,7 +13,7 @@ export function SideCards({ o }: { o: Order }) {
   const rows = [
     { Icon: RefreshIcon, label: "استبدال أو استرجاع", val: `${t} أيام` },
     { Icon: ShieldIcon, label: "ضمان تشغيل", val: `${t} أيام` },
-    { Icon: WrenchIcon, label: "صيانة", val: `${o.maint} شهور` },
+    { Icon: WrenchIcon, label: "صيانة", val: `${monthsAr(o.maint)}` },
   ];
   return (
     <aside className="ot-side" style={{ flex: "1 1 340px", minWidth: 0, display: "flex", flexDirection: "column", gap: 16 }}>

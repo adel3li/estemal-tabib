@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { BUSINESS } from "@/config/business";
+import { BUSINESS, monthsAr } from "@/config/business";
 import type { Device } from "@/lib/demo/types";
 import { fmt, typeLabel } from "@/lib/demo/labels";
 import { routes } from "@/lib/routes";
@@ -98,7 +98,7 @@ export function PriceCard({ d, promo, onPromo, qty = 1, onQty }: { d: Device; pr
         </div>
         <div style={{ ...wRow, background: "#E3F0ED" }}>
           <svg {...ic()} stroke="#0D5C55"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4 2.5-2.5z" /></svg>
-          <span style={{ flex: 1 }}>صيانة</span><span style={{ fontWeight: 700, color: "#0D5C55" }}>{d.maintenanceMonths} شهور</span>
+          <span style={{ flex: 1 }}>صيانة</span><span style={{ fontWeight: 700, color: "#0D5C55" }}>{monthsAr(d.maintenanceMonths)}</span>
         </div>
       </div>
 
@@ -106,7 +106,7 @@ export function PriceCard({ d, promo, onPromo, qty = 1, onQty }: { d: Device; pr
         <div style={{ display: "flex", alignItems: "center", gap: 12, padding: 14, borderRadius: 14, border: "1px solid #DCE3DF", fontSize: 15 }}>
           <svg {...ic()} stroke="#0D5C55" style={{ flex: "none" }}><path d="M3 7h11v9H3z" /><path d="M14 10h4l3 3v3h-7" /><circle cx="7" cy="17.5" r="1.8" /><circle cx="17" cy="17.5" r="1.8" /></svg>
           <span style={{ flex: 1, fontWeight: 600 }}>مدة التوصيل المتوقعة</span>
-          <span style={{ fontWeight: 700 }}>{BUSINESS.deliveryDaysInspected} أيام عمل</span>
+          <span style={{ fontWeight: 700 }}>{BUSINESS.deliveryDaysInspected} أيام</span>
         </div>
       ) : (
         <div style={{ display: "flex", alignItems: "flex-start", gap: 12, padding: 14, borderRadius: 14, border: "1px solid #DCE3DF", fontSize: 15 }}>
@@ -114,10 +114,10 @@ export function PriceCard({ d, promo, onPromo, qty = 1, onQty }: { d: Device; pr
           <span style={{ flex: 1, display: "flex", flexDirection: "column", gap: 4 }}>
             <span style={{ fontWeight: 600 }}>مدة التوصيل المتوقعة</span>
             <span style={{ display: "flex", justifyContent: "space-between", gap: 10, fontSize: 14, color: "#3C4C48" }}>
-              <span>شاملة الفحص</span><span style={{ fontWeight: 700, color: "#12221F" }}>{BUSINESS.deliveryDaysWithInspection} أيام عمل</span>
+              <span>شاملة الفحص</span><span style={{ fontWeight: 700, color: "#12221F" }}>{BUSINESS.deliveryDaysWithInspection} أيام</span>
             </span>
             <span style={{ display: "flex", justifyContent: "space-between", gap: 10, fontSize: 14, color: "#3C4C48" }}>
-              <span>لو الجهاز تم فحصه</span><span style={{ fontWeight: 700, color: "#12221F" }}>{BUSINESS.deliveryDaysInspected} أيام عمل</span>
+              <span>لو الجهاز تم فحصه</span><span style={{ fontWeight: 700, color: "#12221F" }}>{BUSINESS.deliveryDaysInspected} أيام</span>
             </span>
           </span>
         </div>

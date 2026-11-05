@@ -23,6 +23,7 @@ const ST_CHIPS: Chip<Filters["st"]>[] = [
 ];
 const MAINT_CHIPS: Chip<Filters["maint"]>[] = [
   { id: "all", label: "الكل" },
+  { id: "1", label: "شهر" },
   { id: "3", label: "3 شهور" },
   { id: "6", label: "6 شهور" },
 ];

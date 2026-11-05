@@ -58,6 +58,8 @@ export function FeeBox({ f, onSubmit, sending = false, sendLabel }: { f: Section
   const n = ackCount(f);
   const ready = n === ACKS.length;
   const fee = BUSINESS.sellerSeriousnessFeeEGP;
+  // Device sent to us and left ≥ 7 days → no seriousness fee (client, 5 Nov 2026).
+  const atUs = f.keepLocation === "send_to_platform";
   return (
     <aside style={{ minWidth: 0, display: "flex", flexDirection: "column", gap: 16 }}>
       <div className="sl-fee" style={{ borderRadius: 24, background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexDirection: "column", gap: 18 }}>
@@ -72,12 +74,20 @@ export function FeeBox({ f, onSubmit, sending = false, sendLabel }: { f: Section
             </span>
             <span style={{ fontWeight: 700, fontSize: 20 }}>رسوم جدية العرض</span>
           </span>
-          <span className="sl-fee-amt">{fee} ج.م <span style={{ fontSize: 14, fontWeight: 600 }}>بحد أدنى</span></span>
+          {atUs ? (
+            <span className="sl-fee-amt">مفيش</span>
+          ) : (
+            <span className="sl-fee-amt">{fee} ج.م <span style={{ fontSize: 14, fontWeight: 600 }}>بحد أدنى</span></span>
+          )}
         </div>
         {/* docs/ADMIN_SPEC.md §2: nothing to pay now; the amount is set after review. */}
         <div role="note" style={{ padding: "12px 16px", borderRadius: 14, background: "#E3F0ED", border: "1px solid #9CCBC2", color: "#0B4A44", fontSize: 15, fontWeight: 600 }}>
-          مش هتدفع حاجة دلوقتي. بنراجع طلبك خلال 24 ساعة، ولو اتقبل بنبلغك بقيمة الرسوم (حسب قيمة الجهاز) وإزاي تدفعها. وإعلانك بيتنشر أول ما الرسوم توصل.
+          {atUs
+            ? `مفيش رسوم جدية لأنك هتبعت الجهاز يفضل عندنا، بشرط يفضل ${BUSINESS.minListingDays} أيام على الأقل. بنراجع طلبك خلال 24 ساعة ونتفق معاك على ميعاد الشحن (الشحن على حسابك).`
+            : `مش هتدفع حاجة دلوقتي. بنراجع طلبك خلال 24 ساعة، ولو اتقبل بنبلغك بقيمة الرسوم (من ${fee} ج.م حسب قيمة الجهاز) وإزاي تدفعها. وإعلانك بيتنشر أول ما الرسوم توصل. لو بعت الجهاز يفضل عندنا ${BUSINESS.minListingDays} أيام على الأقل، مفيش رسوم.`}
         </div>
+        {/* Refund rules only matter when there's a fee. */}
+        {!atUs ? (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 12 }}>
           <div style={{ padding: "16px 18px", borderRadius: 16, background: "#E3F0ED", border: "1px solid #9CCBC2", display: "flex", flexDirection: "column", gap: 8, fontSize: 14, color: "#0B4A44" }}>
             <span style={{ fontWeight: 700, display: "flex", alignItems: "center", gap: 8 }}>
@@ -101,6 +111,7 @@ export function FeeBox({ f, onSubmit, sending = false, sendLabel }: { f: Section
             <span>• ما ردّيتش على تواصلنا لمدة {BUSINESS.noReplyBusinessDays} أيام عمل</span>
           </div>
         </div>
+        ) : null}
         <div style={{ fontSize: 14, color: "#4A5A56", display: "flex", alignItems: "flex-start", gap: 8 }}>
           <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0D5C55" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none", marginTop: 2 }}>
             <circle cx="12" cy="12" r="9" />

@@ -27,6 +27,7 @@ const FEE_ST: Record<MySubmission["fee_status"], [string, string, string]> = {
   paid: ["رسوم الجدية اتدفعت ✓", "#EAF5DD", "#3F7A1F"],
   refunded: ["رسوم الجدية اترجعت", "#E6EDF7", "#24508F"],
   forfeited: ["رسوم الجدية اتخصمت", "#FBE9E7", "#B3261E"],
+  waived: ["من غير رسوم جدية — الجهاز عندنا", "#E3F0ED", "#0D5C55"],
 };
 const REQ_ST: Record<MyRequest["status"], [string, string, string]> = {
   new: ["بندوّر لك", "#FBEEDC", "#8A4209"],

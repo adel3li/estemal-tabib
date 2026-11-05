@@ -1,3 +1,4 @@
+import { monthsAr } from "@/config/business";
 import type { Metadata } from "next";
 import "./styles.css";
 import { DeviceClient } from "./DeviceClient";
@@ -31,7 +32,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     typeLabel(d.type),
     `الحالة: ${CONDITIONS[d.condition].short}`,
     d.inspection === "inspected" ? "تم الفحص" : "يُفحص عند الطلب",
-    `ضمان صيانة ${d.maintenanceMonths} شهور`,
+    `ضمان صيانة ${monthsAr(d.maintenanceMonths)}`,
     d.status === "reserved" ? "محجوز" : d.status === "sold" ? "تم البيع" : null,
   ].filter(Boolean);
   const description = `${bits.join(" · ")}. فلوسك محفوظة لحد ما تستلم وتجرّب.`;

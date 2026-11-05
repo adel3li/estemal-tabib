@@ -10,12 +10,13 @@ const FEE_ST: Record<Submission["feeStatus"], [string, string, string]> = {
   refunded: ["اترجعت", "#E5EBE8", "#12221F"],
   pending: ["لسه متدفعتش", "#F5F7F4", "#4A5A56"],
   forfeited: ["اتخصمت", "#FBE9E7", "#B3261E"],
+  waived: ["من غير رسوم", "#E3F0ED", "#0D5C55"],
 };
 const amountOf = (s: Submission) => s.feeAmount ?? BUSINESS.sellerSeriousnessFeeEGP;
 
 /** Seller seriousness fees (requests that got to the fee stage). */
 export function SellerFees({ subs }: { subs: Submission[] }) {
-  const list = subs.filter((s) => s.status === "accepted" || s.feeStatus !== "pending");
+  const list = subs.filter((s) => s.feeStatus !== "waived" && (s.status === "accepted" || s.feeStatus !== "pending"));
   const sum = (st: Submission["feeStatus"]) => list.filter((s) => s.feeStatus === st).reduce((a, s) => a + amountOf(s), 0);
   return (
     <section className="ad-card" aria-labelledby="pm-fee" style={{ flex: "1 1 420px", minWidth: 0 }}>

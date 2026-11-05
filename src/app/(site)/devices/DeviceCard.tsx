@@ -1,3 +1,4 @@
+import { monthsAr } from "@/config/business";
 import { artKey } from "@/lib/demo/labels";
 import Link from "next/link";
 import type { BuiltinType, Device } from "@/lib/demo/types";
@@ -60,7 +61,7 @@ export function DeviceCard({ d }: { d: Device }) {
           <span style={{ padding: "2px 10px", borderRadius: 999, background: "#F5F7F4", border: "1px solid #E5EBE8", fontSize: 12, fontWeight: 600, color: "#3C4C48" }}>الحالة: {CONDITIONS[d.condition].short}</span>
           <span style={{ padding: "2px 10px", borderRadius: 999, background: "#E3F0ED", fontSize: 12, fontWeight: 600, color: "#0D5C55", display: "flex", alignItems: "center", gap: 4 }}>
             <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" {...svg} strokeWidth={2}><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4 2.5-2.5z" /></svg>
-            صيانة {d.maintenanceMonths} شهور
+            صيانة {monthsAr(d.maintenanceMonths)}
           </span>
           {(d.available ?? 1) > 1 ? (
             <span style={{ padding: "2px 10px", borderRadius: 999, background: "#FBEEDC", fontSize: 12, fontWeight: 700, color: "#8A4209" }}>متاح {d.available} قطع</span>

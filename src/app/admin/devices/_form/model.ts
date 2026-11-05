@@ -2,7 +2,7 @@
 import { categoryFields } from "@/lib/demo/labels";
 import { BUSINESS, sellerNetFromSalePrice, type MaintenanceMonths } from "@/config/business";
 import { CONDITIONS, parseNum } from "@/lib/demo/labels";
-import { CORE_CHECKS } from "@/lib/demo/seed";
+import { currentTemplate } from "@/lib/inspections/template";
 import type {
   Condition,
   Device,
@@ -33,7 +33,6 @@ export type FormState = {
   governorate: string;
   accessories: string;
   insp: InspectionState;
-  technician: string;
   inspDate: string; // yyyy-mm-dd from <input type="date">
   efficiency: string;
   cond: Condition;
@@ -68,7 +67,6 @@ export const emptyForm = (): FormState => ({
   governorate: "القاهرة",
   accessories: "",
   insp: "inspected",
-  technician: "",
   inspDate: "",
   efficiency: "ممتاز",
   cond: "a",
@@ -102,7 +100,6 @@ export function formFromDevice(d: Device): FormState {
     governorate: d.governorate,
     accessories: d.accessories,
     insp: d.inspection,
-    technician: real(d.report?.technician),
     efficiency: d.report?.efficiency && EFFICIENCY.includes(d.report.efficiency as (typeof EFFICIENCY)[number]) ? d.report.efficiency : "ممتاز",
     cond: d.condition,
     defects: d.declaredDefects,
@@ -157,7 +154,6 @@ function buildReport(f: FormState, existing?: InspectionReport): InspectionRepor
   if (existing) {
     return {
       ...existing,
-      technician: f.technician.trim() || existing.technician,
       efficiency: f.efficiency || existing.efficiency,
       date: date || existing.date,
     };
@@ -166,11 +162,10 @@ function buildReport(f: FormState, existing?: InspectionReport): InspectionRepor
     no: "[###]",
     date: date || "[التاريخ]",
     serial: "[S/N]",
-    technician: f.technician.trim() || "[اسم الفني]",
     efficiency: f.efficiency,
     appearance: CONDITIONS[f.cond].short,
     replacedParts: "[القطع]",
-    checklist: CORE_CHECKS.map(({ label }) => ({ label, result: "pass" as const })),
+    checklist: currentTemplate().map((label) => ({ label, result: "pass" as const })),
     defects: f.defects.trim() ? [f.defects.trim()] : [],
   };
 }

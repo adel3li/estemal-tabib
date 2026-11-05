@@ -1,7 +1,6 @@
-import { BUSINESS } from "@/config/business";
+import { BUSINESS, MAINT_LIST } from "@/config/business";
 
 const DAYS = BUSINESS.trialDays;
-const [M1, M2] = BUSINESS.maintenanceMonthsOptions;
 
 export function Warranty() {
   return (
@@ -54,7 +53,7 @@ export function Warranty() {
               </span>
               <span aria-hidden="true" style={{ fontSize: 30, fontWeight: 700, color: "#F2A33A", opacity: 0.35 }}>٣</span>
             </div>
-            <h3 style={{ margin: 0, fontSize: 21 }}>صيانة {M1} أو {M2} شهور</h3>
+            <h3 style={{ margin: 0, fontSize: 21 }}>صيانة {MAINT_LIST}</h3>
             <p style={{ margin: 0, color: "#C3D3CE" }}>حسب نوع الجهاز، ومكتوبة بوضوح على كل جهاز.</p>
           </li>
         </ol>

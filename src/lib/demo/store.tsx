@@ -28,7 +28,7 @@ import { fetchRequests, requestRow, saveRequest } from "@/lib/requests/db";
 import { fetchSubmissions, saveSubmission, setTrust as setTrustDb, whenAr, workflowRow } from "@/lib/submissions/db";
 import { supabaseBrowser } from "@/lib/supabase/client";
 import { SUPABASE_URL } from "@/lib/supabase/env";
-import { CORE_CHECKS } from "./seed";
+import { emptyChecks, findCheck } from "@/lib/inspections/template";
 import type {
   DemoState,
   Device,
@@ -395,7 +395,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
         dateLabel: dateLabelOf(input.scheduledAt),
         status: "scheduled",
         form: {
-          checks: { run: { v: "", n: "" }, look: { v: "", n: "" }, parts: { v: "", n: "" }, maint: { v: "", n: "" } },
+          checks: emptyChecks(),
           efficiency: "",
           condition: "",
           defects: "",
@@ -421,14 +421,13 @@ export function DemoProvider({ children }: { children: ReactNode }) {
         no: insp.id,
         date: todayAr(),
         serial: "[S/N]",
-        technician: insp.technician || "[اسم الفني]",
         efficiency: f.efficiency || "—",
-        appearance: f.checks.look.v === "note" ? "فيه ملاحظة" : "سليمة",
-        replacedParts: f.checks.parts.n || "مفيش",
-        checklist: CORE_CHECKS.map(({ key, label }) => ({
+        appearance: findCheck(f.checks, "look")?.v === "note" ? "فيه ملاحظة" : "سليمة",
+        replacedParts: findCheck(f.checks, "parts")?.n || "مفيش",
+        checklist: f.checks.map(({ label, v, n }) => ({
           label,
-          result: f.checks[key].v === "note" ? "note" : "pass",
-          note: f.checks[key].n || undefined,
+          result: v === "note" ? "note" : "pass",
+          note: n || undefined,
         })),
         defects: f.defects && f.defects !== "مفيش" ? [f.defects] : [],
       };

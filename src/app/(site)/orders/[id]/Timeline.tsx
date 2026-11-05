@@ -1,3 +1,4 @@
+import { monthsAr } from "@/config/business";
 import { ORDER_STEPS, STEP_RELEASED, STEP_REPORT, isSkipped, type Order } from "@/lib/orders/orders";
 import { CardIcon, CheckIcon, STEP_ICONS } from "./art";
 import { STEP_TEXT } from "./model";
@@ -74,8 +75,8 @@ export function Timeline({ o, reportHref, badges, onConfirm, onCancel }: Props) 
           <div style={{ fontWeight: 700, fontSize: 18, color: released ? "#3F7A1F" : "#12221F" }}>{released ? "اتحوّل للبايع" : "وبعدها: اتحوّل للبايع"}</div>
           <div style={{ fontSize: 15 }}>
             {released
-              ? `فترة التجربة خلصت من غير مشاكل، والفلوس اتحولت للبايع. الصيانة ${o.maint} شهور شغالة.`
-              : `بعد ما فترة التجربة تخلص من غير مشاكل، وتبدأ الصيانة ${o.maint} شهور`}
+              ? `فترة التجربة خلصت من غير مشاكل، والفلوس اتحولت للبايع. الصيانة ${monthsAr(o.maint)} شغالة.`
+              : `بعد ما فترة التجربة تخلص من غير مشاكل، وتبدأ الصيانة ${monthsAr(o.maint)}`}
           </div>
         </div>
       </li>

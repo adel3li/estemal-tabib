@@ -44,7 +44,7 @@ export function Faq() {
             <svg className="mn-chev" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D5C55" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none" }}><path d="M6 9l6 6 6-6" /></svg>
           </summary>
           {/* Client answer (Nov 2026) for open question §12.9. */}
-          <p style={{ margin: "10px 0 0", color: "#4A5A56" }}>بنسعى نكون في كل المحافظات.</p>
+          <p style={{ margin: "10px 0 0", color: "#4A5A56" }}>{`بنوصّل لكل المحافظات والأماكن من غير استثناء: ${BUSINESS.deliveryDaysInspected} أيام لو الجهاز متفحص وجاهز، و${BUSINESS.deliveryDaysWithInspection} أيام لو هيتفحص بعد طلبك.`}</p>
         </details>
         <details className="mn-faq" style={{ padding: "18px 22px", borderRadius: 16, background: "#F5F7F4", border: "1px solid transparent" }}>
           <summary style={{ fontWeight: 600, fontSize: 18, display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
@@ -52,7 +52,7 @@ export function Faq() {
             <svg className="mn-chev" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0D5C55" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none" }}><path d="M6 9l6 6 6-6" /></svg>
           </summary>
           <p style={{ margin: "10px 0 0", color: "#4A5A56" }}>
-            البايع بيدفع رسوم جدية {SELLER_FEE} ج.م بحد أدنى لما يعرض جهازه، وبترجعله لما الجهاز يتباع. المشتري بيحجز الجهاز بـ {BUYER_DEPOSIT} ج.م بحد أدنى بتتخصم من سعره.{" "}
+            لو الجهاز هيفضل مع البايع، بيدفع رسوم جدية {SELLER_FEE} ج.م بحد أدنى (حسب قيمة الجهاز) وبترجعله لما الجهاز يتباع. ولو بعت الجهاز يفضل عندنا {BUSINESS.minListingDays} أيام على الأقل، مفيش رسوم جدية. الشحن على البايع. المشتري بيحجز الجهاز بـ {BUYER_DEPOSIT} ج.م بحد أدنى بتتخصم من سعره.{" "}
             <Link href={routes.terms} style={{ fontWeight: 600 }}>اقرأ شروط البيع والشراء كاملة</Link>
           </p>
         </details>

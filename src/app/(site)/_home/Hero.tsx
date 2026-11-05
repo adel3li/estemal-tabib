@@ -1,11 +1,10 @@
 import Link from "next/link";
 import { routes } from "@/lib/routes";
-import { BUSINESS } from "@/config/business";
+import { BUSINESS, MAINT_SPAN } from "@/config/business";
 import { DrawnUnderline } from "./DrawnUnderline";
 import { HeroCarousel } from "./HeroCarousel";
 
 const DAYS = BUSINESS.trialDays;
-const [M1, M2] = BUSINESS.maintenanceMonthsOptions;
 
 export function Hero() {
   return (
@@ -57,7 +56,7 @@ export function Hero() {
                   <path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4 2.5-2.5z" />
                 </svg>
               </span>
-              صيانة لمدة {M1} – {M2} شهور
+              صيانة {MAINT_SPAN}
             </li>
           </ul>
         </div>

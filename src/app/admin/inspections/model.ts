@@ -1,5 +1,5 @@
 import { CONDITIONS } from "@/lib/demo/labels";
-import type { CheckKey, Condition, Inspection } from "@/lib/demo/types";
+import type { Condition, Inspection } from "@/lib/demo/types";
 import { isPastDay } from "@/lib/inspections/db";
 
 /** Week list: today−3 … today+3 (see lib/inspections/db weekDays). */
@@ -7,12 +7,6 @@ export const TODAY = 3;
 // Technicians have no accounts (ADMIN_SPEC §1); their names go here once the client sends them.
 export const TECHS = ["[اسم الفني ١]", "[اسم الفني ٢]", "[اسم الفني ٣]"];
 
-export const CHECKS: { key: CheckKey; label: string; sub: string; ph: string }[] = [
-  { key: "run", label: "التشغيل", sub: "الجهاز اشتغل واتجرب على كل الوظايف", ph: "مثال: الضغط بيقع بعد 10 دقايق" },
-  { key: "look", label: "الحالة الظاهرية", sub: "الجسم، الشاشة، الكابلات، الكسور", ph: "مثال: خدش في الغطا" },
-  { key: "parts", label: "الأجزاء المتغيرة", sub: "أي قطعة مش أصلية أو اتغيرت", ph: "مثال: الهاند بيس اتغير 2024" },
-  { key: "maint", label: "الصيانة السابقة", sub: "آخر صيانة ومين عملها", ph: "مثال: صيانة توكيل من 6 شهور" },
-];
 
 /** Design label for a store condition: «ممتازة 81–100%», «جيدة 60–80%», «أقل من 60%». */
 export const condLabel = (c: Condition) =>
@@ -56,10 +50,10 @@ export type Form = Inspection["form"];
 export function missing(it: Inspection, f: Form): string[] {
   const m: string[] = [];
   if (!it.technician) m.push("تحديد الفني");
-  CHECKS.forEach((c) => {
-    const r = f.checks[c.key];
-    if (!r.v) m.push(`بند «${c.label}»`);
-    else if (r.v === "note" && !r.n.trim()) m.push(`ملاحظة «${c.label}»`);
+  if (!f.checks.length) m.push("بند فحص واحد على الأقل");
+  f.checks.forEach((c) => {
+    if (!c.v) m.push(`بند «${c.label}»`);
+    else if (c.v === "note" && !c.n.trim()) m.push(`ملاحظة «${c.label}»`);
   });
   if (!f.efficiency) m.push("كفاءة التشغيل");
   if (!f.condition) m.push("حالة المنتج");

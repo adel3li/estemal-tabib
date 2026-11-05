@@ -9,6 +9,7 @@ import { BUSINESS } from "@/config/business";
 import { supabaseBrowser } from "@/lib/supabase/client";
 import { SUPABASE_URL } from "@/lib/supabase/env";
 import { waLink } from "@/lib/whatsapp";
+import { BUILTIN_TEMPLATE, setTemplate } from "@/lib/inspections/template";
 
 export type SiteSettings = {
   whatsapp: string;
@@ -26,6 +27,10 @@ const EMPTY: SiteSettings = { whatsapp: "", email: "", instapay: "", vodafone_ca
 type Api = {
   /** Raw values (empty = not set yet). */
   raw: SiteSettings;
+  /** Default inspection checklist (labels), the built-in four until one is saved. */
+  template: string[];
+  /** True once the saved values have arrived (forms fill themselves from them once). */
+  loaded: boolean;
   /** For display: value or the placeholder. */
   whatsapp: string;
   email: string;
@@ -41,15 +46,23 @@ const Ctx = createContext<Api | null>(null);
 
 export function SettingsProvider({ children }: { children: ReactNode }) {
   const [raw, setRaw] = useState<SiteSettings>(EMPTY);
+  const [template, setTpl] = useState<string[]>(BUILTIN_TEMPLATE);
+  const [loaded, setLoaded] = useState(false);
   const load = useCallback(() => {
     if (!SUPABASE_URL) return;
     supabaseBrowser()
       .from("site_settings")
-      .select(SETTINGS_COLUMNS)
+      .select(`${SETTINGS_COLUMNS}, inspection_template`)
       .eq("id", 1)
       .maybeSingle()
       .then(({ data }) => {
-        if (data) setRaw(Object.fromEntries(Object.entries(EMPTY).map(([k]) => [k, (data as Record<string, string | null>)[k] ?? ""])) as SiteSettings);
+        setLoaded(true);
+        if (!data) return;
+        setRaw(Object.fromEntries(Object.entries(EMPTY).map(([k]) => [k, (data as Record<string, string | null>)[k] ?? ""])) as SiteSettings);
+        const tpl = (data as { inspection_template: unknown }).inspection_template;
+        const labels = Array.isArray(tpl) ? tpl.map(String) : null;
+        setTemplate(labels);
+        setTpl(labels?.length ? labels : BUILTIN_TEMPLATE);
       });
   }, []);
   useEffect(() => {
@@ -70,6 +83,8 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
       .map(([label, v]) => ({ label, href: v.trim().startsWith("http") ? v.trim() : `https://${v.trim()}` }));
     return {
       raw,
+      template,
+      loaded,
       whatsapp,
       email: raw.email.trim() || BUSINESS.contact.email,
       transfer: transferParts.length ? transferParts.join(" · ") : BUSINESS.feeTransferDetails,
@@ -77,7 +92,7 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
       wa: (message, phone) => waLink(message, phone ?? whatsapp),
       reload: load,
     };
-  }, [raw, load]);
+  }, [raw, template, loaded, load]);
 
   return <Ctx.Provider value={api}>{children}</Ctx.Provider>;
 }

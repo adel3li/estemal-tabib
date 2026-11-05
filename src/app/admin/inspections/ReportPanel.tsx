@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { typeLabel } from "@/lib/demo/labels";
-import type { CheckKey, Condition, Inspection } from "@/lib/demo/types";
+import type { CheckItem, CheckKey, Condition, Inspection } from "@/lib/demo/types";
+import { hintFor, keyFor } from "@/lib/inspections/template";
 import { InSymbol, symFor } from "./art";
-import { CHECKS, ST, condLabel, isBuyer, statusOf, typePill, type Form } from "./model";
+import { ST, condLabel, isBuyer, statusOf, typePill, type Form } from "./model";
 
 type Props = {
   it: Inspection;
@@ -18,9 +20,9 @@ type Props = {
   onReopen: () => void;
 };
 
-const setCheck = (f: Form, key: CheckKey, patch: Partial<Form["checks"][CheckKey]>): Form => ({
+const setCheck = (f: Form, key: CheckKey, patch: Partial<CheckItem>): Form => ({
   ...f,
-  checks: { ...f.checks, [key]: { ...f.checks[key], ...patch } },
+  checks: f.checks.map((c) => (c.key === key ? { ...c, ...patch } : c)),
 });
 
 const CONDS: Condition[] = ["a", "b", "c"];
@@ -66,8 +68,10 @@ export function ReportPanel({ it, form: f, err, onForm, onPhotos, uploading, onC
 
       <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
         <div style={{ fontWeight: 700 }}>بنود الفحص</div>
-        {CHECKS.map((c) => {
-          const r = f.checks[c.key];
+        <div className="ad-hint" style={{ marginTop: -6 }}>البنود الأساسية من «الإعدادات». تقدر تضيف أو تشيل بنود للجهاز ده بس.</div>
+        {f.checks.map((c) => {
+          const r = c;
+          const { sub, ph } = hintFor(c.label);
           const p = r.v === "pass";
           const n = r.v === "note";
           return (
@@ -86,7 +90,7 @@ export function ReportPanel({ it, form: f, err, onForm, onPhotos, uploading, onC
               <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 8 }}>
                 <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.4 }}>
                   <span style={{ fontWeight: 600 }}>{c.label}</span>
-                  <span className="ad-hint" style={{ fontSize: 12 }}>{c.sub}</span>
+                  {sub ? <span className="ad-hint" style={{ fontSize: 12 }}>{sub}</span> : null}
                 </span>
                 <span role="group" aria-label={`نتيجة ${c.label}`} className="in-check-btns">
                   <button
@@ -109,6 +113,18 @@ export function ReportPanel({ it, form: f, err, onForm, onPhotos, uploading, onC
                   >
                     فيه ملاحظة
                   </button>
+                  {!isPub && f.checks.length > 1 ? (
+                    <button
+                      type="button"
+                      className="in-mini"
+                      onClick={() => onForm((x) => ({ ...x, checks: x.checks.filter((y) => y.key !== c.key) }))}
+                      aria-label={`شيل بند ${c.label} من الجهاز ده`}
+                      title="شيل البند"
+                      style={{ border: "1px solid #E8B4AE", background: "#FFFFFF", color: "#B3261E", minWidth: 36 }}
+                    >
+                      ✕
+                    </button>
+                  ) : null}
                 </span>
               </div>
               {n ? (
@@ -119,12 +135,13 @@ export function ReportPanel({ it, form: f, err, onForm, onPhotos, uploading, onC
                   readOnly={isPub}
                   onChange={(e) => onForm((x) => setCheck(x, c.key, { n: e.target.value }))}
                   aria-label={`ملاحظة على ${c.label}`}
-                  placeholder={c.ph}
+                  placeholder={ph}
                 />
               ) : null}
             </div>
           );
         })}
+        {!isPub ? <AddItem onAdd={(label) => onForm((x) => ({ ...x, checks: [...x.checks, { key: keyFor(label), label, v: "", n: "" }] }))} existing={f.checks.map((c) => c.label)} /> : null}
       </div>
 
       <div className="ad-grid" style={{ gridTemplateColumns: "repeat(auto-fill, minmax(170px, 1fr))" }}>
@@ -220,5 +237,41 @@ export function ReportPanel({ it, form: f, err, onForm, onPhotos, uploading, onC
         </div>
       )}
     </section>
+  );
+}
+
+/** «+ ضيف بند» for this inspection only. */
+function AddItem({ onAdd, existing }: { onAdd: (label: string) => void; existing: string[] }) {
+  const [label, setLabel] = useState("");
+  const clean = label.trim();
+  const dup = existing.some((e) => e.trim() === clean);
+  const add = () => {
+    if (!clean || dup) return;
+    onAdd(clean);
+    setLabel("");
+  };
+  return (
+    <div style={{ display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
+      <input
+        type="text"
+        className="ad-in"
+        value={label}
+        maxLength={60}
+        onChange={(e) => setLabel(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            add();
+          }
+        }}
+        aria-label="بند فحص جديد للجهاز ده"
+        placeholder="بند جديد للجهاز ده — مثال: الكمبروسر"
+        style={{ flex: "1 1 200px", minWidth: 0 }}
+      />
+      <button type="button" className="ad-btn ad-sec" onClick={add} disabled={!clean || dup} style={{ minHeight: 44 }}>
+        + ضيف بند
+      </button>
+      {dup ? <span className="ad-hint" style={{ color: "#8A4209" }}>البند ده موجود</span> : null}
+    </div>
   );
 }

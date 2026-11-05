@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { BUSINESS, sellerNetFromSalePrice } from "@/config/business";
+import { BUSINESS, sellerNetFromSalePrice, monthsAr } from "@/config/business";
 import { isPublic } from "@/lib/demo/store";
 import { CONDITIONS, fmt, typeLabel } from "@/lib/demo/labels";
 import type { Device, Submission } from "@/lib/demo/types";
@@ -107,7 +107,7 @@ export function DevicePanel({
           <div>
             <div className="al-kv"><span>المحافظة</span><span>{d.governorate}</span></div>
             <div className="al-kv"><span>حالة المنتج</span><span>{CONDITIONS[d.condition].label}</span></div>
-            <div className="al-kv"><span>الصيانة المجانية</span><span>{d.maintenanceMonths} شهور</span></div>
+            <div className="al-kv"><span>الصيانة المجانية</span><span>{monthsAr(d.maintenanceMonths)}</span></div>
             <div className="al-kv"><span>اتضاف</span><span>{d.createdAt}</span></div>
             <div className="al-kv"><span>المشاهدات</span><span>{d.views ? fmt(d.views) : "—"}</span></div>
             {d.source === "seller" ? (

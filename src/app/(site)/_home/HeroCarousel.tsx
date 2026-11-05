@@ -2,6 +2,7 @@
 
 // Hero device card, cycling through the listed devices (featured first).
 // Each slide shows what the seller declared, not the inspection report.
+import { monthsAr } from "@/config/business";
 import Link from "next/link";
 import { DevicePic } from "@/components/site/DevicePic";
 import { useEffect, useRef, useState } from "react";
@@ -170,7 +171,7 @@ function Slide({ d }: { d: Device }) {
             <span style={{ ...chip("#FFFFFF", "#3C4C48"), border: "1px solid #E5EBE8" }} title={d.accessories || undefined}>{d.accessories.trim() || "مفيش"}</span>
           </Row>
           <Row label="الصيانة">
-            <span style={chip("#E3F0ED", "#0D5C55")}>{d.maintenanceMonths} شهور</span>
+            <span style={chip("#E3F0ED", "#0D5C55")}>{monthsAr(d.maintenanceMonths)}</span>
           </Row>
           {defects ? (
             <Row label="عيوب مُعلنة" bg="#FBEEDC">

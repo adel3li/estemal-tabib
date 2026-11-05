@@ -2,11 +2,10 @@
 // (WhatsApp, 2026-11-01): sections أولاً، ثالثاً، رابعاً، خامساً.
 import Link from "next/link";
 import { routes } from "@/lib/routes";
-import { BUSINESS } from "@/config/business";
+import { BUSINESS, MAINT_SPAN, MAINT_LIST } from "@/config/business";
 import { Article, Clause, GeneralClauses, ICONS, Min, Num, Numbers, Outcome, TONES, Toc, Two } from "./parts";
 
 const DAYS = BUSINESS.trialDays;
-const [M1, M2] = BUSINESS.maintenanceMonthsOptions;
 const BUYER_DEPOSIT = BUSINESS.buyerReservationDepositEGP;
 const NO_REPLY = BUSINESS.noReplyBusinessDays;
 const MAX_DELIVERY = BUSINESS.maxDeliveryDays;
@@ -16,7 +15,7 @@ const SECTIONS = [
   { id: "tm-b2", title: "رسوم جدية الحجز", tone: TONES.amber },
   { id: "tm-b3", title: "الدفع وحفظ الأموال", tone: TONES.green },
   { id: "tm-b4", title: "الفحص والاسترجاع والضمان", tone: TONES.blue },
-  { id: "tm-b5", title: "النقل والفك والتركيب", tone: TONES.amber },
+  { id: "tm-b5", title: "النقل والتوصيل", tone: TONES.amber },
 ];
 
 export function BuyerTerms() {
@@ -29,7 +28,7 @@ export function BuyerTerms() {
             { label: "رسوم جدية الحجز (بتتخصم من الثمن)", value: <>{BUYER_DEPOSIT} جنيه <Min /></> },
             { label: "أقصى مدة لتوصيل الجهاز", value: `${MAX_DELIVERY} يوم` },
             { label: "فترة التجربة والاسترجاع", value: `${DAYS} أيام` },
-            { label: "صيانة مجانية", value: `${M1} – ${M2} شهور` },
+            { label: "صيانة مجانية", value: MAINT_SPAN },
           ]}
         />
       </aside>
@@ -67,7 +66,7 @@ export function BuyerTerms() {
             يجوز للمشتري سداد المبلغ المتبقي من قيمة الجهاز قبل الشحن، أو عند الاستلام بمعاينة الجهاز بالعيادة. وطرق الدفع المتاحة: إنستاباي، فودافون كاش، أو الدفع عند الاستلام.
           </Clause>
           <Clause title="فترة الحماية">
-            تظل أموال المشتري محفوظة بحساب المنصة لمدة <Num>{DAYS} أيام تقويمية</Num> ({DAYS} أيام متتالية من تاريخ الاستلام)، ولا يتم تحويلها للبائع إلا بعد انقضاء هذه المدة وتأكيد المشتري.
+            تظل أموال المشتري محجوزة ومحمية لدى المنصة طوال فترة ضمان التشغيل: <Num>{DAYS} أيام تقويمية</Num> تبدأ من أول لحظة يستلم فيها المشتري الجهاز فعلياً، ولا يتم تحويلها للبائع إلا بعد انقضاء هذه المدة وتأكيد المشتري.
           </Clause>
           <Clause title="تجربة الجهاز">
             يلتزم المشتري بتجربة الجهاز على حالات حقيقية والإبلاغ عن أي ملاحظة غير مذكورة بتقرير الفحص خلال فترة الـ {DAYS} أيام.
@@ -84,8 +83,8 @@ export function BuyerTerms() {
           <Clause title="مصاريف شحن الإرجاع">
             إذا كان سبب الإرجاع عيباً أو خطأً من جهة المنصة، تُرد رسوم الجدية للمشتري. أما إذا طلب المشتري الإرجاع لأسباب شخصية خلال فترة التجربة، فيتحمل مصاريف الشحن العكسي ولا تُرد رسوم جدية الحجز.
           </Clause>
-          <Clause title={`الصيانة والضمان (${M1} إلى ${M2} أشهر)`}>
-            تُحدد مدة الضمان والصيانة ({M1} أشهر أو {M2} أشهر) بوضوح في صفحة كل جهاز وفقاً لنوعه وحالته الفنية.
+          <Clause title={`الصيانة والضمان (${MAINT_SPAN})`}>
+            تُحدد مدة الضمان والصيانة ({MAINT_LIST}) بوضوح في صفحة كل جهاز وفقاً لنوعه وحالته الفنية.
           </Clause>
           <Two>
             <Outcome kind="ok" title="يشمل الضمان" items={["الأعطال الفنية والكهربائية والهيدروليكية الناتجة عن الاستخدام الطبي الطبيعي."]} />
@@ -101,15 +100,15 @@ export function BuyerTerms() {
           </Two>
         </Article>
 
-        <Article id="tm-b5" n={5} title="النقل والفك والتركيب" tone={TONES.amber} icon={ICONS.truck}>
+        <Article id="tm-b5" n={5} title="النقل والتوصيل" tone={TONES.amber} icon={ICONS.truck}>
           <Clause title="مسؤولية الشحن">تتولى المنصة تنظيم عملية النقل والتوصيل لضمان سلامة الأجهزة الحساسة.</Clause>
           <Clause title="مدة التوصيل">
             تلتزم المنصة بأن تكون أقصى مدة للتوصيل هي <Num>{MAX_DELIVERY} يوماً</Num> من تاريخ تأكيد الشراء وتسوية رسوم الشحن/الحجز.
           </Clause>
-          {/* TODO(open question §12.10): is on-site installation a platform service? */}
-          <Clause title="الأجهزة الكبيرة (يونيت / أشعة / أوتوكلاف)">
-            يُشترط إجراء عمليات الفك والتركيب عبر فني معتمد من المنصة لضمان استمرار سريان الضمان. وفي حال فك أو تركيب الجهاز بواسطة أطراف خارجية بدون موافقة المنصة، يسقط حق المشتري في الضمان وسياسة الاسترجاع.
+          <Clause title="نطاق التوصيل">
+            التوصيل متاح لكل المحافظات والأماكن بدون استثناء. المدة المتوقعة: <Num>{BUSINESS.deliveryDaysInspected} أيام</Num> للجهاز المفحوص والجاهز مسبقاً، و<Num>{BUSINESS.deliveryDaysWithInspection} أيام</Num> لو الفحص بيتم بعد طلب الشراء.
           </Clause>
+          <Clause title="التركيب">لا تقدّم المنصة أي خدمات تركيب.</Clause>
         </Article>
 
         <article className="tm-art tm-art-dark" style={{ borderRadius: 24, background: "#0F2A26", color: "#FFFFFF", display: "flex", flexWrap: "wrap", alignItems: "center", gap: "18px 24px" }}>
@@ -124,7 +123,7 @@ export function BuyerTerms() {
               استرجاع خلال: <strong style={{ color: "#FFFFFF" }}>{DAYS} أيام</strong>
             </span>
             <span style={{ flex: "1 1 220px", padding: "12px 16px", borderRadius: 14, background: "rgba(255, 255, 255, 0.07)", border: "1px solid #2E5650" }}>
-              صيانة مجانية: <strong style={{ color: "#FFFFFF" }}>{M1} – {M2} شهور</strong> حسب الجهاز
+              صيانة مجانية: <strong style={{ color: "#FFFFFF" }}>{MAINT_SPAN}</strong> حسب الجهاز
             </span>
           </div>
         </article>

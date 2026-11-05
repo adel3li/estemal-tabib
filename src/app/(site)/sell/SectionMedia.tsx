@@ -123,12 +123,16 @@ export function SectionMedia({ media, setMedia, err }: { media: Media; setMedia:
   const { min, max } = BUSINESS.photos;
   const vs = BUSINESS.videoSeconds;
 
-  const addPhotos = (list: File[]) => {
+  // Device + accessory photos share one limit: 2–10 in all (client, 5 Nov 2026).
+  const total = media.photos.length + media.extras.length;
+  const take = (list: File[]) => {
     const imgs = list.filter((f) => f.type.startsWith("image/"));
-    const all = [...media.photos, ...imgs];
-    setPhotoMsg(all.length > max ? `أقصى عدد ${max} صور، خدنا أول ${max} بس.` : "");
-    setMedia({ ...media, photos: all.slice(0, max) });
+    const room = Math.max(0, max - total);
+    setPhotoMsg(imgs.length > room ? `أقصى عدد ${max} صور للجهاز والملحقات مع بعض، خدنا ${room ? `أول ${room}` : "مفيش"} بس.` : "");
+    return imgs.slice(0, room);
   };
+  const addPhotos = (list: File[]) => setMedia({ ...media, photos: [...media.photos, ...take(list)] });
+  const addExtras = (list: File[]) => setMedia({ ...media, extras: [...media.extras, ...take(list)] });
 
   const pickVideo = async (list: File[]) => {
     const file = list[0];
@@ -150,7 +154,7 @@ export function SectionMedia({ media, setMedia, err }: { media: Media; setMedia:
     }
   };
 
-  const photoStatus = media.photos.length ? `اخترت ${media.photos.length} من ${max} صور` : undefined;
+  const photoStatus = media.photos.length ? `اخترت ${media.photos.length} صور · ${total} من ${max} مع الملحقات` : undefined;
   const vid = media.video;
 
   return (
@@ -176,7 +180,7 @@ export function SectionMedia({ media, setMedia, err }: { media: Media; setMedia:
               art="sl-up-photo"
               title="صور الجهاز من كل الزوايا"
               required
-              hint={`من ${min} لـ ${max} صور حديثة وواضحة`}
+              hint={`من ${min} لـ ${max} صور حديثة وواضحة (شاملة صور الملحقات)`}
               status={photoStatus}
               cta={media.photos.length ? "ضيف صور" : "اختار الصور"}
               ctaIcon={UpArrow}
@@ -219,14 +223,14 @@ export function SectionMedia({ media, setMedia, err }: { media: Media; setMedia:
           <Tile
             art="sl-up-extra"
             title="صور الملحقات والعيوب"
-            hint="لو موجودة"
-            status={media.extras.length ? `اخترت ${media.extras.length} صور` : undefined}
+            hint="لو موجودة · بتتحسب من الـ 10 صور"
+            status={media.extras.length ? `اخترت ${media.extras.length} صور · ${total} من ${max} مع صور الجهاز` : undefined}
             cta="إضافة"
             ctaIcon={Plus}
             muted
             accept="image/*"
             multiple
-            onFiles={(list) => setMedia({ ...media, extras: [...media.extras, ...list.filter((f) => f.type.startsWith("image/"))] })}
+            onFiles={addExtras}
             files={media.extras.map((p) => ({ name: p.name }))}
             onRemove={(i) => setMedia({ ...media, extras: media.extras.filter((_, j) => j !== i) })}
             invalid={false}

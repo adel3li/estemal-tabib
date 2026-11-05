@@ -81,6 +81,10 @@ async function main() {
     !r.error && r.data.length === 1 && !("governorate" in r.data[0]), r.error?.message);
   r = await anon.from("public_device_reports").select("device_id").in("device_id", [pub, draft]);
   check("public report only for the published device", !r.error && r.data.length === 1, r.error?.message);
+  r = await anon.from("public_device_reports").select("*").eq("device_id", pub);
+  check("public report has no technician name", !r.error && r.data.length === 1 && !("technician_name" in r.data[0]), r.error?.message);
+  r = await anon.from("device_reports").select("technician_name").eq("device_id", pub);
+  check("technician name is never stored on a report (always empty)", !r.error && r.data.every((x) => x.technician_name === null), JSON.stringify(r.data));
   for (const t of ["device_private", "inspections", "audit_log", "profiles", "seller_submissions", "submission_media", "device_requests", "favorites", "orders", "payments"]) {
     r = await anon.from(t).select("*").limit(1);
     check(`can't read ${t}`, denied(r), JSON.stringify(r.data));

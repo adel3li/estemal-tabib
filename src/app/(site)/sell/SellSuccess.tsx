@@ -6,13 +6,21 @@ import { routes } from "@/lib/routes";
 
 // docs/ADMIN_SPEC.md §2: review in 24 h → fee set and requested after
 // acceptance → published once it arrives. Nothing to pay at this point.
-const NEXT_STEPS = [
-  "هنراجع طلبك خلال 24 ساعة ونتأكد إن السعر مناسب للسوق.",
-  `لو اتقبل، هنبلغك على واتساب بقيمة رسوم الجدية (بتبدأ من ${BUSINESS.sellerSeriousnessFeeEGP} ج.م حسب قيمة الجهاز)، وتقدر تدفعها وتسجّل رقم التحويل من حسابك.`,
-  "أول ما الرسوم توصل، إعلانك بيتنشر على المنصة.",
-];
+const stepsFor = (atUs: boolean) =>
+  atUs
+    ? [
+        "هنراجع طلبك خلال 24 ساعة ونتأكد إن السعر مناسب للسوق.",
+        `لو اتقبل، هنتفق معاك على واتساب على ميعاد شحن الجهاز لمقرنا (الشحن على حسابك). مفيش رسوم جدية، بشرط الجهاز يفضل عندنا ${BUSINESS.minListingDays} أيام على الأقل.`,
+        "بنفحص الجهاز وبننشر إعلانه بعلامة «تم الفحص».",
+      ]
+    : [
+        "هنراجع طلبك خلال 24 ساعة ونتأكد إن السعر مناسب للسوق.",
+        `لو اتقبل، هنبلغك على واتساب بقيمة رسوم الجدية (بتبدأ من ${BUSINESS.sellerSeriousnessFeeEGP} ج.م حسب قيمة الجهاز)، وتقدر تدفعها وتسجّل رقم التحويل من حسابك.`,
+        "أول ما الرسوم توصل، إعلانك بيتنشر على المنصة.",
+      ];
 
-export function SellSuccess({ id, onAgain, missingPhotos = 0 }: { id: string; onAgain: () => void; missingPhotos?: number }) {
+export function SellSuccess({ id, onAgain, missingPhotos = 0, atUs = false }: { id: string; onAgain: () => void; missingPhotos?: number; atUs?: boolean }) {
+  const NEXT_STEPS = stepsFor(atUs);
   return (
     <section className="sl-done">
       <div className="sl-done-card" style={{ borderRadius: 28, background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexDirection: "column", alignItems: "center", gap: 14, textAlign: "center" }}>

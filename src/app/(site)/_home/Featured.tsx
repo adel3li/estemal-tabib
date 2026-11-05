@@ -2,6 +2,7 @@
 
 // «أجهزة متاحة دلوقتي» — Main.dc.html #listings. Chip logic ported from the
 // design's <script>; items come from the demo store (listed, featured first).
+import { monthsAr } from "@/config/business";
 import Link from "next/link";
 import { DevicePic } from "@/components/site/DevicePic";
 import { useState } from "react";
@@ -111,7 +112,7 @@ export function DeviceCard({ d }: { d: Device }) {
         <div style={{ fontSize: 13, color: "#4A5A56" }}>{typeLabel(d.type)}</div>
         <div className="mn-card-pill" style={{ alignSelf: "flex-start", padding: "2px 10px", borderRadius: 999, background: "#E3F0ED", fontSize: 12, color: "#0D5C55", fontWeight: 600, display: "flex", alignItems: "center", gap: 4 }}>
           <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" /></svg>
-          ضمان + صيانة {d.maintenanceMonths} شهور
+          ضمان + صيانة {monthsAr(d.maintenanceMonths)}
         </div>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: 10, borderTop: "1px solid #E5EBE8", marginTop: "auto" }}>
           <span style={{ display: "flex", flexDirection: "column", gap: 2, minWidth: 0 }}>

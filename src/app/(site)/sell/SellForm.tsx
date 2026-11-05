@@ -159,7 +159,7 @@ export function SellForm() {
     window.scrollTo({ top: 0 });
   };
 
-  if (doneId) return <SellSuccess id={doneId} onAgain={again} missingPhotos={missing} />;
+  if (doneId) return <SellSuccess id={doneId} onAgain={again} missingPhotos={missing} atUs={f.keepLocation === "send_to_platform"} />;
 
   const errCount = Object.keys(err).length;
 
