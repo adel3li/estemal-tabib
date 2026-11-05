@@ -139,15 +139,21 @@ function deviceFrom(d: DeviceRow, p?: PrivateRow, r?: ReportRow): Device {
 
 /** All devices this user may see (RLS), newest first, with reports and — for admins — private data. */
 export async function fetchDevices(sb: SupabaseClient): Promise<Device[]> {
-  const [dv, rp, pv] = await Promise.all([
+  const [dv, rp, md, pv] = await Promise.all([
     sb.from("devices").select(DEVICE_COLUMNS).order("created_at", { ascending: false }),
     sb.from("device_reports").select("device_id, report_code, technician_name, inspected_at, checklist, overall_efficiency, appearance, serial_no, replaced_parts, condition, defects"),
+    sb.from("device_media").select("device_id, r2_key, sort_order").eq("kind", "photo").order("sort_order"),
     sb.from("device_private").select("device_id, purchase_cost, seller_net, sale_reason, internal_notes, location_now, submission_id, submission:seller_submissions(public_code)"),
   ]);
   if (dv.error) throw dv.error;
   const reports = new Map((rp.data as ReportRow[] | null ?? []).map((r) => [r.device_id, r]));
   const priv = new Map((pv.data as PrivateRow[] | null ?? []).map((p) => [p.device_id, p]));
-  return (dv.data as DeviceRow[]).map((d) => deviceFrom(d, priv.get(d.id), reports.get(d.id)));
+  const photos = new Map<string, string[]>();
+  ((md.data ?? []) as { device_id: string; r2_key: string }[]).forEach((m) => {
+    const url = sb.storage.from("device-photos").getPublicUrl(m.r2_key).data.publicUrl;
+    photos.set(m.device_id, [...(photos.get(m.device_id) ?? []), url]);
+  });
+  return (dv.data as DeviceRow[]).map((d) => ({ ...deviceFrom(d, priv.get(d.id), reports.get(d.id)), photos: photos.get(d.id) }));
 }
 
 function rowFrom(d: Device) {

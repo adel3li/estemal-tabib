@@ -3,6 +3,7 @@
 // «أجهزة متاحة دلوقتي» — Main.dc.html #listings. Chip logic ported from the
 // design's <script>; items come from the demo store (listed, featured first).
 import Link from "next/link";
+import { DevicePic } from "@/components/site/DevicePic";
 import { useState } from "react";
 import { routes } from "@/lib/routes";
 import { OldPrice } from "@/components/site/Price";
@@ -88,9 +89,7 @@ export function DeviceCard({ d }: { d: Device }) {
     <SaveHeart deviceId={d.id} title={d.title} />
     <Link href={routes.device(d.id)} className="mn-card" style={{ display: "flex", flexDirection: "column", borderRadius: 20, border: "1px solid #DCE3DF", background: "#FFFFFF", overflow: "hidden", color: "#12221F", boxShadow: "0 4px 14px rgba(18, 34, 31, 0.04)" }}>
       <div className="mn-card-img" style={{ position: "relative", background: "#E7EDEA" }}>
-        <svg role="img" aria-label={`رسم توضيحي ل${d.title}`} viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" style={{ display: "block", width: "100%", height: "100%" }}>
-          <use href={artFor(d.type)} />
-        </svg>
+        <DevicePic src={d.photos?.[0]} art={artFor(d.type)} label={d.photos?.[0] ? d.title : `رسم توضيحي ل${d.title}`} />
         {insp ? (
           <span style={{ position: "absolute", top: 12, right: 12, padding: "4px 10px", borderRadius: 999, background: "#0D5C55", color: "#FFFFFF", fontSize: 12, fontWeight: 600, display: "flex", alignItems: "center", gap: 4, boxShadow: "0 2px 8px rgba(18, 34, 31, 0.15)" }}>
             <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg>

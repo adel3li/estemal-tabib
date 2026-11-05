@@ -58,6 +58,8 @@ export type Device = {
   capacity?: string; // e.g. autoclave «[السعة] لتر»
   governorate: string;
   price: number; // EGP
+  /** Public photo links, cover first (device_media + Storage). */
+  photos?: string[];
   /** Values of the category's own detail fields, by field key (devices.specs). */
   specs?: Record<string, string>;
   /** Units we have of this exact device (client, 4 Nov). Default 1. */

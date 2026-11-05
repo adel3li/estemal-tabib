@@ -54,7 +54,7 @@ export function SectionAcks({ f, set, err }: SectionProps) {
 }
 
 /** «رسوم جدية العرض» box + progress + submit button. */
-export function FeeBox({ f, onSubmit, sending = false }: { f: SectionProps["f"]; onSubmit: () => void; sending?: boolean }) {
+export function FeeBox({ f, onSubmit, sending = false, sendLabel }: { f: SectionProps["f"]; onSubmit: () => void; sending?: boolean; sendLabel?: string }) {
   const n = ackCount(f);
   const ready = n === ACKS.length;
   const fee = BUSINESS.sellerSeriousnessFeeEGP;
@@ -134,7 +134,7 @@ export function FeeBox({ f, onSubmit, sending = false }: { f: SectionProps["f"];
               <rect x="5" y="11" width="14" height="9" rx="2" />
               <path d="M8 11V8a4 4 0 0 1 8 0v3" />
             </svg>
-            {sending ? "بنبعت…" : "ابعت الطلب"}
+            {sending ? sendLabel || "بنبعت…" : "ابعت الطلب"}
           </button>
         </div>
       </div>

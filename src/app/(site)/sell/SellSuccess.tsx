@@ -12,7 +12,7 @@ const NEXT_STEPS = [
   "أول ما الرسوم توصل، إعلانك بيتنشر على المنصة.",
 ];
 
-export function SellSuccess({ id, onAgain }: { id: string; onAgain: () => void }) {
+export function SellSuccess({ id, onAgain, missingPhotos = 0 }: { id: string; onAgain: () => void; missingPhotos?: number }) {
   return (
     <section className="sl-done">
       <div className="sl-done-card" style={{ borderRadius: 28, background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexDirection: "column", alignItems: "center", gap: 14, textAlign: "center" }}>
@@ -28,6 +28,11 @@ export function SellSuccess({ id, onAgain }: { id: string; onAgain: () => void }
           رقم الطلب: <span dir="ltr" data-testid="sell-id">{id}</span>
         </span>
         <p style={{ margin: 0, color: "#4A5A56", fontSize: 17 }}>مش مطلوب منك تدفع حاجة دلوقتي.</p>
+        {missingPhotos ? (
+          <p role="status" style={{ margin: 0, padding: "10px 14px", borderRadius: 12, background: "#FDF6EC", border: "1px solid #F0C88A", color: "#6B3A10", fontSize: 15, fontWeight: 600 }}>
+            {missingPhotos === 1 ? "صورة واحدة ما اترفعتش" : `${missingPhotos} صور ما اترفعتش`} — مش مشكلة، فريقنا هيكلمك ياخدها منك.
+          </p>
+        ) : null}
 
         <ol style={{ margin: "6px 0 0", padding: 0, listStyle: "none", width: "100%", display: "flex", flexDirection: "column", gap: 8, textAlign: "right" }}>
           {NEXT_STEPS.map((s, i) => (

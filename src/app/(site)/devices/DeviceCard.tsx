@@ -5,6 +5,7 @@ import { CONDITIONS, fmt, typeLabel } from "@/lib/demo/labels";
 import { routes } from "@/lib/routes";
 import { OldPrice } from "@/components/site/Price";
 import { SaveHeart } from "@/components/site/SaveButton";
+import { DevicePic } from "@/components/site/DevicePic";
 
 /** Store type → Browse.dc.html symbol. Types without their own art borrow the closest one. */
 const IMG: Record<BuiltinType, string> = {
@@ -37,9 +38,7 @@ export function DeviceCard({ d }: { d: Device }) {
       style={{ display: "flex", flexDirection: "column", borderRadius: 22, border: "1px solid #DCE3DF", background: "#FFFFFF", overflow: "hidden", color: "#12221F", boxShadow: "0 4px 14px rgba(18, 34, 31, 0.04)" }}
     >
       <div className="br-img" style={{ position: "relative", aspectRatio: "4 / 3", background: "#E7EDEA", overflow: "hidden" }}>
-        <svg role="img" aria-label={d.title} viewBox="0 0 400 300" style={{ display: "block", width: "100%", height: "100%" }}>
-          <use href={IMG[artKey(d.type)]} />
-        </svg>
+        <DevicePic src={d.photos?.[0]} art={IMG[artKey(d.type)]} label={d.title} />
         {inspected ? (
           <span style={{ position: "absolute", top: 12, right: 12, padding: "4px 11px", borderRadius: 999, background: "#0D5C55", color: "#FFFFFF", fontSize: 12, fontWeight: 700, display: "flex", alignItems: "center", gap: 5, boxShadow: "0 2px 8px rgba(18, 34, 31, 0.18)" }}>
             <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" {...svg} strokeWidth={2.6}><path d="M5 12l4 4 10-10" /></svg>تم الفحص

@@ -12,7 +12,10 @@ import { FormArtDefs } from "../art";
 import { Toast } from "../_ui/Toast";
 import { DetailsSection } from "./DetailsSection";
 import { InspectionSection } from "./InspectionSection";
-import { MediaSection, NotesSection, PriceSection } from "./MediaPriceNotes";
+import { NotesSection, PriceSection } from "./MediaPriceNotes";
+import { PhotosSection } from "./Photos";
+import { uploadDevicePhotos } from "@/lib/media/photos";
+import { supabaseBrowser } from "@/lib/supabase/client";
 import { PreviewAside, type Check } from "./PreviewAside";
 import { SourceSection } from "./SourceSection";
 import { applySubmission, deviceFields, emptyForm, formFromDevice, type FormState } from "./model";
@@ -22,11 +25,13 @@ import "./form.css";
 type Done = { id: string; status: DeviceStatus };
 
 export function DeviceForm({ device }: { device?: Device }) {
-  const { state, addDevice, updateDevice, updateSubmission } = useDemo();
+  const { state, addDevice, updateDevice, updateSubmission, waitForDbId, reloadDevices } = useDemo();
   const editing = !!device;
   const [f, setF] = useState<FormState>(() => (device ? formFromDevice(device) : emptyForm()));
-  const [photos, setPhotos] = useState(0);
-  const [video, setVideo] = useState("");
+  // Photos picked for a listing that isn't saved yet (uploaded once it has a database id).
+  const [pending, setPending] = useState<File[]>([]);
+  const [photoCount, setPhotoCount] = useState(0);
+  const [uploading, setUploading] = useState("");
   const [reportName, setReportName] = useState("");
   const [done, setDone] = useState<Done | null>(null);
   const [toast, setToast] = useState("");
@@ -34,9 +39,6 @@ export function DeviceForm({ device }: { device?: Device }) {
 
   const subs = state.submissions.filter((s) => s.status !== "rejected");
   const linkedSub = f.submissionId ? state.submissions.find((s) => s.id === f.submissionId) : undefined;
-  // Photos already uploaded: a seeded/existing device has them; a seller's request carries its own.
-  const existingPhotos = linkedSub ? linkedSub.photos >= BUSINESS.photos.min : editing;
-  const photoCount = photos + (existingPhotos ? Math.max(BUSINESS.photos.min, linkedSub?.photos ?? 0) : linkedSub?.photos ?? 0);
   const hasReport = !!reportName || !!device?.report;
 
   const checks: Check[] = [
@@ -73,7 +75,22 @@ export function DeviceForm({ device }: { device?: Device }) {
     } else {
       setDone({ id, status });
       window.scrollTo({ top: 0 });
+      if (pending.length) void uploadPending(id);
     }
+  };
+
+  // New listing: its photos go up once the background save gives it an id.
+  const uploadPending = async (code: string) => {
+    setUploading("بنرفع الصور…");
+    const dbId = await waitForDbId(code);
+    if (!dbId) {
+      setUploading("ما قدرناش نرفع الصور — افتح «كمّل تعديله» وضيفها تاني.");
+      return;
+    }
+    const n = await uploadDevicePhotos(supabaseBrowser(), dbId, pending, 0, (d, t) => setUploading(`بنرفع الصور… ${d} من ${t}`));
+    setPending([]);
+    await reloadDevices();
+    setUploading(n === pending.length ? `اترفعت ${n} صور.` : `اترفع ${n} من ${pending.length} صور — كمّل الباقي من «كمّل تعديله».`);
   };
 
   if (done) {
@@ -91,6 +108,7 @@ export function DeviceForm({ device }: { device?: Device }) {
         <p style={{ margin: 0, color: "#4A5A56" }}>
           {pub ? "ظاهر دلوقتي في «كل الأجهزة» للمشترين." : "تقدر تكمّله وتنشره من «الأجهزة المعروضة»."} ({done.id})
         </p>
+        {uploading ? <p role="status" style={{ margin: 0, fontWeight: 600, color: "#0D5C55" }}>{uploading}</p> : null}
         <div className="adf-done-acts" style={{ display: "flex", flexWrap: "wrap", gap: 10, justifyContent: "center", marginTop: 8 }}>
           {pub ? (
             <Link href={routes.devices} className="ad-btn ad-pri" style={{ color: "#FFFFFF" }}>
@@ -110,8 +128,8 @@ export function DeviceForm({ device }: { device?: Device }) {
             onClick={() => {
               setDone(null);
               setF(emptyForm());
-              setPhotos(0);
-              setVideo("");
+              setPending([]);
+              setUploading("");
               setReportName("");
             }}
           >
@@ -213,7 +231,7 @@ export function DeviceForm({ device }: { device?: Device }) {
           ) : null}
           <DetailsSection f={f} set={set} />
           <InspectionSection f={f} set={set} reportName={reportName} hasExistingReport={!!device?.report} onReport={setReportName} />
-          <MediaSection photos={photos} video={video} existingPhotos={existingPhotos} onPhotos={setPhotos} onVideo={setVideo} />
+          <PhotosSection dbId={device?.dbId} pending={pending} setPending={setPending} onCount={setPhotoCount} onChanged={() => void reloadDevices()} />
           <PriceSection f={f} set={set} />
           <NotesSection f={f} set={set} />
         </div>

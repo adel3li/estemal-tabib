@@ -138,7 +138,7 @@ Adel asked to test the whole site end to end before going further, so all 16 scr
 94. **Rejection reasons** = the client's list (§2) + «السعر مش منطقي بالنسبة للسوق» (his main review point) + «سبب تاني».
 95. **«مشبوه» tab:** «علّمه مشبوه / جاد» sets `profiles.trust` for the seller; all requests from a suspicious account move to «مشبوه» (out of the other tabs), nothing is blocked.
 96. **Inspection scheduling is at HQ only** (location «مقر الفحص»). Inspections themselves are still demo data.
-97. **Photos:** the sell form still doesn't upload photos (R2, later), so real requests show 0 photos with a note to ask for them on WhatsApp.
+97. **Photos:** ~~the sell form still doesn't upload photos~~ — done 5 Nov, see 141–146.
 
 ## Control panel build, step 3 — orders and the financial table (2026-11-03)
 
@@ -198,3 +198,12 @@ Adel asked to test the whole site end to end before going further, so all 16 scr
 139. **«جدول الأسبوع» explained** (Mohamed: «مش فاهم دي معناها ايه؟»): the confusing line about older / later inspections became a plain sentence ("the number under each day = inspections scheduled that day; tap a day to see only those"), plus a note only when there are overdue / later ones; «—» became «مفيش»; day numbers in Latin digits like the rest of the dashboard; the month next to the dates.
 
 140. **WhatsApp number:** 01034564437 (Adel, Nov 2026) is the default in `BUSINESS.contact.whatsapp`; «الإعدادات» in the dashboard still overrides it. Email, social and transfer details are still open (§12.2).
+
+## Photo uploads — Supabase Storage instead of R2 (2026-11-05)
+
+141. **Supabase Storage, not Cloudflare R2** (Adel, 5 Nov): the site runs on Vercel and already uses Supabase for login and data, so photos live there too — no second account or keys, and the same RLS rules guard the files. Free plan: 1 GB of storage (≈3,000–5,000 photos at this size). The media tables keep their `r2_key` column; it now holds the Storage path.
+142. **Two buckets:** `submission-photos` (private) — the seller's photos, path `{seller}/{request}/…`; only that seller and the admins can open them (1-hour links). `device-photos` (public) — a listing's photos, path `{device}/…`; anyone can view, only admins add / change / delete. Both: images only (JPEG / PNG / WebP), 3 MB max per file.
+143. Every photo is **shrunk in the browser** before uploading (longest side 1600 px, WebP — JPEG if the browser can't — quality 0.82 → usually 150–400 KB). No server route needed.
+144. **Flow:** the sell form saves the request, then uploads the photos (progress on the button; if some fail the request is still sent and the success page says so). The admin sees the real photos on the request (accessory photos marked «ملحقات», click opens full size). **Accepting** copies them into the draft listing as its first photos. In «إضافة / تعديل جهاز» (section ٤) admins add photos, pick the cover («خليها الغلاف») and delete; for a new listing the picked photos upload right after it's saved. The site shows the cover on the cards / home carousel and all photos on the device page; listings without photos keep the drawings.
+145. Trade-off: the listing bucket is public, so a draft's photos could be opened by someone who guesses the exact link (it contains the device's random id). The brief wanted only public devices' media reachable; that would need a server route per image — not worth it for equipment photos.
+146. Not yet: inspection-report photos (the inspection page still saves only their count), video (switched off), and deleting a listing doesn't yet remove its files from Storage (harmless, just space).

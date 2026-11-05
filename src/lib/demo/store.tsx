@@ -83,6 +83,8 @@ export type DemoApi = {
   /** «اعتمد ونشّر»: marks the inspection done, writes the report to the device,
    *  and publishes it for pre-publish inspections. Returns the device id. */
   approveInspection: (id: string) => string;
+  /** A just-added device's database id, once the background save has it (null after ~20 s). */
+  waitForDbId: (code: string) => Promise<string | null>;
   /** Re-read the devices from the database (after orders move stock / status there). */
   reloadDevices: () => Promise<void>;
   /** Save / unsave a device (signed-in users; others are sent to /login). */
@@ -503,6 +505,15 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     });
   }, [commit, userId]);
 
+  const waitForDbId: DemoApi["waitForDbId"] = useCallback(async (code) => {
+    for (let i = 0; i < 80; i++) {
+      const id = ref.current.devices.find((d) => d.id === code)?.dbId;
+      if (id) return id;
+      await new Promise((r) => setTimeout(r, 250));
+    }
+    return null;
+  }, []);
+
   const reloadDevices: DemoApi["reloadDevices"] = useCallback(async () => {
     if (!SUPABASE_URL) return;
     const devices = await fetchDevices(supabaseBrowser());
@@ -531,9 +542,10 @@ export function DemoProvider({ children }: { children: ReactNode }) {
       approveInspection,
       toggleFavorite,
       reloadDevices,
+      waitForDbId,
       matchesFor,
     }),
-    [ready, devicesError, submissionsError, state, getDevice, addDevice, updateDevice, updateSubmission, acceptSubmission, setSellerTrust, updateRequest, addInspection, updateInspection, approveInspection, toggleFavorite, reloadDevices, matchesFor],
+    [ready, devicesError, submissionsError, state, getDevice, addDevice, updateDevice, updateSubmission, acceptSubmission, setSellerTrust, updateRequest, addInspection, updateInspection, approveInspection, toggleFavorite, reloadDevices, waitForDbId, matchesFor],
   );
 
   return <DemoContext.Provider value={api}>{children}</DemoContext.Provider>;

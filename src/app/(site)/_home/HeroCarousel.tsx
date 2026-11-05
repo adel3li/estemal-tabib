@@ -3,6 +3,7 @@
 // Hero device card, cycling through the listed devices (featured first).
 // Each slide shows what the seller declared, not the inspection report.
 import Link from "next/link";
+import { DevicePic } from "@/components/site/DevicePic";
 import { useEffect, useRef, useState } from "react";
 import { routes } from "@/lib/routes";
 import { isListed, useDemo } from "@/lib/demo/store";
@@ -131,7 +132,7 @@ function Slide({ d }: { d: Device }) {
   return (
     <>
       <div className="mn-hc-img" style={{ position: "relative", aspectRatio: "4 / 2.7", background: "#E7EDEA" }}>
-        <svg role="img" aria-label={`رسم توضيحي ل${d.title}`} viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" style={{ display: "block", width: "100%", height: "100%" }}><use href={artFor(d.type)} /></svg>
+        <DevicePic src={d.photos?.[0]} art={artFor(d.type)} label={d.photos?.[0] ? d.title : `رسم توضيحي ل${d.title}`} />
         {inspected ? (
           <svg className="mn-hc-seal" aria-hidden="true" viewBox="0 0 120 120" style={{ position: "absolute", bottom: 14, left: 14, width: 84, height: 84, filter: "drop-shadow(0 6px 14px rgba(18, 34, 31, 0.18))" }}><use href="#mn-seal" /></svg>
         ) : null}
