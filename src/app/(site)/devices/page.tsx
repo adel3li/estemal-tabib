@@ -7,7 +7,7 @@ export const metadata: Metadata = { title: "كل الأجهزة" };
 
 export default function Page() {
   return (
-    <Suspense fallback={null}>
+    <Suspense fallback={<div style={{ minHeight: "100svh" }} />}>
       <BrowseClient />
     </Suspense>
   );

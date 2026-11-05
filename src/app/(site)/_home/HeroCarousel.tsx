@@ -28,7 +28,7 @@ function subtitle(d: Device) {
 }
 
 export function HeroCarousel() {
-  const { state } = useDemo();
+  const { state, ready } = useDemo();
   const listed = state.devices.filter(isListed);
   const slides = [...listed.filter((d) => d.featured), ...listed.filter((d) => !d.featured)].slice(0, MAX_SLIDES);
   const n = slides.length;
@@ -45,7 +45,8 @@ export function HeroCarousel() {
     return () => window.clearInterval(t);
   }, [paused, n]);
 
-  if (!n) return null;
+  // Keep the card's space while the listings load, so the page doesn't jump.
+  if (!n) return ready ? null : <div className="mn-hero-card mn-hc-ph" aria-hidden="true" style={{ flex: "1 1 420px", minWidth: 0, maxWidth: 520 }}><div style={{ aspectRatio: "4 / 2.7" }} /><div className="mn-hc-ph-body" /></div>;
   const go = (k: number) => setI(((k % n) + n) % n);
   const d = slides[cur];
 

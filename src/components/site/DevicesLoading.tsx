@@ -7,7 +7,7 @@ export function DevicesLoading({ failed = false, cards = 4 }: { failed?: boolean
       </div>
     );
   return (
-    <div className="dl-grid" role="status" aria-label="بنحمّل الأجهزة…">
+    <div className="dl-grid" role="status" aria-label="بنحمّل الأجهزة…" style={{ minHeight: "100svh" /* footer stays below the screen until the list arrives */ }}>
       {Array.from({ length: cards }, (_, i) => (
         <div key={i} className="dl-card">
           <span className="dl-img" />

@@ -154,7 +154,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
           })
         : Promise.resolve([] as T[]);
     Promise.all([
-      fetchDevices(sb),
+      fetchDevices(sb, isAdmin),
       // Categories first-class with the devices, so labels / forms are right when «ready».
       loadCategories(sb).catch((e) => console.error("categories load failed", e)),
       userId ? fetchFavorites(sb, userId) : Promise.resolve([] as string[]),
@@ -516,11 +516,11 @@ export function DemoProvider({ children }: { children: ReactNode }) {
 
   const reloadDevices: DemoApi["reloadDevices"] = useCallback(async () => {
     if (!SUPABASE_URL) return;
-    const devices = await fetchDevices(supabaseBrowser());
+    const devices = await fetchDevices(supabaseBrowser(), isAdmin);
     synced.current = new Map(devices.map((d) => [d.id, d]));
     ref.current = { ...ref.current, devices };
     setState(ref.current);
-  }, []);
+  }, [isAdmin]);
 
   const matchesFor: DemoApi["matchesFor"] = useCallback((r) => state.devices.filter((d) => deviceMatches(d, r)), [state.devices]);
 

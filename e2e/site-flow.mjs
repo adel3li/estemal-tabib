@@ -1,15 +1,20 @@
-// E2E: email-code login → onboarding → back to /sell with draft + prefill →
-// submit sell + request → /account → sign out → non-admin blocked from /admin.
+// E2E (launch check, brief §10 step 8):
+//   anonymous browse → /sell sends you to /login with the draft kept → Google
+//   button starts the Google sign-in → sign in (code page) → onboarding → back
+//   on /sell with draft + prefill → submit with photos → «اطلب جهاز» →
+//   /account → non-admin blocked from /admin → ADMIN: sees the seller's
+//   photos, accepts → listing gets the photos → publishes → the public sees
+//   it with its photo → sign out.
 //
-//   node e2e/auth-flow.mjs http://localhost:3000 /tmp/shots 390
+//   npm run e2e -- http://localhost:3000 /tmp/shots 390   (width: 390 phone, 1280 desktop)
 //
-// Needs SUPABASE_PROJECT_REF + SUPABASE_SERVICE_ROLE_KEY and a dev server on
-// localhost (not 127.0.0.1 — Next blocks dev assets there). No emails are sent:
-// the "send code" call is intercepted and the code comes from the admin API.
-// Test media (2 PNGs + a 16 s clip.webm) in E2E_MEDIA, e.g. made with ffmpeg:
-//   ffmpeg -f lavfi -i testsrc=duration=16:size=320x240:rate=10 -c:v libvpx clip.webm
+// Needs SUPABASE_PROJECT_REF + SUPABASE_SERVICE_ROLE_KEY and a server on
+// localhost (`npm run build && npm start`, or `npm run dev` — open it as
+// localhost, not 127.0.0.1). It runs against the real database: no emails are
+// sent (the sign-in code comes from the admin API, Google is never opened), and
+// the test users, rows and photo files it created are deleted at the end.
+// Test photos (2 PNGs) in E2E_MEDIA, e.g. made with ffmpeg:
 //   ffmpeg -f lavfi -i testsrc=size=640x480 -frames:v 1 p1.png   (and p2.png)
-// The test user and everything it created are deleted at the end.
 import { createRequire } from "node:module";
 import fs from "node:fs";
 const require = createRequire(import.meta.url);
@@ -43,12 +48,18 @@ const ctx = await browser.newContext({
 const page = await ctx.newPage();
 const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
-// Never send real emails: answer the "send code" call ourselves.
-let otpCalls = 0;
-await page.route("**/auth/v1/otp*", (r) => {
-  otpCalls++;
-  return r.fulfill({ status: 200, contentType: "application/json", body: "{}" });
+// Never really go to Google: catch the redirect to Supabase's authorize URL.
+let googleCalls = 0;
+await page.route("**/auth/v1/authorize*", (r) => {
+  if (r.request().url().includes("provider=google")) googleCalls++;
+  return r.fulfill({ status: 200, contentType: "text/html", body: "<p>google (stub)</p>" });
 });
+const signInCode = async (p, mail) => {
+  const link = await service.auth.admin.generateLink({ type: "magiclink", email: mail });
+  if (link.error) throw link.error;
+  await p.locator("#au-code").fill(link.data.properties.email_otp);
+};
+const created2 = { users: [], devices: [], files: [] };
 
 const layout = async (label) => {
   const m = await page.evaluate(() => ({
@@ -62,6 +73,29 @@ const layout = async (label) => {
 };
 
 try {
+  // 0. Anonymous browse.
+  await page.goto(`${base}/`);
+  await page.locator(".mn-card").first().waitFor({ timeout: 20000 }).catch(() => {});
+  check("home: has listings", (await page.locator(".mn-card").count()) > 0);
+  await layout("home");
+  await page.goto(`${base}/devices`);
+  const cards = page.locator(".br-card");
+  await cards.first().waitFor({ timeout: 20000 });
+  const nAll = await cards.count();
+  check(`browse: ${nAll} published listings`, nAll > 0);
+  await layout("browse");
+  await page.goto(`${base}/devices?st=done`);
+  await page.waitForTimeout(1200);
+  const nDone = await page.locator(".br-card").count();
+  check("browse: «تم الفحص» filter from the URL narrows the list", nDone <= nAll, `${nDone}/${nAll}`);
+  const first = await page.locator(".br-card").first().getAttribute("href").catch(() => null);
+  if (first) {
+    await page.goto(`${base}${first}`);
+    await page.getByRole("button", { name: /اطلب الجهاز|اطلبه/ }).first().waitFor({ timeout: 20000 }).catch(() => {});
+    check("device page opens with an order button", (await page.getByText(/اطلب الجهاز/).count()) > 0);
+    await layout("device");
+  }
+
   // 1. A half-filled sell form from before (draft) + the home quick-form prefill.
   await page.goto(`${base}/`);
   await page.evaluate(() => localStorage.setItem("istimal-tabib-sell-draft", JSON.stringify({ brand: "W&H", accessories: "شاحن" })));
@@ -79,31 +113,20 @@ try {
     await page.locator(".site-menu-btn").click();
   }
 
-  // Google not configured yet → friendly message, no redirect.
+  // Google button → starts Google sign-in, keeping where to come back to.
   await page.getByRole("button", { name: "كمّل بحساب جوجل" }).click();
-  check("Google button explains it's not ready", await page.getByText("الدخول بجوجل لسه بيتجهز").isVisible());
+  await page.waitForURL(/auth\/v1\/authorize/, { timeout: 15000 });
+  check("Google button starts the Google sign-in", googleCalls === 1);
+  check("…and comes back to /sell after", decodeURIComponent(decodeURIComponent(page.url())).includes("next=/sell?type=endo"), page.url());
 
-  // 2. Email → code.
-  await page.locator("#au-email").fill("not-an-email");
-  await page.getByRole("button", { name: "ابعتلي الكود" }).click();
-  check("invalid email message", await page.getByText("اكتب إيميل صحيح").isVisible());
-  await page.locator("#au-email").fill(email);
-  await page.getByRole("button", { name: "ابعتلي الكود" }).click();
-  await page.waitForURL(/\/login\/verify/);
-  check("send-code request made (intercepted, no email)", otpCalls === 1);
-  check("resend locked for 60s", await page.getByRole("button", { name: /ابعت كود جديد بعد/ }).isDisabled());
-  await layout("verify");
-
-  // Wrong code first.
+  // 2. Sign in (the code page stands in for Google here).
   const { data: created, error: cErr } = await service.auth.admin.createUser({ email, email_confirm: true });
   if (cErr) throw cErr;
+  await page.goto(`${base}/login/verify?email=${encodeURIComponent(email)}&next=${encodeURIComponent("/sell?type=endo&details=" + encodeURIComponent("إندو موتور تجربة"))}`);
   await page.locator("#au-code").fill("000000");
   await page.getByText("الكود غلط أو خلص وقته").waitFor({ timeout: 15000 });
   check("wrong code rejected", true);
-
-  const link = await service.auth.admin.generateLink({ type: "magiclink", email });
-  if (link.error) throw link.error;
-  await page.locator("#au-code").fill(link.data.properties.email_otp);
+  await signInCode(page, email);
   await page.waitForURL(/\/onboarding/, { timeout: 20000 });
   check("new user → /onboarding with next kept", decodeURIComponent(page.url()).includes("next=/sell?type=endo"));
   await layout("onboarding");
@@ -136,14 +159,14 @@ try {
   if (width >= 600) {
     await page.locator(".acc-btn").click();
     const items = await page.locator(".acc-menu [role=menuitem]").allInnerTexts();
-    check("avatar menu: حسابي/أجهزتي/اخرج, no لوحة التحكم", items.join("|") === "حسابي|أجهزتي|اخرج", items.join("|"));
+    check("avatar menu: حسابي/أجهزتي/تسجيل الخروج, no لوحة التحكم", items.join("|") === "حسابي|أجهزتي|تسجيل الخروج", items.join("|"));
     await layout("avatar-menu-open");
     await page.keyboard.press("Escape");
   } else {
     check("menu button has avatar badge", await page.locator(".site-menu-btn .acc-badge").isVisible());
     await page.locator(".site-menu-btn").click();
     const items = await page.locator(".acc-panel-links > *").allInnerTexts();
-    check("menu panel: حسابي/أجهزتي/اخرج", items.join("|") === "حسابي|أجهزتي|اخرج", items.join("|"));
+    check("menu panel: حسابي/أجهزتي + اخرج", items.join("|") === "حسابي|أجهزتي" && (await page.getByRole("button", { name: "تسجيل الخروج" }).isVisible()), items.join("|"));
     await layout("phone-menu-open");
     await page.locator(".site-menu-btn").click();
   }
@@ -156,8 +179,11 @@ try {
   await page.locator("input[name=box]").first().check();
   await page.locator("input[name=repaired]").nth(1).check();
   await page.locator("#sl-f-defects").fill("لا يوجد");
-  await page.locator("input[type=file][accept=\"image/*\"]").first().setInputFiles([`${MEDIA}/p1.png`, `${MEDIA}/p2.png`]);
-  await page.locator("input[type=file][accept=\"video/*\"]").setInputFiles(`${MEDIA}/clip.webm`);
+  const keep = page.locator("input[name=keep]");
+  if (await keep.count()) await keep.nth(1).check();
+  const pics = page.locator("input[type=file][accept=\"image/*\"]");
+  await pics.first().setInputFiles([`${MEDIA}/p1.png`, `${MEDIA}/p2.png`]);
+  if ((await pics.count()) > 1) await pics.nth(1).setInputFiles([`${MEDIA}/p2.png`]); // accessories
   await page.locator("#sl-f-sale").fill("12000");
   for (const cb of await page.locator("aside input[type=checkbox], #sl-f-acks").all()) if (!(await cb.isChecked())) await cb.check();
   const acks = page.locator("input[type=checkbox]");
@@ -166,19 +192,17 @@ try {
     const label = await cb.evaluate((el) => el.closest("label")?.textContent ?? "");
     if (/أقر|موافق/.test(label) && !(await cb.isChecked())) await cb.check();
   }
-  await page.waitForTimeout(1500); // video duration read
   await page.getByRole("button", { name: "ابعت الطلب" }).click();
-  await page.locator("[data-testid=sell-id]").waitFor({ timeout: 20000 });
+  await page.locator("[data-testid=sell-id]").waitFor({ timeout: 60000 });
   const code = await page.locator("[data-testid=sell-id]").innerText();
   check(`sell saved with a database code (${code})`, /^#\d{4,}$/.test(code));
   const { data: subRow } = await service.from("seller_submissions").select("id, fee_status, status, seller_id, brand, condition").eq("public_code", code).single();
   check("row in seller_submissions, owned by the user, pending/new", subRow?.seller_id === created.user.id && subRow.fee_status === "pending" && subRow.status === "new" && subRow.brand === "W&H");
+  const { data: media } = await service.from("submission_media").select("kind, r2_key, mime").eq("submission_id", subRow.id);
+  created2.files.push(...(media ?? []).map((m) => ["submission-photos", m.r2_key]));
+  check("photos uploaded: 2 + 1 accessory, shrunk to WebP", media?.length === 3 && media.every((m) => m.mime === "image/webp"), JSON.stringify(media));
   check("draft cleared after submit", (await page.evaluate(() => localStorage.getItem("istimal-tabib-sell-draft-v2") ?? localStorage.getItem("istimal-tabib-sell-draft"))) === null);
-  await page.locator(".sl-done input").fill("IPN-778899");
-  await page.getByRole("button", { name: "سجّل رقم التحويل" }).click();
-  await page.waitForTimeout(1500);
-  const { data: refRow } = await service.from("seller_submissions").select("fee_reference").eq("public_code", code).single();
-  check("transfer reference saved", refRow?.fee_reference === "IPN-778899");
+  // (The seriousness fee is asked for on WhatsApp after the request is accepted — nothing to pay here.)
 
   // 6. Request form.
   await page.goto(`${base}/request?type=loupe`);
@@ -195,7 +219,7 @@ try {
   await page.goto(`${base}/account`);
   await page.getByRole("tab", { name: /أجهزتي المعروضة/ }).waitFor();
   check("account: submission listed", await page.getByText(code).isVisible());
-  check("account: fee pill", await page.getByText("رسوم الجدية لسه ما اتدفعتش").isVisible());
+  check("account: «we review within 24 h», no fee asked yet", (await page.getByText("بنراجع طلبك (خلال 24 ساعة)").count()) > 0 && !(await page.getByText("رسوم الجدية لسه ما اتدفعتش").count()));
   await layout("account-devices");
   await page.locator("#tab-requests").click();
   check("account: request listed", await page.getByText(reqRows[0].public_code).isVisible());
@@ -220,13 +244,61 @@ try {
   await page.goto(`${base}/login?next=/account`);
   check("signed-in /login → /account", new URL(page.url()).pathname === "/account");
 
+  // 9b. Admin: the seller's photos → accept → publish → public sees it.
+  const adminEmail = `e2e-admin-${Date.now()}-${width}@example.com`;
+  const { data: ad } = await service.auth.admin.createUser({ email: adminEmail, email_confirm: true });
+  created2.users.push(ad.user.id);
+  await service.from("profiles").update({ role: "admin", full_name: "مدير تجربة", phone: "01000000000", governorate: "القاهرة", account_type: "clinic", onboarded_at: new Date().toISOString() }).eq("id", ad.user.id);
+  const actx = await browser.newContext({ viewport: { width: 1280, height: 900 }, ignoreHTTPSErrors: Boolean(process.env.HTTPS_PROXY), locale: "ar-EG" });
+  const a = await actx.newPage();
+  a.on("pageerror", (e) => errors.push(`admin: ${e.message}`));
+  await a.goto(`${base}/login/verify?email=${encodeURIComponent(adminEmail)}&next=${encodeURIComponent(`/admin/submissions?open=${encodeURIComponent(code)}`)}`);
+  await signInCode(a, adminEmail);
+  await a.waitForURL(/\/admin\/submissions/, { timeout: 30000 });
+  await a.locator(".sb-photos img").first().waitFor({ timeout: 30000 });
+  check("admin: sees the seller's 3 photos", (await a.locator(".sb-photos img").count()) === 3);
+  await a.getByRole("button", { name: /قبول وتحويل لإعلان/ }).click();
+  await a.getByRole("button", { name: /أكّد القبول/ }).click();
+  await a.getByRole("link", { name: "كمّل الإعلان" }).first().waitFor({ timeout: 20000 });
+  let devId, dm = [];
+  for (let i = 0; i < 40 && dm.length < 3; i++) {
+    await a.waitForTimeout(500);
+    const { data: sr } = await service.from("seller_submissions").select("device_id, status").eq("id", subRow.id).single();
+    devId = sr?.device_id;
+    if (devId) dm = (await service.from("device_media").select("r2_key").eq("device_id", devId)).data ?? [];
+  }
+  if (devId) created2.devices.push(devId);
+  created2.files.push(...dm.map((m) => ["device-photos", m.r2_key]));
+  check("admin: accept → draft listing with the 3 photos", dm.length === 3, `${devId} ${JSON.stringify(dm)}`);
+  await a.getByRole("link", { name: "كمّل الإعلان" }).first().click();
+  await a.waitForURL(/\/edit/, { timeout: 20000 });
+  await a.locator("section[aria-labelledby=ad-s4] img").first().waitFor({ timeout: 30000 });
+  const pubBtn = a.getByRole("button", { name: "انشر الجهاز" });
+  check("admin: listing ready to publish (title, price, photos)", await pubBtn.isEnabled());
+  await pubBtn.click();
+  let st;
+  for (let i = 0; i < 30 && st !== "published"; i++) { await a.waitForTimeout(500); st = (await service.from("devices").select("status").eq("id", devId).single()).data?.status; }
+  check("admin: published", st === "published", st);
+  await actx.close();
+  const { data: dv } = await service.from("devices").select("public_code").eq("id", devId).single();
+  const anonCtx = await browser.newContext({ viewport: { width, height: 800 }, isMobile: width < 768, ignoreHTTPSErrors: Boolean(process.env.HTTPS_PROXY), locale: "ar-EG" });
+  const pub = await anonCtx.newPage();
+  await pub.goto(`${base}/devices`);
+  const card = pub.locator(`a[href="/devices/${encodeURIComponent(dv.public_code)}"] img`).first();
+  await card.waitFor({ timeout: 30000 }).catch(() => {});
+  check("public: new listing on «كل الأجهزة» with its photo", (await card.count()) === 1);
+  await pub.goto(`${base}/devices/${encodeURIComponent(dv.public_code)}`);
+  await pub.locator(".li-thumb img").first().waitFor({ timeout: 30000 }).catch(() => {});
+  check("public: device page shows the 3 photos", (await pub.locator(".li-thumb img").count()) === 3);
+  await anonCtx.close();
+
   // 10. Sign out.
   if (width >= 600) {
     await page.locator(".acc-btn").click();
-    await page.getByRole("menuitem", { name: "اخرج" }).click();
+    await page.getByRole("menuitem", { name: "تسجيل الخروج" }).click();
   } else {
     await page.locator(".site-menu-btn").click();
-    await page.locator(".acc-panel").getByRole("button", { name: "اخرج" }).click();
+    await page.getByRole("button", { name: "تسجيل الخروج" }).click();
   }
   await page.waitForURL(`${base}/`);
   await page.waitForTimeout(800);
@@ -240,12 +312,24 @@ try {
   check("no page errors", errors.length === 0, errors.join(" | "));
 } catch (e) {
   console.error("CRASH", e);
+  console.error("on screen:", (await page.locator("[role=alert], .sl-err").allInnerTexts().catch(() => [])).join(" | "));
   await page.screenshot({ path: `${out}/crash@${width}.png`, fullPage: true }).catch(() => {});
   failed++;
 } finally {
   // Clean up: the user's rows cascade with the account.
+  for (const bucket of ["submission-photos", "device-photos"]) {
+    const paths = created2.files.filter(([b]) => b === bucket).map(([, p]) => p);
+    if (paths.length) await service.storage.from(bucket).remove(paths);
+  }
+  for (const id of created2.devices) {
+    await service.from("seller_submissions").update({ device_id: null }).eq("device_id", id);
+    await service.from("inspections").delete().eq("device_id", id);
+    await service.from("devices").delete().eq("id", id);
+    await service.from("audit_log").delete().eq("entity_id", id);
+  }
   const { data: list } = await service.auth.admin.listUsers({ perPage: 1000 });
   for (const u of list?.users ?? []) if (u.email === email) await service.auth.admin.deleteUser(u.id);
+  for (const id of created2.users) await service.auth.admin.deleteUser(id);
   await browser.close();
 }
 console.log(failed ? `${failed} FAILED` : "ALL PASSED");
