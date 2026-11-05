@@ -9,6 +9,8 @@ type Props = {
   err: string;
   onForm: (fn: (f: Form) => Form) => void;
   onPhotos: (files: File[]) => void;
+  /** «بنرفع الصور… 2 من 5» while inspection photos upload. */
+  uploading?: string;
   onClose: () => void;
   onBack: () => void;
   onSave: () => void;
@@ -23,7 +25,7 @@ const setCheck = (f: Form, key: CheckKey, patch: Partial<Form["checks"][CheckKey
 
 const CONDS: Condition[] = ["a", "b", "c"];
 
-export function ReportPanel({ it, form: f, err, onForm, onPhotos, onClose, onBack, onSave, onApprove, onReopen }: Props) {
+export function ReportPanel({ it, form: f, err, onForm, onPhotos, uploading, onClose, onBack, onSave, onApprove, onReopen }: Props) {
   const [sTxt, sBg, sFg] = ST[statusOf(it)];
   const [tTxt, tBg, tFg] = typePill(it);
   const buyer = isBuyer(it);
@@ -165,7 +167,7 @@ export function ReportPanel({ it, form: f, err, onForm, onPhotos, onClose, onBac
       <label className="ad-drop in-drop" style={{ position: "relative", flexWrap: "wrap" }}>
         <input
           type="file"
-          accept="image/*,video/*"
+          accept="image/*"
           multiple
           className="in-file"
           disabled={isPub}
@@ -179,11 +181,14 @@ export function ReportPanel({ it, form: f, err, onForm, onPhotos, onClose, onBac
           <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="5" width="18" height="14" rx="2" /><circle cx="9" cy="10" r="1.8" /><path d="M21 16l-5-5-8 8" /></svg>
         </span>
         <span style={{ display: "flex", flexDirection: "column", flex: "1 1 160px", minWidth: 0 }}>
-          <span style={{ fontWeight: 700 }}>صور وفيديو الفحص</span>
-          <span className="ad-hint">صور كل جزء اتفحص، وأي عيب من قريب</span>
+          <span style={{ fontWeight: 700 }}>صور الفحص</span>
+          <span className="ad-hint">
+            صور كل جزء اتفحص، وأي عيب من قريب · بتتضاف لصور الإعلان{it.kind === "pre_publish" ? " وأولها بتبقى الغلاف" : ""}
+            {it.deviceId ? "" : " — بتترفع لما تعتمد التقرير، متقفلش الصفحة قبلها"}
+          </span>
         </span>
         <span className="in-pill" style={{ background: f.photos ? "#EAF5DD" : "#FBE9E7", color: f.photos ? "#3F7A1F" : "#B3261E" }}>
-          {f.photos ? `${f.photos} ملف مرفوع` : "لسه مفيش"}
+          {uploading || (f.photos ? `${f.photos} صور` : "لسه مفيش")}
         </span>
       </label>
 

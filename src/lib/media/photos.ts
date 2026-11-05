@@ -125,6 +125,21 @@ export async function reorderDevicePhotos(sb: SupabaseClient, items: MediaItem[]
   for (let i = 0; i < items.length; i++) await sb.from("device_media").update({ sort_order: i }).eq("id", items[i].id);
 }
 
+/**
+ * Inspection photos → the listing. Before publishing (`first`), the team's
+ * photos go in front of the seller's, so the cover is an official one.
+ */
+export async function addInspectionPhotos(sb: SupabaseClient, deviceDbId: string, files: File[], first: boolean, onProgress?: (done: number, total: number) => void): Promise<number> {
+  const before = await fetchDevicePhotos(sb, deviceDbId);
+  const ok = await uploadDevicePhotos(sb, deviceDbId, files, before.length, onProgress);
+  if (first && ok && before.length) {
+    const old = new Set(before.map((m) => m.id));
+    const all = await fetchDevicePhotos(sb, deviceDbId);
+    await reorderDevicePhotos(sb, [...all.filter((m) => !old.has(m.id)), ...all.filter((m) => old.has(m.id))]);
+  }
+  return ok;
+}
+
 /** Accepting a sell request: the seller's photos become the draft listing's first photos. */
 export async function copySubmissionPhotosToDevice(sb: SupabaseClient, submissionDbId: string, deviceDbId: string): Promise<number> {
   const { data } = await sb.from("submission_media").select("r2_key, kind, width, height, sort_order").eq("submission_id", submissionDbId).order("sort_order");
