@@ -14,8 +14,6 @@ export function SiteFooter() {
   const { wa, whatsapp, email, social } = useSettings();
   return (
     <footer className="site-footer" style={{ background: "#14243A", color: "#C3D3D3" }}>
-      {/* Brand pattern strip (brand book): decoration only, never behind text. */}
-      <div aria-hidden="true" className="ft-pattern" />
       <div
         style={{
           maxWidth: 1200,

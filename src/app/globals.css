@@ -450,7 +450,3 @@ h1, h2, h3, h4 { font-weight: 700; }
   .save-heart svg { width: 17px; height: 17px; }
   .card-wrap :is(.mn-card-img, .br-img) > span:first-of-type { top: 8px !important; right: 8px !important; padding: 3px 8px !important; font-size: 11px !important; gap: 3px !important; max-width: calc(100% - 54px); box-sizing: border-box; overflow: hidden; white-space: nowrap; }
 }
-
-/* Brand pattern strip on top of the footer (public/brand/pattern.svg, from the design system). */
-.ft-pattern { height: 72px; background: #FFFFFF url("/brand/pattern.svg") repeat-x center / auto 120px; border-bottom: 4px solid #F7941D; }
-@media (max-width: 767px) { .ft-pattern { height: 52px; background-size: auto 90px; } }
