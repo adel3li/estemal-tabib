@@ -1,14 +1,17 @@
 "use client";
 
+// /devices/[id] — v2 direction (design-explorations/v2/src/listing.html, brand theme):
+// gallery + sticky buy column, then the report (or the on-order steps) next to the specs.
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { DevicesLoading } from "@/components/site/DevicesLoading";
-import { isPublic, useDemo } from "@/lib/demo/store";
 import { usePublicDevices } from "@/lib/public/seed";
-import { routes } from "@/lib/routes";
 import { supabaseBrowser } from "@/lib/supabase/client";
 import { SUPABASE_URL } from "@/lib/supabase/env";
+import { isPublic, useDemo } from "@/lib/demo/store";
+import { typeLabel } from "@/lib/demo/labels";
+import { routes } from "@/lib/routes";
 import { BrowseArt } from "../art";
 import { DeviceArt } from "./art";
 import { DataGrid } from "./DataGrid";
@@ -20,11 +23,11 @@ import { Steps } from "./Steps";
 
 function NotFound() {
   return (
-    <section style={{ maxWidth: 1200, margin: "0 auto", padding: "56px 20px 80px" }}>
-      <div style={{ padding: "48px 24px", borderRadius: 24, background: "#FFFFFF", border: "1px dashed #9FB2AB", display: "flex", flexDirection: "column", alignItems: "center", gap: 12, textAlign: "center" }}>
-        <h1 style={{ margin: 0, fontWeight: 700, fontSize: 24 }}>الجهاز ده مش متاح</h1>
-        <div style={{ color: "#4A5A56" }}>ممكن يكون اتشال أو الرابط غلط. شوف الأجهزة المتاحة دلوقتي.</div>
-        <Link href={routes.devices} className="li-cta" style={{ minHeight: 48, padding: "0 22px", borderRadius: 12, background: "#0D5C55", color: "#FFFFFF", fontWeight: 700, display: "flex", alignItems: "center" }}>كل الأجهزة</Link>
+    <section className="hm-page hm-wrap" style={{ padding: "56px 20px 80px" }}>
+      <div className="li-empty">
+        <h1>الجهاز ده مش متاح</h1>
+        <p>ممكن يكون اتشال أو الرابط غلط. شوف الأجهزة المتاحة دلوقتي.</p>
+        <Link href={routes.devices} className="hm-btn li-btn-brand">كل الأجهزة</Link>
       </div>
     </section>
   );
@@ -39,6 +42,7 @@ export function DeviceClient() {
   const d = devices.find((x) => x.id === id);
   // Discount code typed on the price card; both order buttons send it.
   const [promo, setPromo] = useState("");
+
   // How many units (only shown when there are several).
   const [qty, setQty] = useState(1);
   const code = d && isPublic(d) ? d.id : null;
@@ -59,7 +63,7 @@ export function DeviceClient() {
   // The server's copy may not have a listing published seconds ago: wait for the live list before «not found».
   if (!ready || (devicesError && !d) || (!d && !live))
     return (
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "24px 20px 60px" }}>
+      <div className="hm-wrap" style={{ padding: "24px 20px 60px" }}>
         <DevicesLoading failed={devicesError} cards={1} />
       </div>
     );
@@ -67,33 +71,37 @@ export function DeviceClient() {
   const inspected = d.inspection === "inspected";
 
   return (
-    <div className="li-page">
+    <div className="hm-page li-page">
       <BrowseArt />
       <DeviceArt />
 
-      <div className="li-crumbs" style={{ maxWidth: 1200, margin: "0 auto", padding: "20px 20px 0", fontSize: 14, color: "#4A5A56", display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
-        <Link href={routes.home}>الرئيسية</Link>
-        <span aria-hidden="true">›</span>
-        <Link href={routes.devices}>كل الأجهزة</Link>
-        <span aria-hidden="true">›</span>
-        <span>{d.title}</span>
+      <div className="hm-wrap">
+        <nav className="li-crumbs" aria-label="مسار الصفحة">
+          <Link href={routes.home}>الرئيسية</Link>
+          <span aria-hidden="true">/</span>
+          <Link href={routes.devices}>كل الأجهزة</Link>
+          <span aria-hidden="true">/</span>
+          <Link href={`${routes.devices}?cat=${d.type}`}>{typeLabel(d.type)}</Link>
+          <span aria-hidden="true">/</span>
+          <b>{d.title}</b>
+        </nav>
+
+        <section className="li-pdp">
+          <div className="li-gal">
+            <Gallery key={d.id} d={d} />
+          </div>
+          <aside className="li-aside">
+            <PriceCard d={d} promo={promo} onPromo={setPromo} qty={qty} onQty={setQty} />
+          </aside>
+        </section>
+
+        <section className="li-two">
+          <div style={{ minWidth: 0 }}>{inspected ? <Report d={d} /> : <Steps />}</div>
+          <div style={{ minWidth: 0 }}>
+            <DataGrid d={d} />
+          </div>
+        </section>
       </div>
-
-      {/* Grid areas: desktop = gallery + data on the start column, sticky price aside on the end;
-          < 1024px = gallery → price card → data (see styles.css). */}
-      <section className="li-layout" style={{ maxWidth: 1200, margin: "0 auto", padding: "18px 20px 40px" }}>
-        <div className="li-gal" style={{ minWidth: 0, display: "flex", flexDirection: "column", gap: 14 }}>
-          <Gallery key={d.id} d={d} />
-        </div>
-        <div className="li-data" style={{ minWidth: 0 }}>
-          <DataGrid d={d} />
-        </div>
-        <aside className="li-aside" style={{ minWidth: 0, display: "flex", flexDirection: "column", gap: 16 }}>
-          <PriceCard d={d} promo={promo} onPromo={setPromo} qty={qty} onQty={setQty} />
-        </aside>
-      </section>
-
-      {inspected ? <Report d={d} /> : <Steps />}
       <OrderBar d={d} promo={promo} qty={qty} />
     </div>
   );

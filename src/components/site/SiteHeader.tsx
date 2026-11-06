@@ -11,9 +11,11 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { ToothIcon } from "@/components/icons";
 import { AccountMenu, AccountPanel, MenuBadge, SignOutRow } from "./AccountMenu";
 import { routes } from "@/lib/routes";
+import { BUSINESS, MAINT_LIST } from "@/config/business";
+import { useSettings } from "@/lib/settings";
+
 
 // Client asked for a shorter menu (Nov 2026): «إزاي بنشتغل»، «آراء العملاء»،
 // «أسئلة شائعة» and «مين إحنا» are only in the footer now. Buy/sell stand out.
@@ -33,6 +35,7 @@ const isActive = (pathname: string, href: string) =>
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const { whatsapp } = useSettings();
   const pathname = usePathname();
   const panelRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -69,17 +72,30 @@ export function SiteHeader() {
 
   return (
     <>
+    {/* v2: trust strip above the header (desktop only) */}
+    <div className="site-util site-desktop">
+      <div className="site-util-row">
+        <ul>
+          <li><b>فحص فني</b> لكل جهاز قبل ما يوصلك</li>
+          <li>فلوسك محفوظة <b>{BUSINESS.trialDays}</b> أيام بعد الاستلام</li>
+          <li>صيانة مجانية <b>{MAINT_LIST}</b></li>
+        </ul>
+        <span>واتساب <bdi dir="ltr">{whatsapp}</bdi></span>
+      </div>
+    </div>
     <header className="site-header">
       <div className="site-header-row">
         <Link href={routes.home} aria-label="استعمال طبيب — الرئيسية" className="site-logo" onClick={close}>
-          <span className="site-logo-mark">
-            <ToothIcon />
-          </span>
-          <span className="site-logo-text">
-            <span className="site-logo-name">استعمال طبيب</span>
-            <span className="site-logo-sub">أجهزة أسنان مستعملة بفحص وضمان</span>
-          </span>
+          {/* Brand logo, vector from the client's file (design system → Logos). */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/brand/logo.svg" alt="استعمال طبيب" width={106} height={52} style={{ height: 52, width: "auto", display: "block" }} />
         </Link>
+
+        <form action={routes.devices} method="get" role="search" className="site-search site-desktop">
+          <svg aria-hidden width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5" /></svg>
+          <input type="search" name="q" placeholder="ابحث بنوع الجهاز، الماركة أو الموديل…" aria-label="ابحث عن جهاز" enterKeyHint="search" />
+          <button type="submit">بحث</button>
+        </form>
 
         <div className="site-actions">
           <Link href={routes.demoOrder} className="site-btn site-ghost site-desktop">

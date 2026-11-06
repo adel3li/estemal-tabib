@@ -28,7 +28,7 @@ import { SectionContact } from "./SectionContact";
 import { SectionDevice } from "./SectionDevice";
 import { SectionMedia } from "./SectionMedia";
 import { SectionPrice } from "./SectionPrice";
-import { SellHero } from "./SellHero";
+import { SellAside, SellHead, SellSteps } from "./SellHero";
 import { saveSubmission } from "./save";
 import { uploadSubmissionPhotos } from "@/lib/media/photos";
 import { supabaseBrowser } from "@/lib/supabase/client";
@@ -165,17 +165,18 @@ export function SellForm() {
 
   return (
     <>
-      <div className="sl-crumb">
+      <div className="hm-wrap sl-crumb">
         <Link href={routes.home}>الرئيسية</Link>
         <span aria-hidden="true">›</span>
         <span>اعرض جهازك للبيع</span>
       </div>
 
-      <section className="sl-wrap">
-        <SellHero />
-        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      <SellHead />
+      <section className="hm-wrap sl-fpage">
+        <SellSteps />
+        <div className="sl-main">
           {restoredDraft ? (
-            <div role="status" style={{ padding: "12px 16px", borderRadius: 14, background: "#E3F0ED", border: "1px solid #9CCBC2", color: "#0B4A44", fontWeight: 600, fontSize: 15 }}>
+            <div role="status" style={{ padding: "12px 16px", borderRadius: 10, background: "#E2F4F8", border: "1px solid #9ED8E6", color: "#075468", fontWeight: 600, fontSize: 15 }}>
               رجّعنالك البيانات اللي كنت كتبتها. {VIDEO_ENABLED ? "الصور والفيديو بس محتاج تضيفهم تاني." : "الصور بس محتاج تضيفها تاني."}
             </div>
           ) : null}
@@ -188,17 +189,18 @@ export function SellForm() {
             <SectionAcks f={f} set={set} err={err} />
           </form>
           {errCount ? (
-            <div role="alert" style={{ padding: "12px 16px", borderRadius: 14, background: "#FCEBEA", border: "1px solid #E8B4B0", color: "#8C1D17", fontWeight: 600, fontSize: 15 }}>
+            <div role="alert" style={{ padding: "12px 16px", borderRadius: 10, background: "#FCEBEA", border: "1px solid #E8B4B0", color: "#8C1D17", fontWeight: 600, fontSize: 15 }}>
               فيه {errCount === 1 ? "خانة واحدة محتاجة" : `${errCount} خانات محتاجين`} تتظبط قبل ما تبعت. علّمناهم باللون الأحمر.
             </div>
           ) : null}
           {sendErr ? (
-            <div role="alert" style={{ padding: "12px 16px", borderRadius: 14, background: "#FCEBEA", border: "1px solid #E8B4B0", color: "#8C1D17", fontWeight: 600, fontSize: 15 }}>
+            <div role="alert" style={{ padding: "12px 16px", borderRadius: 10, background: "#FCEBEA", border: "1px solid #E8B4B0", color: "#8C1D17", fontWeight: 600, fontSize: 15 }}>
               {sendErr}
             </div>
           ) : null}
           <FeeBox f={f} onSubmit={() => void submit()} sending={sending} sendLabel={sendLabel} />
         </div>
+        <SellAside />
       </section>
     </>
   );

@@ -1,11 +1,11 @@
+// Device card on /devices — v2 flat card (design-explorations/v2/src/browse.html).
 import { monthsAr } from "@/config/business";
-import { artKey } from "@/lib/demo/labels";
 import Link from "next/link";
 import type { BuiltinType, Device } from "@/lib/demo/types";
-import { CONDITIONS, fmt, typeLabel } from "@/lib/demo/labels";
-import { routes } from "@/lib/routes";
+import { artKey, CONDITIONS, fmt, typeLabel } from "@/lib/demo/labels";
 import { OldPrice } from "@/components/site/Price";
 import { SaveHeart } from "@/components/site/SaveButton";
+import { routes } from "@/lib/routes";
 import { DevicePic } from "@/components/site/DevicePic";
 
 /** Store type → Browse.dc.html symbol. Types without their own art borrow the closest one. */
@@ -26,56 +26,31 @@ const IMG: Record<BuiltinType, string> = {
   other: "#br-unit",
 };
 
-const svg = { fill: "none", stroke: "currentColor", strokeLinecap: "round", strokeLinejoin: "round" } as const;
-
 export function DeviceCard({ d }: { d: Device }) {
   const inspected = d.inspection === "inspected";
+  // No year or location on cards (client feedback).
+  const spec = typeLabel(d.type);
   return (
     <div className="card-wrap">
     <SaveHeart deviceId={d.id} title={d.title} />
-    <Link
-      href={routes.device(d.id)}
-      className="br-card"
-      style={{ display: "flex", flexDirection: "column", borderRadius: 22, border: "1px solid #DCE3DF", background: "#FFFFFF", overflow: "hidden", color: "#12221F", boxShadow: "0 4px 14px rgba(18, 34, 31, 0.04)" }}
-    >
-      <div className="br-img" style={{ position: "relative", aspectRatio: "4 / 3", background: "#E7EDEA", overflow: "hidden" }}>
+    <Link href={routes.device(d.id)} className="hm-card br-card">
+      <span className="hm-ph hm-card-ph">
         <DevicePic src={d.photos?.[0]} art={IMG[artKey(d.type)]} label={d.title} />
-        {inspected ? (
-          <span style={{ position: "absolute", top: 12, right: 12, padding: "4px 11px", borderRadius: 999, background: "#0D5C55", color: "#FFFFFF", fontSize: 12, fontWeight: 700, display: "flex", alignItems: "center", gap: 5, boxShadow: "0 2px 8px rgba(18, 34, 31, 0.18)" }}>
-            <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" {...svg} strokeWidth={2.6}><path d="M5 12l4 4 10-10" /></svg>تم الفحص
-          </span>
-        ) : (
-          <span style={{ position: "absolute", top: 12, right: 12, padding: "4px 11px", borderRadius: 999, background: "#E6EDF7", color: "#24508F", fontSize: 12, fontWeight: 700, display: "flex", alignItems: "center", gap: 5, boxShadow: "0 2px 8px rgba(18, 34, 31, 0.12)" }}>
-            <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" {...svg} strokeWidth={2.4}><circle cx="11" cy="11" r="6" /><path d="M20 20l-4.5-4.5" /></svg>يُفحص عند الطلب
-          </span>
-        )}
-        <span className="br-photo-tag" style={{ position: "absolute", bottom: 10, left: 10, padding: "3px 10px", borderRadius: 999, background: "rgba(255, 255, 255, 0.92)", color: "#3C4C48", fontSize: 12, fontWeight: 500, display: "flex", alignItems: "center", gap: 5 }}>
-          <svg aria-hidden="true" width="13" height="13" viewBox="0 0 24 24" {...svg} strokeWidth={2}><path d="M4 8h3l2-3h6l2 3h3v11H4z" /><circle cx="12" cy="13" r="3.5" /></svg>
-          {inspected ? "صورة من فريق الفحص" : "صورة من البايع"}
-        </span>
+        <span className="hm-code hm-num">{d.id}</span>
+        <span className="br-photo-tag">{inspected ? "صورة من فريق الفحص" : "صورة من البايع"}</span>
+      </span>
+      <h3 className="hm-card-title">{d.title}</h3>
+      <div className="hm-spec">{spec}</div>
+      <div className="hm-spec">الحالة: {CONDITIONS[d.condition].short} · صيانة {monthsAr(d.maintenanceMonths)}</div>
+      {(d.available ?? 1) > 1 ? <div className="hm-pill hm-pill-stock">متاح {d.available} قطع</div> : null}
+      <OldPrice d={d} />
+      <div className="hm-price">
+        <span className="hm-num">{fmt(d.price)}</span> <small>ج.م</small>
       </div>
-      <div className="br-body" style={{ padding: "16px 18px 18px", display: "flex", flexDirection: "column", gap: 8, flex: 1 }}>
-        <div className="br-name" style={{ fontWeight: 700, fontSize: 18, lineHeight: 1.45 }}>{d.title}</div>
-        <div style={{ fontSize: 13, color: "#4A5A56" }}>{typeLabel(d.type)}</div>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-          <span style={{ padding: "2px 10px", borderRadius: 999, background: "#F5F7F4", border: "1px solid #E5EBE8", fontSize: 12, fontWeight: 600, color: "#3C4C48" }}>الحالة: {CONDITIONS[d.condition].short}</span>
-          <span style={{ padding: "2px 10px", borderRadius: 999, background: "#E3F0ED", fontSize: 12, fontWeight: 600, color: "#0D5C55", display: "flex", alignItems: "center", gap: 4 }}>
-            <svg aria-hidden="true" width="12" height="12" viewBox="0 0 24 24" {...svg} strokeWidth={2}><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4 2.5-2.5z" /></svg>
-            صيانة {monthsAr(d.maintenanceMonths)}
-          </span>
-          {(d.available ?? 1) > 1 ? (
-            <span style={{ padding: "2px 10px", borderRadius: 999, background: "#FBEEDC", fontSize: 12, fontWeight: 700, color: "#8A4209" }}>متاح {d.available} قطع</span>
-          ) : null}
-        </div>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10, paddingTop: 12, borderTop: "1px solid #E5EBE8", marginTop: "auto" }}>
-          <span style={{ display: "flex", flexDirection: "column", gap: 2, minWidth: 0 }}>
-            <OldPrice d={d} />
-            <span className="br-price" style={{ fontWeight: 700, fontSize: 22, lineHeight: 1.2, color: "#12221F" }}>
-              {fmt(d.price)} <span style={{ fontSize: 14, fontWeight: 600, color: "#4A5A56" }}>ج.م</span>
-            </span>
-          </span>
-          <span className="br-more" style={{ padding: "6px 12px", borderRadius: 10, background: "#E3F0ED", fontSize: 13, color: "#0D5C55", fontWeight: 700, whiteSpace: "nowrap" }}>التفاصيل ←</span>
-        </div>
+      <div className={inspected ? "hm-status hm-ok" : "hm-status hm-ord"}>
+        <span className="hm-d" aria-hidden="true" />
+        {inspected ? "تم الفحص" : "يُفحص عند الطلب"}
+        <em>{inspected ? "فيه تقرير" : "قبل الشحن"}</em>
       </div>
     </Link>
     </div>

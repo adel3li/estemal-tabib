@@ -1,17 +1,34 @@
+.ot-wrap{color:#0F2A33}
 .ot-cta{transition:background .15s ease, transform .15s ease;cursor:pointer}
-.ot-cta:hover{background:#08403B;color:#FFFFFF;transform:translateY(-1px)}
+.ot-cta:hover{background:#076278;color:#FFFFFF;transform:translateY(-1px)}
 .ot-ghost{transition:background .15s ease}
-.ot-ghost:hover{background:#F5F7F4;color:#12221F}
+.ot-ghost:hover{background:#F3F6F7;color:#122022}
 .ot-amber{transition:background .15s ease}
-.ot-amber:hover{background:#E8952A;color:#12221F}
-.ot-cta:focus-visible,.ot-ghost:focus-visible,.ot-amber:focus-visible{outline:3px solid #F2A33A;outline-offset:2px}
+.ot-amber:hover{background:#E0820F;color:#122022}
+.ot-cta:focus-visible,.ot-ghost:focus-visible,.ot-amber:focus-visible{outline:3px solid #F7941D;outline-offset:2px}
 
 /* ── Responsive (MOBILE.md). Desktop values stay as the defaults. ── */
 .ot-wrap{max-width:1200px;margin:0 auto;padding:28px 20px 72px;display:flex;flex-direction:column;gap:24px}
-.ot-h1{margin:0;font-size:32px;line-height:1.3;font-weight:700}
+.ot-h1{margin:0;font-size:32px;line-height:1.3;font-weight:700;letter-spacing:-.4px;color:#0F2A33}
+.ot-eyebrow{font-size:13px;font-weight:600;color:#5A6F76;display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.ot-eyebrow::before{content:"";width:22px;height:2px;background:#F7941D}
+.ot-num{font-variant-numeric:tabular-nums;direction:ltr;unicode-bidi:isolate}
+/* v2 ledger timeline */
+.ot-legend{display:flex;align-items:center;gap:10px;font-size:13px;color:#5A6F76;padding-bottom:18px;margin-bottom:22px;border-bottom:1px solid #DFE7EA}
+.ot-legend span{width:28px;height:2px;background:#0EC1DB;flex:none}
+.ot-rail{display:flex;flex-direction:column;align-items:center;flex:none;width:14px;padding-top:6px}
+.ot-dot{width:12px;height:12px;border-radius:50%;box-sizing:border-box;border:1.5px solid #9FB2B1;background:#FFFFFF;flex:none}
+.ot-dot.is-done{background:#0A7E99;border-color:#0A7E99}
+.ot-dot.is-held{background:#0EC1DB;border-color:#0EC1DB}
+.ot-dot.is-cur{background:#F7941D;border-color:#F7941D;box-shadow:0 0 0 5px rgba(247,148,29,.18)}
+.ot-dot.is-bad{background:#B3261E;border-color:#B3261E}
+.ot-line{flex:1;width:0;min-height:24px;margin:6px 0 0;border-inline-start:2px dashed #DFE7EA}
+.ot-line.is-held{border-inline-start-color:#A8E6F0}
+.ot-line.is-done{border-inline-start-style:solid;border-inline-start-color:#0A7E99}
+.ot-line.is-held.is-done{border-inline-start-color:#0EC1DB}
+.ot-n{display:table;font-size:12.5px;color:#8B9CA2;margin-bottom:2px}
 .ot-tl{padding:30px}
-.ot-li{display:flex;gap:18px}
-.ot-ico{width:48px;height:48px}
+.ot-li{display:flex;gap:16px}
 .ot-side{position:sticky;top:88px}
 .ot-steps{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
 
@@ -27,14 +44,13 @@
 }
 @media (max-width:767px){
   .ot-wrap{padding:16px 16px 72px;gap:18px}
-  .ot-head{padding:16px !important;gap:16px !important;border-radius:20px !important}
+  .ot-head{padding:16px !important;gap:16px !important}
   .ot-art{flex-basis:100% !important;max-width:260px !important;margin-inline:auto}
   .ot-h1{font-size:26px}
   .ot-sub{overflow-wrap:anywhere}
   .ot-steps{gap:4px}
-  .ot-tl{padding:20px 14px;border-radius:20px !important}
+  .ot-tl{padding:20px 16px}
   .ot-li{gap:12px}
-  .ot-ico{width:40px;height:40px;border-radius:13px !important}
   .ot-cur{padding:14px !important}
   .ot-cur-box{padding:12px !important}
   .ot-actions{flex-direction:column;align-items:stretch;width:100%}

@@ -1,10 +1,10 @@
 /* Ported from design-reference/About.dc.html <helmet> */
 .ab-cta{transition:background .15s ease, transform .15s ease, box-shadow .15s ease}
-.ab-cta:hover{background:#08403B;color:#FFFFFF;transform:translateY(-1px);box-shadow:0 8px 18px rgba(13,92,85,.22)}
+.ab-cta:hover{background:#076278;color:#FFFFFF;transform:translateY(-1px);box-shadow:0 8px 18px rgba(10,126,153,.22)}
 .ab-amber{transition:background .15s ease, transform .15s ease, box-shadow .15s ease}
-.ab-amber:hover{background:#E8952A;color:#12221F;transform:translateY(-1px);box-shadow:0 8px 18px rgba(242,163,58,.28)}
+.ab-amber:hover{background:#E0820F;color:#122022;transform:translateY(-1px);box-shadow:0 8px 18px rgba(247,148,29,.28)}
 .ab-value{transition:transform .18s ease, box-shadow .18s ease}
-.ab-value:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(18,34,31,.08)}
+.ab-value:hover{transform:translateY(-3px);box-shadow:0 14px 30px rgba(15,42,51,.08)}
 /* Browser defaults the design relies on (Tailwind preflight resets them). */
 .ab-page :is(h1,h2,h3){font-weight:700}
 
@@ -43,4 +43,39 @@
 }
 @media (hover: none){
   .ab-value:hover,.ab-cta:hover,.ab-amber:hover{transform:none}
+}
+
+/* v2 direction: petrol hero, flat panels (inline styles from the port, hence !important). */
+.ab-top{background:#14243A !important;border-bottom:0 !important}
+.ab-top > div[aria-hidden]{display:none}
+.ab-top, .ab-top .ab-h1{color:#FFFFFF}
+.ab-top .ab-em{color:#0EC1DB !important}
+.ab-top .ab-lead{color:#C5DBE2 !important}
+.ab-top .ab-crumb, .ab-top .ab-crumb + span, .ab-top .ab-crumb ~ span{color:#9CC3CF}
+.ab-top .ab-pill{background:transparent !important;border:0 !important;padding:0 !important;color:#9CC3CF !important;font-size:13px !important}
+.ab-top .ab-pill > span{width:22px !important;height:2px !important;border-radius:0 !important;background:#F7941D !important}
+.ab-hero-art{border:0 !important;border-radius:12px !important;box-shadow:0 30px 60px rgba(0,20,28,.35) !important}
+.ab-hero{padding-top:28px}
+.ab-card,.ab-cta-box,.ab-value{border-radius:12px !important;box-shadow:none !important;border-color:#DFE7EA !important}
+.ab-value:hover{transform:none;box-shadow:none}
+
+/* Brand book block: mission / vision and the three pillars (TRUST in the middle, orange gradient). */
+.ab-brand{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:24px;box-sizing:content-box}
+.ab-mv{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:16px}
+.ab-mv-card{padding:28px;border-radius:22px;background:#FFFFFF;border:1px solid #DCE3E1;box-shadow:0 10px 30px rgba(15,42,51,.06);display:flex;flex-direction:column;gap:8px}
+.ab-mv-card p{margin:0;color:#2B4650;font-size:17px;line-height:1.75}
+.ab-mv-k{font-size:13px;font-weight:600;color:#5A6F76;display:flex;align-items:center;gap:10px}
+.ab-mv-k::before{content:"";width:22px;height:2px;background:#F7941D}
+.ab-pillars{display:grid;grid-template-columns:1fr 1.15fr 1fr;align-items:center}
+.ab-pillar{aspect-ratio:1;border-radius:50%;border:1.5px solid #F8C788;background:#FFFFFF;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12%;text-align:center}
+.ab-pillar b{font-size:24px;color:#8A4A05}
+.ab-pillar span{font-size:15px;color:#4A595A;line-height:1.6}
+.ab-pillar-main{position:relative;z-index:1;margin-inline:-6%;border:0;background:linear-gradient(180deg,#F7941D 0%,#EE8420 70%,#D4622A 100%)}
+.ab-pillar-main b{font-size:34px;color:#14243A}
+.ab-pillar-main span{color:#14243A;font-weight:500}
+.ab-second-life{margin:0;text-align:center;font-family:Montserrat,sans-serif;font-weight:900;letter-spacing:.04em;text-transform:uppercase;color:#14243A;font-size:clamp(15px,2.2vw,22px)}
+@media (max-width: 767px){
+  .ab-pillars{grid-template-columns:1fr;gap:12px}
+  .ab-pillar,.ab-pillar-main{aspect-ratio:auto;border-radius:22px;margin:0;padding:22px}
+  .ab-pillar-main{order:-1}
 }

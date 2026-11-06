@@ -24,7 +24,7 @@ export default function OrderTrackerPage() {
 
   if (!authReady || (userId && !ready)) {
     return (
-      <section role="status" style={{ maxWidth: 640, margin: "0 auto", padding: "72px 20px", textAlign: "center", color: "#4A5A56" }}>
+      <section role="status" style={{ maxWidth: 640, margin: "0 auto", padding: "72px 20px", textAlign: "center", color: "#4A595A" }}>
         بنحمّل طلبك…
       </section>
     );
@@ -34,8 +34,8 @@ export default function OrderTrackerPage() {
     return (
       <section style={{ maxWidth: 640, margin: "0 auto", padding: "72px 20px", textAlign: "center", display: "flex", flexDirection: "column", gap: 14, alignItems: "center" }}>
         <h1 style={{ margin: 0, fontSize: 28, fontWeight: 700 }}>سجّل دخول عشان تتابع طلبك</h1>
-        <p style={{ margin: 0, color: "#4A5A56" }}>ادخل بنفس الحساب اللي ربطنا بيه الطلب. لو مش لاقيه، كلمنا على واتساب.</p>
-        <Link href={loginHref(`/orders/${encodeURIComponent(id ?? "")}`)} className="ot-cta" style={{ minHeight: 46, padding: "0 20px", borderRadius: 12, background: "#0D5C55", color: "#FFFFFF", fontWeight: 700, display: "flex", alignItems: "center" }}>
+        <p style={{ margin: 0, color: "#4A595A" }}>ادخل بنفس الحساب اللي ربطنا بيه الطلب. لو مش لاقيه، كلمنا على واتساب.</p>
+        <Link href={loginHref(`/orders/${encodeURIComponent(id ?? "")}`)} className="ot-cta" style={{ minHeight: 46, padding: "0 20px", borderRadius: 12, background: "#0A7E99", color: "#FFFFFF", fontWeight: 700, display: "flex", alignItems: "center" }}>
           سجّل دخول
         </Link>
       </section>
@@ -46,8 +46,8 @@ export default function OrderTrackerPage() {
     return (
       <section style={{ maxWidth: 640, margin: "0 auto", padding: "72px 20px", textAlign: "center", display: "flex", flexDirection: "column", gap: 14, alignItems: "center" }}>
         <h1 style={{ margin: 0, fontSize: 28, fontWeight: 700 }}>مش لاقيين الطلب ده</h1>
-        <p style={{ margin: 0, color: "#4A5A56" }}>اتأكد من رقم الطلب في الرسالة اللي وصلتك، أو كلمنا على واتساب.</p>
-        <Link href={routes.home} className="ot-cta" style={{ minHeight: 46, padding: "0 20px", borderRadius: 12, background: "#0D5C55", color: "#FFFFFF", fontWeight: 700, display: "flex", alignItems: "center" }}>
+        <p style={{ margin: 0, color: "#4A595A" }}>اتأكد من رقم الطلب في الرسالة اللي وصلتك، أو كلمنا على واتساب.</p>
+        <Link href={routes.home} className="ot-cta" style={{ minHeight: 46, padding: "0 20px", borderRadius: 12, background: "#0A7E99", color: "#FFFFFF", fontWeight: 700, display: "flex", alignItems: "center" }}>
           ارجع للرئيسية
         </Link>
       </section>
@@ -81,7 +81,7 @@ export default function OrderTrackerPage() {
       <OtSprite />
       <TrackerHeader o={o} />
       {note ? (
-        <div role="status" style={{ padding: "12px 16px", borderRadius: 14, background: o.status === "active" ? "#EAF5DD" : "#FBE9E7", color: o.status === "active" ? "#2F5E16" : "#7A1A14", fontWeight: 600 }}>
+        <div role="status" style={{ padding: "12px 16px", borderRadius: 10, background: o.status === "active" ? "#EAF5DD" : "#FBE9E7", color: o.status === "active" ? "#2F5E16" : "#7A1A14", fontWeight: 600 }}>
           {note}
         </div>
       ) : null}

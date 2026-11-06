@@ -89,7 +89,7 @@ export function VerifyForm({ email, next }: { email: string; next: string }) {
           <h1 className="au-h1">اكتب الكود</h1>
           <p className="au-lead">
             بعتنا كود من {LEN} أرقام على{" "}
-            <bdi dir="ltr" style={{ fontWeight: 700, color: "#12221F", overflowWrap: "anywhere" }}>
+            <bdi dir="ltr" style={{ fontWeight: 700, color: "#122022", overflowWrap: "anywhere" }}>
               {email}
             </bdi>
             . لو مش لاقيه، بص في الـ Spam.

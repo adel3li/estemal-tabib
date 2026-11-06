@@ -2,13 +2,14 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { RequestArt } from "./art";
 import { RequestForm } from "./RequestForm";
+import "../_home/v2.css";
 import "./styles.css";
 
 export const metadata: Metadata = { title: "اطلب جهاز" };
 
 export default function RequestPage() {
   return (
-    <div className="rq-root">
+    <div className="rq-root hm-page">
       <RequestArt />
       <Suspense fallback={null}>
         <RequestForm />

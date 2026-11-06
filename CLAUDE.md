@@ -4,6 +4,7 @@
 
 - Build order and checkpoints: `PHASE1_PROMPT.md` §10. Stop and report after each step.
 - UI source of truth: `design-reference/*.dc.html` (markup, copy, scripts) + `design-reference/Demo.html` (opens in a browser). Apply the overrides in §2.1 on top.
+- **Design system (brand look):** https://claude.ai/artifact/HBzZcUUMSYUagw9wB4MqK4 — read its `project/README.md` (Artifact tool, action `read`) before building or restyling UI. It holds the client palette, type, spacing, components and logos. If it and the code disagree, the code on this branch wins; flag the difference.
 - Business numbers live only in `src/config/business.ts`.
 - **Control panel requirements: `docs/ADMIN_SPEC.md`** (client answers, Nov 2026) — newer than the brief; it wins where they differ.
 - Log every choice the brief didn't make in `DECISIONS.md`.

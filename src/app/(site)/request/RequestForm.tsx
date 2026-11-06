@@ -11,7 +11,7 @@ import { useDeviceTypes } from "@/lib/categories";
 import type { DeviceRequest, DeviceType } from "@/lib/demo/types";
 import { routes } from "@/lib/routes";
 import { isEgyptMobile, normalizePhone } from "../sell/form";
-import { RequestHero } from "./RequestHero";
+import { RequestAside, RequestHead, RequestSteps } from "./RequestHero";
 import { RequestSuccess } from "./RequestSuccess";
 
 type Form = {
@@ -113,20 +113,13 @@ function bind(k: Key, err: Errors) {
   };
 }
 
-function CardHead({ n, title, step, stepFg, bg, fg, children }: { n: number; title: string; step: string; stepFg: string; bg: string; fg: string; children: ReactNode }) {
+// v2 section head: title + «الخطوة ١ من ٣». Icon/colour props kept so the
+// call sites don't change; the v2 head shows no icon.
+function CardHead({ n, title, step }: { n: number; title: string; step: string; stepFg: string; bg: string; fg: string; children: ReactNode }) {
   return (
     <div className="rq-head">
-      <span style={{ width: 48, height: 48, borderRadius: 15, background: bg, color: fg, display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>
-        <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-          {children}
-        </svg>
-      </span>
-      <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.3 }}>
-        <span style={{ fontSize: 13, fontWeight: 600, color: stepFg }}>{step}</span>
-        <h2 id={`rq-h${n}`} style={{ margin: 0, fontWeight: 700, fontSize: 21 }}>
-          {title}
-        </h2>
-      </span>
+      <h2 id={`rq-h${n}`} className="rq-head-t">{title}</h2>
+      <span className="rq-head-step">{step}</span>
     </div>
   );
 }
@@ -262,8 +255,8 @@ export function RequestForm() {
     );
 
   return (
-    <section className="rq-wrap">
-      <div className="rq-crumb" style={{ fontSize: 14, color: "#4A5A56", display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}>
+    <section className="hm-wrap rq-wrap">
+      <div className="rq-crumb">
         <Link href={routes.home}>الرئيسية</Link>
         <span aria-hidden="true">›</span>
         <Link href={routes.devices}>كل الأجهزة</Link>
@@ -271,11 +264,13 @@ export function RequestForm() {
         <span>اطلب جهاز</span>
       </div>
 
-      <RequestHero />
+      <RequestHead />
 
-      <form noValidate onSubmit={(e) => { e.preventDefault(); void submit(); }} style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+      <div className="rq-fpage">
+      <RequestSteps />
+      <form noValidate onSubmit={(e) => { e.preventDefault(); void submit(); }} style={{ minWidth: 0, display: "flex", flexDirection: "column", gap: 20 }}>
         <div id="rq-s1" className="rq-card" role="group" aria-labelledby="rq-h1">
-          <CardHead n={1} title="الجهاز اللي محتاجه" step="الخطوة ١ من ٣" stepFg="#0D5C55" bg="#E3F0ED" fg="#0D5C55">
+          <CardHead n={1} title="الجهاز اللي محتاجه" step="الخطوة ١ من ٣" stepFg="#0A7E99" bg="#E2F4F8" fg="#0A7E99">
             <rect x="3" y="7" width="18" height="13" rx="3" />
             <path d="M8 7V5h8v2" />
             <circle cx="12" cy="13.5" r="3" />
@@ -295,7 +290,7 @@ export function RequestForm() {
             </Field>
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            <span id="rq-insp" style={{ fontWeight: 600, fontSize: 14, color: "#24332F" }}>
+            <span id="rq-insp" style={{ fontWeight: 600, fontSize: 14, color: "#243233" }}>
               حالة الفحص
             </span>
             <div role="radiogroup" aria-labelledby="rq-insp" className="rq-chips" style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
@@ -309,7 +304,7 @@ export function RequestForm() {
                     className="rq-chip"
                     aria-checked={on}
                     onClick={() => set({ inspectionPref: c.id })}
-                    style={{ minHeight: 46, padding: "4px 18px", borderRadius: 999, border: `1.5px solid ${on ? "#0D5C55" : "#C9D4CF"}`, background: on ? "#0D5C55" : "#FFFFFF", color: on ? "#FFFFFF" : "#12221F", font: "inherit", fontSize: 15, fontWeight: 600, cursor: "pointer" }}
+                    style={{ minHeight: 46, padding: "4px 18px", borderRadius: 999, border: `1.5px solid ${on ? "#0A7E99" : "#C9D4D3"}`, background: on ? "#0A7E99" : "#FFFFFF", color: on ? "#FFFFFF" : "#122022", font: "inherit", fontSize: 15, fontWeight: 600, cursor: "pointer" }}
                   >
                     <svg className="rq-tick" aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M5 12.5l4.5 4.5L19 7.5" />
@@ -323,7 +318,7 @@ export function RequestForm() {
         </div>
 
         <div id="rq-s2" className="rq-card" role="group" aria-labelledby="rq-h2">
-          <CardHead n={2} title="الميزانية والتوقيت" step="الخطوة ٢ من ٣" stepFg="#8A4209" bg="#FBEEDC" fg="#C46A12">
+          <CardHead n={2} title="الميزانية والتوقيت" step="الخطوة ٢ من ٣" stepFg="#8A4A05" bg="#FEEEDB" fg="#D0700A">
             <rect x="3" y="6" width="18" height="13" rx="2" />
             <path d="M3 10h18" />
             <path d="M7 15h3" />
@@ -370,16 +365,16 @@ export function RequestForm() {
           </Field>
         </div>
 
-        <div className="rq-submitbar" style={{ borderRadius: 24, background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexWrap: "wrap", alignItems: "center", gap: "16px 24px" }}>
+        <div className="rq-submitbar" style={{ borderRadius: 12, background: "#FFFFFF", border: "1px solid #CCD8DC", display: "flex", flexWrap: "wrap", alignItems: "center", gap: "16px 24px" }}>
           <div style={{ flex: "1 1 300px", minWidth: 0, display: "flex", alignItems: "center", gap: 14 }}>
-            <span style={{ width: 48, height: 48, borderRadius: 15, background: "#E3F0ED", color: "#0D5C55", display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>
+            <span style={{ width: 48, height: 48, borderRadius: 10, background: "#E2F4F8", color: "#0A7E99", display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>
               <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M4 20l1.3-4A8 8 0 1 1 8 18.7L4 20z" />
               </svg>
             </span>
             <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.5 }}>
               <span style={{ fontWeight: 700 }}>الطلب مجاني ومش بيلزمك بالشراء.</span>
-              <span style={{ fontSize: 14, color: "#4A5A56" }}>هنبلغك على واتساب أول ما يتعرض جهاز مناسب.</span>
+              <span style={{ fontSize: 14, color: "#4A595A" }}>هنبلغك على واتساب أول ما يتعرض جهاز مناسب.</span>
             </span>
           </div>
           {sendErr ? (
@@ -387,7 +382,7 @@ export function RequestForm() {
               {sendErr}
             </span>
           ) : null}
-          <button type="submit" disabled={sending} aria-busy={sending || undefined} className="rq-cta" style={{ flex: "1 1 260px", minHeight: 58, padding: "0 24px", borderRadius: 16, border: 0, background: "#0D5C55", color: "#FFFFFF", font: "inherit", fontWeight: 700, fontSize: 18, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
+          <button type="submit" disabled={sending} aria-busy={sending || undefined} className="rq-cta" style={{ flex: "1 1 260px", minHeight: 58, padding: "0 24px", borderRadius: 10, border: 0, background: "#0A7E99", color: "#FFFFFF", font: "inherit", fontWeight: 700, fontSize: 18, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
             {sending ? "بنبعت…" : "ابعت الطلب"}
             <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M19 12H5" />
@@ -396,6 +391,8 @@ export function RequestForm() {
           </button>
         </div>
       </form>
+      <RequestAside type={f.deviceType} />
+      </div>
     </section>
   );
 }

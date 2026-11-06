@@ -6,6 +6,12 @@ import "@fontsource/ibm-plex-sans-arabic/400.css";
 import "@fontsource/ibm-plex-sans-arabic/500.css";
 import "@fontsource/ibm-plex-sans-arabic/600.css";
 import "@fontsource/ibm-plex-sans-arabic/700.css";
+// Montserrat (brand Latin face): Latin letters and digits on the public site.
+import "@fontsource/montserrat/latin-400.css";
+import "@fontsource/montserrat/latin-500.css";
+import "@fontsource/montserrat/latin-600.css";
+import "@fontsource/montserrat/latin-700.css";
+import "@fontsource/montserrat/latin-900.css";
 import "./globals.css";
 import { DemoProvider } from "@/lib/demo/store";
 import { AuthProvider } from "@/lib/auth/AuthProvider";
@@ -20,7 +26,7 @@ const SITE_URL =
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: { default: "استعمال طبيب", template: "%s — استعمال طبيب" },
-  openGraph: { type: "website", locale: "ar_EG", siteName: "استعمال طبيب", images: [{ url: "/apple-icon.png", width: 180, height: 180, alt: "استعمال طبيب" }] },
+  openGraph: { type: "website", locale: "ar_EG", siteName: "استعمال طبيب", images: [{ url: "/brand/og.png", width: 1200, height: 630, alt: "استعمال طبيب" }] },
   description:
     "منصة متخصصة في أجهزة الأسنان المستعملة: فحص في كل جهاز، وفلوسك محفوظة، وضمان مكتوب.",
   applicationName: "استعمال طبيب",
@@ -35,7 +41,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#0D5C55",
+  themeColor: "#0A7E99",
   colorScheme: "light",
 };
 

@@ -10,8 +10,12 @@ export default function manifest(): MetadataRoute.Manifest {
     dir: "rtl",
     start_url: "/",
     display: "standalone",
-    background_color: "#F5F7F4",
-    theme_color: "#0D5C55",
-    icons: [{ src: "/icon.svg", sizes: "any", type: "image/svg+xml", purpose: "any" }],
+    background_color: "#F3F6F7",
+    theme_color: "#0A7E99",
+    // Brand app icon (white mark on turquoise), from the design system.
+    icons: [
+      { src: "/brand/app-icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
+      { src: "/brand/app-icon-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
+    ],
   };
 }

@@ -1,22 +1,22 @@
 /* Ported from design-reference/Main.dc.html <helmet> */
 .mn-cta{transition:background .15s ease, transform .15s ease, box-shadow .15s ease}
-.mn-cta:hover{background:#08403B;color:#FFFFFF;transform:translateY(-1px);box-shadow:0 8px 18px rgba(13,92,85,.22)}
+.mn-cta:hover{background:#076278;color:#FFFFFF;transform:translateY(-1px);box-shadow:0 8px 18px rgba(10,126,153,.22)}
 .mn-amber{transition:background .15s ease, transform .15s ease, box-shadow .15s ease}
-.mn-amber:hover{background:#E8952A;color:#12221F;transform:translateY(-1px);box-shadow:0 8px 18px rgba(242,163,58,.28)}
+.mn-amber:hover{background:#E0820F;color:#122022;transform:translateY(-1px);box-shadow:0 8px 18px rgba(247,148,29,.28)}
 .mn-card{transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease}
-.mn-card:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(18,34,31,.10);border-color:#C9D4CF;color:#12221F}
+.mn-card:hover{transform:translateY(-3px);box-shadow:0 16px 34px rgba(15,42,51,.10);border-color:#C9D4D3;color:#122022}
 .mn-card:hover .mn-more{gap:10px}
 .mn-more{transition:gap .15s ease}
 .mn-chip{transition:background .15s ease, border-color .15s ease}
-.mn-chip:hover{border-color:#0D5C55}
-.mn-field:focus{outline:none;border-color:#0D5C55;box-shadow:0 0 0 3px rgba(13,92,85,.15)}
+.mn-chip:hover{border-color:#0A7E99}
+.mn-field:focus{outline:none;border-color:#0A7E99;box-shadow:0 0 0 3px rgba(10,126,153,.15)}
 .mn-faq summary{list-style:none;cursor:pointer}
 .mn-faq summary::-webkit-details-marker{display:none}
 .mn-faq .mn-chev{transition:transform .2s ease}
 .mn-faq[open] .mn-chev{transform:rotate(180deg)}
-.mn-faq[open]{background:#FFFFFF;border-color:#9CCBC2;box-shadow:0 10px 30px rgba(18,34,31,.06)}
+.mn-faq[open]{background:#FFFFFF;border-color:#9ED8E6;box-shadow:0 10px 30px rgba(15,42,51,.06)}
 .mn-upload{transition:border-color .15s ease, background .15s ease}
-.mn-upload:hover{border-color:#0D5C55;background:#FFFFFF}
+.mn-upload:hover{border-color:#0A7E99;background:#FFFFFF}
 /* Browser defaults the design relies on (Tailwind preflight resets them). */
 .mn-page :is(h1,h2,h3){font-weight:700}
 
@@ -90,12 +90,12 @@
 /* Hero carousel */
 .mn-slide{animation:mn-slide-in .45s ease}
 @keyframes mn-slide-in{from{opacity:0;transform:translateX(-14px)}to{opacity:1;transform:none}}
-.mn-car-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:999px;border:1px solid #C9D4CF;background:#FFFFFF;color:#12221F;cursor:pointer;transition:border-color .15s ease}
-.mn-car-btn:hover{border-color:#0D5C55}
+.mn-car-btn{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:999px;border:1px solid #C9D4D3;background:#FFFFFF;color:#122022;cursor:pointer;transition:border-color .15s ease}
+.mn-car-btn:hover{border-color:#0A7E99}
 .mn-car-dot{display:inline-flex;align-items:center;justify-content:center;width:28px;height:44px;border:0;padding:0;background:transparent;cursor:pointer}
-.mn-car-dot span{display:block;width:8px;height:8px;border-radius:999px;background:#C9D4CF;transition:width .2s ease, background .2s ease}
-.mn-car-dot[aria-current="true"] span{width:22px;background:#0D5C55}
-.mn-car-btn:focus-visible,.mn-car-dot:focus-visible{outline:3px solid #0D5C55;outline-offset:2px}
+.mn-car-dot span{display:block;width:8px;height:8px;border-radius:999px;background:#C9D4D3;transition:width .2s ease, background .2s ease}
+.mn-car-dot[aria-current="true"] span{width:22px;background:#0A7E99}
+.mn-car-btn:focus-visible,.mn-car-dot:focus-visible{outline:3px solid #0A7E99;outline-offset:2px}
 @media (prefers-reduced-motion: reduce){
   .mn-slide{animation:none}
   .mn-car-dot span{transition:none}
@@ -125,11 +125,11 @@
 .mn-cats-h{margin:0;font-size:20px;font-weight:700}
 .mn-cats-all{font-weight:600;font-size:15px;min-height:44px;display:inline-flex;align-items:center}
 .mn-cats{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:12px}
-.mn-cat{display:flex;flex-direction:column;align-items:center;gap:8px;color:#12221F;text-align:center;border-radius:16px;padding:4px 2px}
-.mn-cat:hover{color:#0D5C55}
-.mn-cat:hover .mn-cat-pic{border-color:#0D5C55;transform:translateY(-2px)}
-.mn-cat:focus-visible{outline:3px solid #F2A33A;outline-offset:2px}
-.mn-cat-pic{width:84px;height:84px;border-radius:999px;overflow:hidden;background:#E7EDEA;border:2px solid #FFFFFF;box-shadow:0 4px 14px rgba(18,34,31,.10);transition:border-color .15s ease, transform .15s ease}
+.mn-cat{display:flex;flex-direction:column;align-items:center;gap:8px;color:#122022;text-align:center;border-radius:16px;padding:4px 2px}
+.mn-cat:hover{color:#0A7E99}
+.mn-cat:hover .mn-cat-pic{border-color:#0A7E99;transform:translateY(-2px)}
+.mn-cat:focus-visible{outline:3px solid #F7941D;outline-offset:2px}
+.mn-cat-pic{width:84px;height:84px;border-radius:999px;overflow:hidden;background:#E7EDEC;border:2px solid #FFFFFF;box-shadow:0 4px 14px rgba(15,42,51,.10);transition:border-color .15s ease, transform .15s ease}
 .mn-cat-pic svg{display:block;width:100%;height:100%}
 .mn-cat-name{font-size:14px;font-weight:600;line-height:1.35}
 @media (max-width:1023px){
@@ -148,11 +148,11 @@
 /* Product rows (Rows.tsx): swipeable, more products on screen. */
 .mn-rows{max-width:1200px;margin:0 auto;box-sizing:border-box;padding:28px 20px 8px;display:flex;flex-direction:column;gap:28px}
 .mn-row-sec{display:flex;flex-direction:column;gap:12px;min-width:0}
-.mn-row-deal{padding:18px;border-radius:24px;background:linear-gradient(135deg,#FBEEDC 0%,#FFF7EC 100%);border:1px solid #F0C88A}
+.mn-row-deal{padding:18px;border-radius:24px;background:linear-gradient(135deg,#FEEEDB 0%,#FFF7EC 100%);border:1px solid #F8C788}
 .mn-row-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
 .mn-row-h{margin:0;font-size:24px;font-weight:700;display:flex;align-items:center;gap:8px}
-.mn-row-deal .mn-row-h{color:#8A4209}
-.mn-row-sub{margin:2px 0 0;font-size:14px;color:#4A5A56}
+.mn-row-deal .mn-row-h{color:#8A4A05}
+.mn-row-sub{margin:2px 0 0;font-size:14px;color:#4A595A}
 .mn-row-more{flex:none;font-weight:600;font-size:15px;min-height:44px;display:inline-flex;align-items:center}
 .mn-row{list-style:none;margin:0;padding:2px 2px 6px;display:grid;grid-auto-flow:column;grid-auto-columns:minmax(220px,250px);gap:16px;overflow-x:auto;scrollbar-width:thin;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
 .mn-row > li{scroll-snap-align:start;display:flex;min-width:0}

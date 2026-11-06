@@ -7,30 +7,30 @@ const DAYS = BUSINESS.trialDays;
 export function AboutBody() {
   return (
     <>
-    <section style={{ position: "relative", overflow: "hidden", background: "linear-gradient(180deg, #FFFFFF 0%, #F5F7F4 100%)", borderBottom: "1px solid #E5EBE8" }}>
-      <div aria-hidden="true" style={{ position: "absolute", top: -180, left: -140, width: 540, height: 540, borderRadius: 999, background: "radial-gradient(circle, rgba(13, 92, 85, 0.10) 0%, rgba(13, 92, 85, 0) 70%)" }} />
+    <section className="ab-top" style={{ position: "relative", overflow: "hidden", background: "linear-gradient(180deg, #FFFFFF 0%, #F3F6F7 100%)", borderBottom: "1px solid #E5EBEA" }}>
+      <div aria-hidden="true" style={{ position: "absolute", top: -180, left: -140, width: 540, height: 540, borderRadius: 999, background: "radial-gradient(circle, rgba(10,126,153, 0.10) 0%, rgba(10,126,153, 0) 70%)" }} />
       <div style={{ position: "relative", maxWidth: 1100, margin: "0 auto", display: "flex", flexDirection: "column", gap: 28 }} className="ab-hero">
-        <div style={{ fontSize: 14, color: "#4A5A56", display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}><Link href={routes.home} className="ab-crumb">الرئيسية</Link><span aria-hidden="true">›</span><span>مين إحنا</span></div>
+        <div style={{ fontSize: 14, color: "#4A595A", display: "flex", flexWrap: "wrap", gap: 6, alignItems: "center" }}><Link href={routes.home} className="ab-crumb">الرئيسية</Link><span aria-hidden="true">›</span><span>مين إحنا</span></div>
         <div className="ab-hero-row" style={{ display: "flex", flexWrap: "wrap", alignItems: "center" }}>
           <div style={{ flex: "1 1 440px", minWidth: 0, display: "flex", flexDirection: "column", gap: 18 }}>
-            <span style={{ alignSelf: "flex-start", padding: "6px 14px 6px 16px", borderRadius: 999, background: "#E3F0ED", border: "1px solid #9CCBC2", color: "#0D5C55", fontWeight: 600, fontSize: 14, display: "flex", alignItems: "center", gap: 8 }}>
-              <span aria-hidden="true" style={{ width: 8, height: 8, borderRadius: 999, background: "#0D5C55" }} />
+            <span className="ab-pill" style={{ alignSelf: "flex-start", padding: "6px 14px 6px 16px", borderRadius: 999, background: "#E2F4F8", border: "1px solid #9ED8E6", color: "#0A7E99", fontWeight: 600, fontSize: 14, display: "flex", alignItems: "center", gap: 8 }}>
+              <span aria-hidden="true" style={{ width: 8, height: 8, borderRadius: 999, background: "#0A7E99" }} />
               مين إحنا
             </span>
-            <h1 className="ab-h1" style={{ margin: 0 }}>بنخلّي شراء وبيع أجهزة الأسنان المستعملة <span style={{ color: "#0D5C55" }}>آمن وواضح</span></h1>
-            <p className="ab-lead" style={{ margin: 0, color: "#4A5A56", maxWidth: 760 }}>
+            <h1 className="ab-h1" style={{ margin: 0 }}>بنخلّي شراء وبيع أجهزة الأسنان المستعملة <span className="ab-em" style={{ color: "#0A7E99" }}>آمن وواضح</span></h1>
+            <p className="ab-lead" style={{ margin: 0, color: "#4A595A", maxWidth: 760 }}>
               استعمال طبيب منصة متخصصة 100% في أجهزة وأدوات طب الأسنان المستعملة. بنقف في النص بين البايع والمشتري: بنفحص الجهاز، وبنحفظ الفلوس، وبنوصّل الجهاز بضمان.
             </p>
           </div>
-          <div className="ab-hero-art" style={{ flex: "1 1 380px", minWidth: 0, maxWidth: 520, borderRadius: 24, overflow: "hidden", border: "1px solid #DCE3DF", boxShadow: "0 18px 40px rgba(18, 34, 31, 0.08)", background: "#E7EDEA" }}>
+          <div className="ab-hero-art" style={{ flex: "1 1 380px", minWidth: 0, maxWidth: 520, borderRadius: 24, overflow: "hidden", border: "1px solid #DCE3E1", boxShadow: "0 18px 40px rgba(15,42,51, 0.08)", background: "#E7EDEC" }}>
             <svg role="img" aria-label="رسم توضيحي: الجهاز بيتنقل من البايع للمشتري عن طريق استعمال طبيب، اللي بيفحصه ويحفظ الفلوس" viewBox="0 0 520 320" style={{ display: "block", width: "100%", height: "auto" }}><use href="#ab-bridge" /></svg>
           </div>
         </div>
       </div>
     </section>
     <section style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(300px, 100%), 1fr))", gap: 20 }} className="ab-sec">
-      <div className="ab-card" style={{ borderRadius: 24, background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", display: "flex", flexDirection: "column", gap: 12 }}>
-        <span style={{ width: 52, height: 52, borderRadius: 16, background: "#FBEEDC", color: "#C46A12", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div className="ab-card" style={{ borderRadius: 24, background: "#FFFFFF", border: "1px solid #DCE3E1", boxShadow: "0 10px 30px rgba(15,42,51, 0.06)", display: "flex", flexDirection: "column", gap: 12 }}>
+        <span style={{ width: 52, height: 52, borderRadius: 16, background: "#FEEEDB", color: "#D0700A", display: "flex", alignItems: "center", justifyContent: "center" }}>
           <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
             <circle cx="12" cy="12" r="9" />
             <path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6v.6" />
@@ -38,32 +38,61 @@ export function AboutBody() {
           </svg>
         </span>
         <h2 className="ab-h2s" style={{ margin: 0 }}>ليه بدأنا</h2>
-        <p style={{ margin: 0, color: "#3C4C48" }}>
+        <p style={{ margin: 0, color: "#3C4B4C" }}>
           من الطلبة وحديثي التخرج، لحد الدكاترة اللي بيجهّزوا عيادة جديدة أو بيطوّروا عيادتهم، الكل بيخاف يشتري جهاز مستعمل: مفيش ضمان، وممكن يكون فيه عيوب مستخبية، وصعب تعرف حالته الفنية.
         </p>
-        <p style={{ margin: 0, color: "#3C4C48" }}>واللي عايز يبيع، طالب أو دكتور، بيخاف يبعت جهازه من غير ما يضمن فلوسه، وكتير البيعة مبتكملش علشان المشتري بعيد عنه.</p>
+        <p style={{ margin: 0, color: "#3C4B4C" }}>واللي عايز يبيع، طالب أو دكتور، بيخاف يبعت جهازه من غير ما يضمن فلوسه، وكتير البيعة مبتكملش علشان المشتري بعيد عنه.</p>
       </div>
-      <div className="ab-card" style={{ position: "relative", overflow: "hidden", borderRadius: 24, background: "#0F2A26", color: "#FFFFFF", display: "flex", flexDirection: "column", gap: 12 }}>
-        <div aria-hidden="true" style={{ position: "absolute", top: -120, left: -100, width: 320, height: 320, borderRadius: 999, background: "radial-gradient(circle, rgba(242, 163, 58, 0.14) 0%, rgba(242, 163, 58, 0) 70%)" }} />
-        <span style={{ position: "relative", width: 52, height: 52, borderRadius: 16, background: "rgba(242, 163, 58, 0.16)", color: "#F2A33A", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div className="ab-card" style={{ position: "relative", overflow: "hidden", borderRadius: 24, background: "#14243A", color: "#FFFFFF", display: "flex", flexDirection: "column", gap: 12 }}>
+        <div aria-hidden="true" style={{ position: "absolute", top: -120, left: -100, width: 320, height: 320, borderRadius: 999, background: "radial-gradient(circle, rgba(247,148,29, 0.14) 0%, rgba(247,148,29, 0) 70%)" }} />
+        <span style={{ position: "relative", width: 52, height: 52, borderRadius: 16, background: "rgba(247,148,29, 0.16)", color: "#F7941D", display: "flex", alignItems: "center", justifyContent: "center" }}>
           <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" /><path d="M9 12l2 2 4-4" /></svg>
         </span>
         <h2 className="ab-h2s" style={{ position: "relative", margin: 0 }}>إحنا بنعمل إيه</h2>
-        <p style={{ position: "relative", margin: 0, color: "#C3D3CE" }}>
+        <p style={{ position: "relative", margin: 0, color: "#C3D3D3" }}>
           بنلعب دور الوسيط اللي بيفحص ويضمن. كل جهاز بيتفحص بواسطة فني معتمد، والفلوس بتفضل محفوظة معانا لحد ما المشتري يستلم ويجرّب، وبعدها بتتحول للبايع.
         </p>
-        <p style={{ position: "relative", margin: 0, color: "#C3D3CE" }}>كده البايع بياخد حقه، والمشتري بياخد جهاز بحالة كويسة وبسعر عادل.</p>
+        <p style={{ position: "relative", margin: 0, color: "#C3D3D3" }}>كده البايع بياخد حقه، والمشتري بياخد جهاز بحالة كويسة وبسعر عادل.</p>
       </div>
+    </section>
+    {/* Brand book: mission, vision and the three pillars (Trust in the middle). */}
+    <section className="ab-sec ab-brand" aria-labelledby="ab-pillars">
+      <div className="ab-mv">
+        <div className="ab-mv-card">
+          <span className="ab-mv-k">رسالتنا</span>
+          <p>نخلّي بيع وشراء أجهزة الأسنان المستعملة سهل وآمن ومتاح لكل طبيب: نوصّلك بأجهزة تعتمد عليها بسعر أحسن، وكل عملية وراها منصة تقدر تثق فيها.</p>
+        </div>
+        <div className="ab-mv-card">
+          <span className="ab-mv-k">رؤيتنا</span>
+          <p>نكون المكان الأول في مصر لأجهزة الأسنان المستعملة، اللي الطبيب يبيع ويشتري فيه وهو واثق، ويلاقي قيمة أحسن ويختار صح لعيادته.</p>
+        </div>
+      </div>
+      <h2 id="ab-pillars" className="ab-h2" style={{ margin: 0 }}>استعمال طبيب قايم على 3 حاجات</h2>
+      <div className="ab-pillars">
+        <div className="ab-pillar">
+          <b>سهولة</b>
+          <span>بيع واشتري من غير لف ولا تعب، واحنا بنتابع معاك كل خطوة.</span>
+        </div>
+        <div className="ab-pillar ab-pillar-main">
+          <b>ثقة</b>
+          <span>كل عملية محمية: فلوسك محفوظة معانا لحد ما تستلم وتجرب.</span>
+        </div>
+        <div className="ab-pillar">
+          <b>مجتمع</b>
+          <span>أطباء بيبيعوا لأطباء، وبيساعدوا بعض يلاقوا الجهاز الصح.</span>
+        </div>
+      </div>
+      <p className="ab-second-life" lang="en">Giving Dental Equipment a Second Life</p>
     </section>
     <section style={{ maxWidth: 1100, margin: "0 auto", display: "flex", flexDirection: "column", gap: 24 }} className="ab-sec">
       <h2 className="ab-h2" style={{ margin: 0 }}>اللي بنلتزم بيه</h2>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(230px, 100%), 1fr))", gap: 16 }}>
-        <div className="ab-value" style={{ padding: 24, borderRadius: 22, background: "#E3F0ED", border: "1px solid #9CCBC2", display: "flex", flexDirection: "column", gap: 10 }}>
-          <span style={{ width: 48, height: 48, borderRadius: 14, background: "#0D5C55", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div className="ab-value" style={{ padding: 24, borderRadius: 22, background: "#E2F4F8", border: "1px solid #9ED8E6", display: "flex", flexDirection: "column", gap: 10 }}>
+          <span style={{ width: 48, height: 48, borderRadius: 14, background: "#0A7E99", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3" /><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" /></svg>
           </span>
-          <h3 style={{ margin: 0, fontSize: 19, color: "#0B4A44" }}>الشفافية</h3>
-          <p style={{ margin: 0, color: "#2E4A45" }}>صور حقيقية للجهاز، وتقرير فحص، وكل عيب مكتوب بصورته.</p>
+          <h3 style={{ margin: 0, fontSize: 19, color: "#075468" }}>الشفافية</h3>
+          <p style={{ margin: 0, color: "#2E464A" }}>صور حقيقية للجهاز، وتقرير فحص، وكل عيب مكتوب بصورته.</p>
         </div>
         <div className="ab-value" style={{ padding: 24, borderRadius: 22, background: "#E6EDF7", border: "1px solid #A9BFE0", display: "flex", flexDirection: "column", gap: 10 }}>
           <span style={{ width: 48, height: 48, borderRadius: 14, background: "#24508F", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -72,8 +101,8 @@ export function AboutBody() {
           <h3 style={{ margin: 0, fontSize: 19, color: "#1B3F73" }}>الفحص قبل البيع</h3>
           <p style={{ margin: 0, color: "#2D4566" }}>فني معتمد بيفحص الجهاز قبل ما يتعرض، أو بعد طلبك وقبل الشحن.</p>
         </div>
-        <div className="ab-value" style={{ padding: 24, borderRadius: 22, background: "#FBEEDC", border: "1px solid #F0C88A", display: "flex", flexDirection: "column", gap: 10 }}>
-          <span style={{ width: 48, height: 48, borderRadius: 14, background: "#C46A12", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div className="ab-value" style={{ padding: 24, borderRadius: 22, background: "#FEEEDB", border: "1px solid #F8C788", display: "flex", flexDirection: "column", gap: 10 }}>
+          <span style={{ width: 48, height: 48, borderRadius: 14, background: "#D0700A", color: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="5" y="11" width="14" height="9" rx="2" /><path d="M8 11V8a4 4 0 0 1 8 0v3" /></svg>
           </span>
           <h3 style={{ margin: 0, fontSize: 19, color: "#6B3A10" }}>فلوسك محفوظة</h3>
@@ -91,21 +120,21 @@ export function AboutBody() {
       </div>
     </section>
     <section style={{ maxWidth: 1100, margin: "0 auto" }} className="ab-sec ab-sec-last">
-      <div style={{ borderRadius: 24, background: "#FFFFFF", border: "1px solid #DCE3DF", boxShadow: "0 10px 30px rgba(18, 34, 31, 0.06)", overflow: "hidden", display: "flex", flexWrap: "wrap", alignItems: "stretch" }}>
+      <div style={{ borderRadius: 24, background: "#FFFFFF", border: "1px solid #DCE3E1", boxShadow: "0 10px 30px rgba(15,42,51, 0.06)", overflow: "hidden", display: "flex", flexWrap: "wrap", alignItems: "stretch" }}>
         <div className="ab-cta-box" style={{ flex: "1 1 380px", minWidth: 0, display: "flex", flexDirection: "column", justifyContent: "center", gap: 18 }}>
           <div>
             <h2 className="ab-h2c" style={{ margin: 0 }}>جاهز تبدأ؟</h2>
-            <p style={{ margin: "4px 0 0", color: "#4A5A56", fontSize: 17 }}>دوّر على الجهاز اللي محتاجه، أو اعرض جهازك للبيع في دقايق.</p>
+            <p style={{ margin: "4px 0 0", color: "#4A595A", fontSize: 17 }}>دوّر على الجهاز اللي محتاجه، أو اعرض جهازك للبيع في دقايق.</p>
           </div>
           <div className="ab-ctas" style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-            <Link href={routes.devices} className="ab-cta" style={{ minHeight: 52, padding: "0 24px", borderRadius: 14, background: "#0D5C55", color: "#FFFFFF", fontWeight: 700, display: "flex", alignItems: "center", gap: 10 }}>
+            <Link href={routes.devices} className="ab-cta" style={{ minHeight: 52, padding: "0 24px", borderRadius: 14, background: "#0A7E99", color: "#FFFFFF", fontWeight: 700, display: "flex", alignItems: "center", gap: 10 }}>
               اشتري جهاز
               <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5" /><path d="M11 6l-6 6 6 6" /></svg>
             </Link>
-            <Link href={routes.sell} className="ab-amber" style={{ minHeight: 52, padding: "0 24px", borderRadius: 14, background: "#F2A33A", color: "#12221F", fontWeight: 700, display: "flex", alignItems: "center" }}>بيع جهازك</Link>
+            <Link href={routes.sell} className="ab-amber" style={{ minHeight: 52, padding: "0 24px", borderRadius: 14, background: "#F7941D", color: "#122022", fontWeight: 700, display: "flex", alignItems: "center" }}>بيع جهازك</Link>
           </div>
         </div>
-        <div style={{ flex: "1 1 300px", minWidth: 0, minHeight: 220, background: "#E7EDEA" }}>
+        <div style={{ flex: "1 1 300px", minWidth: 0, minHeight: 220, background: "#E7EDEC" }}>
           <svg aria-hidden="true" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice" style={{ display: "block", width: "100%", height: "100%", minHeight: 220 }}><use href="#ab-unit" /></svg>
         </div>
       </div>

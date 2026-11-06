@@ -25,5 +25,5 @@ export const STATUS_PILL = [
 export function pillOf(o: Order): { txt: string; bg: string; bd: string; fg: string; dot: string } {
   if (o.status !== "active") return { txt: "الطلب اتلغى · فلوسك راجعة كاملة", bg: "#FBE9E7", bd: "#E8B4AE", fg: "#B3261E", dot: "#B3261E" };
   if (o.step >= STEP_RELEASED) return { txt: "اتحوّل للبايع · الطلب خلص", bg: "#EAF5DD", bd: "#B9DCA4", fg: "#3F7A1F", dot: "#3F7A1F" };
-  return { txt: STATUS_PILL[o.step], bg: "#FDF0DD", bd: "#F0C88A", fg: "#8A4209", dot: "#F2A33A" };
+  return { txt: STATUS_PILL[o.step], bg: "#FDF0DD", bd: "#F8C788", fg: "#8A4A05", dot: "#F7941D" };
 }

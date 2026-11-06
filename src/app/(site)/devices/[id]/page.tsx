@@ -1,5 +1,6 @@
 import { monthsAr } from "@/config/business";
 import type { Metadata } from "next";
+import "../../_home/v2.css";
 import "./styles.css";
 import { DeviceClient } from "./DeviceClient";
 import { CONDITIONS, fmt, typeLabel } from "@/lib/demo/labels";
@@ -41,7 +42,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title,
     description,
     alternates: { canonical: `/devices/${encodeURIComponent(d.id)}` },
-    openGraph: { title, description, type: "website", locale: "ar_EG", siteName: "استعمال طبيب", url: `/devices/${encodeURIComponent(d.id)}`, images: cover ? [{ url: cover, alt: d.title }] : [{ url: "/apple-icon.png", width: 180, height: 180, alt: "استعمال طبيب" }] },
+    openGraph: { title, description, type: "website", locale: "ar_EG", siteName: "استعمال طبيب", url: `/devices/${encodeURIComponent(d.id)}`, images: cover ? [{ url: cover, alt: d.title }] : [{ url: "/brand/og.png", width: 1200, height: 630, alt: "استعمال طبيب" }] },
     twitter: { card: cover ? "summary_large_image" : "summary", title, description, ...(cover ? { images: [cover] } : {}) },
   };
 }
