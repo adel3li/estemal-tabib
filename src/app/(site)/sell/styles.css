@@ -2,8 +2,8 @@
 .sl-ghost{transition:background .15s ease}
 .sl-ghost:hover{background:#F3F6F7;color:#122022}
 .sl-teal:hover{background:#076278;color:#FFFFFF}
-.sl-root a:focus-visible,.sl-root button:focus-visible{outline:3px solid #F5921C;outline-offset:2px}
-.sl-root input[type=radio]:focus-visible,.sl-root input[type=checkbox]:focus-visible{outline:3px solid #F5921C;outline-offset:2px}
+.sl-root a:focus-visible,.sl-root button:focus-visible{outline:3px solid #F7941D;outline-offset:2px}
+.sl-root input[type=radio]:focus-visible,.sl-root input[type=checkbox]:focus-visible{outline:3px solid #F7941D;outline-offset:2px}
 .sl-card{margin:0;padding:0 26px 26px;border-radius:12px;background:#FFFFFF;border:1px solid #CCD8DC;display:block;min-width:0;scroll-margin-top:96px}
 .sl-legend{float:right;width:calc(100% + 52px);box-sizing:border-box;padding:20px 26px;margin:0 -26px 24px;border-bottom:1px solid #DFE7EA;display:flex;align-items:baseline;gap:14px}
 .sl-legend-t{flex:1;font-weight:700;font-size:20px;color:#0F2A33}
@@ -65,7 +65,7 @@ select.sl-in{-webkit-appearance:none;appearance:none;padding-left:40px;cursor:po
 .sl-step-done{color:#2B4650}
 .sl-step-done .sl-step-n{background:#0A7E99;border-color:#0A7E99;color:#FFFFFF}
 .sl-step-on{color:#0F2A33;font-weight:600}
-.sl-step-on .sl-step-n{background:#06394B;border-color:#06394B;color:#FFFFFF}
+.sl-step-on .sl-step-n{background:#14243A;border-color:#14243A;color:#FFFFFF}
 .sl-side{position:sticky;top:96px;display:grid;gap:16px}
 .sl-box-side{border:1px solid #CCD8DC;border-radius:12px;background:#FFFFFF;padding:22px}
 .sl-box-side h2{margin:0 0 10px;font-size:15px;font-weight:700}

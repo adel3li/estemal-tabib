@@ -88,7 +88,7 @@ export function DeviceArt() {
 <rect x="250" y="80" width="78" height="40" rx="8" fill="#122022" />
 <rect x="260" y="90" width="38" height="8" rx="3" fill="#6FD8EA" />
 <rect x="260" y="104" width="24" height="6" rx="3" fill="#6FD8EA" opacity=".55" />
-<circle cx="314" cy="100" r="6" fill="#F5921C" />
+<circle cx="314" cy="100" r="6" fill="#F7941D" />
 <g>
 <circle cx="80" cy="152" r="9" fill="#0A7E99" />
 <circle cx="106" cy="152" r="9" fill="#FFFFFF" stroke="#C9D4D3" strokeWidth="2" />
@@ -122,8 +122,8 @@ export function DeviceArt() {
 <path d="M284 78q22 6 34 24" stroke="#A88E66" strokeWidth="2" fill="none" strokeLinecap="round" />
 <path d="M290 92q14 6 24 18" stroke="#A88E66" strokeWidth="2" fill="none" strokeLinecap="round" />
 <path d="M298 104l10 10" stroke="#A88E66" strokeWidth="2" strokeLinecap="round" />
-<circle cx="302" cy="100" r="46" fill="none" stroke="#F5921C" strokeWidth="4" strokeDasharray="11 7" />
-<circle cx="344" cy="58" r="16" fill="#F5921C" />
+<circle cx="302" cy="100" r="46" fill="none" stroke="#F7941D" strokeWidth="4" strokeDasharray="11 7" />
+<circle cx="344" cy="58" r="16" fill="#F7941D" />
 <rect x="342" y="48" width="4" height="13" rx="2" fill="#122022" />
 <circle cx="344" cy="66" r="2.4" fill="#122022" />
 </symbol>
@@ -153,7 +153,7 @@ export function DeviceArt() {
 <rect x="82" y="67" width="40" height="6" rx="3" fill="#DCE3E1" />
 <circle cx="68" cy="92" r="7" fill="#0A7E99" /><path d="M65 92l2 2 4-4" stroke="#FFFFFF" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
 <rect x="82" y="89" width="46" height="6" rx="3" fill="#DCE3E1" />
-<circle cx="68" cy="114" r="7" fill="#F5921C" /><rect x="67" y="109" width="2" height="6" rx="1" fill="#122022" /><circle cx="68" cy="118" r="1.2" fill="#122022" />
+<circle cx="68" cy="114" r="7" fill="#F7941D" /><rect x="67" y="109" width="2" height="6" rx="1" fill="#122022" /><circle cx="68" cy="118" r="1.2" fill="#122022" />
 <rect x="82" y="111" width="30" height="6" rx="3" fill="#FEEEDB" />
 <circle cx="148" cy="96" r="22" fill="#E6EDF7" fillOpacity=".7" stroke="#24508F" strokeWidth="6" />
 <path d="M164 112l18 18" stroke="#24508F" strokeWidth="8" strokeLinecap="round" />
@@ -176,7 +176,7 @@ export function DeviceArt() {
 <rect x="232" y="78" width="78" height="22" rx="6" fill="#122022" />
 <text x="271" y="94" textAnchor="middle" fontFamily="monospace" fontSize="13" fill="#6FD8EA">134°C</text>
 <circle cx="96" cy="89" r="6" fill="#0A7E99" />
-<circle cx="116" cy="89" r="6" fill="#F5921C" />
+<circle cx="116" cy="89" r="6" fill="#F7941D" />
 <rect x="134" y="84" width="40" height="10" rx="5" fill="#DCE3E1" />
 <circle cx="182" cy="182" r="58" fill="url(#oo-steel)" stroke="#8FA0A0" strokeWidth="3" />
 <circle cx="182" cy="182" r="42" fill="url(#oo-glass)" />

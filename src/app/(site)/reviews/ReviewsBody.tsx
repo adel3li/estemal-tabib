@@ -15,7 +15,7 @@ const ROLE_TEXT: Record<Role, string> = { buyer: "اشترى", seller: "باع" 
 
 function Stars({ n, size = 18 }: { n: number; size?: number }) {
   return (
-    <span aria-label={`${n} من 5`} role="img" style={{ display: "inline-flex", gap: 2, color: "#F5921C" }}>
+    <span aria-label={`${n} من 5`} role="img" style={{ display: "inline-flex", gap: 2, color: "#F7941D" }}>
       {[1, 2, 3, 4, 5].map((i) => (
         <svg key={i} aria-hidden="true" width={size} height={size} viewBox="0 0 24 24" fill={i <= n ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round">
           <path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.9l-5.2 2.7 1-5.8-4.3-4.1 5.9-.9z" />

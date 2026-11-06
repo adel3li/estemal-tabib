@@ -32,7 +32,7 @@ export function BrowseArt() {
 <rect x="326" y="88" width="7" height="22" rx="3.5" fill="#3C4B4C" />
 <rect x="342" y="84" width="7" height="26" rx="3.5" fill="#5D6D6E" />
 <rect x="358" y="88" width="7" height="22" rx="3.5" fill="#3C4B4C" />
-<rect x="374" y="92" width="7" height="18" rx="3.5" fill="#F5921C" />
+<rect x="374" y="92" width="7" height="18" rx="3.5" fill="#F7941D" />
 </symbol>
 
 <symbol id="br-autoclave" viewBox="0 0 400 300">
@@ -43,7 +43,7 @@ export function BrowseArt() {
 <rect x="232" y="78" width="78" height="22" rx="6" fill="#122022" />
 <text x="271" y="94" textAnchor="middle" fontFamily="monospace" fontSize="13" fill="#6FD8EA">134°C</text>
 <circle cx="96" cy="89" r="6" fill="#0A7E99" />
-<circle cx="116" cy="89" r="6" fill="#F5921C" />
+<circle cx="116" cy="89" r="6" fill="#F7941D" />
 <rect x="134" y="84" width="40" height="10" rx="5" fill="#DCE3E1" />
 <circle cx="182" cy="182" r="58" fill="url(#br-steel)" stroke="#8FA0A0" strokeWidth="3" />
 <circle cx="182" cy="182" r="42" fill="url(#br-glass)" />
@@ -71,7 +71,7 @@ export function BrowseArt() {
 <circle cx="252" cy="100" r="10" fill="#E9EEEE" stroke="#8FA0A0" strokeWidth="2" />
 <path d="M252 100v38" stroke="#8FA0A0" strokeWidth="8" strokeLinecap="round" />
 <rect x="214" y="134" width="80" height="58" rx="20" fill="url(#br-body)" stroke="#AEBDBC" strokeWidth="2" />
-<path d="M240 178l9-15 9 15z" fill="#F5921C" />
+<path d="M240 178l9-15 9 15z" fill="#F7941D" />
 <rect x="268" y="146" width="16" height="6" rx="3" fill="#0A7E99" />
 <path d="M292 148L344 138L350 196L292 180Z" fill="#F7FAFA" stroke="#AEBDBC" strokeWidth="2" strokeLinejoin="round" />
 <ellipse cx="347" cy="167" rx="7" ry="28" fill="#3C4B4C" />
@@ -89,14 +89,14 @@ export function BrowseArt() {
 <path d="M270 196C322 204 334 240 304 256C290 263 274 252 262 254" fill="none" stroke="#3C4B4C" strokeWidth="4" strokeLinecap="round" />
 <path d="M270 172C318 168 340 128 328 104" fill="none" stroke="#3C4B4C" strokeWidth="4" strokeLinecap="round" />
 <path d="M328 104q-6-16-22-8q-6 4-2 12" fill="none" stroke="#8FA0A0" strokeWidth="6" strokeLinecap="round" />
-<rect x="240" y="248" width="24" height="12" rx="4" fill="#F5921C" />
+<rect x="240" y="248" width="24" height="12" rx="4" fill="#F7941D" />
 <rect x="110" y="88" width="162" height="156" rx="26" fill="url(#br-body)" stroke="#AEBDBC" strokeWidth="2" />
 <rect x="128" y="106" width="126" height="86" rx="10" fill="#122022" />
-<line x1="158" y1="112" x2="158" y2="168" stroke="#F5921C" strokeWidth="2" />
+<line x1="158" y1="112" x2="158" y2="168" stroke="#F7941D" strokeWidth="2" />
 <path d="M150 120c-6 0-10 5-10 13 0 8 4 13 6 20l3 20c1 4 4 4 5 0l3-16 3 16c1 4 4 4 5 0l3-20c2-7 6-12 6-20 0-8-4-13-10-13-4 0-5 2-7 2s-3-2-7-2z" fill="none" stroke="#6FD8EA" strokeWidth="2" />
 <rect x="200" y="166" width="9" height="14" rx="2" fill="#6FD8EA" />
 <rect x="214" y="156" width="9" height="24" rx="2" fill="#6FD8EA" />
-<rect x="228" y="144" width="9" height="36" rx="2" fill="#F5921C" />
+<rect x="228" y="144" width="9" height="36" rx="2" fill="#F7941D" />
 <text x="218" y="130" textAnchor="middle" fontFamily="monospace" fontSize="14" fill="#6FD8EA">0.5</text>
 <circle cx="146" cy="216" r="10" fill="#0A7E99" />
 <circle cx="176" cy="216" r="10" fill="#FFFFFF" stroke="#C9D4D3" strokeWidth="2" />
@@ -164,7 +164,7 @@ export function BrowseArt() {
 <text x="231" y="172" textAnchor="middle" fontFamily="monospace" fontSize="10" fill="#6FD8EA">20s</text>
 <path d="M304 158L330 162L330 174L304 178Z" fill="#AEBDBC" />
 <path d="M330 168Q362 168 370 200" fill="none" stroke="#8FA0A0" strokeWidth="10" strokeLinecap="round" />
-<ellipse cx="324" cy="168" rx="5" ry="20" fill="#F5921C" opacity=".85" />
+<ellipse cx="324" cy="168" rx="5" ry="20" fill="#F7941D" opacity=".85" />
 <circle cx="371" cy="206" r="24" fill="#5B8FE0" opacity=".2" />
 <circle cx="371" cy="206" r="11" fill="#5B8FE0" opacity=".45" />
 </g>
@@ -188,7 +188,7 @@ export function BrowseArt() {
 <path d="M324 166L358 170L358 182L324 186Z" fill="url(#br-steel)" stroke="#8FA0A0" />
 <circle cx="366" cy="176" r="11" fill="url(#br-steel)" stroke="#8FA0A0" strokeWidth="2" />
 <path d="M366 190V220" stroke="#5D6D6E" strokeWidth="3" strokeLinecap="round" />
-<rect x="361" y="186" width="10" height="6" rx="2" fill="#F5921C" />
+<rect x="361" y="186" width="10" height="6" rx="2" fill="#F7941D" />
 </g>
 </symbol>
 
@@ -205,7 +205,7 @@ export function BrowseArt() {
 <rect x="166" y="166" width="50" height="22" rx="11" fill="#DCE3E1" />
 <circle cx="204" cy="177" r="8" fill="#0A7E99" />
 <circle cx="176" cy="214" r="4" fill="#0A7E99" />
-<circle cx="192" cy="214" r="4" fill="#F5921C" />
+<circle cx="192" cy="214" r="4" fill="#F7941D" />
 <rect x="166" y="224" width="50" height="6" rx="3" fill="#DCE3E1" />
 <g transform="rotate(-22 300 130)">
 <rect x="240" y="116" width="120" height="30" rx="14" fill="url(#br-steel)" stroke="#8FA0A0" strokeWidth="2" />
@@ -268,7 +268,7 @@ export function BrowseArt() {
 <path d="M241 158a14 14 0 0 1 12-6" stroke="#FFFFFF" strokeWidth="3.5" strokeLinecap="round" fill="none" opacity=".5" />
 <rect x="194" y="116" width="12" height="34" rx="4" fill="#8FA0A0" />
 <rect x="178" y="90" width="44" height="30" rx="10" fill="url(#br-body)" stroke="#AEBDBC" strokeWidth="2" />
-<circle cx="200" cy="105" r="8" fill="#FFE7B0" stroke="#F5921C" strokeWidth="2" />
+<circle cx="200" cy="105" r="8" fill="#FFE7B0" stroke="#F7941D" strokeWidth="2" />
 </symbol>
 
     </svg>

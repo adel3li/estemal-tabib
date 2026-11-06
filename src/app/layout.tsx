@@ -6,6 +6,12 @@ import "@fontsource/ibm-plex-sans-arabic/400.css";
 import "@fontsource/ibm-plex-sans-arabic/500.css";
 import "@fontsource/ibm-plex-sans-arabic/600.css";
 import "@fontsource/ibm-plex-sans-arabic/700.css";
+// Montserrat (brand Latin face): Latin letters and digits on the public site.
+import "@fontsource/montserrat/latin-400.css";
+import "@fontsource/montserrat/latin-500.css";
+import "@fontsource/montserrat/latin-600.css";
+import "@fontsource/montserrat/latin-700.css";
+import "@fontsource/montserrat/latin-900.css";
 import "./globals.css";
 import { DemoProvider } from "@/lib/demo/store";
 import { AuthProvider } from "@/lib/auth/AuthProvider";

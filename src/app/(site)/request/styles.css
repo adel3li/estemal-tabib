@@ -1,7 +1,7 @@
 /* Page CSS from design-reference/Request.dc.html (<helmet>), rq- prefix kept. */
 .rq-ghost{transition:background .15s ease}
 .rq-ghost:hover{background:#F3F6F7;color:#122022}
-.rq-root a:focus-visible,.rq-root button:focus-visible{outline:3px solid #F5921C;outline-offset:2px}
+.rq-root a:focus-visible,.rq-root button:focus-visible{outline:3px solid #F7941D;outline-offset:2px}
 .rq-card{padding:0 26px 26px;border-radius:12px;background:#FFFFFF;border:1px solid #CCD8DC;display:flex;flex-direction:column;gap:18px;scroll-margin-top:96px}
 .rq-head{display:flex;align-items:baseline;gap:14px;margin:0 -26px 6px;padding:20px 26px;border-bottom:1px solid #DFE7EA}
 .rq-head-t{flex:1;margin:0;font-weight:700;font-size:20px;color:#0F2A33}
@@ -41,7 +41,7 @@ select.rq-in{-webkit-appearance:none;appearance:none;padding-left:40px;cursor:po
 .rq-step-done{color:#2B4650}
 .rq-step-done .rq-step-n{background:#0A7E99;border-color:#0A7E99;color:#FFFFFF}
 .rq-step-on{color:#0F2A33;font-weight:600}
-.rq-step-on .rq-step-n{background:#06394B;border-color:#06394B;color:#FFFFFF}
+.rq-step-on .rq-step-n{background:#14243A;border-color:#14243A;color:#FFFFFF}
 .rq-side{position:sticky;top:96px;display:grid;gap:16px}
 .rq-box-side{border:1px solid #CCD8DC;border-radius:12px;background:#FFFFFF;padding:22px}
 .rq-box-tint{background:#E2F4F8;border-color:transparent}

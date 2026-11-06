@@ -17,11 +17,11 @@ export function SideCards({ o }: { o: Order }) {
   ];
   return (
     <aside className="ot-side" style={{ flex: "1 1 340px", minWidth: 0, display: "flex", flexDirection: "column", gap: 16 }}>
-      <div className="ot-money" style={{ position: "relative", overflow: "hidden", padding: 24, borderRadius: 12, background: "#06394B", color: "#FFFFFF", display: "flex", flexDirection: "column", gap: 10 }}>
+      <div className="ot-money" style={{ position: "relative", overflow: "hidden", padding: 24, borderRadius: 12, background: "#14243A", color: "#FFFFFF", display: "flex", flexDirection: "column", gap: 10 }}>
         <span style={{ position: "absolute", left: -24, bottom: -28, opacity: 0.07, color: "#FFFFFF" }}><LockIcon size={140} width={1} /></span>
         <div style={{ display: "flex", alignItems: "center", gap: 10, fontWeight: 700, fontSize: 18 }}>
-          <span style={{ width: 40, height: 40, borderRadius: 12, background: "rgba(245,146,28, 0.15)", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <LockIcon stroke="#F5921C" />
+          <span style={{ width: 40, height: 40, borderRadius: 12, background: "rgba(247,148,29, 0.15)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <LockIcon stroke="#F7941D" />
           </span>
           فلوسك فين دلوقتي؟
         </div>
@@ -54,7 +54,7 @@ export function SideCards({ o }: { o: Order }) {
           target="_blank"
           rel="noopener noreferrer"
           className="ot-amber"
-          style={{ minHeight: 48, borderRadius: 12, background: "#F5921C", color: "#122022", fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}
+          style={{ minHeight: 48, borderRadius: 12, background: "#F7941D", color: "#122022", fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}
         >
           <WaIcon />
           كلمنا على واتساب

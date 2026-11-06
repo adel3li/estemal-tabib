@@ -38,9 +38,9 @@ export function TermsArt() {
         <path d="M268 110l52 20v40c0 34-22 58-52 70z" fill="#122022" opacity=".12" />
         <path d="M268 122l40 15v33c0 26-16 45-40 56-24-11-40-30-40-56v-33z" fill="url(#tm-shine)" />
         <path d="M252 150c-6 0-10 4-10 10 0 7 3 10 4 15 1 6 2 13 5 13s4-6 6-11c1-2 3-2 4 0 2 5 3 11 6 11s4-7 5-13c1-5 4-8 4-15 0-6-4-10-10-10-4 0-5 2-7 2s-3-2-7-2z" fill="#FFFFFF" />
-        <circle cx="306" cy="212" r="20" fill="#F5921C" stroke="#FFFFFF" strokeWidth="4" />
+        <circle cx="306" cy="212" r="20" fill="#F7941D" stroke="#FFFFFF" strokeWidth="4" />
         <path d="M297 212l6 6 11-11" stroke="#122022" strokeWidth="3.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-        <g fill="#F5921C"><circle cx="92" cy="80" r="4" /><circle cx="340" cy="120" r="3" /></g>
+        <g fill="#F7941D"><circle cx="92" cy="80" r="4" /><circle cx="340" cy="120" r="3" /></g>
         <path d="M352 186l4 8 8 4-8 4-4 8-4-8-8-4 8-4z" fill="#FFFFFF" opacity=".9" />
       </symbol>
     </svg>

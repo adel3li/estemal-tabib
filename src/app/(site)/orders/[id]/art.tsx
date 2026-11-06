@@ -16,7 +16,7 @@ export function OtSprite() {
 <path d="M54 112h272" stroke="#C9D4D3" strokeWidth="2" />
 <rect x="72" y="84" width="84" height="20" rx="6" fill="#122022" />
 <rect x="80" y="91" width="40" height="6" rx="3" fill="#6FD8EA" />
-<circle cx="140" cy="94" r="4" fill="#F5921C" />
+<circle cx="140" cy="94" r="4" fill="#F7941D" />
 <circle cx="286" cy="94" r="7" fill="#0A7E99" />
 <circle cx="306" cy="94" r="7" fill="#FFFFFF" stroke="#C9D4D3" strokeWidth="2" />
 <rect x="168" y="89" width="60" height="10" rx="5" fill="#DCE3E1" />

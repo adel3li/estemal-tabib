@@ -6,7 +6,7 @@ import { bad, CardHead, grid, Msg, radioStyle, Star, subLegend, type SectionProp
 
 const COND: { id: Condition; range: string; label: string; bars: [string, string, string] }[] = [
   { id: "a", range: "81% – 100%", label: "ممتاز", bars: ["#3F7A1F", "#3F7A1F", "#3F7A1F"] },
-  { id: "b", range: "60% – 80%", label: "جيد", bars: ["#F5921C", "#F5921C", "#DCE3E1"] },
+  { id: "b", range: "60% – 80%", label: "جيد", bars: ["#F7941D", "#F7941D", "#DCE3E1"] },
   { id: "c", range: "أقل من 60%", label: "محتاج صيانة", bars: ["#D0700A", "#DCE3E1", "#DCE3E1"] },
 ];
 
@@ -150,7 +150,7 @@ export function SectionCondition({ f, set, err }: SectionProps) {
           <Msg k="defects" err={err} />
         </label>
         <div style={{ padding: "14px 16px", borderRadius: 10, background: "#FEEEDB", border: "1px solid #F8C788", color: "#6B3A10", fontSize: 14, display: "flex", gap: 10, alignItems: "flex-start" }}>
-          <span style={{ width: 24, height: 24, borderRadius: 999, background: "#F5921C", color: "#122022", fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>!</span>
+          <span style={{ width: 24, height: 24, borderRadius: 999, background: "#F7941D", color: "#122022", fontWeight: 700, display: "flex", alignItems: "center", justifyContent: "center", flex: "none" }}>!</span>
           <span>لو الفحص أثبت إن الجهاز مش مطابق للوصف أو فيه عيب مش مذكور، رسوم الجدية بتتصادر.</span>
         </div>
       </div>

@@ -1,9 +1,9 @@
 /* Login, verify, onboarding, account, forbidden (not designed) — v2 direction
    (design-explorations/v2, brand theme): petrol band behind the card, flat
    white panels with a 1px line and 12px radius, orange-dash headings, deep cyan CTA. */
-.au-root { background: linear-gradient(180deg, #06394B 0, #06394B 190px, transparent 190px); }
+.au-root { background: linear-gradient(180deg, #14243A 0, #14243A 190px, transparent 190px); }
 .au-root:has(.au-wide) { background: none; }
-.au-root a:focus-visible, .au-root button:focus-visible, .au-root input:focus-visible { outline: 3px solid #F5921C; outline-offset: 2px; }
+.au-root a:focus-visible, .au-root button:focus-visible, .au-root input:focus-visible { outline: 3px solid #F7941D; outline-offset: 2px; }
 .au-wrap { max-width: 520px; box-sizing: content-box; margin: 0 auto; padding: 36px 20px 80px; display: flex; flex-direction: column; gap: 18px; }
 .au-wide { max-width: 980px; }
 .au-wide .au-card { box-shadow: none; }
@@ -11,7 +11,7 @@
 .au-icon { width: 48px; height: 48px; border-radius: 10px; background: #E2F4F8; color: #0A7E99; display: flex; align-items: center; justify-content: center; flex: none; }
 .au-h1 { margin: 0; font-weight: 700; font-size: 30px; line-height: 1.3; letter-spacing: -.4px; color: #0F2A33; overflow-wrap: anywhere; }
 .au-card .au-h1::before { display: none; }
-.au-h1::before { content: ""; display: block; width: 22px; height: 2px; background: #F5921C; margin-bottom: 14px; }
+.au-h1::before { content: ""; display: block; width: 22px; height: 2px; background: #F7941D; margin-bottom: 14px; }
 .au-lead { margin: 0; color: #5A6F76; font-size: 16px; }
 .au-note { padding: 12px 14px; border-radius: 10px; background: #FEEEDB; border: 1px solid #F8C788; color: #6B3A10; font-size: 15px; font-weight: 600; }
 .au-field { display: flex; flex-direction: column; gap: 7px; font-weight: 600; font-size: 14px; color: #243233; min-width: 0; }
@@ -50,7 +50,7 @@ textarea.au-in { padding: 12px 14px; line-height: 1.6; resize: vertical; min-hei
 .au-tabs::-webkit-scrollbar { display: none; }
 .au-tab { flex: none; min-height: 44px; padding: 0 0 10px; border: 0; background: none; color: #5A6F76; font-size: 15px; font-weight: 500; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
 .au-tab:hover { color: #0F2A33; }
-.au-tab[aria-selected="true"] { color: #0F2A33; font-weight: 600; box-shadow: inset 0 -3px 0 #0CC0DC; }
+.au-tab[aria-selected="true"] { color: #0F2A33; font-weight: 600; box-shadow: inset 0 -3px 0 #0EC1DB; }
 .au-count { min-width: 22px; height: 22px; padding: 0 6px; box-sizing: border-box; border-radius: 999px; background: #E2F4F8; color: #0A7E99; font-size: 12px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; }
 .au-count { font-variant-numeric: tabular-nums; }
 .au-soon { font-size: 12px; font-weight: 700; padding: 2px 8px; border-radius: 999px; background: #FEEEDB; color: #8A4A05; }

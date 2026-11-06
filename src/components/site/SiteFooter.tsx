@@ -13,7 +13,7 @@ const col = { flex: "1 1 150px", minWidth: 0, display: "flex", flexDirection: "c
 export function SiteFooter() {
   const { wa, whatsapp, email, social } = useSettings();
   return (
-    <footer className="site-footer" style={{ background: "#06394B", color: "#C3D3D3" }}>
+    <footer className="site-footer" style={{ background: "#14243A", color: "#C3D3D3" }}>
       <div
         style={{
           maxWidth: 1200,
@@ -68,7 +68,7 @@ export function SiteFooter() {
                 minHeight: 44,
                 padding: "0 18px",
                 borderRadius: 12,
-                background: "#F5921C",
+                background: "#F7941D",
                 color: "#122022",
                 fontWeight: 700,
                 display: "flex",

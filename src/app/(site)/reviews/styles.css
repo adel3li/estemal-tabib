@@ -15,7 +15,7 @@ textarea.rv-in{resize:vertical}
 .rv-pill input{accent-color:#0A7E99;width:18px;height:18px;margin:0}
 .rv-rate{display:flex;gap:4px}
 .rv-star{width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:12px;color:#DCE3E1;cursor:pointer}
-.rv-star.is-on{color:#F5921C}
+.rv-star.is-on{color:#F7941D}
 .rv-star input{position:absolute;opacity:0;width:1px;height:1px}
 .rv-star:focus-within{outline:3px solid #0A7E99;outline-offset:2px}
 .rv-send{min-height:54px;border-radius:14px;border:0;background:#0A7E99;color:#FFFFFF;font:inherit;font-weight:700;font-size:17px;display:flex;align-items:center;justify-content:center;cursor:pointer}
@@ -26,7 +26,7 @@ textarea.rv-in{resize:vertical}
   .rv-score{width:100%;box-sizing:border-box}
 }
 /* v2 direction: petrol head, flat panels. */
-.rv-head{background:#06394B;border-bottom:0;color:#FFFFFF}
+.rv-head{background:#14243A;border-bottom:0;color:#FFFFFF}
 .rv-head p{color:#C5DBE2 !important}
 .rv-score{border-radius:12px;background:#FFFFFF;color:#0F2A33}
 .rv-card{border-radius:12px;box-shadow:none;border-color:#DFE7EA}

@@ -27,12 +27,12 @@ export function Toc({ label, items }: { label: string; items: { id: string; titl
 
 export function Numbers({ rows }: { rows: { label: string; value: ReactNode }[] }) {
   return (
-    <div style={{ padding: 18, borderRadius: 20, background: "#06394B", color: "#C3D3D3", display: "flex", flexDirection: "column", gap: 10 }}>
+    <div style={{ padding: 18, borderRadius: 20, background: "#14243A", color: "#C3D3D3", display: "flex", flexDirection: "column", gap: 10 }}>
       <span style={{ fontSize: 13, fontWeight: 700, color: "#FFFFFF" }}>أرقام مهمة</span>
       {rows.map((r, i) => (
         <div key={r.label} style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 10, ...(i < rows.length - 1 ? { paddingBottom: 8, borderBottom: "1px solid #2E4F56" } : {}) }}>
           <span style={{ fontSize: 14 }}>{r.label}</span>
-          <span style={{ fontSize: 18, fontWeight: 700, color: "#F5921C", whiteSpace: "nowrap", flex: "none" }}>{r.value}</span>
+          <span style={{ fontSize: 18, fontWeight: 700, color: "#F7941D", whiteSpace: "nowrap", flex: "none" }}>{r.value}</span>
         </div>
       ))}
     </div>

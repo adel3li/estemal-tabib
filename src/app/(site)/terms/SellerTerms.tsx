@@ -100,7 +100,7 @@ export function SellerTerms() {
           <Clause title="استرداد الجهاز">يحق للبائع استرداد جهازه المودَع بعد انقضاء هذه المدة، ويتحمل تكلفة شحن إعادته إليه.</Clause>
         </Article>
 
-        <Link href={routes.sell} className="tm-cta tm-cta-amber" style={{ minHeight: 54, padding: "0 26px", borderRadius: 14, background: "#F5921C", color: "#122022", fontWeight: 700, fontSize: 17, display: "flex", alignItems: "center", gap: 8 }}>
+        <Link href={routes.sell} className="tm-cta tm-cta-amber" style={{ minHeight: 54, padding: "0 26px", borderRadius: 14, background: "#F7941D", color: "#122022", fontWeight: 700, fontSize: 17, display: "flex", alignItems: "center", gap: 8 }}>
           اعرض جهازك للبيع
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5" /><path d="M11 6l-6 6 6 6" /></svg>
         </Link>

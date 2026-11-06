@@ -22,8 +22,8 @@ export function AboutArt() {
         {/* seller clinic (right) */}
         <g transform="translate(386 132)">
           <rect x="0" y="0" width="112" height="146" rx="12" fill="#FFFFFF" stroke="#C9D4D3" strokeWidth="2" />
-          <rect x="0" y="0" width="112" height="30" rx="12" fill="#F5921C" />
-          <rect x="0" y="18" width="112" height="12" fill="#F5921C" />
+          <rect x="0" y="0" width="112" height="30" rx="12" fill="#F7941D" />
+          <rect x="0" y="18" width="112" height="12" fill="#F7941D" />
           <circle cx="56" cy="15" r="11" fill="#FFFFFF" />
           <g transform="translate(47 6) scale(.75)">
             <path d="M7 3c-2.5 0-4 2-4 4.5 0 3 1.5 4.5 2 7 .5 3 1 6.5 2.5 6.5S9 18 10 15.5c.5-1.2 1.5-1.2 2 0 1 2.5 1.5 5.5 3 5.5s2-3.5 2.5-6.5c.5-2.5 2-4 2-7C19.5 5 18 3 15.5 3 13.5 3 13 4 12 4S10 3 7 3z" fill="none" stroke="#D0700A" strokeWidth="2" />

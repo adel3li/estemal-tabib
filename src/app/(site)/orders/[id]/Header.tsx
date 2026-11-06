@@ -7,7 +7,7 @@ export function TrackerHeader({ o }: { o: Order }) {
   const shown = Math.min(o.step + 1, ORDER_STEPS.length);
   const curLabel = released ? "اتحوّل للبايع" : o.status !== "active" ? "الطلب اتلغى" : ORDER_STEPS[o.step];
   const state = (i: number) => (i < o.step || released ? "done" : i === o.step ? (o.status === "active" ? "cur" : "bad") : "todo");
-  const barCol = { done: "#0CC0DC", cur: "#F5921C", bad: "#B3261E", todo: "#DFE7EA" } as const;
+  const barCol = { done: "#0EC1DB", cur: "#F7941D", bad: "#B3261E", todo: "#DFE7EA" } as const;
   return (
     <div className="ot-head" style={{ padding: 20, borderRadius: 12, background: "#FFFFFF", border: "1px solid #DFE7EA", display: "flex", flexWrap: "wrap", gap: 24, alignItems: "center" }}>
       <div className="ot-art" style={{ flex: "1 1 280px", maxWidth: 380, minWidth: 0, borderRadius: 8, overflow: "hidden", background: "linear-gradient(180deg,#EEF3F4,#DFE7E9)", aspectRatio: "4 / 3", position: "relative" }}>

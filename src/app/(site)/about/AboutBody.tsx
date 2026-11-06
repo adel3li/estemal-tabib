@@ -43,9 +43,9 @@ export function AboutBody() {
         </p>
         <p style={{ margin: 0, color: "#3C4B4C" }}>واللي عايز يبيع، طالب أو دكتور، بيخاف يبعت جهازه من غير ما يضمن فلوسه، وكتير البيعة مبتكملش علشان المشتري بعيد عنه.</p>
       </div>
-      <div className="ab-card" style={{ position: "relative", overflow: "hidden", borderRadius: 24, background: "#06394B", color: "#FFFFFF", display: "flex", flexDirection: "column", gap: 12 }}>
-        <div aria-hidden="true" style={{ position: "absolute", top: -120, left: -100, width: 320, height: 320, borderRadius: 999, background: "radial-gradient(circle, rgba(245,146,28, 0.14) 0%, rgba(245,146,28, 0) 70%)" }} />
-        <span style={{ position: "relative", width: 52, height: 52, borderRadius: 16, background: "rgba(245,146,28, 0.16)", color: "#F5921C", display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div className="ab-card" style={{ position: "relative", overflow: "hidden", borderRadius: 24, background: "#14243A", color: "#FFFFFF", display: "flex", flexDirection: "column", gap: 12 }}>
+        <div aria-hidden="true" style={{ position: "absolute", top: -120, left: -100, width: 320, height: 320, borderRadius: 999, background: "radial-gradient(circle, rgba(247,148,29, 0.14) 0%, rgba(247,148,29, 0) 70%)" }} />
+        <span style={{ position: "relative", width: 52, height: 52, borderRadius: 16, background: "rgba(247,148,29, 0.16)", color: "#F7941D", display: "flex", alignItems: "center", justifyContent: "center" }}>
           <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" /><path d="M9 12l2 2 4-4" /></svg>
         </span>
         <h2 className="ab-h2s" style={{ position: "relative", margin: 0 }}>إحنا بنعمل إيه</h2>
@@ -102,7 +102,7 @@ export function AboutBody() {
               اشتري جهاز
               <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 12H5" /><path d="M11 6l-6 6 6 6" /></svg>
             </Link>
-            <Link href={routes.sell} className="ab-amber" style={{ minHeight: 52, padding: "0 24px", borderRadius: 14, background: "#F5921C", color: "#122022", fontWeight: 700, display: "flex", alignItems: "center" }}>بيع جهازك</Link>
+            <Link href={routes.sell} className="ab-amber" style={{ minHeight: 52, padding: "0 24px", borderRadius: 14, background: "#F7941D", color: "#122022", fontWeight: 700, display: "flex", alignItems: "center" }}>بيع جهازك</Link>
           </div>
         </div>
         <div style={{ flex: "1 1 300px", minWidth: 0, minHeight: 220, background: "#E7EDEC" }}>

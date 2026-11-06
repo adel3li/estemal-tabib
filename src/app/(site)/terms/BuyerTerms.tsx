@@ -111,9 +111,9 @@ export function BuyerTerms() {
           <Clause title="التركيب">لا تقدّم المنصة أي خدمات تركيب.</Clause>
         </Article>
 
-        <article className="tm-art tm-art-dark" style={{ borderRadius: 24, background: "#06394B", color: "#FFFFFF", display: "flex", flexWrap: "wrap", alignItems: "center", gap: "18px 24px" }}>
+        <article className="tm-art tm-art-dark" style={{ borderRadius: 24, background: "#14243A", color: "#FFFFFF", display: "flex", flexWrap: "wrap", alignItems: "center", gap: "18px 24px" }}>
           <div style={{ flex: "1 1 220px", minWidth: 0, display: "flex", alignItems: "center", gap: 14 }}>
-            <span style={{ flex: "none", width: 52, height: 52, borderRadius: 16, background: "#F5921C", color: "#122022", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <span style={{ flex: "none", width: 52, height: 52, borderRadius: 16, background: "#F7941D", color: "#122022", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <svg aria-hidden="true" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" /><path d="M9 12l2 2 4-4" /></svg>
             </span>
             <h2 style={{ margin: 0, fontSize: 20 }}>ضمانك على كل جهاز</h2>

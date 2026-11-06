@@ -60,7 +60,7 @@ export function MainArt() {
         <circle cx="60" cy="60" r="49" fill="none" stroke="#9ED8E6" strokeWidth="2" strokeDasharray="4 5" />
         <path d="M60 22l28 11v22c0 18-12 31-28 37-16-6-28-19-28-37V33z" fill="url(#mn-shield)" />
         <path d="M46 58l10 10 19-21" stroke="#FFFFFF" strokeWidth="6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-        <circle cx="96" cy="26" r="9" fill="#F5921C" />
+        <circle cx="96" cy="26" r="9" fill="#F7941D" />
         <path d="M92 26l3 3 5-6" stroke="#122022" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
       </symbol>
       {/* Autoclave */}
@@ -73,7 +73,7 @@ export function MainArt() {
         <rect x="232" y="78" width="78" height="22" rx="6" fill="#122022" />
         <text x="271" y="94" textAnchor="middle" fontFamily="monospace" fontSize="13" fill="#6FD8EA">134°C</text>
         <circle cx="96" cy="89" r="6" fill="#0A7E99" />
-        <circle cx="116" cy="89" r="6" fill="#F5921C" />
+        <circle cx="116" cy="89" r="6" fill="#F7941D" />
         <rect x="134" y="84" width="40" height="10" rx="5" fill="#DCE3E1" />
         <circle cx="182" cy="182" r="58" fill="url(#mn-steel)" stroke="#8FA0A0" strokeWidth="3" />
         <circle cx="182" cy="182" r="42" fill="url(#mn-glass)" />
@@ -109,7 +109,7 @@ export function MainArt() {
         </g>
         <circle cx="126" cy="226" r="7" fill="#0A7E99" />
         <circle cx="150" cy="226" r="7" fill="#FFFFFF" stroke="#C9D4D3" strokeWidth="2" />
-        <circle cx="174" cy="226" r="7" fill="#F5921C" />
+        <circle cx="174" cy="226" r="7" fill="#F7941D" />
       </symbol>
       {/* Wall-mounted X-Ray */}
       <symbol id="mn-xray" viewBox="0 0 400 300">
@@ -130,7 +130,7 @@ export function MainArt() {
         <g transform="translate(162 134) rotate(-20)">
           <rect x="-40" y="-25" width="80" height="50" rx="23" fill="url(#mn-body)" stroke="#AEBDBC" strokeWidth="2" />
           <circle cx="14" cy="0" r="10" fill="#E2F4F8" stroke="#9ED8E6" strokeWidth="2" />
-          <circle cx="-14" cy="-6" r="5" fill="#F5921C" />
+          <circle cx="-14" cy="-6" r="5" fill="#F7941D" />
         </g>
         <rect x="300" y="170" width="60" height="84" rx="11" fill="url(#mn-body)" stroke="#AEBDBC" strokeWidth="2" />
         <rect x="310" y="182" width="40" height="20" rx="4" fill="#122022" />
@@ -138,7 +138,7 @@ export function MainArt() {
         <circle cx="318" cy="218" r="5" fill="#0A7E99" />
         <circle cx="334" cy="218" r="5" fill="#DCE3E1" />
         <circle cx="318" cy="234" r="5" fill="#DCE3E1" />
-        <circle cx="334" cy="234" r="5" fill="#F5921C" />
+        <circle cx="334" cy="234" r="5" fill="#F7941D" />
       </symbol>
       {/* Semi-permanent instruments */}
       <symbol id="mn-tools" viewBox="0 0 400 300">
@@ -214,25 +214,25 @@ export function MainArt() {
       {/* Escrow / warranty (for dark section) */}
       <symbol id="mn-escrow" viewBox="0 0 360 300">
         <circle cx="180" cy="150" r="128" fill="none" stroke="#2E4F56" strokeWidth="2" strokeDasharray="6 8" />
-        <circle cx="180" cy="150" r="92" fill="#0D4A5E" />
-        <path d="M180 62l70 27v54c0 45-30 77-70 92-40-15-70-47-70-92V89z" fill="url(#mn-shield)" stroke="#F5921C" strokeWidth="3" />
+        <circle cx="180" cy="150" r="92" fill="#1E3350" />
+        <path d="M180 62l70 27v54c0 45-30 77-70 92-40-15-70-47-70-92V89z" fill="url(#mn-shield)" stroke="#F7941D" strokeWidth="3" />
         <rect x="150" y="142" width="60" height="48" rx="10" fill="#FFFFFF" />
         <path d="M161 142v-14a19 19 0 0 1 38 0v14" stroke="#FFFFFF" strokeWidth="8" fill="none" strokeLinecap="round" />
         <circle cx="180" cy="162" r="6" fill="#0A7E99" />
         <rect x="177" y="164" width="6" height="14" rx="3" fill="#0A7E99" />
         <g transform="translate(52 150)">
-          <circle r="26" fill="#06394B" stroke="#F5921C" strokeWidth="2" />
-          <path d="M-10 -2a11 11 0 0 1 19-6l3 3M12 -10v5h-5M10 2a11 11 0 0 1-19 6l-3-3M-12 10v-5h5" stroke="#F5921C" strokeWidth="2.4" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          <circle r="26" fill="#14243A" stroke="#F7941D" strokeWidth="2" />
+          <path d="M-10 -2a11 11 0 0 1 19-6l3 3M12 -10v5h-5M10 2a11 11 0 0 1-19 6l-3-3M-12 10v-5h5" stroke="#F7941D" strokeWidth="2.4" fill="none" strokeLinecap="round" strokeLinejoin="round" />
         </g>
         <g transform="translate(308 150)">
-          <circle r="26" fill="#06394B" stroke="#F5921C" strokeWidth="2" />
-          <path d="M4 -10a6 6 0 0 0-8 8l-8 8 4 4 8-8a6 6 0 0 0 8-8l-4 4-3-1-1-3z" stroke="#F5921C" strokeWidth="2.2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          <circle r="26" fill="#14243A" stroke="#F7941D" strokeWidth="2" />
+          <path d="M4 -10a6 6 0 0 0-8 8l-8 8 4 4 8-8a6 6 0 0 0 8-8l-4 4-3-1-1-3z" stroke="#F7941D" strokeWidth="2.2" fill="none" strokeLinecap="round" strokeLinejoin="round" />
         </g>
         <g transform="translate(180 22)">
-          <circle r="20" fill="#06394B" stroke="#F5921C" strokeWidth="2" />
-          <path d="M-7 0l5 5 9-10" stroke="#F5921C" strokeWidth="2.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+          <circle r="20" fill="#14243A" stroke="#F7941D" strokeWidth="2" />
+          <path d="M-7 0l5 5 9-10" stroke="#F7941D" strokeWidth="2.6" fill="none" strokeLinecap="round" strokeLinejoin="round" />
         </g>
-        <circle cx="180" cy="278" r="5" fill="#F5921C" />
+        <circle cx="180" cy="278" r="5" fill="#F7941D" />
       </symbol>
     </svg>
   );

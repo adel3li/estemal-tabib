@@ -49,7 +49,7 @@ export function SellArt() {
       <path d="M134 40L114 20" stroke="#24508F" strokeWidth="11" strokeLinecap="round" />
       <path d="M140 52a14 14 0 0 1 12-8" stroke="#24508F" strokeWidth="3" strokeLinecap="round" fill="none" opacity=".5" />
       <g transform="rotate(-14 76 204)">
-      <path d="M30 184H98L122 204L98 224H30Q22 224 22 216V192Q22 184 30 184Z" fill="#F5921C" />
+      <path d="M30 184H98L122 204L98 224H30Q22 224 22 216V192Q22 184 30 184Z" fill="#F7941D" />
       <circle cx="102" cy="204" r="5" fill="#FEEEDB" />
       <text x="60" y="211" textAnchor="middle" fontFamily="IBM Plex Sans Arabic, sans-serif" fontSize="18" fontWeight="700" fill="#122022">ج.م</text>
       </g>
@@ -85,7 +85,7 @@ export function SellArt() {
       <path d="M128 60v12l10-6z" fill="#0A7E99" />
       <circle cx="52" cy="32" r="3.5" fill="#B3261E" />
       <rect x="42" y="92" width="116" height="4" rx="2" fill="#3C4B4C" />
-      <rect x="42" y="92" width="46" height="4" rx="2" fill="#F5921C" />
+      <rect x="42" y="92" width="46" height="4" rx="2" fill="#F7941D" />
       </symbol>
       
       <symbol id="sl-up-extra" viewBox="0 0 200 120">
@@ -98,7 +98,7 @@ export function SellArt() {
       <circle cx="110" cy="42" r="7" fill="#8FA0A0" />
       <path d="M104 38l-6-4" stroke="#5D6D6E" strokeWidth="3" strokeLinecap="round" />
       <path d="M160 74Q172 82 168 98" stroke="#5D6D6E" strokeWidth="3" fill="none" strokeLinecap="round" />
-      <circle cx="160" cy="30" r="15" fill="#F5921C" />
+      <circle cx="160" cy="30" r="15" fill="#F7941D" />
       <path d="M160 23v14M153 30h14" stroke="#122022" strokeWidth="2.6" strokeLinecap="round" />
       </symbol>
       

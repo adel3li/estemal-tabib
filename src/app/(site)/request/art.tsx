@@ -39,7 +39,7 @@ export function RequestArt() {
       <rect x="222" y="256" width="58" height="5" rx="2.5" fill="#C9D4D3" />
       <rect x="222" y="265" width="40" height="5" rx="2.5" fill="#DCE3E1" />
       <rect x="210" y="292" width="110" height="16" rx="8" fill="#EEF3F3" />
-      <circle cx="196" cy="78" r="26" fill="#F5921C" />
+      <circle cx="196" cy="78" r="26" fill="#F7941D" />
       <path d="M186 86h20l-2.5-3.5V76a7.5 7.5 0 0 0-15 0v6.5z" fill="none" stroke="#122022" strokeWidth="2.4" strokeLinejoin="round" />
       <path d="M193 89a3 3 0 0 0 6 0" stroke="#122022" strokeWidth="2.4" fill="none" strokeLinecap="round" />
       <circle cx="213" cy="58" r="7" fill="#B3261E" stroke="#FFFFFF" strokeWidth="3" />
@@ -49,7 +49,7 @@ export function RequestArt() {
       <g transform="rotate(-18 112 218)">
       <rect x="76" y="211" width="70" height="15" rx="7.5" fill="url(#rq-body)" stroke="#8FA0A0" strokeWidth="1.5" />
       <rect x="88" y="215" width="14" height="7" rx="3" fill="#0A7E99" />
-      <path d="M146 218Q160 218 162 204" stroke="#F5921C" strokeWidth="5" fill="none" strokeLinecap="round" />
+      <path d="M146 218Q160 218 162 204" stroke="#F7941D" strokeWidth="5" fill="none" strokeLinecap="round" />
       </g>
       <circle cx="164" cy="194" r="7" fill="#7CB7F0" opacity=".55" />
       <rect x="58" y="258" width="84" height="7" rx="3.5" fill="#C9D4D3" />
