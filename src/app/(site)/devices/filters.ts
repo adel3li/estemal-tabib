@@ -10,7 +10,7 @@ export type Filters = {
   cat: DeviceType | "all";
   /** The chosen category's detail filters (e.g. memory = 256 GB), URL `s_<key>=…`. */
   spec: Record<string, string>;
-  maint: "all" | "3" | "6";
+  maint: "all" | "1" | "3" | "6";
   cond: Condition | "all";
   q: string;
   pmin: string;
@@ -41,7 +41,7 @@ export function parseFilters(sp: Readable): Filters {
     st: oneOf(sp.get("st"), ["all", "done", "order"] as const, "all"),
     cat: catOf(sp.get("cat")),
     spec: specsOf(sp),
-    maint: oneOf(sp.get("maint"), ["all", "3", "6"] as const, "all"),
+    maint: oneOf(sp.get("maint"), ["all", "1", "3", "6"] as const, "all"),
     cond: oneOf<Condition | "all">(sp.get("cond"), ["all", "a", "b", "c"], "all"),
     q: sp.get("q") ?? "",
     pmin: sp.get("pmin") ?? "",

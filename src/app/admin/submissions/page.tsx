@@ -1,6 +1,8 @@
 "use client";
 
 // Ported from design-reference/Admin-Submissions.dc.html
+import { BUSINESS } from "@/config/business";
+import { copySubmissionPhotosToDevice } from "@/lib/media/photos";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState, type ReactNode } from "react";
@@ -31,7 +33,7 @@ export default function AdminSubmissionsRoute() {
 }
 
 function AdminSubmissionsPage() {
-  const { ready, submissionsError, state, updateSubmission, acceptSubmission, addInspection, updateDevice, setSellerTrust } = useDemo();
+  const { ready, submissionsError, state, updateSubmission, acceptSubmission, addInspection, updateDevice, setSellerTrust, waitForDbId, reloadDevices } = useDemo();
   const { userId } = useAuth();
   // ?open=#1024 (links from the dashboard home) picks that request and its tab.
   const openId = useSearchParams().get("open");
@@ -81,12 +83,28 @@ function AdminSubmissionsPage() {
   const handlers = (s: Submission) => ({
     accept: (feeAmount: number) => {
       const deviceId = acceptSubmission(s.id);
-      updateSubmission(s.id, { feeAmount }, { text: `رسوم الجدية للجهاز ده: ${fmt(feeAmount)} ج.م — اطلبها من البايع`, tone: "info" });
+      // The seller's photos become the draft listing's first photos.
+      if (s.dbId && s.photos) {
+        const subDbId = s.dbId;
+        void (async () => {
+          const devDbId = await waitForDbId(deviceId);
+          if (!devDbId) return;
+          const n = await copySubmissionPhotosToDevice(supabaseBrowser(), subDbId, devDbId);
+          if (n) await reloadDevices();
+        })();
+      }
+      updateSubmission(
+        s.id,
+        feeAmount ? { feeAmount } : { feeAmount: 0, feeStatus: "waived" },
+        feeAmount
+          ? { text: `رسوم الجدية للجهاز ده: ${fmt(feeAmount)} ج.م — اطلبها من البايع`, tone: "info" }
+          : { text: `من غير رسوم جدية: الجهاز هيفضل عندنا ${BUSINESS.minListingDays} أيام على الأقل`, tone: "info" },
+      );
       setTab(tabOf({ ...s, status: "accepted" }));
       setSel(s.id);
       ok(
         <>
-          طلب {s.id} اتقبل واتحول لإعلان مسودة ({deviceId}). اطلب رسوم الجدية من البايع على واتساب، وكمّل الإعلان.{" "}
+          طلب {s.id} اتقبل واتحول لإعلان مسودة ({deviceId}). {feeAmount ? "اطلب رسوم الجدية من البايع على واتساب، وكمّل الإعلان." : "من غير رسوم جدية (الجهاز هيفضل عندنا). كمّل الإعلان."}{" "}
           <Link href={routes.admin.editDevice(deviceId)} style={{ color: "inherit", textDecoration: "underline" }}>
             كمّل الإعلان
           </Link>
@@ -284,7 +302,13 @@ function AdminSubmissionsPage() {
 
             {p.status !== "rejected" ? <ContactPanel p={p} now={now} onReplied={() => replied(p)} onCancel={() => cancelNoReply(p)} /> : null}
 
-            {p.status === "accepted" || p.feeStatus !== "pending" ? <FeePanel key={`${p.id}-${p.feeStatus}`} p={p} h={fee(p)} /> : null}
+            {p.feeStatus === "waived" ? (
+              <div style={{ padding: 16, borderRadius: 16, background: "#E3F0ED", color: "#0B4A44", fontSize: 14 }}>
+                <b>من غير رسوم جدية</b> — البايع بعت الجهاز يفضل عندنا ({BUSINESS.minListingDays} أيام على الأقل). الشحن على البايع.
+              </div>
+            ) : p.status === "accepted" || p.feeStatus !== "pending" ? (
+              <FeePanel key={`${p.id}-${p.feeStatus}`} p={p} h={fee(p)} />
+            ) : null}
 
             {open ? <SubmissionActions key={p.id} p={p} h={handlers(p)} /> : null}
           </section>

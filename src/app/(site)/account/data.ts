@@ -10,7 +10,7 @@ export type MySubmission = {
   sale_price: number | null;
   price_help: boolean;
   status: "new" | "follow_up" | "accepted" | "rejected";
-  fee_status: "pending" | "paid" | "refunded" | "forfeited";
+  fee_status: "pending" | "paid" | "refunded" | "forfeited" | "waived";
   fee_reference: string | null;
   /** Set by the team after accepting the request (docs/ADMIN_SPEC.md §2). */
   fee_amount: number | null;

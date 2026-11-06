@@ -127,8 +127,11 @@ export function validate(f: SellForm, m: Media): Errors {
   if (!f.repaired) e.repaired = "اختار إجابة";
   if (!f.defects.trim()) e.defects = "اكتب العيوب، ولو مفيش اكتب: لا يوجد";
   const { min, max } = BUSINESS.photos;
-  if (m.photos.length < min) e.photos = `محتاجين ${min} صور على الأقل`;
-  else if (m.photos.length > max) e.photos = `أقصى عدد ${max} صور`;
+  // One limit for device + accessory photos (client, 5 Nov 2026); at least one of the device itself.
+  const total = m.photos.length + m.extras.length;
+  if (!m.photos.length) e.photos = "ضيف صورة واحدة للجهاز نفسه على الأقل";
+  else if (total < min) e.photos = `محتاجين ${min} صور على الأقل (الجهاز والملحقات مع بعض)`;
+  else if (total > max) e.photos = `أقصى عدد ${max} صور للجهاز والملحقات مع بعض`;
   if (VIDEO_ENABLED && !m.video) e.video = "ضيف فيديو للجهاز وهو شغال";
   if (!f.keepLocation) e.keepLocation = "اختار الجهاز هيفضل فين لحد ما يتباع";
   if (!f.priceHelp && !parseNum(f.sale)) e.sale = "اكتب السعر، أو علّم «ساعدوني أحدد السعر»";

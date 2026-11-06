@@ -46,3 +46,6 @@ next-env.d.ts
 .dev.vars*
 !.dev.vars.example
 !.env.example
+
+# local backups (npm run backup:photos, db dumps)
+/backup/

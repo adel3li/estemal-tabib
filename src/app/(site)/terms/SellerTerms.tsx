@@ -8,6 +8,7 @@ import { Article, Clause, GeneralClauses, ICONS, Min, Num, Numbers, Outcome, TON
 
 const DAYS = BUSINESS.trialDays;
 const SELLER_FEE = BUSINESS.sellerSeriousnessFeeEGP;
+const KEEP_DAYS = BUSINESS.minListingDays;
 const NO_REPLY = BUSINESS.noReplyBusinessDays;
 
 const SECTIONS = [
@@ -25,7 +26,8 @@ export function SellerTerms() {
         <Toc label="محتويات شروط البايع" items={SECTIONS} />
         <Numbers
           rows={[
-            { label: "رسوم جدية العرض", value: <>{SELLER_FEE} جنيه <Min /></> },
+            { label: "رسوم جدية العرض (الجهاز معاك)", value: <>{SELLER_FEE} جنيه <Min /></> },
+            { label: `رسوم الجدية لو الجهاز عندنا ${KEEP_DAYS} أيام`, value: "مفيش" },
             { label: "الرد على تواصل المنصة خلال", value: `${NO_REPLY} أيام عمل` },
             { label: "تحويل مستحقاتك بعد استلام المشتري", value: `${DAYS} أيام` },
           ]}
@@ -45,7 +47,16 @@ export function SellerTerms() {
 
         <Article id="tm-s3" n={3} title="رسوم جدية العرض" tone={TONES.amber} icon={ICONS.clipboard}>
           <Clause title="قيمة الرسوم">
-            لا يُدفع أي مبلغ عند تقديم طلب العرض. تراجع المنصة الطلب خلال 24 ساعة، وفي حال قبوله يُطلب من البائع سداد رسم جدية عرض يبدأ من <Num>{SELLER_FEE} ج.م</Num> كحد أدنى (تُحدد قيمته النهائية بحسب نوع الجهاز وقيمته)، ويُنشر الإعلان على المنصة فور وصول الرسوم.
+            لا يُدفع أي مبلغ عند تقديم طلب العرض. تراجع المنصة الطلب خلال 24 ساعة.
+          </Clause>
+          <Clause title="إرسال الجهاز للمنصة أولاً (للفحص ثم العرض)">
+            لا توجد أي رسوم جدية، بشرط التزام البائع بترك الجهاز لدى المنصة لمدة لا تقل عن <Num>{KEEP_DAYS} أيام</Num>.
+          </Clause>
+          <Clause title="عرض الجهاز دون إرساله للمنصة">
+            في حال قبول الطلب يُطلب من البائع سداد رسوم جدية عرض بحد أدنى <Num>{SELLER_FEE} ج.م</Num> (قابلة للزيادة بحسب قيمة الجهاز)، ويُنشر الإعلان على المنصة فور وصول الرسوم.
+          </Clause>
+          <Clause title="تكاليف الشحن">
+            يتحمل البائع تكاليف الشحن في جميع الأحوال.
           </Clause>
           <Clause title="الفحص والشحن للمقر">
             يتم فحص جميع الأجهزة في مقر المنصة فقط. إذا اختار البائع بقاء الجهاز معه، يلتزم بشحنه إلى مقر المنصة على نفقته فور طلب المشتري له، ليتم فحصه قبل شحنه للمشتري. وتتحمل المنصة تكلفة الفحص عند إتمام البيع.
@@ -80,11 +91,13 @@ export function SellerTerms() {
 
         <Article id="tm-s5" n={5} title="خدمة إيداع الجهاز لدى المنصة" tone={TONES.teal} icon={ICONS.home}>
           <span style={{ alignSelf: "flex-start", padding: "3px 12px", borderRadius: 999, background: "#E2F4F8", color: "#0A7E99", fontSize: 13, fontWeight: 700 }}>خدمة اختيارية</span>
-          {/* TODO(open question §12.3): storage service details (fees, how long, insurance). */}
           <Clause title="الهدف من الخدمة">
             لزيادة فرص بيع الجهاز وتسريع وصوله للمشتري، يحق للبائع إرسال جهازه إلى المنصة، حيث يتم فحصه وحفظه لديها لحين إتمام عملية البيع.
           </Clause>
-          <Clause title="استرداد الجهاز">يحق للبائع استرداد جهازه المودَع في أي وقت، بشرط تحمّل تكلفة شحن إعادته إليه.</Clause>
+          <Clause title="الرسوم والمدة">
+            لا توجد رسوم جدية على الجهاز المودَع، بشرط بقائه لدى المنصة مدة لا تقل عن <Num>{KEEP_DAYS} أيام</Num>.
+          </Clause>
+          <Clause title="استرداد الجهاز">يحق للبائع استرداد جهازه المودَع بعد انقضاء هذه المدة، ويتحمل تكلفة شحن إعادته إليه.</Clause>
         </Article>
 
         <Link href={routes.sell} className="tm-cta tm-cta-amber" style={{ minHeight: 54, padding: "0 26px", borderRadius: 14, background: "#F5921C", color: "#122022", fontWeight: 700, fontSize: 17, display: "flex", alignItems: "center", gap: 8 }}>

@@ -13,10 +13,9 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { AccountMenu, AccountPanel, MenuBadge, SignOutRow } from "./AccountMenu";
 import { routes } from "@/lib/routes";
-import { BUSINESS } from "@/config/business";
+import { BUSINESS, MAINT_LIST } from "@/config/business";
 import { useSettings } from "@/lib/settings";
 
-const [M1, M2] = BUSINESS.maintenanceMonthsOptions;
 
 // Client asked for a shorter menu (Nov 2026): «إزاي بنشتغل»، «آراء العملاء»،
 // «أسئلة شائعة» and «مين إحنا» are only in the footer now. Buy/sell stand out.
@@ -79,7 +78,7 @@ export function SiteHeader() {
         <ul>
           <li><b>فحص فني</b> لكل جهاز قبل ما يوصلك</li>
           <li>فلوسك محفوظة <b>{BUSINESS.trialDays}</b> أيام بعد الاستلام</li>
-          <li>صيانة مجانية <b>{M1}</b> أو <b>{M2}</b> شهور</li>
+          <li>صيانة مجانية <b>{MAINT_LIST}</b></li>
         </ul>
         <span>واتساب <bdi dir="ltr">{whatsapp}</bdi></span>
       </div>

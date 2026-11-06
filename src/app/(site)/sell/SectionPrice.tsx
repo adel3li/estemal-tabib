@@ -1,6 +1,6 @@
 "use client";
 
-import { salePriceFromSellerNet, sellerNetFromSalePrice } from "@/config/business";
+import { BUSINESS, salePriceFromSellerNet, sellerNetFromSalePrice } from "@/config/business";
 import { parseNum } from "@/lib/demo/labels";
 import { fieldId, type SellForm } from "./form";
 import { bad, CardHead, grid, Msg, radioStyle, Star, type SectionProps } from "./ui";
@@ -48,7 +48,7 @@ export function SectionPrice({ f, set, err }: SectionProps) {
                   </svg>
                   يفضل معايا
                 </span>
-                <span style={{ fontSize: 14, color: "#4A595A" }}>الجهاز يفضل عندك. أول ما حد يطلبه بتشحنه لمقرنا على حسابك، ونفحصه قبل ما يوصل للمشتري.</span>
+                <span style={{ fontSize: 14, color: "#4A595A" }}>الجهاز يفضل عندك. أول ما حد يطلبه بتشحنه لمقرنا على حسابك، ونفحصه قبل ما يوصل للمشتري. فيه رسوم جدية عرض بتبدأ من {BUSINESS.sellerSeriousnessFeeEGP} ج.م حسب قيمة الجهاز.</span>
               </span>
             </label>
             <label className={err.keepLocation ? "sl-opt sl-opt-rec sl-bad-box" : "sl-opt sl-opt-rec"}>
@@ -64,7 +64,7 @@ export function SectionPrice({ f, set, err }: SectionProps) {
                   <span style={{ fontWeight: 700 }}>أبعته يتفحص ويفضل عندكم</span>
                   <span style={{ padding: "1px 10px", borderRadius: 999, background: "#0A7E99", color: "#FFFFFF", fontSize: 12, fontWeight: 600 }}>فرص بيع أعلى</span>
                 </span>
-                <span style={{ fontSize: 14, color: "#3C4B4C" }}>بنفحص جهازك ويفضل عندنا لحد ما يتباع، فيوصل للمشتري أسرع. وتقدر ترجّعه في أي وقت، بس بتدفع تكلفة الشحن.</span>
+                <span style={{ fontSize: 14, color: "#3C4B4C" }}>بنفحص جهازك ويفضل عندنا لحد ما يتباع، فيوصل للمشتري أسرع. <b>من غير رسوم جدية</b>، بشرط يفضل عندنا {BUSINESS.minListingDays} أيام على الأقل. الشحن على حسابك.</span>
               </span>
             </label>
           </div>

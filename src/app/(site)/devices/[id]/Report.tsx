@@ -1,5 +1,5 @@
 // «تقرير الفحص» — v2 certificate: summary, checklist table, declared defects,
-// technician signature and the «تم الفحص» stamp.
+// signature line (the technician's name is never shown publicly) and the «تم الفحص» stamp.
 import type { Device } from "@/lib/demo/types";
 import { typeLabel } from "@/lib/demo/labels";
 import { defectInfo } from "./helpers";
@@ -74,7 +74,7 @@ export function Report({ d }: { d: Device }) {
 
       <div className="li-report-foot">
         <div className="hm-sig">
-          <div className="hm-sig-line">{r ? `م. ${r.technician}` : "فني معتمد"}</div>
+          <div className="hm-sig-line" aria-hidden="true" />
           فني معتمد
         </div>
         <div className="hm-stamp" aria-hidden="true">

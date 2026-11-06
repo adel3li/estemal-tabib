@@ -31,10 +31,6 @@ export function InspectionSection({ f, set, reportName, hasExistingReport, onRep
         <div style={{ padding: 16, borderRadius: 16, background: "#E3F0ED", border: "1px solid #9CCBC2", display: "flex", flexDirection: "column", gap: 12 }}>
           <div className="ad-grid">
             <label className="ad-field">
-              الفني اللي فحص
-              <input type="text" className="ad-in" value={f.technician} onChange={(e) => set({ technician: e.target.value })} placeholder="[اسم الفني المعتمد]" />
-            </label>
-            <label className="ad-field">
               تاريخ الفحص
               <input type="date" className="ad-in" value={f.inspDate} onChange={(e) => set({ inspDate: e.target.value })} />
             </label>

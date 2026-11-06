@@ -12,6 +12,8 @@ import { Kpis } from "./Kpis";
 import { ReportPanel } from "./ReportPanel";
 import { WeekList } from "./WeekList";
 import { TK, inTab, isBuyer, missing, type Form, type Tab, type Toast } from "./model";
+import { addInspectionPhotos } from "@/lib/media/photos";
+import { supabaseBrowser } from "@/lib/supabase/client";
 import "./styles.css";
 
 function without<T>(rec: Record<string, T>, key: string): Record<string, T> {
@@ -21,7 +23,7 @@ function without<T>(rec: Record<string, T>, key: string): Record<string, T> {
 }
 
 export default function InspectionsPage() {
-  const { ready, state, updateInspection, approveInspection, getDevice } = useDemo();
+  const { ready, state, updateInspection, approveInspection, getDevice, waitForDbId, reloadDevices } = useDemo();
   const { ensureStep } = useOrders();
   const items = state.inspections;
 
@@ -34,8 +36,10 @@ export default function InspectionsPage() {
   const [err, setErr] = useState("");
   // Unsaved report edits per inspection (saved to the store on «احفظ» / «اعتمد»).
   const [drafts, setDrafts] = useState<Record<string, Form>>({});
-  // Picked photo/video files stay in memory only (demo — no upload).
+  // Photos picked before the inspection has a saved listing wait here until
+  // «اعتمد ونشّر» creates it (then they upload). With a listing they upload at once.
   const files = useRef<Record<string, File[]>>({});
+  const [uploading, setUploading] = useState("");
   const asideRef = useRef<HTMLElement>(null);
 
   // On phones/tablets the report panel sits under the list: bring it into view.
@@ -90,6 +94,19 @@ export default function InspectionsPage() {
     }
     updateInspection(selIt.id, { form });
     const deviceId = approveInspection(selIt.id);
+    const waiting = files.current[selIt.id] ?? [];
+    if (waiting.length) {
+      delete files.current[selIt.id];
+      const first = selIt.kind === "pre_publish";
+      void (async () => {
+        const dbId = await waitForDbId(deviceId);
+        if (!dbId) return;
+        const ok = await addInspectionPhotos(supabaseBrowser(), dbId, waiting, first, (n, t) => setUploading(`بنرفع الصور… ${n} من ${t}`));
+        setUploading("");
+        if (ok < waiting.length) setToast({ kind: "info", txt: `${waiting.length - ok} من صور الفحص ما اترفعتش — ضيفها من صفحة تعديل الجهاز.` });
+        await reloadDevices();
+      })();
+    }
     setDrafts((d) => without(d, selIt.id));
     setErr("");
     if (isBuyer(selIt) && selIt.orderId) {
@@ -172,9 +189,26 @@ export default function InspectionsPage() {
               form={form}
               err={err}
               onForm={editForm}
+              uploading={uploading}
               onPhotos={(picked) => {
-                files.current[selIt.id] = [...(files.current[selIt.id] ?? []), ...picked];
-                editForm((f) => ({ ...f, photos: f.photos + picked.length }));
+                const imgs = picked.filter((x) => x.type.startsWith("image/"));
+                if (!imgs.length) return;
+                const it = selIt;
+                const dbId = it.deviceId ? getDevice(it.deviceId)?.dbId : undefined;
+                editForm((f) => ({ ...f, photos: f.photos + imgs.length }));
+                if (!dbId) {
+                  files.current[it.id] = [...(files.current[it.id] ?? []), ...imgs];
+                  return;
+                }
+                void (async () => {
+                  const ok = await addInspectionPhotos(supabaseBrowser(), dbId, imgs, it.kind === "pre_publish", (n, t) => setUploading(`بنرفع الصور… ${n} من ${t}`));
+                  setUploading("");
+                  if (ok < imgs.length) {
+                    setDrafts((d) => (d[it.id] ? { ...d, [it.id]: { ...d[it.id], photos: Math.max(0, d[it.id].photos - (imgs.length - ok)) } } : d));
+                    setToast({ kind: "info", txt: `${imgs.length - ok} صور ما اترفعتش — جرّب تاني.` });
+                  }
+                  await reloadDevices();
+                })();
               }}
               onClose={() => { setSel(null); setErr(""); }}
               onBack={backToList}

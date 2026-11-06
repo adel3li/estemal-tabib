@@ -1,10 +1,12 @@
 // Device card on /devices — v2 flat card (design-explorations/v2/src/browse.html).
+import { monthsAr } from "@/config/business";
 import Link from "next/link";
 import type { BuiltinType, Device } from "@/lib/demo/types";
 import { artKey, CONDITIONS, fmt, typeLabel } from "@/lib/demo/labels";
 import { OldPrice } from "@/components/site/Price";
 import { SaveHeart } from "@/components/site/SaveButton";
 import { routes } from "@/lib/routes";
+import { DevicePic } from "@/components/site/DevicePic";
 
 /** Store type → Browse.dc.html symbol. Types without their own art borrow the closest one. */
 const IMG: Record<BuiltinType, string> = {
@@ -33,15 +35,13 @@ export function DeviceCard({ d }: { d: Device }) {
     <SaveHeart deviceId={d.id} title={d.title} />
     <Link href={routes.device(d.id)} className="hm-card br-card">
       <span className="hm-ph hm-card-ph">
-        <svg role="img" aria-label={d.title} viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
-          <use href={IMG[artKey(d.type)]} />
-        </svg>
+        <DevicePic src={d.photos?.[0]} art={IMG[artKey(d.type)]} label={d.title} />
         <span className="hm-code hm-num">{d.id}</span>
         <span className="br-photo-tag">{inspected ? "صورة من فريق الفحص" : "صورة من البايع"}</span>
       </span>
       <h3 className="hm-card-title">{d.title}</h3>
       <div className="hm-spec">{spec}</div>
-      <div className="hm-spec">الحالة: {CONDITIONS[d.condition].short} · صيانة {d.maintenanceMonths} شهور</div>
+      <div className="hm-spec">الحالة: {CONDITIONS[d.condition].short} · صيانة {monthsAr(d.maintenanceMonths)}</div>
       {(d.available ?? 1) > 1 ? <div className="hm-pill hm-pill-stock">متاح {d.available} قطع</div> : null}
       <OldPrice d={d} />
       <div className="hm-price">

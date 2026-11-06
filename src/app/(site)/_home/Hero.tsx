@@ -7,15 +7,17 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { routes } from "@/lib/routes";
-import { BUSINESS } from "@/config/business";
-import { isListed, useDemo } from "@/lib/demo/store";
+import { BUSINESS, MAINT_SPAN, monthsAr } from "@/config/business";
+import { isListed } from "@/lib/demo/store";
+import { usePublicDevices } from "@/lib/public/seed";
+import { DevicePic } from "@/components/site/DevicePic";
 import { CONDITIONS, fmt, typeLabel } from "@/lib/demo/labels";
 import type { Device } from "@/lib/demo/types";
 import { DrawnUnderline } from "./DrawnUnderline";
 import { artFor } from "./artMap";
 
 const DAYS = BUSINESS.trialDays;
-const [M1, M2] = BUSINESS.maintenanceMonthsOptions;
+const MAINT_MAX = BUSINESS.maintenanceMonthsOptions[BUSINESS.maintenanceMonthsOptions.length - 1];
 const MAX_SLIDES = 5;
 const INTERVAL_MS = 5000;
 
@@ -49,7 +51,7 @@ export function Hero() {
           <dl className="hm-facts">
             <div><dt>فحص فني</dt><dd>بواسطة فني معتمد</dd></div>
             <div><dt>{DAYS} أيام</dt><dd>فلوسك محفوظة لمدة {DAYS} أيام</dd></div>
-            <div><dt>{M1}–{M2} شهور</dt><dd>صيانة لمدة {M1} – {M2} شهور</dd></div>
+            <div><dt>حتى {monthsAr(MAINT_MAX)}</dt><dd>صيانة {MAINT_SPAN}</dd></div>
           </dl>
         </div>
         <HeroCarousel />
@@ -59,8 +61,8 @@ export function Hero() {
 }
 
 function HeroCarousel() {
-  const { state } = useDemo();
-  const listed = state.devices.filter(isListed);
+  const { devices, ready } = usePublicDevices();
+  const listed = devices.filter(isListed);
   const slides = [...listed.filter((d) => d.featured), ...listed.filter((d) => !d.featured)].slice(0, MAX_SLIDES);
   const n = slides.length;
 
@@ -76,7 +78,8 @@ function HeroCarousel() {
     return () => window.clearInterval(t);
   }, [paused, n]);
 
-  if (!n) return null;
+  // Keep the card's space while the listings load, so the page doesn't jump.
+  if (!n) return ready ? null : <div className="hm-cert hm-cert-ph" aria-hidden="true" style={{ minHeight: 520 }} />;
   const go = (k: number) => setI(((k % n) + n) % n);
   const d = slides[cur];
 
@@ -131,7 +134,7 @@ function Slide({ d }: { d: Device }) {
   const rows: { label: string; value: string; warn?: boolean }[] = [
     { label: "الحالة", value: CONDITIONS[d.condition].label, warn: d.condition !== "a" },
     { label: "الملحقات", value: d.accessories.trim() || "مفيش" },
-    { label: "الصيانة", value: `${d.maintenanceMonths} شهور` },
+    { label: "الصيانة", value: monthsAr(d.maintenanceMonths) },
     { label: "عيوب مُعلنة", value: defects || "مفيش", warn: !!defects },
   ];
 
@@ -146,7 +149,7 @@ function Slide({ d }: { d: Device }) {
       </div>
       <div className="hm-cert-dev">
         <span className="hm-ph hm-car-ph">
-          <svg role="img" aria-label={`رسم توضيحي ل${d.title}`} viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice"><use href={artFor(d.type)} /></svg>
+          <DevicePic src={d.photos?.[0]} art={artFor(d.type)} label={d.photos?.[0] ? d.title : `رسم توضيحي ل${d.title}`} />
         </span>
         <div>
           <h2 className="hm-cert-title">{d.title} — {subtitle(d)}</h2>

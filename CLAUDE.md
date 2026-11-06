@@ -18,7 +18,7 @@
 
 ## Supabase / auth notes (Steps 2–3)
 
-- Migrations in `supabase/migrations/` are applied to the project; RLS checks: `npm run db:test-rls`. Browser auth test: `npm run e2e:auth` (see the file header).
+- Migrations in `supabase/migrations/` are applied to the project; RLS checks: `npm run db:test-rls`. Full browser test (browse → sign in → sell with photos → admin accept → publish): `npm run e2e` (see the file header).
 - Session check is `src/middleware.ts` (edge runtime) — keep it; Node `proxy.ts` is experimental on OpenNext/Cloudflare.
 - In the Claude sandbox: Node needs `NODE_USE_ENV_PROXY=1` to reach Supabase; open the dev server as `localhost:3000` (Next blocks dev assets on `127.0.0.1`); `npm run preview` (workerd) can't reach Supabase here, so signed-in pages only work under `next dev`.
 

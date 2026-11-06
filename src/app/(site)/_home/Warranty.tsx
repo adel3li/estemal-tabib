@@ -1,15 +1,14 @@
 // `/warranty` body — v2 direction: page head with the escrow drawing, the three
 // guarantees as a flat numbered row, and the money-held note. Copy unchanged.
-import { BUSINESS } from "@/config/business";
+import { BUSINESS, MAINT_LIST } from "@/config/business";
 import { PageHead } from "../_v2/PageHead";
 
 const DAYS = BUSINESS.trialDays;
-const [M1, M2] = BUSINESS.maintenanceMonthsOptions;
 
 const ITEMS = [
   { title: "استبدال أو استرجاع", text: `خلال ${DAYS} أيام لو الجهاز مطلعش زي التقرير.` },
   { title: `ضمان تشغيل ${DAYS} أيام`, text: "جرّب الجهاز في عيادتك على حالات حقيقية واتأكد بنفسك." },
-  { title: `صيانة ${M1} أو ${M2} شهور`, text: "حسب نوع الجهاز، ومكتوبة بوضوح على كل جهاز." },
+  { title: `صيانة ${MAINT_LIST}`, text: "حسب نوع الجهاز، ومكتوبة بوضوح على كل جهاز." },
 ];
 
 export function Warranty() {

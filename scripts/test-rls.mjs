@@ -46,7 +46,7 @@ async function makeUser(label, admin = false) {
   return { id: data.user.id, email, client };
 }
 
-const created = { users: [], devices: [], orders: [], reviews: [] };
+const created = { users: [], devices: [], orders: [], reviews: [], objects: { "submission-photos": [], "device-photos": [] } };
 
 async function main() {
   // ── Fixtures ─────────────────────────────────────────────────────────────
@@ -81,6 +81,10 @@ async function main() {
     !r.error && r.data.length === 1 && !("governorate" in r.data[0]), r.error?.message);
   r = await anon.from("public_device_reports").select("device_id").in("device_id", [pub, draft]);
   check("public report only for the published device", !r.error && r.data.length === 1, r.error?.message);
+  r = await anon.from("public_device_reports").select("*").eq("device_id", pub);
+  check("public report has no technician name", !r.error && r.data.length === 1 && !("technician_name" in r.data[0]), r.error?.message);
+  r = await anon.from("device_reports").select("technician_name").eq("device_id", pub);
+  check("technician name is never stored on a report (always empty)", !r.error && r.data.every((x) => x.technician_name === null), JSON.stringify(r.data));
   for (const t of ["device_private", "inspections", "audit_log", "profiles", "seller_submissions", "submission_media", "device_requests", "favorites", "orders", "payments"]) {
     r = await anon.from(t).select("*").limit(1);
     check(`can't read ${t}`, denied(r), JSON.stringify(r.data));
@@ -383,9 +387,55 @@ async function main() {
   check("quantity lowered to 2 and both received → «تم البيع» with archive date", x.status === "sold" && x.available === 0 && !!x.archive_at, JSON.stringify(x));
   r = await anon.from("public_devices").select("quantity, available").eq("id", q.data.id);
   check("public view shows quantity / available", !r.error && r.data[0]?.quantity === 2, r.error?.message);
+
+  // ── Photos (Supabase Storage) ────────────────────────────────────────────
+  console.log("\nphotos (storage)");
+  // A tiny valid PNG (1×1).
+  const png = new Blob([Uint8Array.from(atob("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII="), (c) => c.charCodeAt(0))], { type: "image/png" });
+  const subPath = `${a.id}/${subId}/00-test.png`;
+  const SUB = "submission-photos", DEV = "device-photos";
+  const up = (client, bucket, path) => client.storage.from(bucket).upload(path, png, { contentType: "image/png" });
+  r = await up(a.client, SUB, subPath);
+  if (!r.error) created.objects[SUB].push(subPath);
+  check("seller uploads a photo to own folder", !r.error, r.error?.message);
+  r = await up(a.client, SUB, `${b.id}/${subId}/00-x.png`);
+  if (!r.error) created.objects[SUB].push(`${b.id}/${subId}/00-x.png`);
+  check("seller can't upload into someone else's folder", Boolean(r.error));
+  r = await up(anon, SUB, `${a.id}/${subId}/01-anon.png`);
+  if (!r.error) created.objects[SUB].push(`${a.id}/${subId}/01-anon.png`);
+  check("anon can't upload", Boolean(r.error));
+  r = await a.client.storage.from(SUB).upload(`${a.id}/${subId}/03-text.txt`, new Blob(["hi"], { type: "text/plain" }), { contentType: "text/plain" });
+  if (!r.error) created.objects[SUB].push(`${a.id}/${subId}/03-text.txt`);
+  check("non-image files refused", Boolean(r.error));
+  r = await a.client.storage.from(SUB).createSignedUrl(subPath, 60);
+  check("seller opens own photo", !r.error && !!r.data?.signedUrl, r.error?.message);
+  r = await b.client.storage.from(SUB).createSignedUrl(subPath, 60);
+  check("another user can't open it", Boolean(r.error));
+  r = await anon.storage.from(SUB).createSignedUrl(subPath, 60);
+  check("anon can't open it", Boolean(r.error));
+  r = await admin.client.storage.from(SUB).createSignedUrl(subPath, 60);
+  check("admin opens the seller's photo", !r.error && !!r.data?.signedUrl, r.error?.message);
+  r = await a.client.storage.from(SUB).remove([subPath]);
+  check("seller can't delete it after sending", !r.error ? (r.data ?? []).length === 0 : true);
+
+  const devPath = `${pub}/test-${Date.now()}.png`;
+  r = await up(a.client, DEV, `${pub}/user.png`);
+  if (!r.error) created.objects[DEV].push(`${pub}/user.png`);
+  check("user can't add listing photos", Boolean(r.error));
+  r = await admin.client.storage.from(SUB).copy(subPath, devPath, { destinationBucket: DEV });
+  if (!r.error) created.objects[DEV].push(devPath);
+  check("admin copies a seller photo into the listing", !r.error, r.error?.message);
+  const pubUrl = anon.storage.from(DEV).getPublicUrl(devPath).data.publicUrl;
+  const res = await fetch(pubUrl);
+  check("anyone can view listing photos", res.ok, String(res.status));
+  r = await a.client.storage.from(DEV).remove([devPath]);
+  check("user can't delete listing photos", !r.error ? (r.data ?? []).length === 0 : true);
+  r = await admin.client.storage.from(DEV).remove([devPath]);
+  check("admin deletes a listing photo", !r.error && (r.data ?? []).length === 1, r.error?.message);
 }
 
 async function cleanup() {
+  for (const [bucket, paths] of Object.entries(created.objects)) if (paths.length) await service.storage.from(bucket).remove(paths);
   if (created.reviews.length) await service.from("reviews").delete().in("id", created.reviews);
   if (created.orders.length) await service.from("payments").delete().in("order_id", created.orders);
   if (created.orders.length) await service.from("orders").delete().in("id", created.orders);

@@ -45,7 +45,7 @@ export function Faq() {
             <svg className="mn-chev" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0A7E99" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none" }}><path d="M6 9l6 6 6-6" /></svg>
           </summary>
           {/* Client answer (Nov 2026) for open question §12.9. */}
-          <p>بنسعى نكون في كل المحافظات.</p>
+          <p>{`بنوصّل لكل المحافظات والأماكن من غير استثناء: ${BUSINESS.deliveryDaysInspected} أيام لو الجهاز متفحص وجاهز، و${BUSINESS.deliveryDaysWithInspection} أيام لو هيتفحص بعد طلبك.`}</p>
         </details>
         <details className="mn-faq hm-faq">
           <summary>
@@ -53,7 +53,7 @@ export function Faq() {
             <svg className="mn-chev" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0A7E99" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none" }}><path d="M6 9l6 6 6-6" /></svg>
           </summary>
           <p>
-            البايع بيدفع رسوم جدية {SELLER_FEE} ج.م بحد أدنى لما يعرض جهازه، وبترجعله لما الجهاز يتباع. المشتري بيحجز الجهاز بـ {BUYER_DEPOSIT} ج.م بحد أدنى بتتخصم من سعره.{" "}
+            لو الجهاز هيفضل مع البايع، بيدفع رسوم جدية {SELLER_FEE} ج.م بحد أدنى (حسب قيمة الجهاز) وبترجعله لما الجهاز يتباع. ولو بعت الجهاز يفضل عندنا {BUSINESS.minListingDays} أيام على الأقل، مفيش رسوم جدية. الشحن على البايع. المشتري بيحجز الجهاز بـ {BUYER_DEPOSIT} ج.م بحد أدنى بتتخصم من سعره.{" "}
             <Link href={routes.terms} style={{ fontWeight: 600 }}>اقرأ شروط البيع والشراء كاملة</Link>
           </p>
         </details>

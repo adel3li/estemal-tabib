@@ -54,10 +54,12 @@ export function SectionAcks({ f, set, err }: SectionProps) {
 }
 
 /** «رسوم جدية العرض» box + progress + submit button. */
-export function FeeBox({ f, onSubmit, sending = false }: { f: SectionProps["f"]; onSubmit: () => void; sending?: boolean }) {
+export function FeeBox({ f, onSubmit, sending = false, sendLabel }: { f: SectionProps["f"]; onSubmit: () => void; sending?: boolean; sendLabel?: string }) {
   const n = ackCount(f);
   const ready = n === ACKS.length;
   const fee = BUSINESS.sellerSeriousnessFeeEGP;
+  // Device sent to us and left ≥ 7 days → no seriousness fee (client, 5 Nov 2026).
+  const atUs = f.keepLocation === "send_to_platform";
   return (
     <aside style={{ minWidth: 0, display: "flex", flexDirection: "column", gap: 16 }}>
       <div className="sl-fee" style={{ borderRadius: 12, background: "#FFFFFF", border: "1px solid #CCD8DC", display: "flex", flexDirection: "column", gap: 18 }}>
@@ -72,12 +74,20 @@ export function FeeBox({ f, onSubmit, sending = false }: { f: SectionProps["f"];
             </span>
             <span style={{ fontWeight: 700, fontSize: 20 }}>رسوم جدية العرض</span>
           </span>
-          <span className="sl-fee-amt">{fee} ج.م <span style={{ fontSize: 14, fontWeight: 600 }}>بحد أدنى</span></span>
+          {atUs ? (
+            <span className="sl-fee-amt">مفيش</span>
+          ) : (
+            <span className="sl-fee-amt">{fee} ج.م <span style={{ fontSize: 14, fontWeight: 600 }}>بحد أدنى</span></span>
+          )}
         </div>
         {/* docs/ADMIN_SPEC.md §2: nothing to pay now; the amount is set after review. */}
         <div role="note" style={{ padding: "12px 16px", borderRadius: 10, background: "#E2F4F8", border: "1px solid #9ED8E6", color: "#075468", fontSize: 15, fontWeight: 600 }}>
-          مش هتدفع حاجة دلوقتي. بنراجع طلبك خلال 24 ساعة، ولو اتقبل بنبلغك بقيمة الرسوم (حسب قيمة الجهاز) وإزاي تدفعها. وإعلانك بيتنشر أول ما الرسوم توصل.
+          {atUs
+            ? `مفيش رسوم جدية لأنك هتبعت الجهاز يفضل عندنا، بشرط يفضل ${BUSINESS.minListingDays} أيام على الأقل. بنراجع طلبك خلال 24 ساعة ونتفق معاك على ميعاد الشحن (الشحن على حسابك).`
+            : `مش هتدفع حاجة دلوقتي. بنراجع طلبك خلال 24 ساعة، ولو اتقبل بنبلغك بقيمة الرسوم (من ${fee} ج.م حسب قيمة الجهاز) وإزاي تدفعها. وإعلانك بيتنشر أول ما الرسوم توصل. لو بعت الجهاز يفضل عندنا ${BUSINESS.minListingDays} أيام على الأقل، مفيش رسوم.`}
         </div>
+        {/* Refund rules only matter when there's a fee. */}
+        {!atUs ? (
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(280px, 100%), 1fr))", gap: 12 }}>
           <div style={{ padding: "16px 18px", borderRadius: 10, background: "#E2F4F8", border: "1px solid #9ED8E6", display: "flex", flexDirection: "column", gap: 8, fontSize: 14, color: "#075468" }}>
             <span style={{ fontWeight: 700, display: "flex", alignItems: "center", gap: 8 }}>
@@ -101,6 +111,7 @@ export function FeeBox({ f, onSubmit, sending = false }: { f: SectionProps["f"];
             <span>• ما ردّيتش على تواصلنا لمدة {BUSINESS.noReplyBusinessDays} أيام عمل</span>
           </div>
         </div>
+        ) : null}
         <div style={{ fontSize: 14, color: "#4A595A", display: "flex", alignItems: "flex-start", gap: 8 }}>
           <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0A7E99" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" style={{ flex: "none", marginTop: 2 }}>
             <circle cx="12" cy="12" r="9" />
@@ -134,7 +145,7 @@ export function FeeBox({ f, onSubmit, sending = false }: { f: SectionProps["f"];
               <rect x="5" y="11" width="14" height="9" rx="2" />
               <path d="M8 11V8a4 4 0 0 1 8 0v3" />
             </svg>
-            {sending ? "بنبعت…" : "ابعت الطلب"}
+            {sending ? sendLabel || "بنبعت…" : "ابعت الطلب"}
           </button>
         </div>
       </div>

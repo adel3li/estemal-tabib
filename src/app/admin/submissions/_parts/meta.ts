@@ -35,6 +35,7 @@ export const FEE: Record<Submission["feeStatus"], { short: string; txt: string; 
   paid: { short: "رسوم الجدية ✓", txt: "اتدفعت ✓", bg: "#EAF5DD", fg: "#3F7A1F" },
   refunded: { short: "رسوم الجدية اترجعت", txt: "اترجعت للبايع", bg: "#E6EDF7", fg: "#24508F" },
   forfeited: { short: "رسوم الجدية اتخصمت", txt: "اتخصمت (حسب الشروط)", bg: "#FBE9E7", fg: "#B3261E" },
+  waived: { short: "من غير رسوم", txt: "مفيش رسوم (الجهاز عندنا)", bg: "#E3F0ED", fg: "#0D5C55" },
 };
 
 export const PHOTO_REQS: [string, string][] = [

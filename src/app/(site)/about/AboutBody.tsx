@@ -1,9 +1,8 @@
 import Link from "next/link";
 import { routes } from "@/lib/routes";
-import { BUSINESS } from "@/config/business";
+import { BUSINESS, MAINT_SPAN } from "@/config/business";
 
 const DAYS = BUSINESS.trialDays;
-const [M1, M2] = BUSINESS.maintenanceMonthsOptions;
 
 export function AboutBody() {
   return (
@@ -87,7 +86,7 @@ export function AboutBody() {
             </svg>
           </span>
           <h3 style={{ margin: 0, fontSize: 19, color: "#2F5A15" }}>ضمان وصيانة</h3>
-          <p style={{ margin: 0, color: "#36521F" }}>ضمان تشغيل واستبدال، وصيانة من {M1} لـ {M2} شهور حسب الجهاز.</p>
+          <p style={{ margin: 0, color: "#36521F" }}>ضمان تشغيل واستبدال، وصيانة {MAINT_SPAN} حسب الجهاز.</p>
         </div>
       </div>
     </section>

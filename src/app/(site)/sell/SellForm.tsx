@@ -30,6 +30,8 @@ import { SectionMedia } from "./SectionMedia";
 import { SectionPrice } from "./SectionPrice";
 import { SellAside, SellHead, SellSteps } from "./SellHero";
 import { saveSubmission } from "./save";
+import { uploadSubmissionPhotos } from "@/lib/media/photos";
+import { supabaseBrowser } from "@/lib/supabase/client";
 import { SellSuccess } from "./SellSuccess";
 
 const EMPTY_MEDIA: Media = { photos: [], video: null, extras: [] };
@@ -59,6 +61,8 @@ export function SellForm() {
   const [doneId, setDoneId] = useState<string | null>(null);
   const [sending, setSending] = useState(false);
   const [sendErr, setSendErr] = useState("");
+  const [sendLabel, setSendLabel] = useState("");
+  const [missing, setMissing] = useState(0);
   const [restoredDraft, setRestoredDraft] = useState(false);
   const restored = useRef(false);
   const prefilled = useRef(false);
@@ -122,8 +126,8 @@ export function SellForm() {
     }
     setSending(true);
     const res = await saveSubmission(f, auth.userId);
-    setSending(false);
     if ("error" in res) {
+      setSending(false);
       if (res.auth) {
         saveDraft(f);
         router.push(loginHref(routes.sell));
@@ -132,6 +136,15 @@ export function SellForm() {
       setSendErr(res.error);
       return;
     }
+    // The request is saved; now the photos (shrunk in the browser first).
+    const photos = [...media.photos.map((file) => ({ kind: "photo" as const, file })), ...media.extras.map((file) => ({ kind: "accessory" as const, file }))];
+    let ok = 0;
+    if (photos.length) {
+      ok = await uploadSubmissionPhotos(supabaseBrowser(), auth.userId, res.id, photos, (n, t) => setSendLabel(`بنرفع الصور… ${n} من ${t}`));
+    }
+    setSending(false);
+    setSendLabel("");
+    setMissing(photos.length - ok);
     clearDraft();
     setDoneId(res.code);
     window.scrollTo({ top: 0 });
@@ -142,10 +155,11 @@ export function SellForm() {
     setMedia(EMPTY_MEDIA);
     setTried(false);
     setDoneId(null);
+    setMissing(0);
     window.scrollTo({ top: 0 });
   };
 
-  if (doneId) return <SellSuccess id={doneId} onAgain={again} />;
+  if (doneId) return <SellSuccess id={doneId} onAgain={again} missingPhotos={missing} atUs={f.keepLocation === "send_to_platform"} />;
 
   const errCount = Object.keys(err).length;
 
@@ -184,7 +198,7 @@ export function SellForm() {
               {sendErr}
             </div>
           ) : null}
-          <FeeBox f={f} onSubmit={() => void submit()} sending={sending} />
+          <FeeBox f={f} onSubmit={() => void submit()} sending={sending} sendLabel={sendLabel} />
         </div>
         <SellAside />
       </section>

@@ -1,7 +1,7 @@
 "use client";
 
 // Saves a sell submission to Supabase (table seller_submissions, §7).
-// Photos/video aren't uploaded yet — that's Step 5 (R2).
+// Photos are uploaded right after, by SellForm (Supabase Storage).
 import { salePriceFromSellerNet, sellerNetFromSalePrice } from "@/config/business";
 import { parseNum } from "@/lib/demo/labels";
 import { supabaseBrowser } from "@/lib/supabase/client";

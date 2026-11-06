@@ -199,7 +199,7 @@ function fromRow(r: Row): Order {
     payments: pays.map((p) => ({ kind: p.kind, amount: p.amount, method: p.method ?? "", reference: p.reference ?? "", iso: p.created_at, when: whenAr(p.created_at) })),
     step: step < 0 ? 0 : step,
     insp: d?.inspection_state ?? "on_order",
-    maint: d?.maintenance_months === 6 ? 6 : 3,
+    maint: d?.maintenance_months === 6 ? 6 : d?.maintenance_months === 1 ? 1 : 3,
     co: r.shipping_company ?? "",
     no: r.tracking_no ?? "",
     eta: r.eta ?? "",

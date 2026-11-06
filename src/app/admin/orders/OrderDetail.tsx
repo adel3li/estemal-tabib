@@ -1,3 +1,4 @@
+import { monthsAr } from "@/config/business";
 import Link from "next/link";
 import { isPublic } from "@/lib/demo/store";
 import { STEP_DELIVERY, STEP_RELEASED, STEP_SHIPPING, STEP_TRIAL, type Order, type PayMethod } from "@/lib/orders/orders";
@@ -56,7 +57,7 @@ export function OrderDetail({ o, device, sellerPhone, busy, money, now, err, onA
           <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 4 }}>
             {money ? <span className="or-pill" style={{ background: payBg, color: payFg }}>{payTxt}</span> : null}
             <span className="or-pill" style={{ background: inspBg, color: inspFg }}>{insp}</span>
-            <span className="or-pill" style={{ background: "#F5F7F4", color: "#3C4C48" }}>صيانة مجانية {o.maint} شهور</span>
+            <span className="or-pill" style={{ background: "#F5F7F4", color: "#3C4C48" }}>صيانة مجانية {monthsAr(o.maint)}</span>
           </div>
         </div>
         <div className="or-acts">

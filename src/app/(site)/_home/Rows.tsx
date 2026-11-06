@@ -6,7 +6,8 @@
 // first; then «وصل جديد», «تم الفحص», «أقل من 10,000 ج.م».
 import Link from "next/link";
 import { discountPct } from "@/components/site/Price";
-import { isListed, useDemo } from "@/lib/demo/store";
+import { isListed } from "@/lib/demo/store";
+import { usePublicDevices } from "@/lib/public/seed";
 import type { Device } from "@/lib/demo/types";
 import { routes } from "@/lib/routes";
 import { DeviceCard } from "./Featured";
@@ -62,9 +63,9 @@ function Row({ def, items }: { def: RowDef; items: Device[] }) {
 }
 
 export function Rows() {
-  const { state, ready } = useDemo();
+  const { devices, ready } = usePublicDevices();
   if (!ready) return null;
-  const listed = state.devices.filter(isListed);
+  const listed = devices.filter(isListed);
   return (
     <div className="mn-rows">
       {ROWS.map((def) => {

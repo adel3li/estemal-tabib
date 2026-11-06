@@ -22,6 +22,7 @@ const ST_OPTS: Opt<Filters["st"]>[] = [
 ];
 const MAINT_OPTS: Opt<Filters["maint"]>[] = [
   { id: "all", label: "الكل" },
+  { id: "1", label: "شهر" },
   { id: "3", label: "3 شهور" },
   { id: "6", label: "6 شهور" },
 ];

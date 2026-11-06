@@ -9,7 +9,8 @@ import { routes } from "@/lib/routes";
 import { reviewHoursLeft } from "@/lib/submissions/time";
 import { waLink } from "@/lib/whatsapp";
 import { artFor } from "../art";
-import { DOT, FEE, ST, THUMB_TF } from "./meta";
+import { SellerPhotos } from "./SellerPhotos";
+import { DOT, FEE, ST } from "./meta";
 
 type InfoProps = {
   p: Submission;
@@ -174,27 +175,10 @@ export function SubmissionInfo({ p, now, onReopen, onContact, onTrust }: InfoPro
             {p.photos} صور{VIDEO_ENABLED ? ` · ${p.hasVideo ? "فيه فيديو" : "مفيش فيديو"}` : ""}
           </span>
         </h3>
-        <div className="sb-photos">
-          {Array.from({ length: p.photos }, (_, i) => (
-            <span key={i} style={{ position: "relative", aspectRatio: "4 / 3", borderRadius: 12, overflow: "hidden", border: "1px solid #DCE3DF", display: "block" }}>
-              <svg role="img" aria-label={`صورة ${i + 1} من ${p.photos} — ${p.details}`} viewBox="0 0 120 90" style={{ display: "block", width: "100%", height: "100%", transform: THUMB_TF[i % THUMB_TF.length] }}>
-                <use href={img} />
-              </svg>
-              <span style={{ position: "absolute", bottom: 4, right: 4, padding: "0 6px", borderRadius: 6, background: "rgba(18, 34, 31, 0.7)", color: "#FFFFFF" }} className="sb-num">{i + 1}</span>
-            </span>
-          ))}
-          {VIDEO_ENABLED && p.hasVideo ? (
-            <span role="img" aria-label="فيديو الجهاز وهو شغال" style={{ aspectRatio: "4 / 3", borderRadius: 12, background: "#12221F", color: "#FFFFFF", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 2, fontSize: 12 }}>
-              <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-              فيديو وهو شغال
-            </span>
-          ) : null}
-        </div>
+        <SellerPhotos p={p} img={img} />
         {p.photos === 0 && p.dbId ? (
           <div className="ad-hint" style={{ marginTop: 6, color: "#8A4209" }}>
-            رفع الصور من صفحة «اعرض جهازك» لسه مش شغال — اطلب الصور من البايع على واتساب (الإعلان محتاج {BUSINESS.photos.min} صور على الأقل).
+            البايع ما رفعش صور — اطلبها منه على واتساب (الإعلان محتاج {BUSINESS.photos.min} صور على الأقل).
           </div>
         ) : p.photos < BUSINESS.photos.min ? (
           <div className="ad-hint" style={{ marginTop: 6, color: "#8A4209" }}>

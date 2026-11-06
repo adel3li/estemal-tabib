@@ -38,6 +38,7 @@ textarea.au-in { padding: 12px 14px; line-height: 1.6; resize: vertical; min-hei
 .au-link:disabled { color: #4A595A; text-decoration: none; cursor: default; }
 .au-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 16px; }
 .au-small { font-size: 14px; color: #4A595A; }
+.au-small a { text-decoration: underline; text-underline-offset: 3px; }
 .au-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); gap: 16px; }
 .au-chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .au-chip { min-height: 46px; padding: 4px 18px; border-radius: 999px; border: 1.5px solid #C9D4D3; background: #FFFFFF; color: #122022; font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; }

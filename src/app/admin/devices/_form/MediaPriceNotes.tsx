@@ -1,6 +1,6 @@
 "use client";
 
-import { BUSINESS } from "@/config/business";
+import { BUSINESS, monthsAr } from "@/config/business";
 import { VIDEO_ENABLED } from "@/config/features";
 import { fmt, parseNum } from "@/lib/demo/labels";
 import { DropButton, Req, SectionHead } from "./bits";
@@ -134,7 +134,7 @@ export function PriceSection({ f, set }: { f: FormState; set: (patch: Partial<Fo
           <select className="ad-in" value={f.maint} onChange={(e) => set({ maint: Number(e.target.value) as FormState["maint"] })}>
             {BUSINESS.maintenanceMonthsOptions.map((m) => (
               <option key={m} value={m}>
-                {m} شهور
+                {monthsAr(m)}
               </option>
             ))}
           </select>

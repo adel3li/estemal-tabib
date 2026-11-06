@@ -4,7 +4,8 @@
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useRef, useState } from "react";
-import { isListed, useDemo } from "@/lib/demo/store";
+import { isListed } from "@/lib/demo/store";
+import { usePublicDevices } from "@/lib/public/seed";
 import { routes } from "@/lib/routes";
 import { useSettings } from "@/lib/settings";
 import { DevicesLoading } from "@/components/site/DevicesLoading";
@@ -22,7 +23,7 @@ const labelOf = <T extends string>(opts: { id: T; label: string }[], id: T) => o
 
 export function BrowseClient() {
   const { wa } = useSettings();
-  const { state, ready, devicesError } = useDemo();
+  const { devices, ready, failed: devicesError } = usePublicDevices();
   const CAT_OPTS = catOpts(useDeviceTypes());
   const router = useRouter();
   const sp = useSearchParams();
@@ -47,7 +48,7 @@ export function BrowseClient() {
   const set = (p: Partial<Filters>) => commit({ ...f, ...p });
   const reset = () => commit(EMPTY);
 
-  const listed = state.devices.filter(isListed);
+  const listed = devices.filter(isListed);
   const items = applyFilters(listed, f);
   const countWith = (p: Partial<Filters>) => applyFilters(listed, { ...f, ...p }).length;
   const n = items.length;

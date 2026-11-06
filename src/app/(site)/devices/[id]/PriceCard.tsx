@@ -4,7 +4,7 @@
 // box, order buttons and the promise list (money held, return, maintenance, delivery).
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { BUSINESS } from "@/config/business";
+import { BUSINESS, monthsAr } from "@/config/business";
 import type { Device } from "@/lib/demo/types";
 import { fmt, typeLabel } from "@/lib/demo/labels";
 import { routes } from "@/lib/routes";
@@ -143,7 +143,7 @@ export function PriceCard({ d, promo, onPromo, qty = 1, onQty }: { d: Device; pr
         />
         <PromiseRow
           icon={<svg {...ic()}><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L4 17l3 3 5.3-5.3a4 4 0 0 0 5.4-5.4l-2.5 2.5-2.4-.6-.6-2.4 2.5-2.5z" /></svg>}
-          title={`صيانة ${d.maintenanceMonths} شهور`}
+          title={`صيانة ${monthsAr(d.maintenanceMonths)}`}
           text="مكتوبة في الضمان مع الجهاز"
         />
         <PromiseRow
@@ -151,8 +151,8 @@ export function PriceCard({ d, promo, onPromo, qty = 1, onQty }: { d: Device; pr
           title="مدة التوصيل المتوقعة"
           text={
             inspected
-              ? `لحد بابك · ${BUSINESS.deliveryDaysInspected} أيام عمل`
-              : `شاملة الفحص ${BUSINESS.deliveryDaysWithInspection} أيام عمل · لو الجهاز تم فحصه ${BUSINESS.deliveryDaysInspected} أيام عمل`
+              ? `لحد بابك · ${BUSINESS.deliveryDaysInspected} أيام`
+              : `شاملة الفحص ${BUSINESS.deliveryDaysWithInspection} أيام · لو الجهاز تم فحصه ${BUSINESS.deliveryDaysInspected} أيام`
           }
         />
       </ul>

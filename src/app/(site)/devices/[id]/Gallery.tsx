@@ -6,7 +6,7 @@ import type { BuiltinType, Device } from "@/lib/demo/types";
 import { artKey } from "@/lib/demo/labels";
 import { defectInfo, svgProps } from "./helpers";
 
-type Slide = { ref: string; label: string; video?: boolean; defect?: boolean };
+type Slide = { ref: string; label: string; video?: boolean; defect?: boolean; src?: string };
 
 /** Same type → art mapping as the cards in «كل الأجهزة» (symbols from ../art.tsx). */
 const TYPE_ART: Record<BuiltinType, string> = {
@@ -16,6 +16,8 @@ const TYPE_ART: Record<BuiltinType, string> = {
 };
 
 function slidesFor(d: Device): Slide[] {
+  // Real photos (Supabase Storage) replace the drawings once a listing has any.
+  if (d.photos?.length) return d.photos.map((src, k) => ({ ref: "", src, label: k === 0 ? `صورة ${d.title}` : `صورة ${k + 1} لـ${d.title}` }));
   const all = allSlidesFor(d);
   return VIDEO_ENABLED ? all : all.filter((s) => !s.video);
 }
@@ -56,13 +58,25 @@ function allSlidesFor(d: Device): Slide[] {
 
 const pic = { display: "block", width: "100%", height: "100%" } as const;
 
+function Pic({ s, thumb }: { s: Slide; thumb?: boolean }) {
+  if (s.src) {
+    // eslint-disable-next-line @next/next/no-img-element -- Storage URLs, already resized on upload
+    return <img src={s.src} alt={thumb ? "" : s.label} style={{ ...pic, objectFit: "cover" }} />;
+  }
+  return thumb ? (
+    <svg aria-hidden="true" viewBox="0 0 400 300" style={pic}><use href={s.ref} /></svg>
+  ) : (
+    <svg role="img" aria-label={s.label} viewBox="0 0 400 300" style={pic}><use href={s.ref} /></svg>
+  );
+}
+
 export function Gallery({ d }: { d: Device }) {
   const [i, setI] = useState(0);
   const slides = slidesFor(d);
   const s = slides[Math.min(i, slides.length - 1)];
   const inspected = d.inspection === "inspected";
   const caption = defectInfo(d).caption;
-  const cols = inspected ? 5 : 4;
+  const cols = d.photos?.length ? Math.min(5, Math.max(4, slides.length)) : inspected ? 5 : 4;
 
   return (
     <>
@@ -78,7 +92,7 @@ export function Gallery({ d }: { d: Device }) {
             </div>
           </div>
         ) : (
-          <svg role="img" aria-label={s.label} viewBox="0 0 400 300" style={pic}><use href={s.ref} /></svg>
+          <Pic s={s} />
         )}
 
         <span className={inspected ? "li-badge li-badge-ok" : "li-badge li-badge-ord"}>
@@ -116,7 +130,7 @@ export function Gallery({ d }: { d: Device }) {
               aria-label={t.label}
               aria-pressed={on}
             >
-              <svg aria-hidden="true" viewBox="0 0 400 300" style={pic}><use href={t.ref} /></svg>
+              <Pic s={t} thumb />
               {t.video ? (
                 <span className="li-thumb-vid">
                   <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z" /></svg>

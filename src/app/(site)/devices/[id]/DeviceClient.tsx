@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { DevicesLoading } from "@/components/site/DevicesLoading";
+import { usePublicDevices } from "@/lib/public/seed";
 import { supabaseBrowser } from "@/lib/supabase/client";
 import { SUPABASE_URL } from "@/lib/supabase/env";
 import { isPublic, useDemo } from "@/lib/demo/store";
@@ -34,9 +35,11 @@ function NotFound() {
 
 export function DeviceClient() {
   const params = useParams<{ id: string }>();
-  const { getDevice, ready, devicesError } = useDemo();
-  const id = typeof params.id === "string" ? params.id : "";
-  const d = getDevice(id);
+  const { devices, ready, live, failed } = usePublicDevices();
+  const store = useDemo();
+  const devicesError = failed || store.devicesError;
+  const id = typeof params.id === "string" ? decodeURIComponent(params.id) : "";
+  const d = devices.find((x) => x.id === id);
   // Discount code typed on the price card; both order buttons send it.
   const [promo, setPromo] = useState("");
 
@@ -57,7 +60,8 @@ export function DeviceClient() {
     supabaseBrowser().rpc("count_device_view", { p_code: code }).then(({ error }) => { if (error) console.error("view count failed", error.message); });
   }, [code]);
 
-  if (!ready || (devicesError && !d))
+  // The server's copy may not have a listing published seconds ago: wait for the live list before «not found».
+  if (!ready || (devicesError && !d) || (!d && !live))
     return (
       <div className="hm-wrap" style={{ padding: "24px 20px 60px" }}>
         <DevicesLoading failed={devicesError} cards={1} />

@@ -2,10 +2,13 @@
 
 // «أحدث الأجهزة» — v2 card style. Filter logic from Main.dc.html #listings;
 // items come from the demo store (listed, featured first).
+import { monthsAr } from "@/config/business";
 import Link from "next/link";
+import { DevicePic } from "@/components/site/DevicePic";
 import { useState } from "react";
 import { routes } from "@/lib/routes";
-import { isListed, useDemo } from "@/lib/demo/store";
+import { isListed } from "@/lib/demo/store";
+import { usePublicDevices } from "@/lib/public/seed";
 import { fmt, typeLabel } from "@/lib/demo/labels";
 import type { Device } from "@/lib/demo/types";
 import { artFor } from "./artMap";
@@ -26,10 +29,10 @@ const FILTERS: [string, (d: Device) => boolean][] = [
 ];
 
 export function Featured() {
-  const { state } = useDemo();
+  const { devices } = usePublicDevices();
   const [cur, setCur] = useState(0);
 
-  const listed = state.devices.filter(isListed);
+  const listed = devices.filter(isListed);
   const ordered = [...listed.filter((d) => d.featured), ...listed.filter((d) => !d.featured)];
   const shown = ordered.filter(FILTERS[cur][1]).slice(0, SHOW);
 
@@ -72,16 +75,14 @@ export function DeviceCard({ d }: { d: Device }) {
     <SaveHeart deviceId={d.id} title={d.title} />
     <Link href={routes.device(d.id)} className="hm-card">
       <span className="hm-ph hm-card-ph">
-        <svg role="img" aria-label={`رسم توضيحي ل${d.title}`} viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
-          <use href={artFor(d.type)} />
-        </svg>
+        <DevicePic src={d.photos?.[0]} art={artFor(d.type)} label={d.photos?.[0] ? d.title : `رسم توضيحي ل${d.title}`} />
         <span className="hm-code hm-num">{d.id}</span>
         {insp ? null : <span className="hm-photo-tag">صورة من البايع</span>}
       </span>
       <h3 className="hm-card-title">{d.title}</h3>
       {/* No year or location on cards (client feedback). */}
       <div className="hm-spec">{typeLabel(d.type)}</div>
-      <div className="hm-pill">ضمان + صيانة {d.maintenanceMonths} شهور</div>
+      <div className="hm-pill">ضمان + صيانة {monthsAr(d.maintenanceMonths)}</div>
       <OldPrice d={d} />
       <div className="hm-price">
         <span className="hm-num">{fmt(d.price)}</span> <small>ج.م</small>

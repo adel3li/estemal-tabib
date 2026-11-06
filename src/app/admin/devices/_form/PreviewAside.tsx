@@ -1,5 +1,6 @@
 "use client";
 
+import { monthsAr } from "@/config/business";
 import { CONDITIONS, fmt, parseNum, typeLabel } from "@/lib/demo/labels";
 import type { FormState } from "./model";
 
@@ -52,7 +53,7 @@ export function PreviewAside({ f, checks }: { f: FormState; checks: Check[] }) {
             <span style={{ padding: "2px 10px", borderRadius: 999, background: "#F5F7F4", fontSize: 12, fontWeight: 600, color: "#3C4C48" }}>
               الحالة: {CONDITIONS[f.cond].label}
             </span>
-            <span style={{ padding: "2px 10px", borderRadius: 999, background: "#E3F0ED", fontSize: 12, fontWeight: 600, color: "#0D5C55" }}>صيانة {f.maint} شهور</span>
+            <span style={{ padding: "2px 10px", borderRadius: 999, background: "#E3F0ED", fontSize: 12, fontWeight: 600, color: "#0D5C55" }}>صيانة {monthsAr(f.maint)}</span>
           </div>
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", paddingTop: 8, borderTop: "1px solid #E5EBE8", marginTop: 4 }}>
             <span style={{ fontWeight: 700, fontSize: 20 }}>

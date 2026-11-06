@@ -28,7 +28,7 @@ import { fetchRequests, requestRow, saveRequest } from "@/lib/requests/db";
 import { fetchSubmissions, saveSubmission, setTrust as setTrustDb, whenAr, workflowRow } from "@/lib/submissions/db";
 import { supabaseBrowser } from "@/lib/supabase/client";
 import { SUPABASE_URL } from "@/lib/supabase/env";
-import { CORE_CHECKS } from "./seed";
+import { emptyChecks, findCheck } from "@/lib/inspections/template";
 import type {
   DemoState,
   Device,
@@ -83,6 +83,8 @@ export type DemoApi = {
   /** «اعتمد ونشّر»: marks the inspection done, writes the report to the device,
    *  and publishes it for pre-publish inspections. Returns the device id. */
   approveInspection: (id: string) => string;
+  /** A just-added device's database id, once the background save has it (null after ~20 s). */
+  waitForDbId: (code: string) => Promise<string | null>;
   /** Re-read the devices from the database (after orders move stock / status there). */
   reloadDevices: () => Promise<void>;
   /** Save / unsave a device (signed-in users; others are sent to /login). */
@@ -152,7 +154,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
           })
         : Promise.resolve([] as T[]);
     Promise.all([
-      fetchDevices(sb),
+      fetchDevices(sb, isAdmin),
       // Categories first-class with the devices, so labels / forms are right when «ready».
       loadCategories(sb).catch((e) => console.error("categories load failed", e)),
       userId ? fetchFavorites(sb, userId) : Promise.resolve([] as string[]),
@@ -393,7 +395,7 @@ export function DemoProvider({ children }: { children: ReactNode }) {
         dateLabel: dateLabelOf(input.scheduledAt),
         status: "scheduled",
         form: {
-          checks: { run: { v: "", n: "" }, look: { v: "", n: "" }, parts: { v: "", n: "" }, maint: { v: "", n: "" } },
+          checks: emptyChecks(),
           efficiency: "",
           condition: "",
           defects: "",
@@ -419,14 +421,13 @@ export function DemoProvider({ children }: { children: ReactNode }) {
         no: insp.id,
         date: todayAr(),
         serial: "[S/N]",
-        technician: insp.technician || "[اسم الفني]",
         efficiency: f.efficiency || "—",
-        appearance: f.checks.look.v === "note" ? "فيه ملاحظة" : "سليمة",
-        replacedParts: f.checks.parts.n || "مفيش",
-        checklist: CORE_CHECKS.map(({ key, label }) => ({
+        appearance: findCheck(f.checks, "look")?.v === "note" ? "فيه ملاحظة" : "سليمة",
+        replacedParts: findCheck(f.checks, "parts")?.n || "مفيش",
+        checklist: f.checks.map(({ label, v, n }) => ({
           label,
-          result: f.checks[key].v === "note" ? "note" : "pass",
-          note: f.checks[key].n || undefined,
+          result: v === "note" ? "note" : "pass",
+          note: n || undefined,
         })),
         defects: f.defects && f.defects !== "مفيش" ? [f.defects] : [],
       };
@@ -503,13 +504,22 @@ export function DemoProvider({ children }: { children: ReactNode }) {
     });
   }, [commit, userId]);
 
+  const waitForDbId: DemoApi["waitForDbId"] = useCallback(async (code) => {
+    for (let i = 0; i < 80; i++) {
+      const id = ref.current.devices.find((d) => d.id === code)?.dbId;
+      if (id) return id;
+      await new Promise((r) => setTimeout(r, 250));
+    }
+    return null;
+  }, []);
+
   const reloadDevices: DemoApi["reloadDevices"] = useCallback(async () => {
     if (!SUPABASE_URL) return;
-    const devices = await fetchDevices(supabaseBrowser());
+    const devices = await fetchDevices(supabaseBrowser(), isAdmin);
     synced.current = new Map(devices.map((d) => [d.id, d]));
     ref.current = { ...ref.current, devices };
     setState(ref.current);
-  }, []);
+  }, [isAdmin]);
 
   const matchesFor: DemoApi["matchesFor"] = useCallback((r) => state.devices.filter((d) => deviceMatches(d, r)), [state.devices]);
 
@@ -531,9 +541,10 @@ export function DemoProvider({ children }: { children: ReactNode }) {
       approveInspection,
       toggleFavorite,
       reloadDevices,
+      waitForDbId,
       matchesFor,
     }),
-    [ready, devicesError, submissionsError, state, getDevice, addDevice, updateDevice, updateSubmission, acceptSubmission, setSellerTrust, updateRequest, addInspection, updateInspection, approveInspection, toggleFavorite, reloadDevices, matchesFor],
+    [ready, devicesError, submissionsError, state, getDevice, addDevice, updateDevice, updateSubmission, acceptSubmission, setSellerTrust, updateRequest, addInspection, updateInspection, approveInspection, toggleFavorite, reloadDevices, waitForDbId, matchesFor],
   );
 
   return <DemoContext.Provider value={api}>{children}</DemoContext.Provider>;
@@ -545,9 +556,5 @@ export function useDemo(): DemoApi {
   return ctx;
 }
 
-/** Devices a buyer can see in «كل الأجهزة». */
-export const isListed = (d: Device) => d.status === "published";
-/** Devices whose page is publicly reachable (§7 RLS: published / reserved / sold). */
-export const isPublic = (d: Device) =>
-  d.status === "published" || d.status === "reserved" || (d.status === "sold" && (!d.archiveAt || Date.parse(d.archiveAt) > Date.now()));
+export { isListed, isPublic } from "@/lib/devices/visibility";
 
