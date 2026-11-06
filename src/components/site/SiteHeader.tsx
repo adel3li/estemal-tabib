@@ -86,9 +86,9 @@ export function SiteHeader() {
     <header className="site-header">
       <div className="site-header-row">
         <Link href={routes.home} aria-label="استعمال طبيب — الرئيسية" className="site-logo" onClick={close}>
-          {/* Client logo (exploration — cut from a screenshot; swap for the vector file) */}
+          {/* Brand logo, vector from the client's file (design system → Logos). */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/brand/logo.png" alt="استعمال طبيب" style={{ height: 52, width: "auto", display: "block" }} />
+          <img src="/brand/logo.svg" alt="استعمال طبيب" width={106} height={52} style={{ height: 52, width: "auto", display: "block" }} />
         </Link>
 
         <form action={routes.devices} method="get" role="search" className="site-search site-desktop">

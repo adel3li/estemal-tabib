@@ -26,7 +26,7 @@ const SITE_URL =
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: { default: "استعمال طبيب", template: "%s — استعمال طبيب" },
-  openGraph: { type: "website", locale: "ar_EG", siteName: "استعمال طبيب", images: [{ url: "/apple-icon.png", width: 180, height: 180, alt: "استعمال طبيب" }] },
+  openGraph: { type: "website", locale: "ar_EG", siteName: "استعمال طبيب", images: [{ url: "/brand/og.png", width: 1200, height: 630, alt: "استعمال طبيب" }] },
   description:
     "منصة متخصصة في أجهزة الأسنان المستعملة: فحص في كل جهاز، وفلوسك محفوظة، وضمان مكتوب.",
   applicationName: "استعمال طبيب",

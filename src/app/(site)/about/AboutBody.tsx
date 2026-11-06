@@ -55,6 +55,35 @@ export function AboutBody() {
         <p style={{ position: "relative", margin: 0, color: "#C3D3D3" }}>كده البايع بياخد حقه، والمشتري بياخد جهاز بحالة كويسة وبسعر عادل.</p>
       </div>
     </section>
+    {/* Brand book: mission, vision and the three pillars (Trust in the middle). */}
+    <section className="ab-sec ab-brand" aria-labelledby="ab-pillars">
+      <div className="ab-mv">
+        <div className="ab-mv-card">
+          <span className="ab-mv-k">رسالتنا</span>
+          <p>نخلّي بيع وشراء أجهزة الأسنان المستعملة سهل وآمن ومتاح لكل طبيب: نوصّلك بأجهزة تعتمد عليها بسعر أحسن، وكل عملية وراها منصة تقدر تثق فيها.</p>
+        </div>
+        <div className="ab-mv-card">
+          <span className="ab-mv-k">رؤيتنا</span>
+          <p>نكون المكان الأول في مصر لأجهزة الأسنان المستعملة، اللي الطبيب يبيع ويشتري فيه وهو واثق، ويلاقي قيمة أحسن ويختار صح لعيادته.</p>
+        </div>
+      </div>
+      <h2 id="ab-pillars" className="ab-h2" style={{ margin: 0 }}>استعمال طبيب قايم على 3 حاجات</h2>
+      <div className="ab-pillars">
+        <div className="ab-pillar">
+          <b>سهولة</b>
+          <span>بيع واشتري من غير لف ولا تعب، واحنا بنتابع معاك كل خطوة.</span>
+        </div>
+        <div className="ab-pillar ab-pillar-main">
+          <b>ثقة</b>
+          <span>كل عملية محمية: فلوسك محفوظة معانا لحد ما تستلم وتجرب.</span>
+        </div>
+        <div className="ab-pillar">
+          <b>مجتمع</b>
+          <span>أطباء بيبيعوا لأطباء، وبيساعدوا بعض يلاقوا الجهاز الصح.</span>
+        </div>
+      </div>
+      <p className="ab-second-life" lang="en">Giving Dental Equipment a Second Life</p>
+    </section>
     <section style={{ maxWidth: 1100, margin: "0 auto", display: "flex", flexDirection: "column", gap: 24 }} className="ab-sec">
       <h2 className="ab-h2" style={{ margin: 0 }}>اللي بنلتزم بيه</h2>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(230px, 100%), 1fr))", gap: 16 }}>

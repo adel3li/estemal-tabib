@@ -14,6 +14,8 @@ export function SiteFooter() {
   const { wa, whatsapp, email, social } = useSettings();
   return (
     <footer className="site-footer" style={{ background: "#14243A", color: "#C3D3D3" }}>
+      {/* Brand pattern strip (brand book): decoration only, never behind text. */}
+      <div aria-hidden="true" className="ft-pattern" />
       <div
         style={{
           maxWidth: 1200,
@@ -28,12 +30,11 @@ export function SiteFooter() {
           <div style={{ flex: "2 1 280px", minWidth: 0, display: "flex", flexDirection: "column", gap: 12 }}>
             <Link href={routes.home} style={{ display: "flex", alignItems: "center", gap: 10, color: "#FFFFFF" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/brand/logo-on-dark.png" alt="استعمال طبيب" style={{ height: 64, width: "auto", display: "block" }} />
+              <img src="/brand/logo.svg" alt="استعمال طبيب" width={130} height={64} style={{ height: 64, width: "auto", display: "block" }} />
             </Link>
-            <span style={{ color: "#FFFFFF", fontWeight: 600 }}>
-              من طبيب أسنان
-              <br />
-              لطبيب أسنان… بثقة
+            {/* Brand line from the brand book, «ثقة» in orange. */}
+            <span style={{ color: "#FFFFFF", fontWeight: 700, fontSize: 20 }}>
+              مكان <span style={{ color: "#F7941D" }}>ثقة</span> لكل طبيب
             </span>
             <span style={{ fontSize: 15, maxWidth: 360 }}>
               منصة متخصصة في أجهزة الأسنان المستعملة: فحص فني لكل جهاز، وفلوسك محفوظة، وضمان مكتوب.

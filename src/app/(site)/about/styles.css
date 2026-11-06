@@ -58,3 +58,24 @@
 .ab-hero{padding-top:28px}
 .ab-card,.ab-cta-box,.ab-value{border-radius:12px !important;box-shadow:none !important;border-color:#DFE7EA !important}
 .ab-value:hover{transform:none;box-shadow:none}
+
+/* Brand book block: mission / vision and the three pillars (TRUST in the middle, orange gradient). */
+.ab-brand{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:24px;box-sizing:content-box}
+.ab-mv{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:16px}
+.ab-mv-card{padding:28px;border-radius:22px;background:#FFFFFF;border:1px solid #DCE3E1;box-shadow:0 10px 30px rgba(15,42,51,.06);display:flex;flex-direction:column;gap:8px}
+.ab-mv-card p{margin:0;color:#2B4650;font-size:17px;line-height:1.75}
+.ab-mv-k{font-size:13px;font-weight:600;color:#5A6F76;display:flex;align-items:center;gap:10px}
+.ab-mv-k::before{content:"";width:22px;height:2px;background:#F7941D}
+.ab-pillars{display:grid;grid-template-columns:1fr 1.15fr 1fr;align-items:center}
+.ab-pillar{aspect-ratio:1;border-radius:50%;border:1.5px solid #F8C788;background:#FFFFFF;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:12%;text-align:center}
+.ab-pillar b{font-size:24px;color:#8A4A05}
+.ab-pillar span{font-size:15px;color:#4A595A;line-height:1.6}
+.ab-pillar-main{position:relative;z-index:1;margin-inline:-6%;border:0;background:linear-gradient(180deg,#F7941D 0%,#EE8420 70%,#D4622A 100%)}
+.ab-pillar-main b{font-size:34px;color:#14243A}
+.ab-pillar-main span{color:#14243A;font-weight:500}
+.ab-second-life{margin:0;text-align:center;font-family:Montserrat,sans-serif;font-weight:900;letter-spacing:.04em;text-transform:uppercase;color:#14243A;font-size:clamp(15px,2.2vw,22px)}
+@media (max-width: 767px){
+  .ab-pillars{grid-template-columns:1fr;gap:12px}
+  .ab-pillar,.ab-pillar-main{aspect-ratio:auto;border-radius:22px;margin:0;padding:22px}
+  .ab-pillar-main{order:-1}
+}
